@@ -1,0 +1,12 @@
+main > div{
+    max-width: 600px;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #EDF2F4;
+
+}
+
+input.url-input{
+    width: 100%;
+}

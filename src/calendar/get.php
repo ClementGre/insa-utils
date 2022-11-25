@@ -3,6 +3,40 @@ require "../../vendor/autoload.php";
 
 use ICal\ICal;
 
+function convertCalendar($url){
+    try {
+        $ical = new ICal('ICal.ics', array(
+            'defaultSpan'                 => 2,     // Default value
+            'defaultTimeZone'             => 'UTC',
+            'defaultWeekStart'            => 'MO',  // Default value
+            'disableCharacterReplacement' => false, // Default value
+            'filterDaysAfter'             => null,  // Default value
+            'filterDaysBefore'            => null,  // Default value
+            'httpUserAgent'               => null,  // Default value
+            'skipRecurrence'              => false, // Default value
+        ));
+        $ical->initUrl($url, $username = null, $password = null, $userAgent = null);
+
+        header("Content-type:text/calendar");
+        header("Content-Disposition:attachment;filename=edt_insa.ics");
+
+        echo "BEGIN:VCALENDAR\r\n";
+        echo "METHOD:REQUEST\r\n";
+        echo "PRODID:-//themsVPS/version 1.0\r\n";
+        echo "VERSION:2.0\r\n";
+        echo "CALSCALE:GREGORIAN\r\n";
+
+        foreach($ical->events() as $i => $event){
+            editEventAndPrint($event);
+        }
+
+        echo "END:VCALENDAR\r\n";
+
+    } catch (\Exception $e) {
+        die($e);
+    }
+}
+
 function editEventAndPrint($event){
     $line1 = explode("\n()", $event->description)[0];
     $subject = explode("] ", $line1)[1]; // Full name
@@ -43,39 +77,6 @@ function printEvent($event){
     echo "END:VEVENT\r\n";
 }
 
-try {
-    $ical = new ICal('ICal.ics', array(
-        'defaultSpan'                 => 2,     // Default value
-        'defaultTimeZone'             => 'UTC',
-        'defaultWeekStart'            => 'MO',  // Default value
-        'disableCharacterReplacement' => false, // Default value
-        'filterDaysAfter'             => null,  // Default value
-        'filterDaysBefore'            => null,  // Default value
-        'httpUserAgent'               => null,  // Default value
-        'skipRecurrence'              => false, // Default value
-    ));
-    $ical->initUrl('https://ade-outils.insa-lyon.fr/ADE-Cal:~cgrennerat!2022-2023:d2da3e62346a82eab3bab695d5595c3cfa5d4867', $username = null, $password = null, $userAgent = null);
-
-    header("Content-type:text/calendar");
-    header("Content-Disposition:attachment;filename=clementgrennerat.ics");
-
-    echo "BEGIN:VCALENDAR\r\n";
-    echo "METHOD:REQUEST\r\n";
-    echo "PRODID:-//themsVPS/version 1.0\r\n";
-    echo "VERSION:2.0\r\n";
-    echo "CALSCALE:GREGORIAN\r\n";
-
-    foreach($ical->events() as $i => $event){
-        editEventAndPrint($event);
-    }
-
-    echo "END:VCALENDAR\r\n";
-
-} catch (\Exception $e) {
-    die($e);
-}
-
-
 function getEventDataString($event){
     $data = array(
         'SUMMARY'       => $event->summary,
@@ -106,4 +107,11 @@ function getEventDataString($event){
     }
 
     return $output;
+}
+
+
+if(isset($_GET['url'])) {
+    convertCalendar($_GET['url']);
+}else{
+    header("Location: ./");
 }
