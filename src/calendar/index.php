@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Modificateur de calendrier INSA Caldav</title>
+    <title>Modificateur de calendrier INSA iCal</title>
     <!--    description : -->
     <meta name="description"
-          content="Cette passerelle te permets de traiter ton calendrier INSA afin de renommer les évènements pour les rendre plus lisibles. Entre le lien de ton calendrier ade, puis ajoute sur zimbra ou autre le lien qui t'es donné ici."/>
+          content="Cette passerelle te permet de traiter ton calendrier INSA afin de renommer les évènements pour les rendre plus lisibles. Entre le lien de ton calendrier ade, puis ajoute sur zimbra ou autre le lien qui t'es donné ici."/>
     <!--    <meta name="keywords" content="insa, calculer, restaurant, ri, solde, olivier, doubler" />-->
     <!--    <link rel="icon" href="icon.png" />-->
 
@@ -48,7 +48,7 @@ if(isset($_GET['url'])){
 <main>
     <div>
         <p class="info">
-            Cette passerelle te permets de traiter ton calendrier INSA afin de renommer les évènements pour les rendre plus
+            Cette passerelle te permet de traiter ton calendrier INSA afin de renommer les évènements pour les rendre plus
             lisibles. Entre le lien de ton calendrier ade, puis ajoute sur zimbra ou autre le lien qui t'es donné ici.
             <br>
             Récupère le lien de ton calendrier ici :
@@ -58,7 +58,7 @@ if(isset($_GET['url'])){
 
         <form action="./" method="get">
             <label>
-                URL de votre calendrier ADE :
+                URL de ton calendrier ADE (lien abonnement iCal) :
                 <br>
                 <input class="url-input" type="text" name="url" value="<?= $url ?>" placeholder="https://ade-outils.insa-lyon.fr/ADE-Cal:~jgarzer!2022-2023:459877899af69B3D">
                 <br>
@@ -71,7 +71,7 @@ if(isset($_GET['url'])){
                 $url = 'https://insa-utils.live/calendar/get.php?url=' . $url;
             ?>
             <p>
-                URL de votre calendrier convertis :<br>
+                URL de votre calendrier convertis (nouveau abonnement iCal) :<br>
                 <span><?php echo '<a href="' . $url . '">' . $url . '</a>'; ?></span>
             </p>
             <?php
