@@ -1,0 +1,14 @@
+{
+    "name": "clementgre/thems-hub",
+    "description": "HUB des services du themsVPS",
+    "type": "project",
+    "require": {
+        "johngrogg/ics-parser": "^3.2"
+    },
+    "authors": [
+        {
+            "name": "Clément Grennerat",
+            "email": "clement.grennerat@free.fr"
+        }
+    ]
+}

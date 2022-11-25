@@ -1,0 +1,60 @@
+html, body {
+    height: 100%;
+}
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+}
+
+body > * {
+
+}
+
+header {
+    flex: 0 1 60px;
+    text-align: center;
+    background-color: #d90429;
+}
+
+header h1 {
+    color: #EDF2F4;
+    font-size: 25px;
+    padding: 15px;
+    font-weight: 600;
+    margin: 0;
+}
+
+
+main {
+    text-align: center;
+}
+
+/* FOOTER */
+
+footer {
+    background-color: #d90429;
+    flex: 0 1 20px;
+
+    padding: 2px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+footer p {
+    color: #EDF2F4;
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+}
+
+footer a {
+    color: #c1c6d2;
+}

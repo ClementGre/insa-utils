@@ -1,0 +1,191 @@
+/* Palette: https://coolors.co/palette/2b2d42-8d99ae-edf2f4-ef233c-d90429 */
+html, body{
+    height: 100%;
+}
+body{
+    margin: 0;
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+    font-family: 'Verdana', sans-serif;
+    font-width: 400;
+}
+body > * {
+
+}
+
+header{
+    flex: 0 1 60px;
+    text-align: center;
+    background-color: #d90429;
+}
+header h1{
+    color: #EDF2F4;
+    font-size: 25px;
+    padding: 15px;
+    font-weight: 600;
+    margin: 0;
+}
+
+section{
+    text-align: center;
+}
+
+/* OUTPUT */
+
+section.outputsection {
+    flex: 0 1 auto;
+    background-color: #8d99ae;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+}
+section.outputsection div.infos{
+    width: 360px;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: center;
+    color: #EDF2F4;
+    font-size: 20px;
+}
+section.outputsection div.calendar{
+    margin: 5px 20px;
+}
+
+/* INPUT */
+
+section.inputsection {
+    flex: 1 1 auto;
+    background-color: #edf2f4;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+}
+section.inputsection form{
+    width: 360px;
+}
+section.inputsection form label{
+    margin: 15px 20px 6px 20px;
+    font-size: 16px;
+    display: block;
+}
+section.inputsection form input, form select{
+    background-color: white;
+    margin: 0 20px;
+    padding: 5px;
+    border: 2px solid #2B2D42;
+    border-radius: 5px;
+    width: 200px;
+}
+section.inputsection form select, form input[type="submit"]{
+    width: 214px;
+}
+section.inputsection form input[type="submit"]{
+    margin-bottom: 20px;
+    transition: background-color 0.2s;
+}
+section.inputsection form input[type="submit"]:hover{
+    background-color: #EDF2F4;
+    cursor: pointer;
+}
+section.inputsection div.calendar{
+    margin: 20px 20px;
+}
+
+/* FOOTER */
+
+footer{
+    background-color: #d90429;
+    flex: 0 1 20px;
+
+    padding: 2px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+footer p{
+    color: #EDF2F4;
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+}
+footer a{
+    color: #c1c6d2;
+}
+
+
+/* CALENDAR */
+
+table  {
+    border: 1px solid #2B2D42;
+    border-collapse: collapse;
+    background-color: white;
+    font-size: 12px;
+}
+.calendar table  {
+    border: 2px solid #2B2D42;
+    border-radius: 5px;
+}
+
+.calendar th {
+    background-color: #D90429;
+    color: #EDF2F4;
+    height: 32px;
+}
+
+td {
+    border: 1px solid #2B2D42;
+    height: 32px;
+    width: 32px;
+    text-align: center;
+    color: #333;
+}
+
+.calendar td.weekdayheader {
+    background-color: #8D99AE;
+    color: #EDF2F4;
+}
+.calendar td.red {
+    color: #ffb1b1;
+}
+
+td.bg-dej-zero {
+    background-color: #a9ea9c;
+}
+td.bg-dej-one {
+    background: linear-gradient(0deg, #ffefab, #a9ea9c);
+}
+td.bg-dej-two {
+    background: linear-gradient(0deg, #ff9494, #a9ea9c);
+}
+
+td.bg-zero {
+    background-color: white;
+}
+td.bg-one {
+    background-color: #ffefab;
+}
+td.bg-two {
+    background-color: #ff9494;
+}
+
+
+.calendar td.bg-current {
+    background-color: #9cdeff;
+}
+.calendar td.bg-weekday {
+    background-color: #c8ffc9;
+}
+.calendar td.bg-weekend {
+    background-color: #ffddb0;
+}
+
+.calendar p {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+}

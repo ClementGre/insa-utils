@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Calculateur de points Restaurants INSA v2.0</title>
+<!--    description : -->
+    <meta name="description" content="Calcule ici combien de points il te restera à la fin du mois ! Entre ton solde et sélectionne simplement les jours où tu comptes manger aux Restaurants INSA." />
+    <meta name="keywords" content="insa, calculer, restaurant, ri, solde, olivier, doubler" />
+    <link rel="icon" href="icon.png" />
+
+    <meta charset="utf-8">
+    <link href="main.css" rel="stylesheet"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Matomo -->
+    <script>
+        var _paq = window._paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="//html.pdf4teachers.org/matomo/";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '2']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+    <!-- End Matomo Code -->
+</head>
+<body>
+
+    <header>
+        <h1>Calculateur de points Restaurants INSA v2.0</h1>
+    </header>
+
+    <section id="app">
+        <div class="output" v-cloak>
+            <div>
+                <p>Solde restant : {{ twoDecimals(newSolde) }}</p>
+                <div class="centered" v-if="newSolde >= 0">
+                    <p>Vous pouvez</p>
+                    <ul>
+                        <li>doubler {{ Math.floor(newSolde / 5.83) }} fois</li>
+                        <li>ou manger {{ Math.floor(newSolde / pricing.rep[regime]) }} repas de plus</li>
+                        <li>ou manger {{ Math.floor(newSolde / pricing.dej[regime]) }} petits-déjeuners de plus.</li>
+                    </ul>
+                </div>
+                <div class="centered" v-else>
+                    <p>Vous devez</p>
+                    <ul>
+                        <li>manger {{ Math.ceil(-newSolde / pricing.rep[regime]) }} repas de moins</li>
+                        <li>ou manger {{ Math.ceil(-newSolde / pricing.dej[regime]) }} petits-déjeuners de moins.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="form">
+            <div>
+                <label for="solde">Solde&thinsp;:</label>
+                <input v-model="solde" type="number" id="solde" name="solde" min="-1000" max="1000" step="0.01">
+            </div>
+            <div>
+                <label>Modifier solde&thinsp;:</label>
+                <div class="soldebtns">
+                    <button @click="solde -= pricing.rep[regime]">&#8209;1</button>
+                    <button @click="solde += pricing.rep[regime]">+1</button>
+                    <button @click="solde -= 5.83">&#8209;double</button>
+                    <button @click="solde += 5.83">+double</button>
+                </div>
+            </div>
+            <div>
+                <label for="regime">Régime&thinsp;:</label>
+                <select v-model="regime" name="regime" id="regime" required>
+                    <option value="0">7/7</option>
+                    <option value="1">5/7</option>
+                    <option value="2">5/7 Liberté</option>
+                    <option value="3">15</option>
+                    <option value="4">À l'unité</option>
+                </select>
+            </div>
+        </div>
+        <calendar v-model:weeks="weeks" :allowed-weekdays="regime != 1"></calendar>
+    </section>
+
+    <footer>
+        <div>
+            <p>
+                <a href="https://restaurants.insa-lyon.fr/sites/restaurants.insa-lyon.fr/files/u130/2022_2023itarifs_restaurants-.pdf" target="_blank">Grille tarifaire</a> - <a href="https://html.pdf4teachers.org/restinsa-old/">v1.0</a>.
+            </p>
+        </div>
+        <div>
+            <p>
+                Clément GRENNERAT
+            </p>
+        </div>
+    </footer>
+
+
+  </body>
+
+
+<script src="main.js" type="module"></script>
+<script src="" type="module"></script>
+
+</html>

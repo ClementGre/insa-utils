@@ -1,0 +1,113 @@
+body{
+  background-color: #0b0e24;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: Helvetica, sans-serif;
+}
+input{
+  border: none;
+  background-color: white;
+  color: black;
+  border-radius: 5px;
+  height: 35px;
+  width: 100%;
+  font-size: 16px;
+  padding: 0 7px;
+  box-sizing: border-box;
+}
+input:focus{
+  background-color: #fcfcfc;
+  border: 2px solid #c3c3c3;
+}
+
+p.error{
+  color: #ff5252;
+  font-size: 15px;
+  margin: 0;
+  padding: 0;
+}
+h1{
+  padding: 0;
+  margin: 10px 0;
+  font-size: 30px;
+}
+.login{
+  background-color: rgba(200, 200, 200, .1);
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  float: middle;
+  border-radius: 10px;
+  gap: 10px;
+  align-items: center;
+}
+.login form{
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  gap: 10px;
+}
+
+
+.index{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 30px;
+  max-width: 1200px;
+}
+.index a{
+  text-decoration: none;
+}
+
+.linkdiv{
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 15px 18px;
+  background-color: rgba(200, 200, 200, .1);
+  border-radius: 10px;
+  width: 320px;
+  max-width: 100%;
+  color: white;
+}
+.linkdiv:focus .linkdiv:hover{
+  background-color: rgba(200, 200, 200, .2);
+}
+.linkdiv img {
+  min-width: 55px;
+  width: 55px;
+  border-radius: 10px;
+  background-color: white;
+}
+.linkdiv div.text{
+  padding: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.linkdiv h1{
+  padding: 0;
+  margin: 0 0 10px 0;
+  text-align: center;
+  word-break: break-all;
+}
+.linkdiv p{
+  padding: 0;
+  margin: 0;
+  font-weight: 300;
+  font-size: 13px;
+  color: #dbdbdb;
+  word-break: break-all;
+  text-align: center;
+}
