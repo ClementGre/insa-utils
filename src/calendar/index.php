@@ -41,7 +41,7 @@
 <?php
 $url = '';
 if(isset($_GET['url'])){
-    $url = 'https://insa-utils.live/calendar/get.php?url=' . urldecode($_GET['url']);
+    $url = urldecode($_GET['url']);
 }
 ?>
 
@@ -66,12 +66,17 @@ if(isset($_GET['url'])){
             </label>
         </form>
 
-        <?php if(isset($_GET['url'])){ ?>
-        <p>
-            URL de votre calendrier convertis :<br>
-            <span><?php echo '<a href="' . $url . '">' . $url . '</a>'; ?></span>
-        </p>
-        <?php } ?>
+        <?php
+            if(isset($_GET['url'])){
+                $url = 'https://insa-utils.live/calendar/get.php?url=' . $url;
+            ?>
+            <p>
+                URL de votre calendrier convertis :<br>
+                <span><?php echo '<a href="' . $url . '">' . $url . '</a>'; ?></span>
+            </p>
+            <?php
+            }
+        ?>
     </div>
 </main>
 

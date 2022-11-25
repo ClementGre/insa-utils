@@ -49,7 +49,7 @@ function editEventAndPrint($event){
     if(str_starts_with($tag, "ANG-1FC-")){ // Anglais
         $tag = "PC-S1-ANG";
     }
-    if($tag === "PC-S13-EPS-EDT"){ // Sport
+    if(str_starts_with($tag, "EPS-1-MA14-")){ // Sport
         $tag = "PC-S1-EPS";
         $type = null;
     }
@@ -60,7 +60,8 @@ function editEventAndPrint($event){
         str_replace("Amphithéâtre", "Amphi", explode(" - ", $event->location)[1]); // Room letter & number only
 
     if($tag === "PC-S1-SOU-EDT" // Soutien
-        || $tag === "PC-S13-LV-EDT"){ // Langues *2
+        || $tag === "PC-S13-LV-EDT" // Langues *2
+        || $tag === "PC-S13-EPS-EDT"){ // Sport *2
         return;
     }
 
@@ -111,7 +112,7 @@ function getEventDataString($event){
 
 
 if(isset($_GET['url'])) {
-    convertCalendar($_GET['url']);
+    convertCalendar(urldecode($_GET['url']));
 }else{
     header("Location: ./");
 }
