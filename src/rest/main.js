@@ -142,7 +142,9 @@ createApp({
         }
         
         if(doDecrease){
-            this.solde = solde - toDecrease;
+            setTimeout(() => {
+                this.solde = solde - toDecrease;
+            }, 1000)
         }
         
         localStorage.setItem('lastMonth', date.getMonth().toString());
