@@ -1,39 +1,19 @@
+<?php
+require '../template/head.php';
+require '../template/header.php';
+require '../template/footer.php';
+require '../origin_path.php';
+$title = "Calculateur de points Restaurants INSA";
+$desc = "Déterminer si tu auras assez de solde pour finir le mois n'a jamais été aussi simple. Optimise au maximum ton solde RI grâce à ce calculateur hors norme.";
+$keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <title>Calculateur de points Restaurants INSA v2.0</title>
-<!--    description : -->
-    <meta name="description" content="Calcule ici combien de points il te restera à la fin du mois ! Entre ton solde et sélectionne simplement les jours où tu comptes manger aux Restaurants INSA." />
-    <meta name="keywords" content="insa, calculer, restaurant, ri, solde, olivier, doubler" />
-    <link rel="icon" href="icon.png" />
-
-    <meta charset="utf-8">
-    <link href="main.css" rel="stylesheet"/>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Matomo -->
-    <script>
-        var _paq = window._paq = window._paq || [];
-        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function() {
-            var u="//html.pdf4teachers.org/matomo/";
-            _paq.push(['setTrackerUrl', u+'matomo.php']);
-            _paq.push(['setSiteId', '2']);
-            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-        })();
-    </script>
-    <!-- End Matomo Code -->
-</head>
+<?= getHead($title, $desc, $keywords) ?>
 <body>
-
-    <header>
-        <h1>Calculateur de points Restaurants INSA v2.0</h1>
-    </header>
-
+<?= getHeader($title) ?>
+<main class="">
     <section id="app">
         <div class="output" v-cloak>
             <div>
@@ -83,25 +63,10 @@
         </div>
         <calendar v-model:weeks="weeks" :allowed-weekdays="regime != 1"></calendar>
     </section>
-
-    <footer>
-        <div>
-            <p>
-                <a href="https://restaurants.insa-lyon.fr/sites/restaurants.insa-lyon.fr/files/u130/2022_2023itarifs_restaurants-.pdf" target="_blank">Grille tarifaire</a> - <a href="https://html.pdf4teachers.org/restinsa-old/">v1.0</a>.
-            </p>
-        </div>
-        <div>
-            <p>
-                Clément GRENNERAT
-            </p>
-        </div>
-    </footer>
-
-
-  </body>
-
-
+</main>
+<footer>
+    <?= getFooter('<a href="https://restaurants.insa-lyon.fr/sites/restaurants.insa-lyon.fr/files/u130/2022_2023itarifs_restaurants-.pdf" target="_blank">Grille tarifaire</a>', "Clément GRENNERAT") ?>
+</footer>
 <script src="main.js" type="module"></script>
-<script src="" type="module"></script>
-
+</body>
 </html>

@@ -42,7 +42,6 @@ section.outputsection {
     align-items: center;
 }
 section.outputsection div.infos{
-    width: 360px;
     display: flex;
     flex-flow: column;
     justify-content: space-between;
@@ -63,9 +62,6 @@ section.inputsection {
     flex-flow: row wrap;
     justify-content: center;
     align-items: center;
-}
-section.inputsection form{
-    width: 360px;
 }
 section.inputsection form label{
     margin: 15px 20px 6px 20px;

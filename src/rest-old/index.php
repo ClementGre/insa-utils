@@ -1,15 +1,18 @@
+<?php
+require '../template/head.php';
+require '../template/header.php';
+require '../template/footer.php';
+require '../origin_path.php';
+$title = "Ancien calculateur de points RI";
+$desc = "Ancienne version du calculateur automatique de solde. Celui-ci est moins configurable, mais plus simple à utiliser. Attention aux jours fériés et aux vacances !";
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <title>themsVPS Services Menu</title>
-    <link href="main.css" rel="stylesheet"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+<?= getHead($title, $desc) ?>
 <body>
-
-    <header>
-        <h1>Calculateur de points Restaurants INSA</h1>
-    </header>
+<?= getHeader($title) ?>
+<main>
     <?php
     require 'calendar.php';
 
@@ -131,20 +134,20 @@
                 <p style="margin: 10px 0;">Nouveau solde : <?= $newSolde ?></p>
                 <p style="font-size: 14px; text-align: left; margin: 0 0 20px 0;"><?= $output ?></p>
 
-               <table>
-                   <tr>
-                       <td class='bg-dej-zero'></td>
-                       <td class='' style="width: 80px">Petit dej</td>
-                   </tr>
-                   <tr>
-                       <td class='bg-one'></td>
-                       <td class=''>Un repas</td>
-                   </tr>
-                   <tr>
-                       <td class='bg-two'></td>
-                       <td class=''>Deux repas</td>
-                   </tr>
-               </table>
+                <table>
+                    <tr>
+                        <td class='bg-dej-zero'></td>
+                        <td class='' style="width: 80px">Petit dej</td>
+                    </tr>
+                    <tr>
+                        <td class='bg-one'></td>
+                        <td class=''>Un repas</td>
+                    </tr>
+                    <tr>
+                        <td class='bg-two'></td>
+                        <td class=''>Deux repas</td>
+                    </tr>
+                </table>
 
             </div>
             <div class="calendar">
@@ -187,23 +190,9 @@
             <?php printCalendar(true); ?>
         </div>
     </section>
-
-    <?php
-
-    ?>
-    <footer>
-        <div>
-            <p>
-                Consulter la <a href="https://restaurants.insa-lyon.fr/sites/restaurants.insa-lyon.fr/files/u130/2022_2023itarifs_restaurants-.pdf" target="_blank">grille tarifaire</a>.
-            </p>
-        </div>
-        <div>
-            <p>
-                Clément GRENNERAT
-            </p>
-        </div>
-    </footer>
-
-
-  </body>
+</main>
+<footer>
+    <?= getFooter("", "Clément GRENNERAT") ?>
+</footer>
+</body>
 </html>
