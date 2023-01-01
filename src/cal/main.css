@@ -7,6 +7,7 @@ main > div{
 
 }
 
-input.url-input{
+select, input.url-input{
     width: 100%;
+    margin-top: 5px;
 }
