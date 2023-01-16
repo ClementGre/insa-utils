@@ -7,11 +7,18 @@ const secrets = require('./secrets.json');
 connect().then(_ => {});
 
 async function connect(){
-    const sessionReq = await axios('https://login.insa-lyon.fr/cas/login')
+
+    const intranetReq = await axios.get('https://intranet.insa-lyon.fr/');
+
+    const intranetSessionCookie = intranetReq.headers['set-cookie'][0].split(';')[0];
+    console.log('intranetSessionCookie:', intranetSessionCookie);
+
+    const sessionReq = await axios.get('https://login.insa-lyon.fr/cas/login')
 
     let JSSESSIONID = sessionReq.headers['set-cookie'][0].split(';')[0].split('=')[1];
     let executionToken = sessionReq.data.split('<input type="hidden" name="execution" value="')[1].split('" />')[0];
     let ltToken = sessionReq.data.split('<input type="hidden" name="lt" value="')[1].split('" />')[0];
+
 
     console.log("JSSESSIONID: ", JSSESSIONID)
     console.log("ltToken: ", ltToken);
@@ -19,7 +26,7 @@ async function connect(){
 
     console.log(sessionReq);
 
-    const loginReq = await axios('https://login.insa-lyon.fr/cas/login', {
+    const loginReq = await axios.post('https://login.insa-lyon.fr/cas/login', {
         method: 'post',
         headers: {
             'Cookie': "JSESSIONID=" + JSSESSIONID
