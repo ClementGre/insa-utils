@@ -1,2 +1,4 @@
-/vendor/
-/src/menu/scrapping/secrets.json
+vendor/
+.idea/
+src/menu/scrapping/node_modules/
+src/menu/scrapping/secrets.json
