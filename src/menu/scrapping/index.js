@@ -3,32 +3,38 @@ const cron = require("cron");
 const editJsonFile = require("edit-json-file");
 const secrets = require('./secrets.json');
 
+const defaultHeaders = {
+    'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:108.0) Gecko/20100101 Firefox/108.0',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+    'Content-Type': 'application/x-www-form-urlencoded'
+}
 
 connect().then(_ => {});
 
+function getIntranetSessId(){
+    return new Promise((resolve, reject) => {
+        axios.get('https://intranet.insa-lyon.fr', {
+            headers: {...defaultHeaders},
+            maxRedirects: 0
+        }).catch(err => {
+            resolve(err.response.headers['set-cookie'][0].split(';')[0]);
+        })
+    });
+}
+
 async function connect(){
 
-    const defaultConfig = {
-        'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:108.0) Gecko/20100101 Firefox/108.0',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-        'Content-Type': 'application/x-www-form-urlencoded'
-    }
-
-    /*const intranetReq = await axios.get('https://intranet.insa-lyon.fr', {
-        headers: {...defaultConfig}
-    });
-    let JSSESSIONID0 = intranetReq.headers['set-cookie'][0].split(';')[0].split('=')[1];
-    console.log('JSSESSIONID0:', JSSESSIONID0);*/
+    let intranetSessId = await getIntranetSessId()
 
     const sessionReq = await axios.get('https://login.insa-lyon.fr/cas/login', {
         headers: {
-            //'Cookie': 'JSSESSIONID=' + JSSESSIONID0,
-            ...defaultConfig
-        }
+            'Cookie': intranetSessId,
+            ...defaultHeaders
+        },
+        maxRedirects: 0
     });
-    //console.log(sessionReq);
 
     let JSSESSIONID = sessionReq.headers['set-cookie'][0].split(';')[0].split('=')[1];
     let executionToken = sessionReq.data.split('<input type="hidden" name="execution" value="')[1].split('" />')[0];
@@ -47,9 +53,10 @@ async function connect(){
         headers: {
             'Origin': 'https://login.insa-lyon.fr',
             'Referer': 'https://login.insa-lyon.fr/cas/login?service=https%3A%2F%2Fintranet.insa-lyon.fr%2Fnode',
-            'Cookie': "JSESSIONID=" + JSSESSIONID,
-            ...defaultConfig
+            'Cookie': "JSESSIONID=" + JSSESSIONID + ';' + intranetSessId,
+            ...defaultHeaders
         },
+        maxRedirects: 0
     })
     console.log(loginReq);
 
@@ -65,7 +72,8 @@ async function connect(){
         headers: {
             'Cookie': "JSSESSIONID=" + JSSESSIONID0 + "; AGIMUS=" + AGIMUS, //+ "; CASPRIVACY=" + CASPRIVACY + "; TGC=" + TGC,
             ...defaultConfig
-        }
+        },
+        maxRedirects: 0
     });*/
 
     //console.log(intranetFinalReq);
