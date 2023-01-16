@@ -1,0 +1,24 @@
+{
+  "name": "insa-utils-menu-scrapper",
+  "version": "1.0.0",
+  "description": "Utility for getting the restaurants menu from the INSA intranet",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ClementGre/insa-utils.git"
+  },
+  "author": "Clément Grennerat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ClementGre/insa-utils/issues"
+  },
+  "homepage": "https://github.com/ClementGre/insa-utils#readme",
+  "dependencies": {
+    "axios": "^1.2.2",
+    "cron": "^2.2.0",
+    "edit-json-file": "^1.7.0"
+  }
+}
