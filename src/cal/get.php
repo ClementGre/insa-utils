@@ -105,8 +105,8 @@ function getEventDataString($event)
         'SUMMARY' => $event->summary,
         'DTSTART' => $event->dtstart,
         'DTEND' => $event->dtend,
-        'DTSTART_TZ' => $event->dtstart_tz,
-        'DTEND_TZ' => $event->dtend_tz,
+        /*'DTSTART_TZ' => $event->dtstart_tz,
+        'DTEND_TZ' => $event->dtend_tz,*/
         'DURATION' => $event->duration,
         'DTSTAMP' => $event->dtstamp,
         'UID' => $event->uid,
@@ -123,12 +123,11 @@ function getEventDataString($event)
 
     // Remove any blank values
     $data = array_filter($data);
-    $output = '';
 
+    $output = '';
     foreach ($data as $key => $value) {
         $output .= sprintf("%s:%s\r\n", $key, str_replace("\n", "\\n", $value));
     }
-
     return $output;
 }
 
