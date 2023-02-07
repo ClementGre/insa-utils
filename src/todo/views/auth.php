@@ -13,8 +13,10 @@ $errors = array();
 if(isset($_POST['email'])){
     require_once __DIR__.'/../utils.php';
     require_once __DIR__.'/../db.php';
-    $email = $_POST['email'];
-    $name = emailToName($email);
+    require_once __DIR__.'/../mailer.php';
+
+    $email_prefix = strtolower($_POST['email']);
+    $name = emailToName($email_prefix);
     $email_token = randomToken(32);
     $email_code = randomCode(4);
 
@@ -55,16 +57,13 @@ if(isset($_POST['email'])){
     }
 
     try {
-        mail($email . "@insa-lyon.fr", "Authentification sur insa-utils",
-            "Bien le bonjour,\nVeuillez suivre ce lien pour vous authentifier sur insa-utils :' .
-                    '\n https://insa-utils.live/todo/auth?id=" . $id . "&email_token=" . $email_token . "&email_code=" . $email_code . "\n\n" .
-            "Autrement, entrez le code suivant sur la page :" .
-            $email_code .
-            "\n\nCordialement,\nL'équipe d'insa-utils"
-        );
+        send_auth_mail($name, $email_prefix, $id, $email_token, $email_code);
+
     }catch (Exception $e){
         $errors[] = "Une erreur est survenue lors de l'envoi du mail : " . $e->getMessage();
     }
+}else{
+
 }
 
 require '../template/head.php';
