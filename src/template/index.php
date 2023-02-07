@@ -9,7 +9,7 @@ $desc = "Le nouveau calculateur";
 
 <!DOCTYPE html>
 <html lang="fr">
-<?= getHead($title, $desc) ?>
+<head><?= getHead($title, $desc) ?></head>
 <body>
 <?= getHeader($title) ?>
 <main class="">

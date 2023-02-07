@@ -10,7 +10,7 @@ $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
 
 <!DOCTYPE html>
 <html lang="fr">
-<?= getHead($title, $desc, $keywords, true) ?>
+<head><?= getHead($title, $desc, $keywords, true) ?></head>
 <body>
 <?= getHeader($title) ?>
 <main class="">

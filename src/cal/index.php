@@ -17,7 +17,7 @@ if(isset($_GET['room'])) $room = urldecode($_GET['room']);
 
 <!DOCTYPE html>
 <html lang="fr">
-<?= getHead($title, $desc) ?>
+<head><?= getHead($title, $desc) ?></head>
 <body>
 <?= getHeader($title) ?>
 <main class="">

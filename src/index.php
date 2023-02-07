@@ -10,7 +10,7 @@ $desc = "LE site permettant de te faciliter la vie à l'INSA, via divers service
 
 <!DOCTYPE html>
 <html lang="fr">
-<?= getHead($title, $desc) ?>
+<head><?= getHead($title, $desc) ?></head>
 <body>
 <?= getSimpleHeader($title) ?>
 <main>

@@ -9,7 +9,7 @@ $desc = "Ancienne version du calculateur automatique de solde. Celui-ci est moin
 
 <!DOCTYPE html>
 <html lang="fr">
-<?= getHead($title, $desc) ?>
+<head><?= getHead($title, $desc) ?></head>
 <body>
 <?= getHeader($title) ?>
 <main>

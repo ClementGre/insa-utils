@@ -90,7 +90,7 @@ main {
     align-content: flex-start;
 
     margin: 0 auto;
-    padding: 5px;
+    padding: 10px 5px;
     width: 100%;
     max-width: 600px;
 }
@@ -101,7 +101,7 @@ main .b-darken {
 
 main > section {
     padding: 10px;
-    margin: 10px auto;
+    margin: 5px auto;
     border-radius: 10px;
     width: 100%;
 }

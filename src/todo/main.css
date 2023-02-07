@@ -1,0 +1,13 @@
+h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 10px;
+    color: #262626;
+}
+input[type="text"] {
+    margin: 10px 0;
+    width: 180px;
+}
+input {
+    font-size: 14px;
+}

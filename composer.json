@@ -3,7 +3,8 @@
     "description": "HUB des services du themsVPS",
     "type": "project",
     "require": {
-        "johngrogg/ics-parser": "^3.2"
+        "johngrogg/ics-parser": "^3.2",
+      "ext-pdo": "*"
     },
     "authors": [
         {
