@@ -15,7 +15,7 @@ L'équipe d'insa-utils";
 
     $unsubscribe_url = "https://insa-utils.live/todo/unsubscribe?&id=" . $id . '&email_token=' . $email_token . '&email_code=' . $email_code;
 
-    send_mail($name, $email_prefix, $subjet, $message, $unsubscribe_url);
+    send_mail($name, $email_prefix . '@insa-lyon.fr', $subjet, $message, $unsubscribe_url);
 }
 
 function send_mail($name, $email, $subject, $content, $unsubscribe_url): void {
