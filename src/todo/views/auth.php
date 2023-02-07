@@ -5,7 +5,7 @@
  * After email is submitted -> ask mail code
  * $_POST['id'] $_POST['email_token']
  * When flowing mail link
- * $_GET['id'] $_GET['email_token'] $_GET['mail_code']
+ * $_GET['id'] $_GET['email_token'] $_GET['email_code']
 */
 
 $errors = array();
@@ -19,36 +19,52 @@ if(isset($_POST['email'])){
     $email_code = randomCode(4);
 
     // Fetch if user exists
-    $q = $db->prepare("SELECT (status, id) FROM users WHERE name=:name LIMIT 1");
+    $q = $db->prepare("SELECT id, status FROM users WHERE name=:name LIMIT 1");
     $q->execute([":name" => $name]);
     if($row = $q->fetch()) {
+        $id = $row['id'];
         // User exists
         if($row['status'] == 'email_disabled'){
             $errors[] = "Vous avez choisi de ne plus recevoir d'emails de la part d'insa-utils. Vous pouvez réactiver les emails en allant sur le mail de désabonnement.";
         }else if($row['status'] == 'banned'){
             $errors[] = "Vous êtes bannis de insa-utils.";
         }else{
-            // Update email_code and email_token and email_date
-            $q = $db->prepare("UPDATE users SET email_token=:email_token, email_code=:email_code, email_date=NOW() WHERE name=:name");
-
-            // Send email
-            mail($email . "@insa-lyon.fr", "Authentification sur insa-utils",
-                    "Bien le bonjour,\nVeuillez suivre ce lien pour vous authentifier sur insa-utils :' .
-                    '\n https://insa-utils.live/todo/auth?id=" . $row['id'] . "&email_token=" . $email_token . "&email_code=" . $email_code . "\n\n" .
-                    "Autrement, entrez le code suivant sur la page :" .
-                    $email_code .
-                    "\n\nCordialement,\nL'équipe d'insa-utils"
-                );
+            $q = $db->prepare("UPDATE users SET email_token=:email_token, email_code=:email_code, email_date=NOW() WHERE id=:id");
+            $q->execute([
+                ":email_token" => $email_token,
+                ":email_code" => $email_code,
+                ":id" => $id
+            ]);
         }
     }else{
         // Create user
         $auth_token = randomToken(64);
 
+        $q = $db->prepare("INSERT INTO users(name, email_code, email_token, email_date, auth_token) VALUES(:name, :email_code, :email_token, NOW(), :auth_token)");
+        $q->execute([
+            ":name" => $name,
+            ":email_code" => $email_code,
+            ":email_token" => $email_token,
+            ":auth_token" => $auth_token
+        ]);
+
+        // Fetch id
+        $q = $db->prepare("SELECT id FROM users WHERE name=:name LIMIT 1");
+        $q->execute([":name" => $name]);
+        $id = $q->fetch()['id'];
     }
 
-    $user = $db->prepare('INSERT INTO users(name, email_code, email_token, auth_token, status) VALUES(:name, :email_token, :email_code, :auth_token, :status) ON DUPLICATE KEY UPDATE email_token=:email_token, email_code=:email_code');
-    $user->execute(array($email));
-
+    try {
+        mail($email . "@insa-lyon.fr", "Authentification sur insa-utils",
+            "Bien le bonjour,\nVeuillez suivre ce lien pour vous authentifier sur insa-utils :' .
+                    '\n https://insa-utils.live/todo/auth?id=" . $id . "&email_token=" . $email_token . "&email_code=" . $email_code . "\n\n" .
+            "Autrement, entrez le code suivant sur la page :" .
+            $email_code .
+            "\n\nCordialement,\nL'équipe d'insa-utils"
+        );
+    }catch (Exception $e){
+        $errors[] = "Une erreur est survenue lors de l'envoi du mail : " . $e->getMessage();
+    }
 }
 
 require '../template/head.php';
@@ -68,9 +84,7 @@ $title = "Authentification | Todo list de classe";
 <?= getHeader($title) ?>
 <main class="">
     <section class="b-darken">
-        Cette application en ligne propose un cahier de texte collectif pour ta classe. Chaque membre peut ajouter des tâches à faire, puis tous les autres verront les devoirs à venir !
-        <br>
-        Tu peux rejoindre une classe existante en inscrivant ton email INSA et en cliquant sur le lien de vérification. Les membres de la classe pourront ensuite t'accepter et tu auras accès à la liste des tâches.
+        <?= implode(" | ", $errors) ?>
     </section>
 
     <!--<section class="b-darken">
