@@ -4,7 +4,6 @@ require_once __DIR__.'/../origin_path.php';
 
 get(getRootPath() . 'todo', '/views/home.php');
 get(getRootPath() . 'todo/classes', '/views/home.php');
-
 any(getRootPath() . 'todo/auth', '/views/auth.php');
 
 get(getRootPath() . 'class/$class', 'views/class.php');

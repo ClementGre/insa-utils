@@ -13,7 +13,7 @@ $errors = array();
 if(isset($_POST['email'])){
     require_once __DIR__.'/../utils.php';
     require_once __DIR__.'/../db.php';
-    require_once __DIR__.'/../mailer.php';
+    require_once __DIR__ . '/../mailing/mailer.php';
 
     $email_prefix = strtolower($_POST['email']);
     $name = emailToName($email_prefix);
