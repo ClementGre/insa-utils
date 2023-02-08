@@ -1,3 +1,5 @@
+/* Palette: https://coolors.co/palette/2b2d42-8d99ae-edf2f4-ef233c-d90429 */
+
 h3 {
     font-size: 18px;
     font-weight: 600;
@@ -10,4 +12,13 @@ input[type="text"] {
 }
 input {
     font-size: 14px;
+}
+
+div.errors{
+    background-color: #EF233C;
+    border: 3px solid #D90429;
+    color: #EDF2F4;
+    font-size: 14px;
+    padding: 5px 0;
+    margin: 5px;
 }
