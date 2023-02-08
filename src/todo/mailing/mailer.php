@@ -15,21 +15,26 @@ function send_auth_mail($name, $email_prefix, $id, $email_token, $email_code) : 
 
 function send_mail($name, $email, $subject, $text, $html, $unsubscribe_url): void {
 
+
     $headers = "From: insa-utils <auth@insa-utils.live>
 List-Unsubscribe:  <" . $unsubscribe_url . ">
 Reply-To: <clement.grennerat@insa-lyon.fr>
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-boundary=\"----=_NextPart_DC7E1BB5_1105_4DB3_BAE3_2A6208EB099D\"";
+Content-Type: multipart/alternative; boundary=\"----=_NextPart_DC7E1BB5_1105_4DB3_BAE3_2A6208EB099D\"";
 
     $message = "------=_NextPart_DC7E1BB5_1105_4DB3_BAE3_2A6208EB099D
 Content-type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+
 " . $text . "
+
 ------=_NextPart_DC7E1BB5_1105_4DB3_BAE3_2A6208EB099D
 Content-type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-" . $html;
+
+" . $html . "
+
+------=_NextPart_DC7E1BB5_1105_4DB3_BAE3_2A6208EB099D--";
 
     mail($name . ' <' . $email . '>', $subject, $message, $headers);
 }
