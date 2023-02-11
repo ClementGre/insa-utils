@@ -6,12 +6,19 @@ if(!isset($_COOKIE['id'])){
     header('Location: ' . getRootPath() . 'todo/');
     exit;
 }
-
 $id = $_COOKIE['id'];
 
 if(isset($_POST['email_code'])){
-    require_once __DIR__.'/../php/auth.php';
-    $errors[] = try_code_login($id, $_POST['email_code']);
+    if(is_csrf_valid() ){
+        $errors[] = try_code_login($id, $_POST['email_code']);
+    }else{
+        $errors[] = "Le formulaire a expiré, veuillez réessayer.";
+    }
+}
+
+if (is_logged_in()){
+    header('Location: ' . getRootPath() . 'todo/');
+    exit;
 }
 
 require '../template/head.php';
@@ -40,6 +47,7 @@ $title = "Authentification | Todo list de classe";
         </p>
 
         <form action="<?= getRootPath() ?>todo/auth" method="post">
+            <?php set_csrf() ?>
             <label for="email_code">Code&#8239;:</label><br/>
             <input type="text" name="email_code" id="email_code" pattern="[0-9]{4}" required><br/>
             <input type="submit" value="Valider">

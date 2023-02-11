@@ -13,12 +13,16 @@ input[type="text"] {
 input {
     font-size: 14px;
 }
+form{
+    padding: 5px 0;
+}
 
 div.errors{
-    background-color: #EF233C;
+    background-color: #ea5252;
     border: 3px solid #D90429;
+    border-radius: 7px;
     color: #EDF2F4;
     font-size: 14px;
-    padding: 5px 0;
+    padding: 0 5px;
     margin: 5px;
 }

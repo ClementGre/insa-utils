@@ -66,11 +66,21 @@ function route($route, $path_to_include){
 }
 function out($text){echo htmlspecialchars($text);}
 function set_csrf(){
-    if( ! isset($_SESSION["csrf"]) ){ $_SESSION["csrf"] = bin2hex(random_bytes(50)); }
+    if( ! isset($_SESSION["csrf"]) ){ $_SESSION["csrf"] = randomCsrfToken(); }
     echo '<input type="hidden" name="csrf" value="'.$_SESSION["csrf"].'">';
 }
 function is_csrf_valid(){
     if( ! isset($_SESSION['csrf']) || ! isset($_POST['csrf'])){ return false; }
     if( $_SESSION['csrf'] != $_POST['csrf']){ return false; }
     return true;
+}
+function randomCsrfToken()
+{
+    $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $input_length = strlen($chars);
+    $random_string = '';
+    for ($i = 0; $i < 32; $i++) {
+        $random_string .= $chars[mt_rand(0, $input_length - 1)];
+    }
+    return $random_string;
 }
