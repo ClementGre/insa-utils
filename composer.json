@@ -4,7 +4,8 @@
     "type": "project",
     "require": {
         "johngrogg/ics-parser": "^3.2",
-      "ext-pdo": "*"
+      "ext-pdo": "*",
+      "ext-intl": "*"
     },
     "authors": [
         {

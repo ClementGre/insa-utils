@@ -10,6 +10,9 @@ require_once __DIR__.'/utils.php';
 require_once __DIR__.'/php/auth.php';
 require_once __DIR__.'/php/class.php';
 
+setlocale(LC_ALL, 'fr_FR');
+date_default_timezone_set("Europe/Paris");
+
 any(getRootPath() . 'todo', '/views/home.php');
 any(getRootPath() . 'todo/classes', '/views/classes.php');
 any(getRootPath() . 'todo/auth', '/views/auth.php');

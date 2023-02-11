@@ -35,7 +35,6 @@ function nameToEmail($name)
 
 function timestampDiffMn($timestamp)
 {
-    date_default_timezone_set("Europe/Paris");
     if ($timestamp == null) {
         return strtotime("now");
     }
