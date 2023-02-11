@@ -1,5 +1,4 @@
 <?php
-
 $errors = array();
 
 if(!isset($_COOKIE['id'])){
@@ -21,21 +20,16 @@ if (is_logged_in()){
     exit;
 }
 
-require '../template/head.php';
-require '../template/header.php';
-require '../template/footer.php';
-require_once '../origin_path.php';
 $title = "Authentification | Todo list de classe";
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?= getHead($title) ?>
-    <link rel="stylesheet" href="main.css">
+    <?php include __DIR__ . '/inc/head.php' ?>
 </head>
 <body>
-<?= getHeader($title) ?>
+<?php include __DIR__ . '/inc/header.php' ?>
 <main class="">
     <section class="b-darken">
         <h3>Authentification</h3>
@@ -61,4 +55,5 @@ $title = "Authentification | Todo list de classe";
     <?= getFooter('<a href="'.getRootPath().'todo/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
+<script src="<?= getRootPath() ?>todo/js/main.js"></script>
 </html>

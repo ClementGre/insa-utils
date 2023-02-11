@@ -1,5 +1,4 @@
 <?php
-
 $status = get_user_status();
 
 if (!$status['logged_in']) {
@@ -31,21 +30,16 @@ if(!$status['is_in_class'] || is_csrf_valid()){
 
 $errors = array();
 
-require '../template/head.php';
-require '../template/header.php';
-require '../template/footer.php';
-require_once '../origin_path.php';
 $title = "Rejoindre une classe | Todo list de classe";
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?= getHead($title) ?>
-    <link rel="stylesheet" href="main.css">
+    <?php include __DIR__ . '/../inc/head.php' ?>
 </head>
 <body>
-<?= getHeader($title) ?>
+<?php include __DIR__ . '/../inc/header.php' ?>
 <main class="">
     <section class="b-darken">
         <h3>Rejoindre la classe <?= $class_name ?></h3>
@@ -62,4 +56,5 @@ $title = "Rejoindre une classe | Todo list de classe";
     <?= getFooter('<a href="' . getRootPath() . 'todo/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
+<script src="<?= getRootPath() ?>todo/js/main.js"></script>
 </html>

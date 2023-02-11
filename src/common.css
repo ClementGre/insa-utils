@@ -1,4 +1,19 @@
-/* Palette: https://coolors.co/palette/2b2d42-8d99ae-edf2f4-ef233c-d90429 */
+
+* {
+    --insa-color: #CD0E14;
+
+    --header-button: #9b0b0b;
+    --header-button-hover: #860718;
+
+    --light-red: #f14045;
+
+    --light-gray: #edf2f4;
+    --gray: #8D99AE;
+    --dark-blue: #2B2D42;
+
+}
+
+
 html, body {
     height: 100%;
 }
@@ -22,8 +37,9 @@ body > * {
 header {
     flex: 0 1 auto;
     text-align: center;
+    gap: 5px;
 
-    background-color: #d90429;
+    background-color: var(--insa-color);
     color: #EDF2F4;
 
     padding: 5px 20px;
@@ -46,28 +62,27 @@ header h1 {
 }
 
 header a {
-    width: 75px;
-    background-color: #ea7082;
+    color: var(--light-gray);
     font-size: 15px;
     cursor: pointer;
-    border-radius: 10px;
     text-decoration: none;
     transition: all .2s ease-in-out;
 }
-
 header a:visited {
-    color: #EDF2F4;
+    color: var(--light-gray);
 }
-
-header a:hover {
+header a.back-link {
+    background-color: var(--header-button);
+    width: 75px;
+    border-radius: 10px;
+}
+header a.back-link:hover {
     text-decoration: underline;
-    background-color: #ec596c;
+    background-color: var(--header-button-hover);
 }
-
 header p {
     margin: 5px;
 }
-
 header div {
     width: 75px;
     height: 0;
@@ -95,21 +110,15 @@ main {
     max-width: 600px;
 }
 
-main .b-darken {
-    background-color: #edf2f4;
-}
-
 main > section {
     padding: 10px;
     margin: 5px auto;
     border-radius: 10px;
     width: 100%;
 }
-
 main > section.b-darken {
-    background-color: #edf2f4;
+    background-color: var(--light-gray);
 }
-
 main > section.b-light {
     background-color: white;
 }
@@ -149,7 +158,7 @@ select{
 
 footer {
     flex: 0 1 auto;
-    background-color: #d90429;
+    background-color: var(--insa-color);
     padding: 2px 20px;
     display: flex;
     align-items: center;
@@ -157,7 +166,7 @@ footer {
 }
 
 footer p {
-    color: #EDF2F4;
+    color: var(--light-gray);
     padding: 0;
     margin: 0;
     font-size: 15px;

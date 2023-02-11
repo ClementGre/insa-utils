@@ -1,11 +1,11 @@
 <?php
+$status = get_user_status();
 
-if (!is_logged_in()){
+if (!$status['logged_in']) {
     header('Location: ' . getRootPath() . 'todo/');
     exit;
 }
-$id = $_COOKIE['id'];
-
+$id = $status['id'];
 $errors = array();
 
 // Create class
@@ -20,17 +20,10 @@ if (isset($_POST['class_name'])){
             $q = getDB()->prepare("INSERT INTO classes (name) VALUES (:name)");
             $q->execute([":name" => $_POST['class_name']]);
             $class_id = getDB()->lastInsertId();
-
-            // Fetch user current class
-            $q = getDB()->prepare("SELECT class_id FROM users WHERE id=:id LIMIT 1");
-            $q->execute([":id" => $id]);
-            $row = $q->fetch();
-
             // Leave current class
-            if ($row['class_id'] != null){
-                leave_class($id, $row['class_id']);
+            if ($status['in_in_class']){
+                leave_class($id, $status['class_id']);
             }
-
             // Update user class
             $q = getDB()->prepare("UPDATE users SET class_id=:class_id, requested_class_id=null WHERE id=:id");
             $q->execute([":class_id" => $class_id, ":id" => $id]);
@@ -42,21 +35,16 @@ if (isset($_POST['class_name'])){
     }
 }
 
-require '../template/head.php';
-require '../template/header.php';
-require '../template/footer.php';
-require_once '../origin_path.php';
 $title = "Liste des classes | Todo list de classe";
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?= getHead($title) ?>
-    <link rel="stylesheet" href="main.css">
+    <?php include __DIR__ . '/inc/head.php' ?>
 </head>
 <body>
-<?= getHeader($title) ?>
+<?php include __DIR__ . '/inc/header.php' ?>
 <main class="">
     <section class="b-darken">
         <h3>Rejoindre une classe</h3>
@@ -86,4 +74,5 @@ $title = "Liste des classes | Todo list de classe";
     <?= getFooter('<a href="' . getRootPath() . 'todo/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
+<script src="<?= getRootPath() ?>todo/js/main.js"></script>
 </html>

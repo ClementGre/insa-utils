@@ -1,5 +1,4 @@
 <?php
-
 $errors = array();
 
 if (isset($_POST['email'])) {
@@ -12,7 +11,6 @@ if (isset($_POST['email'])) {
     $errors[] = try_token_login($_GET['id'], $_GET['email_token']);
 }
 
-
 $status = get_user_status();
 
 if ($status['logged_in'] && $status['class_id'] == null) {
@@ -20,10 +18,6 @@ if ($status['logged_in'] && $status['class_id'] == null) {
     exit;
 }
 
-require '../template/head.php';
-require '../template/header.php';
-require '../template/footer.php';
-require_once '../origin_path.php';
 $title = !$status['is_in_class'] ? "Todo list de classe" : $status['class_name'] . " | Todo list";
 $desc = "Application de cahier de texte collectif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante.";
 ?>
@@ -31,8 +25,10 @@ $desc = "Application de cahier de texte collectif pour ta classe. Crée une nouv
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?= getHead($title, $desc) ?>
-    <link rel="stylesheet" href="main.css">
+    <?php
+    include __DIR__ . '/inc/head.php';
+    if ($status['is_in_class']) echo '<link href="' . getRootPath() . 'todo/css/todo.css" rel="stylesheet"/>';
+    ?>
 </head>
 <body>
 <?php include __DIR__ . '/inc/header.php' ?>
@@ -95,4 +91,5 @@ $desc = "Application de cahier de texte collectif pour ta classe. Crée une nouv
     <?= getFooter('<a href="' . getRootPath() . 'todo/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
+<script src="<?= getRootPath() ?>todo/js/main.js"></script>
 </html>

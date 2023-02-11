@@ -1,0 +1,110 @@
+h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 10px;
+    color: #262626;
+}
+
+/********************************************/
+/******************* FORM *******************/
+/********************************************/
+
+input[type="text"] {
+    margin: 10px 0;
+    width: 180px;
+}
+
+input {
+    font-size: 14px;
+}
+
+form {
+    padding: 5px 0;
+}
+
+div.errors {
+    background-color: var(--light-red);
+    border: 3px solid var(--header-button-hover);
+    border-radius: 7px;
+    color: #EDF2F4;
+    font-size: 15px;
+    line-height: 120%;
+    padding: 5px;
+    margin: 5px;
+}
+div.errors p {
+    color: #EDF2F4;
+    font-size: 15px;
+    line-height: 120%;
+    margin: 5px;
+}
+
+/********************************************/
+/****************** HEADER ******************/
+/********************************************/
+
+header .dropdown {
+    position: relative;
+    min-width: 30px;
+    min-height: 30px;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    transition: all 0.3s ease-in-out;
+    background-color: var(--header-button);
+    cursor: pointer;
+}
+
+header .dropdown:hover, header .dropdown.showing {
+    background-color: var(--header-button-hover);
+}
+
+header .dropdown .round {
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 100%;
+    background: #fff;
+}
+
+header .dropdown .round-1 {
+    left: 25%;
+}
+
+header .dropdown .round-2 {
+    left: 50%;
+}
+
+header .dropdown .round-3 {
+    left: 75%;
+}
+
+header .dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    height: auto;
+    background-color: var(--header-button);
+    padding: 5px 0;
+    border-radius: 5px;
+}
+
+header .dropdown.showing .dropdown-content {
+    display: block;
+}
+
+header .dropdown .dropdown-content a {
+    display: block;
+    padding: 5px;
+}
+
+header .dropdown .dropdown-content a:hover {
+    background-color: var(--header-button-hover);
+}
+

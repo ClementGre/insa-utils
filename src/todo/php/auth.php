@@ -18,7 +18,7 @@ function request_login($email): string
         $id = $row['id'];
         // User exists
         if ($row['status'] == 'email_disabled') {
-            return "Vous avez choisi de ne plus recevoir d'emails de la part d'insa-utils. Vous pouvez réactiver les emails en allant sur le mail de désabonnement.";
+            return "Vous avez choisi de ne plus recevoir d'emails de la part d'insa-utils.<br>Vous pouvez réactiver les emails en allant sur le mail de désabonnement.";
         }
         if ($row['status'] == 'banned') {
             return "Vous êtes bannis de insa-utils.";
@@ -51,7 +51,7 @@ function request_login($email): string
     try {
         send_auth_mail($name, $email_prefix, $id, $email_token, $email_code);
 
-        setcookie('id', $id, time() + 60 * 60 * 24 * 365 * 5, '/');
+        set_cookie('id', $id);
         header('Location: ' . getRootPath() . 'todo/auth');
         exit;
 
@@ -97,7 +97,7 @@ function try_code_login($id, $email_code): string
             return "Le lien de connexion a expiré. Veuillez essayer à nouveau.";
         }
         if ($email_code_trials >= 5) {
-            return "Vous avez échoué un trop grand nombre de fois. Veuillez vous connecter via le lien présent dans le mail.";
+            return "Vous avez échoué un trop grand nombre de fois.<br>Veuillez vous connecter via le lien présent dans le mail.";
         }
         if ($email_code != $email_code_db) {
             $q = getDB()->prepare("UPDATE users SET email_code_trials=email_code_trials+1 WHERE id=:id");
@@ -117,8 +117,8 @@ function try_code_login($id, $email_code): string
     $q = getDB()->prepare("UPDATE users SET email_code_trials=0, email_token=null, email_code=null, email_date=null WHERE id=:id");
     $q->execute([":id" => $id]);
 
-    setcookie('id', $id, time() + 60 * 60 * 24 * 365 * 5, '/');
-    setcookie('auth_token', $auth_token, time() + 60 * 60 * 24 * 365 * 5, '/');
+    set_cookie('id', $id);
+    set_cookie('auth_token', $auth_token);
     header('Location: ' . getRootPath() . 'todo/');
     exit;
 }
@@ -145,7 +145,7 @@ function is_logged_in(): bool
 function get_user_status(): array
 {
     $data = [
-        'id' => $_COOKIE['id'],
+        'id' => $_COOKIE['id'] ?? null,
         'logged_in' => false,
         'banned' => false,
         'is_in_class' => false,

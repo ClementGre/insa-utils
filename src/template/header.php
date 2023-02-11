@@ -1,7 +1,7 @@
 <?php
 function getHeader($title){
     return '<header>
-            <a href="' . getRootPath() . '"><p>← Menu</p></a>
+            <a class="back-link" href="' . getRootPath() . '"><p>← Menu</p></a>
             <h1>' . $title . '</h1>
             <div></div>
         </header>';
