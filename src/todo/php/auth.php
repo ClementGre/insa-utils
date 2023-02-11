@@ -1,9 +1,11 @@
 <?php
-function request_login($email): array
+
+use JetBrains\PhpStorm\NoReturn;
+
+function request_login($email): string
 {
     require_once __DIR__ . '/../mailing/mailer.php';
 
-    $errors = array();
     $email_prefix = strtolower($email);
     $name = emailToName($email_prefix);
     $email_token = randomToken(32);
@@ -16,18 +18,18 @@ function request_login($email): array
         $id = $row['id'];
         // User exists
         if ($row['status'] == 'email_disabled') {
-            $errors[] = "Vous avez choisi de ne plus recevoir d'emails de la part d'insa-utils. Vous pouvez réactiver les emails en allant sur le mail de désabonnement.";
-        } else if ($row['status'] == 'banned') {
-            $errors[] = "Vous êtes bannis de insa-utils.";
-        } else {
-
-            $q = getDB()->prepare("UPDATE users SET email_token=:email_token, email_code=:email_code, email_date=NOW() WHERE id=:id");
-            $q->execute([
-                ":email_token" => $email_token,
-                ":email_code" => $email_code,
-                ":id" => $id
-            ]);
+            return "Vous avez choisi de ne plus recevoir d'emails de la part d'insa-utils. Vous pouvez réactiver les emails en allant sur le mail de désabonnement.";
         }
+        if ($row['status'] == 'banned') {
+            return "Vous êtes bannis de insa-utils.";
+        }
+
+        $q = getDB()->prepare("UPDATE users SET email_token=:email_token, email_code=:email_code, email_date=NOW() WHERE id=:id");
+        $q->execute([
+            ":email_token" => $email_token,
+            ":email_code" => $email_code,
+            ":id" => $id
+        ]);
     } else {
         // Create user
         $auth_token = randomToken(64);
@@ -50,81 +52,75 @@ function request_login($email): array
         send_auth_mail($name, $email_prefix, $id, $email_token, $email_code);
 
         setcookie('id', $id, time() + 60 * 60 * 24 * 365 * 5, '/');
-        setcookie('email_token', $email_token, time() + 60 * 60 * 24 * 365 * 5, '/');
         header('Location: ' . getRootPath() . 'todo/auth');
         exit;
 
     } catch (Exception $e) {
-        $errors[] = "Une erreur est survenue lors de l'envoi de l'email : " . $e->getMessage();
+        return "Une erreur est survenue lors de l'envoi de l'email : " . $e->getMessage();
     }
-    return $errors;
 }
 
-function try_login($id, $email_token, $email_code, $code_messages): array
+function try_token_login($id, $email_token): string
 {
 
-    $q = getDB()->prepare("SELECT email_token, email_code, auth_token, login_trials, email_date, auth_banned_date FROM users WHERE id=:id LIMIT 1");
+    $q = getDB()->prepare("SELECT auth_token, email_token, email_date FROM users WHERE id=:id LIMIT 1");
     $q->execute([":id" => $id]);
-    if($row = $q->fetch()){
+    if ($row = $q->fetch()) {
         $auth_token = $row['auth_token'];
         $email_token_db = $row['email_token'];
-        $email_code_db = $row['email_code'];
-        $login_trials = $row['login_trials'];
         $email_date = $row['email_date'];
-        $auth_banned_date = $row['auth_banned_date'];
 
-        $errors = array();
-        $increment_trials = true;
-        if ($login_trials >= 5) {
-            $errors[] = "Vous avez fait trop d'essais de connexion. Veuillez réessayer dans 1 jour.";
-            $q = getDB()->prepare("UPDATE users SET auth_banned_date=NOW(), login_trials=0 WHERE id=:id");
-            $q->execute([":id" => $id]);
-            $increment_trials = false;
-
-        } else if (is_login_banned($auth_banned_date)) {
-            $errors[] = "Vous avez fait trop d'essais de connexion. Veuillez réessayer dans 1 jour.";
-            $increment_trials = false;
-
-        } else if ($email_token != $email_token_db) {
-            $errors[] = $code_messages ? "La tentative de connexion a expiré. Veuillez réessayer" : "Le lien de connexion est invalide.";
-
-        } else if ($email_code != $email_code_db) {
-            if ($code_messages) {
-                if ($login_trials == 4) {
-                    $errors[] = "Code incorrect. Vous avez fait trop d'essais de connexion. Veuillez réessayer dans 1 jour.";
-                    $q = getDB()->prepare("UPDATE users SET auth_banned_date=NOW(), login_trials=0 WHERE id=:id");
-                    $q->execute([":id" => $id]);
-                    $increment_trials = false;
-                } else {
-                    $errors[] = "Code incorrect " . (4 - $login_trials) . " tentatives restantes.";
-                }
-            } else {
-                $errors[] = "Le lien de connexion est invalide.";
-            }
-        } else if (!is_email_date_valid($email_date)) {
-            $errors[] = "Le lien de connexion a expiré. Veuillez réessayer.";
-
-        } else {
-            // Login success
-            $q = getDB()->prepare("UPDATE users SET login_trials=0, email_token=null, email_code=null WHERE id=:id");
-            $q->execute([":id" => $id]);
-
-            setcookie('email_token', null, -1, '/');
-            setcookie('id', $id, time() + 60 * 60 * 24 * 365 * 5, '/');
-            setcookie('auth_token', $auth_token, time() + 60 * 60 * 24 * 365 * 5, '/');
-            header('Location: ' . getRootPath() . 'todo/');
-            exit;
+        if (!is_email_date_valid($email_date)) {
+            return "Le lien de connexion a expiré. Veuillez réessayer.";
         }
-
-        if ($increment_trials){
-            $q = getDB()->prepare("UPDATE users SET login_trials=login_trials+1 WHERE id=:id");
-            $q->execute([":id" => $id]);
+        if ($email_token != $email_token_db) {
+            return "Le lien de connexion est invalide. Veuillez réessayer.";
         }
-    }else{
-        $errors[] = "Utilisateur non existant, veuillez réessayer de vous authentifier.";
+        do_login_user($id, $auth_token);
     }
 
-    return $errors;
+    return "Utilisateur non existant, veuillez réessayer de vous authentifier.";
+}
+
+function try_code_login($id, $email_code): string
+{
+
+    $q = getDB()->prepare("SELECT auth_token, email_code, email_code_trials, email_date FROM users WHERE id=:id LIMIT 1");
+    $q->execute([":id" => $id]);
+    if ($row = $q->fetch()) {
+        $auth_token = $row['auth_token'];
+        $email_code_db = $row['email_code'];
+        $email_code_trials = $row['email_code_trials'];
+        $email_date = $row['email_date'];
+
+        if (!is_email_date_valid($email_date)) {
+            return "Le lien de connexion a expiré. Veuillez essayer à nouveau.";
+        }
+        if ($email_code_trials >= 5) {
+            return "Vous avez échoué un trop grand nombre de fois. Veuillez vous connecter via le lien présent dans le mail.";
+        }
+        if ($email_code != $email_code_db) {
+            $q = getDB()->prepare("UPDATE users SET email_code_trials=email_code_trials+1 WHERE id=:id");
+            $q->execute([":id" => $id]);
+            if ($email_code_trials == 4) {
+                return "Code incorrect.<br/>Vous avez échoué un trop grand nombre de fois. Veuillez vous connecter via le lien présent dans le mail.";
+            }
+            return "Code incorrect. Veuillez essayer à nouveau.";
+        }
+        do_login_user($id, $auth_token);
+    }
+    return "Utilisateur non existant, veuillez réessayer de vous authentifier.";
+}
+
+#[NoReturn] function do_login_user($id, $auth_token): void
+{
+    $q = getDB()->prepare("UPDATE users SET email_code_trials=0, email_token=null, email_code=null, email_date=null WHERE id=:id");
+    $q->execute([":id" => $id]);
+
+    setcookie('id', $id, time() + 60 * 60 * 24 * 365 * 5, '/');
+    setcookie('auth_token', $auth_token, time() + 60 * 60 * 24 * 365 * 5, '/');
+    header('Location: ' . getRootPath() . 'todo/');
+    exit;
 }
 
 function is_login_banned($auth_banned_date): bool

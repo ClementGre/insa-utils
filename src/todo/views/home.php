@@ -4,11 +4,11 @@ $errors = array();
 
 if (isset($_POST['email'])) {
     require_once __DIR__ . '/../php/auth.php';
-    $errors = request_login($_POST['email']);
+    $errors[] = request_login($_POST['email']);
 
-} else if (isset($_GET['id']) && isset($_GET['email_token']) && isset($_GET['email_code'])) {
+} else if (isset($_GET['id']) && isset($_GET['email_token'])) {
     require_once __DIR__ . '/../php/auth.php';
-    $errors = try_login($_GET['id'], $_GET['email_token'], $_GET['email_code'], false);
+    $errors[] = try_token_login($_GET['id'], $_GET['email_token']);
 }
 
 require_once __DIR__ . '/../php/auth.php';

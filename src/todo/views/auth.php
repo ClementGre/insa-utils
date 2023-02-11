@@ -9,9 +9,9 @@ if(!isset($_COOKIE['id'])){
 
 $id = $_COOKIE['id'];
 
-if(isset($_POST['email_code']) && isset($_COOKIE['email_token'])){
+if(isset($_POST['email_code'])){
     require_once __DIR__.'/../php/auth.php';
-    $errors = try_login($id, $_COOKIE['email_token'], $_POST['email_code'], true);
+    $errors[] = try_code_login($id, $_POST['email_code']);
 }
 
 require '../template/head.php';

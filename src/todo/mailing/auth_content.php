@@ -3,7 +3,7 @@
 function get_auth_mail_text_content($url, $code, $unsubscribe_url) : string
 {
     return  "Vous avez demandé à vous authentifier sur insa-utils.live.
-Veuillez suivre le lien suivant pour vous authentifier sur insa-utils :
+Veuillez suivre le lien suivant pour vous authentifier.
 
 " . $url . "
 
@@ -64,7 +64,7 @@ function get_auth_mail_content($url, $code, $unsubscribe_url) : string
                 <tr>
                     <td align="center"
                         style="text-align: center; font-size: 15px; color: #2B2D42; font-weight: 400; font-family: Verdana, Arial, Helvetica sans-serif">
-                        Veuillez cliquer sur le bouton suivant pour vous authentifier sur insa-utils.
+                        Veuillez cliquer sur le bouton suivant pour vous authentifier.
                     </td>
                 </tr>
                 <tr>
