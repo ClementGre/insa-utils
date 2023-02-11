@@ -7,8 +7,8 @@ if (isset($_POST['email'])) {
     } else {
         $errors[] = "Le formulaire a expiré, veuillez réessayer.";
     }
-} else if (isset($_GET['id']) && isset($_GET['email_token'])) {
-    $errors[] = try_token_login($_GET['id'], $_GET['email_token']);
+} else if (isset($_GET['id']) && isset($_GET['token'])) {
+    $errors[] = try_token_login($_GET['id'], $_GET['token']);
 }
 
 $status = get_user_status();

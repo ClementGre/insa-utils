@@ -16,7 +16,7 @@ function send_auth_mail($name, $email_prefix, $id, $email_token, $email_code) : 
 
 function send_mail($name, $email, $subject, $text, $html, $unsubscribe_url): void {
 
-    if (strpos($_SERVER['HTTP_HOST'], 'localhost') == 0) {
+    if (strpos($_SERVER['HTTP_HOST'], 'localhost') === 0) {
         return;
     }
 
