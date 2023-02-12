@@ -92,4 +92,5 @@ $desc = "Application de cahier de texte collectif pour ta classe. Crée une nouv
 </footer>
 </body>
 <script src="<?= getRootPath() ?>todo/js/main.js"></script>
+<?php if ($status['is_in_class']) echo '<script src="' . getRootPath() . 'todo/js/todo.js""></script>' ?>
 </html>

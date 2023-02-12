@@ -1,37 +1,50 @@
-main h3{
+main h3 {
     font-size: 18px;
     font-weight: 600;
     margin: 0 0 10px;
     color: var(--dark-blue);
 }
-main p{
+
+main p {
     margin: 0;
     color: var(--dark-blue);
 }
-div.todo-list > div {
+
+div.todo-list {
+    width: 100%;
+}
+
+div.todo-list > .todo {
     background-color: var(--light-gray);
     width: 100%;
-    display: flex;
-    gap: 10px;
     padding: 5px;
-}
-div.todo-list > div.heading{
-    align-items: center;
-    border-radius: 10px 10px 0 0;
-    border-bottom: 1px solid var(--dark-blue);
-}
-div.todo-list > div.content{
-    border-radius: 0 0 10px 10px;
+    border-radius: 10px;
     margin-bottom: 10px;
 }
 
-div.todo-list > div.heading > div.duedate,
-div.todo-list > div.content > div.description{
+div.todo-list > .todo > div {
+    width: 100%;
+    display: flex;
+    gap: 5px;
+}
+
+div.todo-list div.heading {
+    align-items: center;
+    border-bottom: 1px solid var(--dark-blue);
+    padding-bottom: 5px;
+}
+
+div.todo-list div.content {
+    padding-top: 5px;
+}
+
+div.todo-list div.todo div.heading > div.duedate,
+div.todo-list div.content > div.description {
     flex-grow: 1;
 }
 
 /* IMAGES */
-div.todo-list div.img-button{
+div.todo-list div.img-button {
     position: relative;
     min-width: 30px;
     min-height: 30px;
@@ -40,7 +53,8 @@ div.todo-list div.img-button{
     background-color: var(--dark-blue);
     border-radius: 5px;
 }
-div.todo-list div.img-button img{
+
+div.todo-list div.img-button img {
     width: 20px;
     position: absolute;
     top: 50%;
@@ -49,35 +63,107 @@ div.todo-list div.img-button img{
     /*filter: invert(17%) sepia(19%) saturate(857%) hue-rotate(196deg) brightness(94%) contrast(95%);*/
     filter: invert(100%) sepia(12%) saturate(455%) hue-rotate(80deg) brightness(102%) contrast(91%);
 }
-div.todo-list div.img-button.disabled{
+
+div.todo-list div.img-button.disabled {
     display: none;
 }
 
 /* SUBJECT */
-div.todo-list div.subject, div.todo-list div.status{
+div.todo-list div.subject, div.todo-list div.status {
     flex-shrink: 0;
 }
-div.todo-list div.subject p, div.todo-list div.status p{
+
+div.todo-list div.subject p, div.todo-list div.status p {
     display: block;
     padding: 5px;
     border-radius: 5px;
     color: var(--light-gray);
     width: fit-content;
 }
-div.todo-list div.subject p{
+
+div.todo-list div.subject p {
     background-color: #45af2f;
 }
 
 /* STATUS */
-div.todo-list div.status p{
+div.todo-list div.status p {
     background-color: #336bb7;
     margin-left: auto;
 }
 
 /* DESCRIPTION */
-div.todo-list > div.content > div.description {
+div.todo-list div.content > div.description {
     text-align: left;
 }
-div.todo-list > div.content > div.description > p.first-line{
+
+div.todo-list div.content > div.description > p.first-line {
     font-weight: bold;
+}
+
+/* EDITOR */
+form {
+    display: block;
+}
+
+form div.content textarea {
+    height: 70px;
+    margin-bottom: 5px;
+}
+
+form div.validate input {
+    margin: 0;
+    width: 100%;
+}
+
+fieldset.subject {
+    border: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+    width: fit-content;
+    position: relative;
+    flex-shrink: 1;
+    flex-grow: 1;
+    text-align: left;
+}
+
+fieldset.subject input {
+    min-width: 0;
+    width: 100%;
+    max-width: 200px;
+}
+
+datalist {
+    background-color: var(--light-gray);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    border-radius: 5px;
+    overflow-y: auto;
+    text-align: left;
+    z-index: 1;
+    box-shadow: var(--dark-blue) 0 2px 5px;
+}
+
+input, select {
+    min-width: auto;
+    width: auto;
+}
+
+option {
+    padding: 5px 7px;
+    color: var(--dark-blue);
+    margin-bottom: 1px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+option:hover, .active {
+    background-color: lightblue;
+}
+
+form .validate input[type="submit"] {
+    max-width: 110px;
 }

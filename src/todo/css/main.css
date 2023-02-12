@@ -13,11 +13,6 @@ input[type="text"] {
     margin: 10px 0;
     width: 180px;
 }
-
-input {
-    font-size: 14px;
-}
-
 form {
     padding: 5px 0;
 }
