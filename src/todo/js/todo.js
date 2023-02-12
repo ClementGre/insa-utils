@@ -22,9 +22,13 @@ for (let i = 0; i < list.options.length; i++) {
 
 input.oninput = function () {
     currentFocus = -1;
-    const text = input.value.toUpperCase();
-    for (let option of list.options) {
-        if (option.value.toUpperCase().indexOf(text) > -1) {
+    const text = input.value;
+    for(let option of list.options) {
+        console.log(option)
+        if(option.className === 'custom'){
+            option.remove();
+            list.innerHTML += '<option class="custom" value="' + text + '">+ Ajouter ' + text + '</option>';
+        }else if (option.value.toLowerCase().indexOf(text.toLowerCase()) > -1) {
             option.style.display = "block";
         } else {
             option.style.display = "none";

@@ -101,21 +101,21 @@ div.todo-list div.content > div.description > p.first-line {
 }
 
 /* EDITOR */
-form {
+div.todo-list form {
     display: block;
 }
 
-form div.content textarea {
+div.todo-list form div.content textarea {
     height: 70px;
     margin-bottom: 5px;
 }
 
-form div.validate input {
+div.todo-list form div.validate input {
     margin: 0;
     width: 100%;
 }
 
-fieldset.subject {
+div.todo-list fieldset.subject {
     border: none;
     margin: 0;
     padding: 0;
@@ -127,18 +127,19 @@ fieldset.subject {
     text-align: left;
 }
 
-fieldset.subject input {
+div.todo-list fieldset.subject input {
     min-width: 0;
     width: 100%;
     max-width: 200px;
 }
 
-datalist {
+div.todo-list datalist {
     background-color: var(--light-gray);
     position: absolute;
     left: 0;
     top: 100%;
     width: 100%;
+    max-width: 200px;
     border-radius: 5px;
     overflow-y: auto;
     text-align: left;
@@ -146,12 +147,12 @@ datalist {
     box-shadow: var(--dark-blue) 0 2px 5px;
 }
 
-input, select {
+div.todo-list input, div.todo-list select {
     min-width: auto;
     width: auto;
 }
 
-option {
+div.todo-list option {
     padding: 5px 7px;
     color: var(--dark-blue);
     margin-bottom: 1px;
@@ -160,10 +161,10 @@ option {
     font-size: 14px;
 }
 
-option:hover, .active {
+div.todo-list option:hover, div.todo-list option.active {
     background-color: lightblue;
 }
 
-form .validate input[type="submit"] {
+div.todo-list form .validate input[type="submit"] {
     max-width: 110px;
 }

@@ -74,7 +74,7 @@ function print_todo(array $todos): void
 
 <h3>Ajouter :</h3>
 <div class="todo-list">
-    <form class="todo">
+    <form class="todo" method="post" action="">
         <div class="heading">
             <fieldset class="subject">
                 <input id="subject-input" name="subject" alt="Matière" placeholder="Matière"
@@ -88,6 +88,7 @@ function print_todo(array $todos): void
                     <option value="Anglais">Anglais</option>
                     <option value="Sport">Sport</option>
                     <option value="Physique">Physique</option>
+                    <a href="">Gérer les matières</a>
                 </datalist>
             </fieldset>
 

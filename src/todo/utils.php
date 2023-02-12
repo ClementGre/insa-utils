@@ -45,12 +45,14 @@ function print_errors_html($errors)
 {
     if (count($errors) > 0) {
         ?>
-        <div class="errors">
-            <?php
-            foreach ($errors as $error) {
-                echo '<p>' . $error . '</p>';
-            }
-            ?>
+        <div class="error-container">
+            <div class="errors">
+                <?php
+                foreach ($errors as $error) {
+                    echo '<p>' . $error . '</p>';
+                }
+                ?>
+            </div>
         </div>
         <?php
     }
