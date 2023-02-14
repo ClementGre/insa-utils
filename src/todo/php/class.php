@@ -43,6 +43,14 @@ enum TodoStatus: string
             default => TodoStatus::TODO,
         };
     }
+    public function toCSSClass(): string
+    {
+        return match ($this) {
+            TodoStatus::TODO => "todo",
+            TodoStatus::IN_PROGRESS => "in-progress",
+            TodoStatus::DONE => "done",
+        };
+    }
 }
 
 
@@ -75,4 +83,18 @@ function get_day_distance($date1, $date2): int
 {
     $diff = $date1->diff($date2);
     return $diff->days;
+}
+function current_date(): string
+{
+    return (new DateTime())->format('Y-m-d');
+}
+function date_in_a_week(): string
+{
+    $date = new DateTime();
+    $date->add(new DateInterval('P7D'));
+    return $date->format('Y-m-d');
+}
+function year(): string
+{
+    return (new DateTime())->format('Y');
 }

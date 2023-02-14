@@ -1,4 +1,5 @@
 <?php
+
 $errors = array();
 
 if (isset($_POST['email'])) {

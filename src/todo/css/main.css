@@ -57,7 +57,7 @@ header .dropdown:hover, header .dropdown.showing {
     background-color: var(--header-button-hover);
 }
 
-header .dropdown .round {
+.dropdown .round {
     position: absolute;
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
@@ -67,19 +67,19 @@ header .dropdown .round {
     background: #fff;
 }
 
-header .dropdown .round-1 {
+.dropdown .round-1 {
     left: 25%;
 }
 
-header .dropdown .round-2 {
+.dropdown .round-2 {
     left: 50%;
 }
 
-header .dropdown .round-3 {
+.dropdown .round-3 {
     left: 75%;
 }
 
-header .dropdown .dropdown-content {
+.dropdown .dropdown-content {
     display: none;
     position: absolute;
     top: 100%;
@@ -93,16 +93,18 @@ header .dropdown .dropdown-content {
     border-radius: 5px;
 }
 
-header .dropdown.showing .dropdown-content {
+.dropdown.showing .dropdown-content {
     display: block;
+    cursor: default;
 }
 
-header .dropdown .dropdown-content a {
+.dropdown .dropdown-content a {
+    text-decoration: none;
     display: block;
     padding: 5px;
 }
 
-header .dropdown .dropdown-content a:hover {
+.dropdown .dropdown-content a:hover {
     background-color: var(--header-button-hover);
 }
 

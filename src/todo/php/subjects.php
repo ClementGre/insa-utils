@@ -19,8 +19,8 @@ enum SubjectType: string
 
 enum SubjectColor: string
 {
-    case RED = '#FF0000';
-    case ORANGE = '#FFA500';
+    case RED = '#CD0E14';
+    case ORANGE = '#e3980e';
     case YELLOW = '#FFFF00';
     case GREEN = '#008000';
     case BLUE = '#0000FF';

@@ -19,7 +19,3 @@ any(getRootPath() . 'todo/auth', 'views/auth.php');
 any(getRootPath() . 'todo/account', 'views/account.php');
 
 any(getRootPath() . 'todo/subjects', 'views/class/subjects.php');
-
-any(getRootPath() . 'todo/class/$class/edit/$todo_id', 'views/class/edit.php');
-any(getRootPath() . 'todo/class/$class/all', 'views/class/all.php');
-any(getRootPath() . 'todo/class/$class/join', 'views/class/join.php');
