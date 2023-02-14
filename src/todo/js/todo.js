@@ -1,36 +1,43 @@
+let deletingTodos = [];
+
 document.querySelectorAll('.delete-todo').forEach((a) => {
     a.addEventListener('click', (e) => {
-        console.log('clicked');
         e.preventDefault();
+        closeDeletingTodos();
         const todoId = a.dataset.todoId;
         const todo = document.querySelector(`.todo[data-todo-id="${todoId}"]`);
-        todo.classList.add('hidden');
-        todo.parentNode.insertBefore(getTodoDeletionConfirmation(todoId), todo.nextSibling);
-
-
-        const cancelButton = document.querySelector(`.todo.detete-todo[data-detete-todo-id="${todoId}"] input[type="button"]`);
-        cancelButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            todo.classList.remove('hidden');
-            document.querySelector(`.todo.detete-todo[data-detete-todo-id="${todoId}"]`).remove();
-        });
-
+        openDeletingTodo(todoId, todo);
     });
 });
 
-function createElementFromHTML(htmlString) {
-    const div = document.createElement('div');
-    div.innerHTML = htmlString.trim();
-    return div.firstChild;
+function closeDeletingTodos() {
+    deletingTodos.forEach((deletingTodo) => {
+        deletingTodo.todo.classList.remove('hidden');
+        deletingTodo.form.remove();
+    });
+    deletingTodos = [];
+}
+function openDeletingTodo(todoId, todo){
+    todo.classList.add('hidden');
+    let form = getTodoDeletionConfirmation(todoId);
+    todo.parentNode.insertBefore(form, todo.nextSibling);
+
+    deletingTodos.push({todo: todo, form: form})
+
+    const cancelButton = document.querySelector(`.todo.delete-todo[data-detete-todo-id="${todoId}"] input[type="button"]`);
+    cancelButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeDeletingTodos();
+    });
 }
 
-function getTodoDeletionConfirmation($todoId) {
+function getTodoDeletionConfirmation(todoId) {
     const $html = `
-        <div class="todo detete-todo" data-detete-todo-id="` + $todoId + `">
-            <form action="">
+        <div class="todo delete-todo" data-detete-todo-id="${todoId}">
+            <form action="${getRootPath()}todo/" method="post">
                 <p>Confirmer la suppression de cette tâche ?</p>
-                
                 <input type="hidden" name="action" value="delete"/>
+                <input type="hidden" name="id" value="${todoId}"/>
                 <div>
                     <input type="submit" value="Supprimer">
                     <input type="button" value="Annuler">
@@ -38,6 +45,14 @@ function getTodoDeletionConfirmation($todoId) {
             </form>
         </div>
         `;
-    
     return createElementFromHTML($html);
+}
+
+function createElementFromHTML(htmlString) {
+    const div = document.createElement('div');
+    div.innerHTML = htmlString.trim();
+    return div.firstChild;
+}
+function getRootPath(){
+    return document.querySelector('div.root-path-container').dataset.rootPath;
 }

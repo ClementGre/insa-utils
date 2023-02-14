@@ -144,6 +144,7 @@ $subjects = $q->fetchAll();
 
 ?>
 
+<div class="root-path-container" data-root-path="<?= htmlspecialchars(getRootPath()) ?>"></div>
 
 <h3>À faire :</h3>
 <div class="todo-list">

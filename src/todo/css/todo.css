@@ -195,12 +195,17 @@ div.todo-list form .fixed[type="submit"] {
 }
 
 /* DELETE */
-.delete-todo form p {
+div.delete-todo form p {
     line-height: 30px;
     padding-bottom: 5px;
 }
-.delete-todo form div {
+div.delete-todo form div {
+    width: 100%;
     display: flex;
-    gap: 10px;
-    justify-content: space-around;
+    gap: 15px;
+    justify-content: center;
+}
+div.delete-todo form div input {
+    flex-grow: 0;
+    max-width: 150px;
 }
