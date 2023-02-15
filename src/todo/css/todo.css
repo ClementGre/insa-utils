@@ -99,13 +99,20 @@ div.todo-list div.status.todo p {
 }
 
 div.todo-list div.status.in-progress p {
-    background-color: #336bb7;
+    background-color: #265fa3;
     margin-left: auto;
 }
 
 div.todo-list div.status.done p {
     background-color: #3cb733;
     margin-left: auto;
+}
+div.todo-list div.status.report p {
+    border-bottom: 3px solid var(--insa-color);
+    padding-bottom: 2px;
+}
+div.todo-list div.status.reminder p {
+    background-color: var(--insa-color);
 }
 
 /* DESCRIPTION */
@@ -118,7 +125,7 @@ div.todo-list div.content > div.side {
 
 div.todo-list div.content > div.side > * {
     background-color: transparent;
-    border: 1px solid var(--dark-blue);
+    border: 2px solid var(--dark-blue);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }

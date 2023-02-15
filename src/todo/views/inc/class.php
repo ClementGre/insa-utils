@@ -126,8 +126,8 @@ function print_todo(array $todos, $subjects): void
                 <div class="duedate">
                     <p><?= duedate_to_str($todo['duedate']) ?></p>
                 </div>
-                <div class="status <?= $todo['status']->toCSSClass() ?>">
-                    <p><?= $todo['status']->value ?></p>
+                <div class="status <?= $todo['status']->toCSSClass() ?> <?= $todo['type'] ?>">
+                    <p><?= $todo['type'] == 'reminder' ? 'Pense bête' : $todo['status']->value ?></p>
                 </div>
             </div>
             <div class="content">
@@ -203,7 +203,7 @@ $subjects = $q->fetchAll();
         <?php set_csrf() ?>
         <input type="hidden" name="action" value="add"/>
         <div class="heading">
-            <select id="subject" name="subject_id" required>
+            <select id="subject" name="subject_id" required onchange="onSubjectComboChange(event);">
                 <?php
                 foreach ($subjects as $subject) {
                     ?>
@@ -211,6 +211,7 @@ $subjects = $q->fetchAll();
                     <?php
                 }
                 ?>
+                <option value="manage">Gérer les matières</option>
             </select>
             <input type="date" id="duedate" name="duedate"
                    value="<?= $_POST['duedate'] ?? date_in_a_week() ?>" min="<?= current_date() ?>"

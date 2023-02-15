@@ -60,7 +60,7 @@ header .dropdown:hover, header .dropdown.showing {
 .dropdown .round {
     position: absolute;
     top: 50%;
-    transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%) scale(1.15);
     width: 4px;
     height: 4px;
     border-radius: 100%;

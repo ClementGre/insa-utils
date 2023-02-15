@@ -197,3 +197,9 @@ function out(text) {
 
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
+function onSubjectComboChange(e){
+    if(e.target.value === 'manage'){
+        window.location = getRootPath() + 'todo/subjects'
+        e.target.value = null;
+    }
+}
