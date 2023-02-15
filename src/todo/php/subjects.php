@@ -24,7 +24,7 @@ enum SubjectColor: string
     case YELLOW = '#FFFF00';
     case GREEN = '#008000';
     case BLUE = '#0000FF';
-    case MAROON = '#800000';
+    case MAROON = '#893939';
     case GRAY = '#808080';
     case LIGHTGRAY = '#D3D3D3';
     case PINK = '#FFC0CB';

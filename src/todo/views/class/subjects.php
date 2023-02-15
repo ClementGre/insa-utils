@@ -60,7 +60,7 @@ $title = "Matières - " . $status['class_name'];
                     <?php set_csrf(); ?>
                     <input type="hidden" name="id" value="<?= $subject['id'] ?>">
                     <div class="heading">
-                        <input type="text" name="name" placeholder="Matière" value="<?= $subject['name'] ?>" required>
+                        <input type="text" name="name" placeholder="Matière" value="<?= out($subject['name']) ?>" required>
                         <select id="type" name="type" required>
                             <option value="main" <?= $subject['type'] == 'main' ? 'selected="selected"' : '' ?>>
                                 Principales

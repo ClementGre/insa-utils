@@ -3,8 +3,8 @@ $status = $status ?? null;
 $to_do = array();
 $done = array();
 
-if (isset($_POST['action'])){
-    switch ($_POST['action']){
+if (isset($_POST['action'])) {
+    switch ($_POST['action']) {
         case 'add':
             if (isset($_POST['subject_id']) && isset($_POST['duedate']) && isset($_POST['type']) && $_POST['content'] && isset($_POST['link']) && isset($_POST['visibility'])) {
                 if (is_csrf_valid()) {
@@ -19,22 +19,44 @@ if (isset($_POST['action'])){
                         ':content' => $_POST['content'],
                         ':link' => $_POST['link']
                     ]);
-                }else{
+                } else {
                     $errors[] = 'Le formulaire a expiré. Veuillez réessayer.';
                 }
             }
             break;
         case 'delete':
             if (isset($_POST['id'])) {
-                $q = getDB()->prepare('DELETE FROM todos WHERE id=:id AND class_id=:class_id');
-                $r = $q->execute([
-                    ':id' => $_POST['id'],
-                    ':class_id' => $status['class_id']
-                ]);
+                if (is_csrf_valid('js')) {
+                    $q = getDB()->prepare('DELETE FROM todos WHERE id=:id AND class_id=:class_id');
+                    $r = $q->execute([
+                        ':id' => $_POST['id'],
+                        ':class_id' => $status['class_id']
+                    ]);
+                } else {
+                    $errors[] = 'Le formulaire a expiré. Veuillez réessayer.';
+                }
             }
             break;
         case 'edit':
+            if (is_csrf_valid('js')) {
 
+            } else {
+                $errors[] = 'Le formulaire a expiré. Veuillez réessayer.';
+            }
+            break;
+        case 'make_public':
+            if (isset($_POST['id'])) {
+                if (is_csrf_valid('js')) {
+                    $q = getDB()->prepare('UPDATE todos SET is_private=0 WHERE id=:id AND class_id=:class_id AND creator_id=:creator_id');
+                    $r = $q->execute([
+                        ':id' => $_POST['id'],
+                        ':class_id' => $status['class_id'],
+                        ':creator_id' => $status['id']
+                    ]);
+                } else {
+                    $errors[] = 'Le formulaire a expiré. Veuillez réessayer.';
+                }
+            }
             break;
     }
 }
@@ -65,8 +87,17 @@ while ($todo = $q->fetch()) {
     $q3 = getDB()->prepare("SELECT name FROM users WHERE id=:id LIMIT 1");
     $q3->execute([":id" => $todo['creator_id']]);
     $user = $q3->fetch();
-    if($user) $todo['creator'] = $user['name'];
+    if ($user) $todo['creator'] = $user['name'];
     else $todo['creator'] = "Utilisateur inconnu";
+
+    // Fetch user from last_editor_id
+    if (isset($todo['last_editor_id'])) {
+        $q3 = getDB()->prepare("SELECT name FROM users WHERE id=:id LIMIT 1");
+        $q3->execute([":id" => $todo['last_editor_id']]);
+        $user = $q3->fetch();
+        if ($user) $todo['last_editor'] = $user['name'];
+        else $todo['last_editor'] = "Utilisateur inconnu";
+    }
 
     if ($todo['status'] == TodoStatus::DONE) {
         $done[] = $todo;
@@ -90,18 +121,19 @@ function print_todo(array $todos, $subjects): void
         <div class="todo" data-todo-id="<?= $todo['id'] ?>">
             <div class="heading">
                 <div class="subject">
-                    <p style="background-color: <?= $subject_color ?>;"><?= $subject_name ?></p>
+                    <p style="background-color: <?= $subject_color ?>;"><?= out($subject_name) ?></p>
                 </div>
                 <div class="duedate">
                     <p><?= duedate_to_str($todo['duedate']) ?></p>
                 </div>
-                <div class="status <?= $todo['status']->toCSSClass()  ?>">
+                <div class="status <?= $todo['status']->toCSSClass() ?>">
                     <p><?= $todo['status']->value ?></p>
                 </div>
             </div>
             <div class="content">
                 <div class="side">
-                    <a href="<?= $todo['link'] ?>" target="_blank" class="img-button link <?= $todo['link'] ? '' : 'disabled' ?>">
+                    <a href="<?= out($todo['link']) ?>" target="_blank"
+                       class="img-button link <?= $todo['link'] ? '' : 'disabled' ?>">
                         <img alt="Lien associé" src="<?= getRootPath() ?>todo/svg/link.svg"/>
                     </a>
                     <div class="img-button edit dropdown">
@@ -110,24 +142,32 @@ function print_todo(array $todos, $subjects): void
                         <div class="round round-3"></div>
                         <div class="dropdown-content">
                             <?php
-                            if ($todo['is_private'] === 1){
+                            if ($todo['is_private'] === 1) {
                                 ?>
-                                    <a href="<?= getRootPath() ?>todo/">Rendre publique</a>
+                                <a class="make-public-todo" data-todo-id="<?= $todo['id'] ?>">Rendre publique</a>
                                 <?php
-                            }else{
+                            } else {
                                 ?>
-                                    <p>Créé par <?= $todo['creator'] ?></p>
+                                <p>Créé par <?= $todo['creator'] ?></p>
                                 <?php
+                                if (isset($todo['last_editor'])) {
+                                    ?>
+                                    <br><p>Modifié en dernier par <?= $todo['last_editor'] ?></p>
+                                    <?php
+                                }
                             }
                             ?>
-                            <a class="edit-todo" data-todo-id="<?= $todo['id'] ?>">Modifier</a>
+                            <a class="edit-todo" data-todo-id="<?= $todo['id'] ?>"
+                               data-subject-id="<?= $todo['subject_id'] ?>" data-duedate="<?= out($todo['duedate']) ?>"
+                               data-type="<?= $todo['type'] ?>" data-content="<?= out($todo['content']) ?>"
+                               data-link="<?= out($todo['link']) ?>">Modifier</a>
                             <a class="delete-todo" data-todo-id="<?= $todo['id'] ?>">Supprimer</a>
                         </div>
                     </div>
                 </div>
                 <div class="description">
-                    <p class="first-line"><?= $todo['title'] ?></p>
-                    <p><?= $todo['description'] ?></p>
+                    <p class="first-line"><?= out($todo['title']) ?></p>
+                    <p><?= out($todo['description']) ?></p>
                 </div>
             </div>
         </div>
@@ -145,6 +185,10 @@ $subjects = $q->fetchAll();
 ?>
 
 <div class="root-path-container" data-root-path="<?= htmlspecialchars(getRootPath()) ?>"></div>
+<div class="subjects-container" data-subjects="<?= htmlspecialchars(json_encode($subjects)) ?>"></div>
+<div class="csrf-container" data-csrf="<?= htmlspecialchars(gen_csrf_key('js')) ?>"></div>
+
+<?php print_errors_html($errors) ?>
 
 <h3>À faire :</h3>
 <div class="todo-list">
@@ -156,33 +200,45 @@ $subjects = $q->fetchAll();
 <h3>Ajouter :</h3>
 <div class="todo-list">
     <form class="todo" method="post" action="<?= getRootPath() ?>todo/">
+        <?php set_csrf() ?>
         <input type="hidden" name="action" value="add"/>
         <div class="heading">
             <select id="subject" name="subject_id" required>
                 <?php
                 foreach ($subjects as $subject) {
                     ?>
-                    <option value="<?= $subject['id'] ?>"><?= $subject['name'] ?></option>
+                    <option value="<?= $subject['id'] ?>" <?= (($_POST['subject_id'] ?? '') === $subject['id']) ? 'selected="selected"' : '' ?>><?= out($subject['name']) ?></option>
                     <?php
                 }
                 ?>
             </select>
             <input type="date" id="duedate" name="duedate"
-                   value="<?= date_in_a_week() ?>" min="<?= current_date() ?>" max="<?= year() . '-06-30' ?>" required>
+                   value="<?= $_POST['duedate'] ?? date_in_a_week() ?>" min="<?= current_date() ?>"
+                   max="<?= year() . '-06-30' ?>" required>
             <select class="fixed" id="type" name="type" required>
-                <option value="report">Rendu</option>
-                <option value="practice" selected="selected">Exercice</option>
-                <option value="reminder">Pense bête</option>
+                <option value="report" <?= ($_POST['type'] ?? '') === 'report' ? 'selected="selected"' : '' ?>>Rendu
+                </option>
+                <option value="practice" <?= (!isset($_POST['type']) || $_POST['type'] === 'practice') ? 'selected="selected"' : '' ?>>
+                    Exercice
+                </option>
+                <option value="reminder" <?= ($_POST['type'] ?? '') === 'reminder' ? 'selected="selected"' : '' ?>>Pense
+                    bête
+                </option>
             </select>
         </div>
         <div class="content">
-            <textarea name="content" rows="4" placeholder="Titre&#10;Description"></textarea>
+            <textarea name="content" rows="4"
+                      placeholder="Titre&#10;Description"><?= out($_POST['content'] ?? '') ?></textarea>
         </div>
         <div class="validate">
-            <input type="text" name="link" placeholder="Lien">
+            <input type="text" name="link" placeholder="Lien" value="<?= out($_POST['link'] ?? '') ?>">
             <select class="fixed" name="visibility" required>
-                <option value="public" selected="selected">Publique</option>
-                <option value="private">Privé</option>
+                <option value="public" <?= (!isset($_POST['visibility']) || $_POST['visibility'] === 'public') ? 'selected="selected"' : '' ?>>
+                    Publique
+                </option>
+                <option value="private" <?= (($_POST['visibility'] ?? '') === 'private') ? 'selected="selected"' : '' ?>>
+                    Privé
+                </option>
             </select>
             <input class="fixed" type="submit" name="submit" value="Ajouter">
         </div>

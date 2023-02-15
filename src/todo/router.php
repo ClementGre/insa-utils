@@ -91,17 +91,21 @@ function route($route, $path_to_include)
     exit();
 }
 
-function out($text): void
+function out($text): string
 {
-    echo htmlspecialchars($text);
+    return $text ? htmlspecialchars($text) : '';
 }
 
-function set_csrf($name = 'default'): void
+function gen_csrf_key($name = 'default'): string
 {
     if (!isset($_SESSION["csrf_$name"])) {
         $_SESSION["csrf_$name"] = randomCsrfToken();
     }
-    echo '<input type="hidden" name="csrf_' . $name . '" value="' . $_SESSION["csrf_$name"] . '">';
+    return $_SESSION["csrf_$name"];
+}
+function set_csrf($name = 'default'): void
+{
+    echo '<input type="hidden" name="csrf_' . $name . '" value="' . gen_csrf_key($name) . '">';
 }
 
 function is_csrf_valid($name = 'default'): bool
@@ -109,10 +113,7 @@ function is_csrf_valid($name = 'default'): bool
     if (!isset($_SESSION["csrf_$name"]) || !isset($_POST["csrf_$name"])) {
         return false;
     }
-    if ($_SESSION["csrf_$name"] != $_POST["csrf_$name"]) {
-        return false;
-    }
-    return true;
+    return $_SESSION["csrf_$name"] === $_POST["csrf_$name"];
 }
 
 function randomCsrfToken(): string
