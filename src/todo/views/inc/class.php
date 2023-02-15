@@ -3,65 +3,6 @@ $status = $status ?? null;
 $to_do = array();
 $done = array();
 
-if (isset($_POST['action'])) {
-    switch ($_POST['action']) {
-        case 'add':
-            if (isset($_POST['subject_id']) && isset($_POST['duedate']) && isset($_POST['type']) && $_POST['content'] && isset($_POST['link']) && isset($_POST['visibility'])) {
-                if (is_csrf_valid()) {
-                    $q = getDB()->prepare('INSERT INTO todos (class_id, creator_id, is_private, subject_id, type, duedate, content, link) VALUES (:class_id, :creator_id, :is_private, :subject_id, :type, :duedate, :content, :link)');
-                    $r = $q->execute([
-                        ':class_id' => $status['class_id'],
-                        ':creator_id' => $status['id'],
-                        ':is_private' => $_POST['visibility'] === 'private' ? 1 : 0,
-                        ':subject_id' => $_POST['subject_id'],
-                        ':type' => $_POST['type'],
-                        ':duedate' => $_POST['duedate'],
-                        ':content' => $_POST['content'],
-                        ':link' => $_POST['link']
-                    ]);
-                } else {
-                    $errors[] = 'Le formulaire a expiré. Veuillez réessayer.';
-                }
-            }
-            break;
-        case 'delete':
-            if (isset($_POST['id'])) {
-                if (is_csrf_valid('js')) {
-                    $q = getDB()->prepare('DELETE FROM todos WHERE id=:id AND class_id=:class_id');
-                    $r = $q->execute([
-                        ':id' => $_POST['id'],
-                        ':class_id' => $status['class_id']
-                    ]);
-                } else {
-                    $errors[] = 'Le formulaire a expiré. Veuillez réessayer.';
-                }
-            }
-            break;
-        case 'edit':
-            if (is_csrf_valid('js')) {
-
-            } else {
-                $errors[] = 'Le formulaire a expiré. Veuillez réessayer.';
-            }
-            break;
-        case 'make_public':
-            if (isset($_POST['id'])) {
-                if (is_csrf_valid('js')) {
-                    $q = getDB()->prepare('UPDATE todos SET is_private=0 WHERE id=:id AND class_id=:class_id AND creator_id=:creator_id');
-                    $r = $q->execute([
-                        ':id' => $_POST['id'],
-                        ':class_id' => $status['class_id'],
-                        ':creator_id' => $status['id']
-                    ]);
-                } else {
-                    $errors[] = 'Le formulaire a expiré. Veuillez réessayer.';
-                }
-            }
-            break;
-    }
-}
-
-
 $q = getDB()->prepare("SELECT * FROM todos WHERE class_id=:class_id AND duedate >= :min_date AND (creator_id = :creator_id OR is_private = 0) ORDER BY duedate DESC");
 $q->execute([
     'class_id' => $status['class_id'],
@@ -188,7 +129,12 @@ $subjects = $q->fetchAll();
 <div class="subjects-container" data-subjects="<?= htmlspecialchars(json_encode($subjects)) ?>"></div>
 <div class="csrf-container" data-csrf="<?= htmlspecialchars(gen_csrf_key('js')) ?>"></div>
 
-<?php print_errors_html($errors) ?>
+<?php
+if (isset($_SESSION['errors'])) {
+    print_errors_html($_SESSION['errors']);
+    $_SESSION['errors'] = array();
+}
+?>
 
 <h3>À faire :</h3>
 <div class="todo-list">
@@ -199,7 +145,7 @@ $subjects = $q->fetchAll();
 
 <h3>Ajouter :</h3>
 <div class="todo-list">
-    <form class="todo" method="post" action="<?= getRootPath() ?>todo/">
+    <form class="todo" method="post" action="<?= getRootPath() ?>todo/manage">
         <?php set_csrf() ?>
         <input type="hidden" name="action" value="add"/>
         <div class="heading">

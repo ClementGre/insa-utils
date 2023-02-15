@@ -28,7 +28,7 @@ enum SubjectColor: string
     case GRAY = '#808080';
     case LIGHTGRAY = '#D3D3D3';
     case PINK = '#FFC0CB';
-    case PURPLE = '#800080';
+    case PURPLE = '#990d9c';
 
     public static function fromString(string $color): SubjectColor | null
     {
