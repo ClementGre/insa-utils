@@ -25,7 +25,7 @@ if (isset($_POST['name']) && isset($_POST['color']) && isset($_POST['type'])) {
     }
 }
 
-$title = "Matières - " . $status['class_name'];
+$title = "Matières | Todo list de classe";
 ?>
 
 <!DOCTYPE html>
@@ -109,28 +109,21 @@ $title = "Matières - " . $status['class_name'];
                 <input type="submit" value="Ajouter">
             </div>
             <div class="color">
-                <input type="radio" name="color" id="color-red" value="red" style="background-color: red;" required>
-                <input type="radio" name="color" id="color-red" value="orange" style="background-color: orange;"
-                       required>
-                <input type="radio" name="color" id="color-red" value="yellow" style="background-color: yellow;"
-                       required>
-                <input type="radio" name="color" id="color-red" value="green" style="background-color: green" required>
-                <input type="radio" name="color" id="color-red" value="blue" style="background-color: blue" required>
-                <input type="radio" name="color" id="color-red" value="maroon" style="background-color: maroon;"
-                       required>
-                <input type="radio" name="color" id="color-red" value="gray" style="background-color: gray" required>
-                <input type="radio" name="color" id="color-red" value="lightgray" style="background-color: lightgray;"
-                       required>
-                <input type="radio" name="color" id="color-red" value="pink" style="background-color: pink;" required>
-                <input type="radio" name="color" id="color-red" value="purple" style="background-color: purple;"
-                       required>
+                <?php
+                foreach (SubjectColor::cases() as $color) {
+                    ?>
+                    <input type="radio" name="color" value="<?= strtolower($color->name) ?>"
+                           style="background-color: <?= $color->value ?>;" required>
+                    <?php
+                }
+                ?>
             </div>
         </form>
     </section>
 
 </main>
 <footer>
-    <?= getFooter('<a href="' . getRootPath() . 'todo/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
+    <?= getFooter('<a href="' . getRootPath() . 'todo/">Tâches à venir</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
 <script src="<?= getRootPath() ?>todo/js/main.js"></script>

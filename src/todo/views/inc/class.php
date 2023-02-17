@@ -43,7 +43,7 @@ if (isset($_SESSION['errors'])) {
 <h3>À faire :</h3>
 <div class="todo-list">
     <?php
-    if(!print_todos($to_do, $subjects)){
+    if (!print_todos($to_do, $subjects)) {
         ?>
         <p class="no-todo">Aucune tâche pour le moment !</p>
         <?php
@@ -53,54 +53,65 @@ if (isset($_SESSION['errors'])) {
 
 <h3>Ajouter :</h3>
 <div class="todo-list">
-    <form class="todo" method="post" action="<?= getRootPath() ?>todo/manage">
-        <?php set_csrf() ?>
-        <input type="hidden" name="action" value="add"/>
-        <div class="heading">
-            <select id="subject" name="subject_id" required onchange="onSubjectComboChange(event);">
-                <?php
-                foreach ($subjects as $subject) {
-                    ?>
-                    <option value="<?= $subject['id'] ?>" <?= (($_POST['subject_id'] ?? '') === $subject['id']) ? 'selected="selected"' : '' ?>><?= out($subject['name']) ?></option>
+    <?php
+    if (count($subjects) != 0) {
+        ?>
+        <form class="todo" method="post" action="<?= getRootPath() ?>todo/manage">
+            <?php set_csrf() ?>
+            <input type="hidden" name="action" value="add"/>
+            <div class="heading">
+                <select id="subject" name="subject_id" required onchange="onSubjectComboChange(event);">
                     <?php
-                }
-                ?>
-                <option value="manage">Gérer les matières</option>
-            </select>
-            <input type="date" id="duedate" name="duedate"
-                   value="<?= $_POST['duedate'] ?? date_in_a_week() ?>" min="<?= current_date() ?>"
-                   max="<?= year() . '-06-30' ?>" required>
-            <select class="fixed" id="type" name="type" required>
-                <option value="report" <?= ($_POST['type'] ?? '') === 'report' ? 'selected="selected"' : '' ?>>Rendu
-                </option>
-                <option value="practice" <?= (!isset($_POST['type']) || $_POST['type'] === 'practice') ? 'selected="selected"' : '' ?>>
-                    Exercice
-                </option>
-                <option value="reminder" <?= ($_POST['type'] ?? '') === 'reminder' ? 'selected="selected"' : '' ?>>Pense
-                    bête
-                </option>
-            </select>
-        </div>
-        <div class="content">
-            <textarea name="content" rows="4"
-                      placeholder="Titre&#10;Description"><?= out($_POST['content'] ?? '') ?></textarea>
-        </div>
-        <div class="validate">
-            <input type="text" name="link" placeholder="Lien" value="<?= out($_POST['link'] ?? '') ?>">
-            <select class="fixed" name="visibility" required>
-                <option value="public" <?= (!isset($_POST['visibility']) || $_POST['visibility'] === 'public') ? 'selected="selected"' : '' ?>>
-                    Publique
-                </option>
-                <option value="private" <?= (($_POST['visibility'] ?? '') === 'private') ? 'selected="selected"' : '' ?>>
-                    Privé
-                </option>
-            </select>
-            <input class="fixed" type="submit" name="submit" value="Ajouter">
-        </div>
-    </form>
+                    foreach ($subjects as $subject) {
+                        ?>
+                        <option value="<?= $subject['id'] ?>" <?= (($_POST['subject_id'] ?? '') === $subject['id']) ? 'selected="selected"' : '' ?>><?= out($subject['name']) ?></option>
+                        <?php
+                    }
+                    ?>
+                    <option value="manage">Gérer les matières</option>
+                </select>
+                <input type="date" id="duedate" name="duedate"
+                       value="<?= $_POST['duedate'] ?? date_in_a_week() ?>" min="<?= current_date() ?>"
+                       max="<?= year() . '-06-30' ?>" required>
+                <select class="fixed" id="type" name="type" required>
+                    <option value="report" <?= ($_POST['type'] ?? '') === 'report' ? 'selected="selected"' : '' ?>>
+                        Rendu
+                    </option>
+                    <option value="practice" <?= (!isset($_POST['type']) || $_POST['type'] === 'practice') ? 'selected="selected"' : '' ?>>
+                        Exercice
+                    </option>
+                    <option value="reminder" <?= ($_POST['type'] ?? '') === 'reminder' ? 'selected="selected"' : '' ?>>
+                        Pense bête
+                    </option>
+                </select>
+            </div>
+            <div class="content">
+        <textarea name="content" rows="4"
+                  placeholder="Titre&#10;Description"><?= out($_POST['content'] ?? '') ?></textarea>
+            </div>
+            <div class="validate">
+                <input type="text" name="link" placeholder="Lien" value="<?= out($_POST['link'] ?? '') ?>">
+                <select class="fixed" name="visibility" required>
+                    <option value="public" <?= (!isset($_POST['visibility']) || $_POST['visibility'] === 'public') ? 'selected="selected"' : '' ?>>
+                        Publique
+                    </option>
+                    <option value="private" <?= (($_POST['visibility'] ?? '') === 'private') ? 'selected="selected"' : '' ?>>
+                        Privé
+                    </option>
+                </select>
+                <input class="fixed" type="submit" name="submit" value="Ajouter">
+            </div>
+        </form>
+        <?php
+    }else{
+        ?>
+        <p class="no-todo">Pour ajouter une tâche, ajoutez d'abord des matières&#8239;:<br><a href="<?= getRootPath() ?>todo/subjects">Ajouter des matières</a></p>
+        <?php
+    }
+    ?>
 </div>
 <?php
-if (count($done) > 0) {
+if (count($done) != 0) {
     ?>
     <h3>Fait :</h3>
     <div class="todo-list">

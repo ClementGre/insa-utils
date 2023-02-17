@@ -93,7 +93,7 @@ function print_todos(array $todos, $subjects): bool
     $has_printed = false;
     foreach ($todos as $todo) {
         $has_printed = true;
-        $subject_name = '???';
+        $subject_name = 'Matière supprimée';
         $subject_color = 'black';
         foreach ($subjects as $subject) {
             if ($subject['id'] == $todo['subject_id']) {
@@ -116,7 +116,7 @@ function print_todos(array $todos, $subjects): bool
                 </div>
             </div>
             <div class="content">
-                <div class="side">
+                <div class="side <?= empty($todo['description']) ? 'inline' : '' ?>">
                     <a href="<?= out($todo['link']) ?>" target="_blank"
                        class="img-button link <?= $todo['link'] ? '' : 'disabled' ?>">
                         <img alt="Lien associé" src="<?= getRootPath() ?>todo/svg/link.svg"/>

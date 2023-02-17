@@ -10,7 +10,7 @@ if (!$status['is_in_class']) {
     exit;
 }
 
-$title = out($status['class_name']) . " | Toutes les tâches";
+$title = "Toutes les tâches";
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +71,7 @@ $title = out($status['class_name']) . " | Toutes les tâches";
 
 </main>
 <footer>
-    <?= getFooter('<a href="' . getRootPath() . 'todo/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
+    <?= getFooter('<a href="' . getRootPath() . 'todo/">Tâches à venir</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
 <script src="<?= getRootPath() ?>todo/js/main.js"></script>

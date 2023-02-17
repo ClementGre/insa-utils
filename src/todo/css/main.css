@@ -90,13 +90,17 @@ header .dropdown:hover, header .dropdown.showing {
     position: absolute;
     top: 100%;
     right: 0;
-    min-width: 160px;
+    width: 160px;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     z-index: 1;
     height: auto;
     background-color: var(--header-button);
     padding: 5px 0;
     border-radius: 5px;
+}
+
+header .dropdown .dropdown-content {
+    width: max-content;
 }
 
 .dropdown.showing .dropdown-content {
@@ -107,7 +111,7 @@ header .dropdown:hover, header .dropdown.showing {
 .dropdown .dropdown-content a {
     text-decoration: none;
     display: block;
-    padding: 5px;
+    padding: 5px 15px;
 }
 
 .dropdown .dropdown-content a:hover {

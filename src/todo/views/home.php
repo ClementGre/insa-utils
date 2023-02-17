@@ -19,7 +19,7 @@ if ($status['logged_in'] && $status['class_id'] == null) {
     exit;
 }
 
-$title = !$status['is_in_class'] ? "Todo list de classe" : out($status['class_name']) . " | Todo list";
+$title = "Todo list de classe";
 $desc = "Application de cahier de texte collectif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante.";
 ?>
 

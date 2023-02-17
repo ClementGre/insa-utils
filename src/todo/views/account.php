@@ -68,7 +68,7 @@ $title = "Mon compte | Todo list de classe";
     </section>
 </main>
 <footer>
-    <?= getFooter('<a href="' . getRootPath() . 'todo/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
+    <?= getFooter('<a href="' . getRootPath() . 'todo/">Tâches à venir</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
 <script src="<?= getRootPath() ?>todo/js/main.js"></script>
