@@ -21,6 +21,9 @@ div.todo-list > .todo {
     border-radius: 10px;
     margin-bottom: 10px;
 }
+div.todo-list > .todo.private {
+    border: 2px dashed orange;
+}
 
 div.todo-list > .todo.hidden {
     display: none;
@@ -90,7 +93,21 @@ div.todo-list div.subject p {
 
 /* STATUS */
 div.todo-list div.status p {
+    display: flex;
+    gap: 5px;
+    align-items: center;
     margin-left: auto;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+}
+
+div.todo-list div.status p:hover {
+    box-shadow: 0 0 5px 0 #8d99ae;
+}
+
+div.todo-list div.status p img {
+    height: 16px;
+    filter: invert(100%) sepia(12%) saturate(455%) hue-rotate(80deg) brightness(102%) contrast(91%);
 }
 
 div.todo-list div.status.todo p {
@@ -104,15 +121,32 @@ div.todo-list div.status.in-progress p {
 }
 
 div.todo-list div.status.done p {
-    background-color: #3cb733;
+    background-color: #008001;
     margin-left: auto;
 }
+
 div.todo-list div.status.report p {
     border-bottom: 3px solid var(--insa-color);
     padding-bottom: 2px;
 }
+
 div.todo-list div.status.reminder p {
     background-color: var(--insa-color);
+    box-shadow: none;
+    cursor: default;
+}
+
+div.todo-list div.status p.loading {
+    opacity: .5;
+    box-shadow: none;
+    color: transparent;
+    text-shadow: 0 0 2px rgba(237, 242, 244, 0.5);
+    cursor: default;
+}
+
+div.todo-list div.status p.loading img {
+    color: transparent;
+    filter: blur(2px) invert(100%) sepia(12%) saturate(455%) hue-rotate(80deg) brightness(102%) contrast(91%);
 }
 
 /* DESCRIPTION */
@@ -206,12 +240,14 @@ div.delete-todo form p {
     line-height: 30px;
     padding-bottom: 5px;
 }
+
 div.delete-todo form div {
     width: 100%;
     display: flex;
     gap: 15px;
     justify-content: center;
 }
+
 div.delete-todo form div input {
     flex-grow: 0;
     max-width: 150px;

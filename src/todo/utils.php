@@ -57,6 +57,22 @@ function print_errors_html($errors)
         <?php
     }
 }
+function print_infos_html($infos)
+{
+    if (count($infos) > 0) {
+        ?>
+        <div class="infos-container">
+            <div class="infos">
+                <?php
+                foreach ($infos as $error) {
+                    echo '<p>' . $error . '</p>';
+                }
+                ?>
+            </div>
+        </div>
+        <?php
+    }
+}
 
 function set_cookie($name, $value): void
 {

@@ -59,7 +59,7 @@ function print_todo(array $todos, $subjects): void
             }
         }
         ?>
-        <div class="todo" data-todo-id="<?= $todo['id'] ?>">
+        <div class="todo <?= $todo['is_private'] === 1 ? 'private' : '' ?>" data-todo-id="<?= $todo['id'] ?>">
             <div class="heading">
                 <div class="subject">
                     <p style="background-color: <?= $subject_color ?>;"><?= out($subject_name) ?></p>
@@ -68,7 +68,7 @@ function print_todo(array $todos, $subjects): void
                     <p><?= duedate_to_str($todo['duedate']) ?></p>
                 </div>
                 <div class="status <?= $todo['status']->toCSSClass() ?> <?= $todo['type'] ?>">
-                    <p><?= $todo['type'] == 'reminder' ? 'Pense bête' : $todo['status']->value ?></p>
+                    <p data-todo-id="<?= $todo['id'] ?>"><?= $todo['type'] == 'reminder' ? 'Pense bête' : ($todo['status']->value . '<img src="' . getRootPath() . 'todo/svg/pointer.svg"/>') ?></p>
                 </div>
             </div>
             <div class="content">
@@ -93,7 +93,7 @@ function print_todo(array $todos, $subjects): void
                                 <?php
                                 if (isset($todo['last_editor'])) {
                                     ?>
-                                    <br><p>Modifié en dernier par <?= $todo['last_editor'] ?></p>
+                                    <p>Modifié en dernier par <?= $todo['last_editor'] ?></p>
                                     <?php
                                 }
                             }
@@ -128,6 +128,7 @@ $subjects = $q->fetchAll();
 <div class="root-path-container" data-root-path="<?= htmlspecialchars(getRootPath()) ?>"></div>
 <div class="subjects-container" data-subjects="<?= htmlspecialchars(json_encode($subjects)) ?>"></div>
 <div class="csrf-container" data-csrf="<?= htmlspecialchars(gen_csrf_key('js')) ?>"></div>
+<div class="user-id-container" data-user-id="<?= htmlspecialchars($status['id']) ?>"></div>
 
 <?php
 if (isset($_SESSION['errors'])) {

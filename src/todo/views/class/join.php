@@ -42,12 +42,12 @@ $title = "Rejoindre une classe | Todo list de classe";
 <?php include __DIR__ . '/../inc/header.php' ?>
 <main class="">
     <section class="b-darken">
-        <h3>Rejoindre la classe <?= $class_name ?></h3>
+        <h3>Rejoindre la classe <?= out($class_name) ?></h3>
 
-        <p>Vous êtes déjà dans une classe.<br>Êtes-vous sûr de vouloir la quitter pour rejoindre <?= $class_name ?></p>
+        <p>Vous êtes déjà dans une classe.<br>Êtes-vous sûr de vouloir la quitter pour rejoindre <?= out($class_name) ?></p>
         <form action="" method="post">
             <?php set_csrf() ?>
-            <input type="submit" value="Rejoindre <?= $class_name ?>">
+            <input type="submit" value="Rejoindre <?= out($class_name) ?>">
         </form>
 
     </section>

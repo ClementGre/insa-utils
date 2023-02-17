@@ -36,6 +36,49 @@ document.querySelectorAll('.make-public-todo').forEach((a) => {
     });
 });
 
+document.querySelectorAll('.todo .heading .status').forEach((div) => {
+    const p = div.firstElementChild;
+    p.addEventListener('click', (e) => {
+        if (p.classList.contains('loading') || div.classList.contains('reminder')) {
+            return;
+        }
+        e.preventDefault();
+        const todoId = p.dataset.todoId;
+        p.classList.add('loading');
+
+        let status = 'done';
+        div.classList.forEach((className) => {
+            if (className === 'todo' || className === 'in-progress' || className === 'done') {
+                status = className;
+            }
+        });
+        let newStatus = status === 'todo' ? 'in-progress' : (status === 'in-progress' ? 'done' : 'todo');
+        let newText = newStatus === 'todo' ? 'À faire' : (newStatus === 'in-progress' ? 'En cours' : 'Fait');
+
+        fetch(getRootPath() + 'todo/statusapi', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"todo_id": todoId, 'user_id': getUserId(), "csrf_js": getCsrfToken()})
+        })
+            .then(response => {
+                p.classList.remove('loading');
+                div.classList.remove(status);
+                div.classList.add(newStatus);
+                p.firstChild.textContent = newText;
+                return response.json()
+            })
+            .catch(error => {
+                p.classList.remove('loading');
+            })
+            .then(response => {
+                //console.log(JSON.stringify(response))
+            })
+    });
+});
+
 function closeDeletingTodos() {
     deletingTodos.forEach((deletingTodo) => {
         deletingTodo.todo.classList.remove('hidden');
@@ -43,6 +86,7 @@ function closeDeletingTodos() {
     });
     deletingTodos = [];
 }
+
 function closeEditingTodos() {
     editingTodos.forEach((editingTodos) => {
         editingTodos.todo.classList.remove('hidden');
@@ -64,6 +108,7 @@ function openDeletingTodo(todoId, todo) {
         closeDeletingTodos();
     });
 }
+
 function openEditingTodo(todoId, todo, target) {
     todo.classList.add('hidden');
     let form = getTodoEditForm(todoId, target.dataset.subjectId, target.dataset.duedate, target.dataset.type, target.dataset.content, target.dataset.link);
@@ -104,8 +149,8 @@ function getTodoEditForm(todoId, subject_id, duedate, type, content, link) {
             <div class="heading">
                 <select id="subject" name="subject_id" required>
                     ${getSubjects().map((s) => {
-                        return `<option value="${s.id}" ${subject_id == s.id ? 'selected="selected"' : ''}>${out(s.name)}</option>`;
-                    }).join('')}
+        return `<option value="${s.id}" ${subject_id == s.id ? 'selected="selected"' : ''}>${out(s.name)}</option>`;
+    }).join('')}
                 </select>
                 <input type="date" id="duedate" name="duedate"
                        value="${duedate}" min="${dateToString()}" max="${lastPossibleDateString()}" required>
@@ -127,6 +172,7 @@ function getTodoEditForm(todoId, subject_id, duedate, type, content, link) {
         `;
     return createElementFromHTML($html);
 }
+
 function redirectWithPost(url, data) {
     const $form = document.createElement('form');
     $form.method = 'post';
@@ -150,6 +196,7 @@ function redirectWithPost(url, data) {
     document.body.appendChild($form);
     $form.submit();
 }
+
 function createElementFromHTML(htmlString) {
     const div = document.createElement('div');
     div.innerHTML = htmlString.trim();
@@ -159,22 +206,30 @@ function createElementFromHTML(htmlString) {
 function getRootPath() {
     return document.querySelector('div.root-path-container').dataset.rootPath;
 }
+
 function getSubjects() {
     return JSON.parse(document.querySelector('div.subjects-container').dataset.subjects);
 }
+
 function getCsrfToken() {
     return document.querySelector('div.csrf-container').dataset.csrf;
+}
+
+function getUserId() {
+    return document.querySelector('div.user-id-container').dataset.userId;
 }
 
 function dateToString() {
     const date = new Date();
     return formatDate(date);
 }
+
 function lastPossibleDateString() {
     const yyyy = new Date().getFullYear();
     return yyyy + '-06-30'
 }
-function formatDate(date){
+
+function formatDate(date) {
     let dd = date.getDate();
     let mm = date.getMonth() + 1;
     const yyyy = date.getFullYear();
@@ -186,6 +241,7 @@ function formatDate(date){
     }
     return yyyy + '-' + mm + '-' + dd
 }
+
 function out(text) {
     const map = {
         '&': '&amp;',
@@ -195,10 +251,13 @@ function out(text) {
         "'": '&#039;'
     };
 
-    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    return text.replace(/[&<>"']/g, function (m) {
+        return map[m];
+    });
 }
-function onSubjectComboChange(e){
-    if(e.target.value === 'manage'){
+
+function onSubjectComboChange(e) {
+    if (e.target.value === 'manage') {
         window.location = getRootPath() + 'todo/subjects'
         e.target.value = null;
     }

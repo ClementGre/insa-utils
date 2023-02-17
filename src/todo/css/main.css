@@ -16,13 +16,11 @@ input[type="text"] {
 form {
     padding: 5px 0;
 }
-div.error-container{
+div.error-container, div.infos-container{
     width: 100%;
     padding: 5px;
 }
-div.errors {
-    background-color: var(--light-red);
-    border: 3px solid var(--header-button-hover);
+div.errors, div.infos {
     border-radius: 7px;
     color: #EDF2F4;
     font-size: 15px;
@@ -30,7 +28,15 @@ div.errors {
     padding: 5px;
     margin: 5px;
 }
-div.errors p {
+div.errors {
+    background-color: var(--light-red);
+    border: 3px solid var(--header-button-hover);
+}
+div.infos {
+    background-color: #1bab14;
+    border: 3px solid #237f0a;
+}
+div.errors p, div.infos p {
     color: #EDF2F4;
     font-size: 15px;
     line-height: 120%;

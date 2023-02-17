@@ -6,15 +6,27 @@ if (!$status['logged_in']) {
     exit;
 }
 
+$id = $status['id'];
+$infos = array();
+$errors = array();
+
 if(is_csrf_valid('disconnect')){
     remove_cookie('id');
     remove_cookie('auth_token');
     header('Location: ' . getRootPath() . 'todo/');
     exit;
 }
-
-$id = $status['id'];
-$errors = array();
+if(is_csrf_valid('disconnect_all')){
+    // regen token
+    $auth_token = randomToken(64);
+    $q = getDB()->prepare("UPDATE users SET auth_token=:auth_token WHERE id=:id");
+    $q->execute([
+       'auth_token' => $auth_token,
+       'id' => $status['id']
+    ]);
+    set_cookie('auth_token', $auth_token);
+    $infos[] = "Vous avez été déconecté de tous vos autres appareils";
+}
 
 $title = "Mon compte | Todo list de classe";
 ?>
@@ -27,6 +39,9 @@ $title = "Mon compte | Todo list de classe";
 <body>
 <?php include __DIR__ . '/inc/header.php' ?>
 <main class="">
+
+    <?php print_infos_html($infos); ?>
+
     <section class="b-darken">
         <h3>Se déconnecter</h3>
 
@@ -36,7 +51,7 @@ $title = "Mon compte | Todo list de classe";
         </form>
         <form action="" method="post">
             <?php set_csrf('disconnect_all') ?>
-            <input type="submit" value="Se déconnecter de tous les appareils">
+            <input type="submit" value="Se déconnecter de tous les autres appareils">
         </form>
     </section>
     <section class="b-darken">

@@ -15,6 +15,7 @@ date_default_timezone_set("Europe/Paris");
 
 any(getRootPath() . 'todo', 'views/home.php');
 any(getRootPath() . 'todo/manage', 'views/class/manage.php');
+any(getRootPath() . 'todo/statusapi', 'views/class/statusapi.php');
 any(getRootPath() . 'todo/classes', 'views/classes.php');
 any(getRootPath() . 'todo/auth', 'views/auth.php');
 any(getRootPath() . 'todo/account', 'views/account.php');
