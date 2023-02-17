@@ -53,7 +53,7 @@ $title = "Liste des classes | Todo list de classe";
         $classes = getDB()->query('SELECT * FROM classes');
 
         foreach ($classes as $class) {
-            echo '<a href="' . getRootPath() . 'todo/class/' . $class['id']. '/join">' . $class['name'] . '</a>&nbsp;&nbsp;';
+            echo '<a href="' . getRootPath() . 'todo/class/' . $class['id']. '/join">' . out($class['name']) . '</a>&nbsp;&nbsp;';
         }
         ?>
 

@@ -19,7 +19,7 @@ if ($status['logged_in'] && $status['class_id'] == null) {
     exit;
 }
 
-$title = !$status['is_in_class'] ? "Todo list de classe" : $status['class_name'] . " | Todo list";
+$title = !$status['is_in_class'] ? "Todo list de classe" : out($status['class_name']) . " | Todo list";
 $desc = "Application de cahier de texte collectif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante.";
 ?>
 
@@ -42,7 +42,7 @@ $desc = "Application de cahier de texte collectif pour ta classe. Crée une nouv
         ?>
         <section class="b-darken">
             <p>
-                Vous avez demandé à rejoindre la classe <?= $status['class_name'] ?>.<br>
+                Vous avez demandé à rejoindre la classe <?= out($status['class_name']) ?>.<br>
                 Veuillez attendre qu'un membre de la classe vous accepte.
             </p>
         </section>
@@ -66,7 +66,7 @@ $desc = "Application de cahier de texte collectif pour ta classe. Crée une nouv
                 <?php
                 $classes = getDB()->query('SELECT name FROM classes');
                 foreach ($classes as $class) {
-                    echo '<span>' . $class['name'] . '</span>&nbsp;';
+                    echo '<span>' . out($class['name']) . '</span>&nbsp;';
                 }
                 ?>
             </p>

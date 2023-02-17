@@ -108,3 +108,11 @@ function create_subject(mixed $name, mixed $color, mixed $type, $class_id): arra
     }
     return array();
 }
+
+function get_class_subjects($class_id){
+    $q = getDB()->prepare("SELECT * FROM subjects WHERE class_id = :class_id ORDER BY type, name");
+    $q->execute([
+        'class_id' => $class_id
+    ]);
+    return $q->fetchAll();
+}
