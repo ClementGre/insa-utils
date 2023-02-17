@@ -107,6 +107,10 @@ function set_csrf($name = 'default'): void
 {
     echo '<input type="hidden" name="csrf_' . $name . '" value="' . gen_csrf_key($name) . '">';
 }
+function set_csrf_without_regen($name = 'default'): void
+{
+    echo '<input type="hidden" name="csrf_' . $name . '" value="' . $_SESSION["csrf_$name"] . '">';
+}
 
 function is_csrf_valid($name = 'default'): bool
 {

@@ -33,7 +33,7 @@ $desc = "Application de cahier de texte collectif pour ta classe. Crée une nouv
 </head>
 <body>
 <?php include __DIR__ . '/inc/header.php' ?>
-<main class="">
+<main>
 
     <?php
     if ($status['is_in_class']) {

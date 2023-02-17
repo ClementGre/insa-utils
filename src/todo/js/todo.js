@@ -65,16 +65,17 @@ document.querySelectorAll('.todo .heading .status').forEach((div) => {
         })
             .then(response => {
                 p.classList.remove('loading');
-                div.classList.remove(status);
-                div.classList.add(newStatus);
-                p.firstChild.textContent = newText;
                 return response.json()
             })
             .catch(error => {
                 p.classList.remove('loading');
             })
-            .then(response => {
-                //console.log(JSON.stringify(response))
+            .then(res => {
+                if(res['status'] === 'done'){
+                    div.classList.remove(status);
+                    div.classList.add(newStatus);
+                    p.firstChild.textContent = newText;
+                }
             })
     });
 });

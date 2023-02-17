@@ -1,0 +1,46 @@
+main h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 10px;
+    color: var(--dark-blue);
+}
+
+section.b-darken {
+    margin-bottom: 15px;
+}
+
+.user {
+    background-color: var(--light-gray);
+    width: 100%;
+    padding: 5px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user .buttons{
+    display: flex;
+    gap: 5px;
+}
+.user .user-name{
+    margin: 0 10px;
+    vertical-align: middle;
+}
+
+div.user{
+    padding: 10px 0;
+}
+
+button{
+    height: 31px;
+    padding: 4px;
+    background-color: white;
+    border: 2px solid #2B2D42;
+    border-radius: 5px;
+    cursor: pointer;
+    word-wrap: normal;
+    margin: 0;
+}

@@ -1,10 +1,13 @@
 <?php
 
+header("HTTP/1.1 303 See Other");
+
 $status = get_user_status();
 $_SESSION['errors'] = array();
+$_SESSION['infos'] = array();
 
-if ($status['logged_in'] && $status['class_id'] == null) {
-    header('Location: ' . getRootPath() . 'todo/classes');
+if (!$status['is_in_class']) {
+    header('Location: ' . getRootPath() . 'todo/');
     exit;
 }
 
@@ -63,9 +66,36 @@ if (isset($_POST['action'])) {
                 }
             }
             break;
+        case 'accept_user':
+            if (isset($_POST['id'])) {
+                if (is_csrf_valid()) {
+                    $q = getDB()->prepare('UPDATE users SET class_id=requested_class_id, requested_class_id=NULL WHERE id=:id');
+                    $r = $q->execute([
+                        ':id' => $_POST['id']
+                    ]);
+                    $_SESSION['infos'][] = 'La demande a bien été acceptée.';
+                } else {
+                    $_SESSION['errors'][] = 'Le formulaire a expiré. Veuillez réessayer.';
+                }
+                header('Location: ' . getRootPath() . 'todo/requests');
+                exit();
+            }
+            break;
+        case 'reject_user':
+            if (isset($_POST['id'])) {
+                if (is_csrf_valid()) {
+                    $q = getDB()->prepare('UPDATE users SET requested_class_id=NULL WHERE id=:id');
+                    $r = $q->execute([
+                        ':id' => $_POST['id']
+                    ]);
+                    $_SESSION['infos'][] = 'La demande a bien été rejetée.';
+                } else {
+                    $_SESSION['errors'][] = 'Le formulaire a expiré. Veuillez réessayer.';
+                }
+                header('Location: ' . getRootPath() . 'todo/requests');
+                exit();
+            }
+            break;
     }
 }
-
-
-header("HTTP/1.1 303 See Other");
 header('Location: ' . getRootPath() . 'todo/');

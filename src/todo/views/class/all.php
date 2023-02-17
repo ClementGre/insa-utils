@@ -1,12 +1,8 @@
 <?php
 $status = get_user_status();
 
-if (!$status['logged_in']) {
+if (!$status['logged_in'] || !$status['is_in_class']) {
     header('Location: ' . getRootPath() . 'todo/');
-    exit;
-}
-if (!$status['is_in_class']) {
-    header('Location: ' . getRootPath() . 'todo/classes');
     exit;
 }
 

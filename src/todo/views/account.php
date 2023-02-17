@@ -38,7 +38,7 @@ $title = "Mon compte | Todo list de classe";
 </head>
 <body>
 <?php include __DIR__ . '/inc/header.php' ?>
-<main class="">
+<main>
 
     <?php print_infos_html($infos); ?>
 
