@@ -21,6 +21,15 @@ div.todo-list > .todo {
     border-radius: 10px;
     margin-bottom: 10px;
 }
+div.todo-list > p.no-todo {
+    background-color: var(--light-gray);
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 17px;
+}
+
 div.todo-list > .todo.private {
     border: 2px dashed orange;
 }

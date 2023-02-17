@@ -3,10 +3,10 @@ $status = $status ?? null;
 $to_do = array();
 $done = array();
 
-$q = getDB()->prepare("SELECT * FROM todos WHERE class_id=:class_id AND duedate >= :min_date AND (creator_id = :creator_id OR is_private = 0) ORDER BY duedate DESC");
+$q = getDB()->prepare("SELECT * FROM todos WHERE class_id=:class_id AND duedate >= :min_date AND (creator_id = :creator_id OR is_private = 0) ORDER BY duedate");
 $q->execute([
     'class_id' => $status['class_id'],
-    'min_date' => date('Y-m-d H:i:s', time() - 60 * 60 * 24 * 30), // 30 days ago
+    'min_date' => date('Y-m-d', time()), // 30 days ago
     'creator_id' => $status['id']
 ]);
 
@@ -46,9 +46,54 @@ while ($todo = $q->fetch()) {
         $to_do[] = $todo;
     }
 }
-function print_todo(array $todos, $subjects): void
+
+function sort_todos($a, $b): int
 {
+    if ($a['duedate'] === $b['duedate']) {
+        /* order :
+         * - status: todo
+         *   - type: report
+         *   - type: practice
+         * - status: in_progress
+         *   - type: report
+         *   - type: practice
+         * - type: reminder
+         */
+
+        if ($a['type'] === 'reminder') {
+            return 1;
+        }
+        if ($b['type'] === 'reminder') {
+            return -1;
+        }
+
+        if ($a['status'] === $b['status']) {
+            if ($a['type'] === $b['type']) {
+                return 0;
+            }
+            // type either report or practice
+            if ($a['type'] === 'report') {
+                return -1;
+            }
+            return 1;
+        }
+        // status either todo or in_progress
+        if ($a['status'] === TodoStatus::TODO) {
+            return 1;
+        }
+        return -1;
+
+    }
+    return ($a['duedate'] < $b['duedate']) ? -1 : 1;
+}
+
+uasort($to_do, 'sort_todos');
+
+function print_todos(array $todos, $subjects): bool
+{
+    $has_printed = false;
     foreach ($todos as $todo) {
+        $has_printed = true;
         $subject_name = '???';
         $subject_color = 'black';
         foreach ($subjects as $subject) {
@@ -114,6 +159,7 @@ function print_todo(array $todos, $subjects): void
         </div>
         <?php
     }
+    return $has_printed;
 }
 
 require_once __DIR__ . '/../../php/subjects.php';
@@ -140,7 +186,11 @@ if (isset($_SESSION['errors'])) {
 <h3>À faire :</h3>
 <div class="todo-list">
     <?php
-    print_todo($to_do, $subjects);
+    if(!print_todos($to_do, $subjects)){
+        ?>
+        <p class="no-todo">Aucune tâche pour le moment !</p>
+        <?php
+    }
     ?>
 </div>
 
@@ -192,9 +242,15 @@ if (isset($_SESSION['errors'])) {
         </div>
     </form>
 </div>
-<h3>Fait :</h3>
-<div class="todo-list">
-    <?php
-    print_todo($done, $subjects);
+<?php
+if (count($done) > 0) {
     ?>
-</div>
+    <h3>Fait :</h3>
+    <div class="todo-list">
+        <?php
+        print_todos($done, $subjects);
+        ?>
+    </div>
+    <?php
+}
+?>
