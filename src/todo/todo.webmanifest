@@ -1,0 +1,27 @@
+{
+  "name": "Todo List de classe",
+  "short_name": "Todo",
+  "description": "Application de cahier de texte collectif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante.",
+  "icons": [
+    {
+      "src": "icons.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "icons/icon-256.png",
+      "sizes": "256x256",
+      "type": "image/jpeg"
+    },
+     {
+       "src": "icons/icon-64.png",
+       "sizes": "64x64",
+       "type": "image/jpeg"
+     }
+  ],
+  "orientation": "portrait",
+  "start_url": "/todo",
+  "display": "standalone",
+  "theme_color": "#CD0E14",
+  "background_color": "#CD0E14"
+}

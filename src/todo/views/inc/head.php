@@ -11,6 +11,8 @@ require_once __DIR__.'/../../../template/matomo.php';
 <meta name="description" content="<?= $desc ?? '' ?>"/>
 <meta name="keywords" content="<?= $keywords ?? '' ?>"/>
 
+<link rel="manifest" href="<?= getRootPath() ?>todo/todo.webmanifest">
+
 <link href="<?= getRootPath() ?>common.css" rel="stylesheet"/>
 <link href="<?= getRootPath() ?>todo/css/main.css" rel="stylesheet"/>
 
