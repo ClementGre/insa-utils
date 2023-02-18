@@ -64,7 +64,7 @@ function dress_todo(&$todo, $user_id){
         'user_id' => $user_id
     ]);
 
-    $split = preg_split("/\r\n|\n|\r/", $todo['content']);
+    $split = preg_split("/\r\n|\n|\r/", out($todo['content']));
     $todo['title'] = $split[0];
     $todo['description'] = implode('<br>', array_slice($split, 1));
 
@@ -151,8 +151,8 @@ function print_todos(array $todos, $subjects): bool
                     </div>
                 </div>
                 <div class="description">
-                    <p class="first-line"><?= out($todo['title']) ?></p>
-                    <p><?= out($todo['description']) ?></p>
+                    <p class="first-line"><?= $todo['title'] ?></p>
+                    <p><?= $todo['description'] ?></p>
                 </div>
             </div>
         </div>
