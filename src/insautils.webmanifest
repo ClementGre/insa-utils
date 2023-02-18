@@ -1,13 +1,8 @@
 {
-  "name": "Todo List de classe",
-  "short_name": "Todo",
-  "description": "Application de cahier de texte collectif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante.",
+  "name": "Utilitaires INSA",
+  "short_name": "INSA Utils",
+  "description": "LE site permettant de te faciliter la vie à l'INSA, via divers services utiles.",
   "icons": [
-    {
-      "src": "icons/icon-32.png",
-      "sizes": "32x32",
-      "type": "image/png"
-    },
     {
       "src": "icons/icon-64.png",
       "sizes": "64x64",
@@ -30,7 +25,7 @@
     }
   ],
   "orientation": "portrait",
-  "start_url": "/todo",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#CD0E14",
   "background_color": "#CD0E14"

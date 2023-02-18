@@ -10,7 +10,11 @@ $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
 
 <!DOCTYPE html>
 <html lang="fr">
-<head><?= getHead($title, $desc, $keywords, true) ?></head>
+<head>
+    <?= getHead($title, $desc, $keywords) ?>
+    <link rel="icon" href="<?= getRootPath() ?>rest/icons/icon-128.png" type="image/png">
+    <link rel="manifest" href="<?= getRootPath() ?>rest/rest.webmanifest">
+</head>
 <body>
 <?= getHeader($title) ?>
 <main class="">

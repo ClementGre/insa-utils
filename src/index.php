@@ -10,7 +10,11 @@ $desc = "LE site permettant de te faciliter la vie à l'INSA, via divers service
 
 <!DOCTYPE html>
 <html lang="fr">
-<head><?= getHead($title, $desc) ?></head>
+<head>
+    <?= getHead($title, $desc) ?>
+    <link rel="icon" href="<?= getRootPath() ?>icons/icon-128.png" type="image/png">
+    <link rel="manifest" href="<?= getRootPath() ?>insautils.webmanifest">
+</head>
 <body>
 <?= getSimpleHeader($title) ?>
 <main>
@@ -45,7 +49,7 @@ $desc = "LE site permettant de te faciliter la vie à l'INSA, via divers service
         foreach (scandir('./') as $dir) {
             $url = $dir;
 
-            if (in_array($url, $urls) || substr($dir, 0, 1) == '.' || endsWith($dir, '.php') || endsWith($dir, '.ini') || endsWith($dir, '.css') || endsWith($dir, '.html')) continue;
+            if (in_array($url, $urls) || substr($dir, 0, 1) == '.' || endsWith($dir, '.php') || endsWith($dir, '.webmanifest') || endsWith($dir, '.ini') || endsWith($dir, '.css') || endsWith($dir, '.html')) continue;
 
             echo '
             <section>
