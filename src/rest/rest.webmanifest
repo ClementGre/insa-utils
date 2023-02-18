@@ -1,18 +1,8 @@
 {
-  "name": "Todo List de classe",
-  "short_name": "Todo",
-  "description": "Application de cahier de texte collectif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante.",
+  "name": "Calculateur de points Restaurants INSA",
+  "short_name": "RestINSA",
+  "description": "Déterminer si tu auras assez de solde pour finir le mois n'a jamais été aussi simple. Optimise au maximum ton solde RI grâce à ce calculateur hors norme.",
   "icons": [
-    {
-      "src": "icons/icon-32.png",
-      "sizes": "32x32",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-64.png",
-      "sizes": "64x64",
-      "type": "image/png"
-    },
     {
       "src": "icons/icon-128.png",
       "sizes": "128x128",
@@ -30,7 +20,7 @@
     },
   ],
   "orientation": "portrait",
-  "start_url": "/todo",
+  "start_url": "/rest",
   "display": "standalone",
   "theme_color": "#CD0E14",
   "background_color": "#CD0E14"

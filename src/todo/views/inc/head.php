@@ -7,7 +7,7 @@ require_once __DIR__.'/../../../template/matomo.php';
 
 <title><?= $title ?? '' ?></title>
 
-<link rel="icon" href="<?= getRootPath() ?>todo/icons/icon.jpg" type="image/png">
+<link rel="icon" href="<?= getRootPath() ?>todo/icons/icon-256.jpg" type="image/png">
 <meta name="description" content="<?= $desc ?? '' ?>"/>
 <meta name="keywords" content="<?= $keywords ?? '' ?>"/>
 
