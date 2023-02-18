@@ -21,6 +21,7 @@ div.todo-list > .todo {
     border-radius: 10px;
     margin-bottom: 10px;
 }
+
 div.todo-list > p.no-todo {
     background-color: var(--light-gray);
     width: 100%;
@@ -165,6 +166,7 @@ div.todo-list div.content > div.side {
     flex-direction: column;
     gap: 5px;
 }
+
 div.todo-list div.content > div.side.inline {
     flex-direction: row-reverse;
 }
@@ -263,4 +265,41 @@ div.delete-todo form div {
 div.delete-todo form div input {
     flex-grow: 0;
     max-width: 150px;
+}
+
+/* FAST LINKS */
+
+div.fast-links {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+div.fast-links .fast-link {
+    flex: 1 1 0;
+    background-color: var(--light-gray);
+    border-radius: 5px;
+    padding: 5px;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    border: 2px solid var(--dark-blue);
+    font-size: 13px;
+    color: var(--dark-blue);
+    display: flex;
+    align-items: center;
+}
+
+div.fast-links .fast-link.requests{
+    flex: 1 1 20%;
+}
+
+div.fast-links .fast-link:hover {
+    background-color: var(--light-gray-hover);
+}
+
+div.fast-links .fast-link p {
+    margin: auto;
 }
