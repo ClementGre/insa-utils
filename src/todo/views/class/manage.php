@@ -47,7 +47,19 @@ if (isset($_POST['action'])) {
             break;
         case 'edit':
             if (is_csrf_valid('js')) {
-
+                if (isset($_POST['id']) && isset($_POST['subject_id']) && isset($_POST['duedate']) && isset($_POST['type']) && $_POST['content'] && isset($_POST['link'])) {
+                    $q = getDB()->prepare('UPDATE todos SET subject_id=:subject_id, type=:type, duedate=:duedate, content=:content, link=:link, last_editor_id=:user_id WHERE id=:id AND class_id=:class_id');
+                    $r = $q->execute([
+                        ':id' => $_POST['id'],
+                        ':class_id' => $status['class_id'],
+                        ':subject_id' => $_POST['subject_id'],
+                        ':type' => $_POST['type'],
+                        ':duedate' => $_POST['duedate'],
+                        ':content' => $_POST['content'],
+                        ':link' => $_POST['link'],
+                        ':user_id' => $status['id']
+                    ]);
+                }
             } else {
                 $_SESSION['errors'][] = 'Le formulaire a expiré. Veuillez réessayer.';
             }

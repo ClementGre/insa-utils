@@ -36,13 +36,14 @@ enum TodoStatus: string
 
     public static function fromName($name): TodoStatus
     {
-        if(!$name) return TodoStatus::TODO;
+        if (!$name) return TodoStatus::TODO;
         return match (strtolower($name)) {
             "in_progress" => TodoStatus::IN_PROGRESS,
             "done" => TodoStatus::DONE,
             default => TodoStatus::TODO,
         };
     }
+
     public function toCSSClass(): string
     {
         return match ($this) {
@@ -54,46 +55,56 @@ enum TodoStatus: string
 }
 
 
-
-function duedate_to_str($duedate): string{
+function duedate_to_str($duedate): string
+{
     $current_date = DateTime::createFromFormat('Y-m-d', (new DateTime())->format('Y-m-d'));
     $duedate = DateTime::createFromFormat('Y-m-d', $duedate);
 
+    if ($duedate >= $current_date) {
+        $dist = get_day_distance($duedate, $current_date);
 
-    $dist = get_day_distance($duedate, $current_date);
+        if ($dist == 0) return "Aujourd'hui";
 
-    if($dist == 0) return "Aujourd'hui";
+        if ($dist == 1) {
+            return "Demain (" . format_date('EEEE', $duedate) . ')';
+        }
+        if ($dist == 2) {
+            return "Après demain (" . format_date('EEEE', $duedate) . ')';
+        }
 
-    if($dist == 1){
-        return "Demain (" . format_date('EEEE', $duedate) . ')';
+        return format_date('EEEE d', $duedate) . " ($dist&nbsp;J)";
+    } else {
+        return format_date('EEEE d MMM', $duedate);
     }
-    if($dist == 2){
-        return "Après demain (" . format_date('EEEE', $duedate) . ')';
-    }
 
-    return format_date('EEEE d', $duedate) . " ($dist&nbsp;J)";
 }
-function format_date($format, $date): string{
+
+function format_date($format, $date): string
+{
     $fmt = new IntlDateFormatter('fr_FR');
     $fmt->setTimeZone(new DateTimeZone('Europe/Paris'));
     $fmt->setPattern($format);
     return ucfirst($fmt->format($date));
 }
+
 function get_day_distance($date1, $date2): int
 {
     $diff = $date1->diff($date2);
     return $diff->days;
 }
+
 function current_date(): string
 {
     return (new DateTime())->format('Y-m-d');
 }
+
 function date_in_a_week(): string
 {
     $date = new DateTime();
     $date->add(new DateInterval('P7D'));
     return $date->format('Y-m-d');
 }
+
 function year(): string
 {
     return (new DateTime())->format('Y');

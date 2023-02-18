@@ -143,15 +143,22 @@ function getTodoDeletionConfirmation(todoId) {
 }
 
 function getTodoEditForm(todoId, subject_id, duedate, type, content, link) {
+
+    if (getSubjects().length === 0) {
+        return createElementFromHTML('<p class="no-todo">Pour ajouter une tâche, ajoutez d\'abord des matières&#8239;:<br><a href="' + getRootPath() + 'todo/subjects">Ajouter des matières</a></p>');
+    }
+
     const $html = `
         <form class="todo edit-todo" method="post" action="${getRootPath()}todo/manage" data-edit-todo-id="${todoId}">
             <input type="hidden" name="action" value="edit"/>
+            <input type="hidden" name="id" value="${todoId}"/>
             <input type="hidden" name="csrf_js" value="${out(getCsrfToken())}">
             <div class="heading">
-                <select id="subject" name="subject_id" required>
+                <select id="subject" name="subject_id" required onChange="onSubjectComboChange(event);">
                     ${getSubjects().map((s) => {
-        return `<option value="${s.id}" ${subject_id == s.id ? 'selected="selected"' : ''}>${out(s.name)}</option>`;
-    }).join('')}
+                return `<option value="${s.id}" ${subject_id == s.id ? 'selected="selected"' : ''}>${out(s.name)}</option>`;
+            }).join('')}
+                    <option value="manage">Gérer les matières</option>
                 </select>
                 <input type="date" id="duedate" name="duedate"
                        value="${duedate}" min="${dateToString()}" max="${lastPossibleDateString()}" required>
