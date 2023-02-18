@@ -4,7 +4,7 @@
   "description": "Application de cahier de texte collectif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante.",
   "icons": [
     {
-      "src": "icons.jpg",
+      "src": "icons/icons.jpg",
       "sizes": "512x512",
       "type": "image/jpeg"
     },
