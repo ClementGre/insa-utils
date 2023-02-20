@@ -9,15 +9,15 @@ function send_auth_mail($name, $email_prefix, $id, $email_token, $email_code): v
 
     require_once __DIR__ . '/../mailing/auth_content.php';
 
-    $url = urlencode("https://insa-utils.live/todo/?id=" . $id . '&token=' . $email_token);
-    $unsubscribe_url = urlencode("https://insa-utils.live/todo/unsubscribe?&id=" . $id . '&token=' . $email_token);
+    $url = "https://insa-utils.live/todo/?id=" . $id . '&token=' . $email_token;
+    $unsubscribe_url = "https://insa-utils.live/todo/unsubscribe?&id=" . $id . '&token=' . $email_token;
 
     $text = get_auth_mail_text_content($url, $email_code, $unsubscribe_url);
     $html = get_auth_mail_content($url, $email_code, $unsubscribe_url);
 
     $subject = 'Authentification sur insa-utils';
 
-    if (strpos($_SERVER['HTTP_HOST'], 'localhost') === 0) {
+    if (str_starts_with($_SERVER['HTTP_HOST'], 'localhost')) {
         return;
     }
 
@@ -59,9 +59,12 @@ Content-Transfer-Encoding: quoted-printable
  * @param $noHtmlBody : email body if html is not supported
  * @return false|string : false = OK | string = error message
  */
-function sendMail($toName, $to, $subject, $htmlBody, $noHtmlBody, $unsubscribe_url)
+function sendMail($toName, $to, $subject, $htmlBody, $noHtmlBody, $unsubscribe_url): false|string
 {
     $mail = new PHPMailer(true);
+    $mail->Encoding = 'base64';
+    $mail->CharSet = "UTF-8";
+
     try {
 
         //Recipients

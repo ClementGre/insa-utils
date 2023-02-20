@@ -21,7 +21,7 @@ function get_auth_mail_content($url, $code, $unsubscribe_url) : string
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns:v="urn:schemas-microsoft-com:vml">
 <head>
-    <meta http-equiv="content-type" content="text/html: charset=utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale: 1.0;">
 </head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
