@@ -5,7 +5,8 @@
     "require": {
         "johngrogg/ics-parser": "^3.2",
       "ext-pdo": "*",
-      "ext-intl": "*"
+      "ext-intl": "*",
+        "phpmailer/phpmailer": "^6.7"
     },
     "authors": [
         {
