@@ -3,8 +3,8 @@ function send_auth_mail($name, $email_prefix, $id, $email_token, $email_code) : 
 
     require_once __DIR__.'/../mailing/auth_content.php';
 
-    $url = "https://insa-utils.live/todo/?id=" . $id . '&token=' . $email_token;
-    $unsubscribe_url = "https://insa-utils.live/todo/unsubscribe?&id=" . $id . '&token=' . $email_token;
+    $url = urlencode("https://insa-utils.live/todo/?id=" . $id . '&token=' . $email_token);
+    $unsubscribe_url = urlencode("https://insa-utils.live/todo/unsubscribe?&id=" . $id . '&token=' . $email_token);
 
     $text = get_auth_mail_text_content($url, $email_code, $unsubscribe_url);
     $html = get_auth_mail_content($url, $email_code, $unsubscribe_url);
