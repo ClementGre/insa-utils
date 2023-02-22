@@ -21,7 +21,7 @@ $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
     <section id="app">
         <div class="output" v-cloak>
             <div>
-                <p>Solde restant : {{ twoDecimals(newSolde) }}</p>
+                <p>Solde restant&#8239;: {{ twoDecimals(newSolde) }}</p>
                 <div class="centered" v-if="newSolde >= 0">
                     <p>Vous pouvez</p>
                     <ul>
@@ -42,11 +42,11 @@ $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
 
         <div class="form">
             <div>
-                <label for="solde">Solde&thinsp;:</label>
+                <label for="solde">Solde&#8239;:</label>
                 <input v-model="solde" type="number" id="solde" name="solde" min="-1000" max="1000" step="0.01">
             </div>
             <div>
-                <label>Modifier solde&thinsp;:</label>
+                <label>Modifier solde&#8239;:</label>
                 <div class="soldebtns">
                     <button @click="solde -= pricing.rep[regime]">&#8209;1</button>
                     <button @click="solde += pricing.rep[regime]">+1</button>

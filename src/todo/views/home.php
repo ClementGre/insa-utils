@@ -61,7 +61,7 @@ $desc = "Application de cahier de texte collectif pour ta classe. Crée une nouv
         </section>
 
         <section class="b-darken">
-            <h3>Classes déjà présentes :</h3>
+            <h3>Classes déjà présentes&#8239;:</h3>
             <p>
                 <?php
                 $classes = getDB()->query('SELECT name FROM classes');

@@ -10,19 +10,22 @@ main p {
     color: var(--dark-blue);
 }
 
-div.todo-list {
+.todo-list {
     width: 100%;
+    padding-left: 0;
+    margin: 0;
 }
 
-div.todo-list > .todo {
+.todo-list > .todo {
     background-color: var(--light-gray);
     width: 100%;
     padding: 5px;
     border-radius: 10px;
     margin-bottom: 10px;
+    list-style: none;
 }
 
-div.todo-list > p.no-todo {
+ul > p.no-todo {
     background-color: var(--light-gray);
     width: 100%;
     padding: 15px;
@@ -31,37 +34,38 @@ div.todo-list > p.no-todo {
     font-size: 17px;
 }
 
-div.todo-list > .todo.private {
+.todo-list > .todo.private {
     border: 2px dashed orange;
 }
 
-div.todo-list > .todo.hidden {
+.todo-list > .todo.hidden {
     display: none;
 }
 
-div.todo-list > .todo > div {
+.todo-list > .todo > div {
     width: 100%;
     display: flex;
     gap: 5px;
 }
 
-div.todo-list div.heading {
+.todo-list div.heading {
     align-items: center;
     border-bottom: 1px solid var(--dark-blue);
     padding-bottom: 5px;
+    justify-content: space-between;
 }
 
-div.todo-list div.content {
+.todo-list div.content {
     padding-top: 5px;
 }
 
-div.todo-list div.todo div.heading > div.duedate,
-div.todo-list div.content > div.description {
+.todo-list div.todo div.heading > div.duedate,
+.todo-list div.content > div.description {
     flex-grow: 1;
 }
 
 /* IMAGES */
-div.todo-list .img-button {
+.todo-list .img-button {
     position: relative;
     min-width: 30px;
     min-height: 30px;
@@ -70,7 +74,7 @@ div.todo-list .img-button {
     border-radius: 5px;
 }
 
-div.todo-list .img-button img {
+.todo-list .img-button img {
     width: 20px;
     position: absolute;
     top: 50%;
@@ -80,16 +84,16 @@ div.todo-list .img-button img {
     /*filter: invert(100%) sepia(12%) saturate(455%) hue-rotate(80deg) brightness(102%) contrast(91%);*/
 }
 
-div.todo-list .img-button.disabled {
+.todo-list .img-button.disabled {
     display: none;
 }
 
 /* SUBJECT */
-div.todo-list div.todo div.subject, div.todo-list div.todo div.status {
+.todo-list div.todo div.subject, .todo-list div.todo div.status {
     flex-shrink: 0;
 }
 
-div.todo-list div.subject p, div.todo-list div.status p {
+.todo-list div.subject p, .todo-list div.status p {
     display: block;
     padding: 5px;
     border-radius: 5px;
@@ -97,56 +101,57 @@ div.todo-list div.subject p, div.todo-list div.status p {
     width: fit-content;
 }
 
-div.todo-list div.subject p {
+.todo-list div.subject p {
     background-color: #45af2f;
 }
 
 /* STATUS */
-div.todo-list div.status p {
+.todo-list div.status p {
     display: flex;
     gap: 5px;
     align-items: center;
     margin-left: auto;
     cursor: pointer;
     transition: all .1s ease-in-out;
+    white-space: nowrap;
 }
 
-div.todo-list div.status p:hover {
+.todo-list div.status p:hover {
     box-shadow: 0 0 5px 0 #8d99ae;
 }
 
-div.todo-list div.status p img {
+.todo-list div.status p img {
     height: 16px;
     filter: invert(100%) sepia(12%) saturate(455%) hue-rotate(80deg) brightness(102%) contrast(91%);
 }
 
-div.todo-list div.status.todo p {
+.todo-list div.status.todo p {
     background-color: var(--gray);
     margin-left: auto;
 }
 
-div.todo-list div.status.in-progress p {
+.todo-list div.status.in-progress p {
     background-color: #265fa3;
     margin-left: auto;
 }
 
-div.todo-list div.status.done p {
+.todo-list div.status.done p {
     background-color: #008001;
     margin-left: auto;
 }
 
-div.todo-list div.status.report p {
+.todo-list div.status.report p {
     border-bottom: 3px solid var(--insa-color);
     padding-bottom: 2px;
 }
 
-div.todo-list div.status.reminder p {
+.todo-list div.status.reminder p {
     background-color: var(--insa-color);
     box-shadow: none;
     cursor: default;
 }
 
-div.todo-list div.status p.loading {
+.todo-list div.status p.loading {
     opacity: .5;
     box-shadow: none;
     color: transparent;
@@ -154,98 +159,98 @@ div.todo-list div.status p.loading {
     cursor: default;
 }
 
-div.todo-list div.status p.loading img {
+.todo-list div.status p.loading img {
     color: transparent;
     filter: blur(2px) invert(100%) sepia(12%) saturate(455%) hue-rotate(80deg) brightness(102%) contrast(91%);
 }
 
 /* DESCRIPTION */
-div.todo-list div.content > div.side {
+.todo-list div.content > div.side {
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-div.todo-list div.content > div.side.inline {
+.todo-list div.content > div.side.inline {
     flex-direction: row-reverse;
 }
 
-div.todo-list div.content > div.side > * {
+.todo-list div.content > div.side > * {
     background-color: transparent;
     border: 2px solid var(--dark-blue);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
 
-div.todo-list div.content > div.side > *:hover, div.todo-list div.content > div.side > div.showing {
+.todo-list div.content > div.side > *:hover, .todo-list div.content > div.side > div.showing {
     background-color: var(--light-gray-hover);
 }
 
-div.todo-list div.content > div.description {
+.todo-list div.content > div.description {
     text-align: left;
 }
 
-div.todo-list div.content > div.description > p.first-line {
+.todo-list div.content > div.description > p.first-line {
     font-weight: bold;
 }
 
-div.todo-list .dropdown {
+.todo-list .dropdown {
     background-color: transparent;
 }
 
-div.todo-list .dropdown .round {
+.todo-list .dropdown .round {
     background-color: var(--dark-blue);
 }
 
-div.todo-list .dropdown .dropdown-content {
+.todo-list .dropdown .dropdown-content {
     left: 0;
     background-color: var(--light-gray);
 }
 
-div.todo-list .dropdown .dropdown-content a {
+.todo-list .dropdown .dropdown-content a {
     color: var(--dark-blue);
 }
 
-div.todo-list .dropdown .dropdown-content p {
+.todo-list .dropdown .dropdown-content p {
     color: var(--dark-blue);
     opacity: 0.8;
     padding: 5px 15px;
     font-size: 12px;
 }
 
-div.todo-list .dropdown .dropdown-content a:hover {
+.todo-list .dropdown .dropdown-content a:hover {
     background-color: var(--light-gray-hover);
 }
 
 /* EDITOR */
-div.todo-list form {
+.todo-list form {
     display: block;
     padding: 0;
 }
 
-div.todo-list form div {
+.todo-list form div {
     justify-content: stretch;
 }
 
-div.todo-list form div.content textarea {
+.todo-list form div.content textarea {
     height: 70px;
     margin-bottom: 5px;
 }
 
-div.todo-list input, div.todo-list select {
+.todo-list input, .todo-list select {
     margin: 0;
     min-width: 0;
     width: 100%;
 }
 
-div.todo-list form .fixed {
+.todo-list form .fixed {
     width: auto;
     flex-shrink: 0;
     flex-grow: 0;
 }
 
-div.todo-list form .fixed[type="submit"] {
+.todo-list form .fixed[type="submit"] {
     padding: 0 10px;
 }
 

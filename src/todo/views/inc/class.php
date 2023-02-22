@@ -45,18 +45,20 @@ $row = $q->fetch();
 $count = $row ? $row[0] : 0;
 ?>
 
-    <h3>À faire :</h3>
-    <div class="todo-list">
+    <h3>À faire&#8239;:</h3>
+    <ul class="todo-list">
         <?php
-        if (!print_todos($to_do, $subjects)) {
+        if (count($to_do) == 0) {
             ?>
-            <p class="no-todo">Aucune tâche pour le moment !</p>
+            <p class="no-todo">Aucune tâche pour le moment&#8239;!</p>
             <?php
+        }else{
+            print_todos($to_do, $subjects);
         }
         ?>
-    </div>
+    </ul>
 
-    <h3>Ajouter :</h3>
+    <h3>Ajouter&#8239;:</h3>
     <div class="todo-list">
         <?php
         if (count($subjects) != 0) {
@@ -142,12 +144,12 @@ $count = $row ? $row[0] : 0;
 <?php
 if (count($done) != 0) {
     ?>
-    <h3>Fait :</h3>
-    <div class="todo-list">
+    <h3>Fait&#8239;:</h3>
+    <ul class="todo-list">
         <?php
         print_todos($done, $subjects);
         ?>
-    </div>
+    </ul>
     <?php
 }
 ?>

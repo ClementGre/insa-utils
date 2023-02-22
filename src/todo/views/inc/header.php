@@ -9,7 +9,7 @@ $has_class = isset($status['class_id']) && $status['class_id'] != null; // reque
     <?php
     if ($logged_in) {
         ?>
-        <div class="dropdown">
+        <div class="dropdown" tabindex="0" aria-label="Autre">
             <div class="round round-1"></div>
             <div class="round round-2"></div>
             <div class="round round-3"></div>

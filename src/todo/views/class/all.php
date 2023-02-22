@@ -54,16 +54,18 @@ $title = "Toutes les tâches";
     }
     ?>
 
-    <h3>Toutes les tâches :</h3>
-    <div class="todo-list">
+    <h3>Toutes les tâches&#8239;:</h3>
+    <ul class="todo-list">
         <?php
-        if (!print_todos($todos, $subjects)) {
+        if (count($todos) == 0) {
             ?>
             <p class="no-todo">Aucune tâche n'a été ajouté pour cette classe !</p>
             <?php
+        }else{
+            print_todos($todos, $subjects);
         }
         ?>
-    </div>
+    </ul>
 
 </main>
 <footer>

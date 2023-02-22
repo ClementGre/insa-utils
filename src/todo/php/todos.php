@@ -88,11 +88,9 @@ function dress_todo(&$todo, $user_id){
     }
 }
 
-function print_todos(array $todos, $subjects): bool
+function print_todos(array $todos, $subjects): void
 {
-    $has_printed = false;
     foreach ($todos as $todo) {
-        $has_printed = true;
         $subject_name = 'Matière supprimée';
         $subject_color = 'black';
         foreach ($subjects as $subject) {
@@ -103,7 +101,7 @@ function print_todos(array $todos, $subjects): bool
             }
         }
         ?>
-        <div class="todo <?= $todo['is_private'] === 1 ? 'private' : '' ?>" data-todo-id="<?= $todo['id'] ?>">
+        <li class="todo <?= $todo['is_private'] === 1 ? 'private' : '' ?>" data-todo-id="<?= $todo['id'] ?>">
             <div class="heading">
                 <div class="subject">
                     <p style="background-color: <?= $subject_color ?>;"><?= out($subject_name) ?></p>
@@ -121,7 +119,7 @@ function print_todos(array $todos, $subjects): bool
                        class="img-button link <?= $todo['link'] ? '' : 'disabled' ?>">
                         <img alt="Lien associé" src="<?= getRootPath() ?>todo/svg/link.svg"/>
                     </a>
-                    <div class="img-button edit dropdown">
+                    <div class="img-button edit dropdown" tabindex="0" aria-label="Options...">
                         <div class="round round-1"></div>
                         <div class="round round-2"></div>
                         <div class="round round-3"></div>
@@ -155,8 +153,7 @@ function print_todos(array $todos, $subjects): bool
                     <p><?= $todo['description'] ?></p>
                 </div>
             </div>
-        </div>
+        </li>
         <?php
     }
-    return $has_printed;
 }
