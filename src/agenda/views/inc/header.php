@@ -5,7 +5,11 @@ $has_class = isset($status['class_id']) && $status['class_id'] != null; // reque
 ?>
 <header>
     <a class="back-link" href="<?= getRootPath() ?>"><p>← Menu</p></a>
-    <h1><?= $title ?? '' ?></h1>
+    <div class="title">
+        <h1>INS'Agenda</h1>
+        <h2><?= isset($title) ? (' - ' . $title) : 'Cahier de texte collaboratif' ?></h2>
+    </div>
+
     <?php
     if ($logged_in) {
         ?>

@@ -18,10 +18,6 @@ if ($status['logged_in'] && $status['class_id'] == null) {
     header('Location: ' . getRootPath() . 'agenda/classes');
     exit;
 }
-
-$name = "INS'Agenda";
-$title = "Cahier de text collaboratif";
-$desc = "Application de cahier de texte collaboratif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante.";
 ?>
 
 <!DOCTYPE html>
