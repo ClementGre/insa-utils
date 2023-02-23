@@ -1,6 +1,6 @@
 {
   "name": "Cahier de texte collaboratif",
-  "short_name": "UniTask",
+  "short_name": "INS'Agenda",
   "description": "Application de cahier de texte collaboratif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante.",
   "icons": [
     {
@@ -30,7 +30,7 @@
     }
   ],
   "orientation": "portrait",
-  "start_url": "/unitask",
+  "start_url": "/agenda",
   "display": "standalone",
   "theme_color": "#CD0E14",
   "background_color": "#CD0E14"
