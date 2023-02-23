@@ -25,7 +25,7 @@ if (isset($_POST['name']) && isset($_POST['color']) && isset($_POST['type'])) {
     }
 }
 
-$title = "Matières | Todo list de classe";
+$title = "Gestion des matières";
 ?>
 
 <!DOCTYPE html>

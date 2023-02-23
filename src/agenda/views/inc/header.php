@@ -7,7 +7,7 @@ $has_class = isset($status['class_id']) && $status['class_id'] != null; // reque
     <a class="back-link" href="<?= getRootPath() ?>"><p>← Menu</p></a>
     <div class="title">
         <h1>INS'Agenda</h1>
-        <h2><?= isset($title) ? (' - ' . $title) : 'Cahier de texte collaboratif' ?></h2>
+        <h2><?= $title ?? 'Cahier de texte collaboratif' ?></h2>
     </div>
 
     <?php

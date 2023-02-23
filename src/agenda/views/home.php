@@ -18,6 +18,9 @@ if ($status['logged_in'] && $status['class_id'] == null) {
     header('Location: ' . getRootPath() . 'agenda/classes');
     exit;
 }
+if ($status['is_in_class']) {
+    $title = "Tâches à venir";
+}
 ?>
 
 <!DOCTYPE html>

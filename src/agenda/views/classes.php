@@ -35,7 +35,8 @@ if (isset($_POST['class_name'])){
     }
 }
 
-$title = "Liste des classes | Todo list de classe";
+
+$title = "Liste des classes";
 ?>
 
 <!DOCTYPE html>

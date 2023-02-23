@@ -34,7 +34,7 @@ if ($status['class_id'] == $class_id) {
 
 $errors = array();
 
-$title = "Rejoindre une classe | Todo list de classe";
+$title = "Rejoindre une classe";
 ?>
 
 <!DOCTYPE html>

@@ -28,7 +28,7 @@ if(is_csrf_valid('disconnect_all')){
     $infos[] = "Vous avez été déconecté de tous vos autres appareils";
 }
 
-$title = "Mon compte | Todo list de classe";
+$title = "Mon compte";
 ?>
 
 <!DOCTYPE html>

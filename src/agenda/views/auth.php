@@ -20,7 +20,7 @@ if (is_logged_in()){
     exit;
 }
 
-$title = "Authentification | Todo list de classe";
+$title = "Authentification";
 ?>
 
 <!DOCTYPE html>
