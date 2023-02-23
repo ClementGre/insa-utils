@@ -3,7 +3,7 @@ require '../template/head.php';
 require '../template/header.php';
 require '../template/footer.php';
 require '../origin_path.php';
-$title = "Ancien calculateur de points RI";
+$title = "RestINSA v1.0";
 $desc = "Ancienne version du calculateur automatique de solde. Celui-ci est moins configurable, mais plus simple à utiliser. Attention aux jours fériés et aux vacances !";
 ?>
 
@@ -11,7 +11,7 @@ $desc = "Ancienne version du calculateur automatique de solde. Celui-ci est moin
 <html lang="fr">
 <head><?= getHead($title, $desc) ?></head>
 <body>
-<?= getHeader($title) ?>
+<?php printHeader($title) ?>
 <main>
     <?php
     require 'calendar.php';

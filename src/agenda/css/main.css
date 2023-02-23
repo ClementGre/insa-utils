@@ -13,13 +13,16 @@ input[type="text"] {
     margin: 10px 0;
     width: 180px;
 }
+
 form {
     padding: 5px 0;
 }
-div.error-container, div.infos-container{
+
+div.error-container, div.infos-container {
     width: 100%;
     padding: 5px;
 }
+
 div.errors, div.infos {
     border-radius: 7px;
     color: #EDF2F4;
@@ -28,14 +31,17 @@ div.errors, div.infos {
     padding: 5px;
     margin: 5px;
 }
+
 div.errors {
     background-color: var(--light-red);
     border: 3px solid var(--header-button-hover);
 }
+
 div.infos {
     background-color: #1bab14;
     border: 3px solid #237f0a;
 }
+
 div.errors p, div.infos p {
     color: #EDF2F4;
     font-size: 15px;
@@ -118,3 +124,18 @@ header .dropdown .dropdown-content {
     background-color: var(--header-button-hover);
 }
 
+/********************************************/
+/*************** CLASS - LIST ***************/
+/********************************************/
+
+.class-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.class-list p {
+    margin: 0;
+}

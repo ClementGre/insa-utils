@@ -15,12 +15,13 @@ if (isset($_POST['email'])) {
 $status = get_user_status();
 
 if ($status['logged_in'] && $status['class_id'] == null) {
-    header('Location: ' . getRootPath() . 'todo/classes');
+    header('Location: ' . getRootPath() . 'agenda/classes');
     exit;
 }
 
-$title = "Todo list de classe";
-$desc = "Application de cahier de texte collectif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante.";
+$name = "INS'Agenda";
+$title = "Cahier de text collaboratif";
+$desc = "Application de cahier de texte collaboratif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante.";
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +29,7 @@ $desc = "Application de cahier de texte collectif pour ta classe. Crée une nouv
 <head>
     <?php
     include __DIR__ . '/inc/head.php';
-    if ($status['is_in_class']) echo '<link href="' . getRootPath() . 'todo/css/todo.css" rel="stylesheet"/>';
+    if ($status['is_in_class']) echo '<link href="' . getRootPath() . 'agenda/css/todo.css" rel="stylesheet"/>';
     ?>
 </head>
 <body>
@@ -62,19 +63,21 @@ $desc = "Application de cahier de texte collectif pour ta classe. Crée une nouv
 
         <section class="b-darken">
             <h3>Classes déjà présentes&#8239;:</h3>
-            <p>
+            <div class="class-list">
                 <?php
                 $classes = getDB()->query('SELECT name FROM classes');
+                $is_first = true;
                 foreach ($classes as $class) {
-                    echo '<span>' . out($class['name']) . '</span>&nbsp;';
+                    echo '<p>' . out($class['name']) . '</p>';
+                    $is_first = false;
                 }
                 ?>
-            </p>
+            </div>
         </section>
 
         <section class="b-darken">
             <h3>Authentification</h3>
-            <form action="<?= getRootPath() ?>todo/" method="post">
+            <form action="<?= getRootPath() ?>agenda/" method="post">
                 <?php set_csrf() ?>
                 <label for="email">Email INSA&#8239;:</label><br/>
                 <input type="text" name="email" id="email" required><span
@@ -89,9 +92,9 @@ $desc = "Application de cahier de texte collectif pour ta classe. Crée une nouv
 
 </main>
 <footer>
-    <?= getFooter('<a href="' . getRootPath() . 'todo/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
+    <?= getFooter('<a href="' . getRootPath() . 'agenda/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>todo/js/main.js"></script>
-<?php if ($status['is_in_class']) echo '<script src="' . getRootPath() . 'todo/js/todo.js""></script>' ?>
+<script src="<?= getRootPath() ?>agenda/js/main.js"></script>
+<?php if ($status['is_in_class']) echo '<script src="' . getRootPath() . 'agenda/js/todo.js""></script>' ?>
 </html>

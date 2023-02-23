@@ -7,7 +7,7 @@ $_SESSION['errors'] = array();
 $_SESSION['infos'] = array();
 
 if (!$status['is_in_class']) {
-    header('Location: ' . getRootPath() . 'todo/');
+    header('Location: ' . getRootPath() . 'agenda/');
     exit;
 }
 
@@ -89,7 +89,7 @@ if (isset($_POST['action'])) {
                 } else {
                     $_SESSION['errors'][] = 'Le formulaire a expiré. Veuillez réessayer.';
                 }
-                header('Location: ' . getRootPath() . 'todo/requests');
+                header('Location: ' . getRootPath() . 'agenda/requests');
                 exit();
             }
             break;
@@ -104,10 +104,10 @@ if (isset($_POST['action'])) {
                 } else {
                     $_SESSION['errors'][] = 'Le formulaire a expiré. Veuillez réessayer.';
                 }
-                header('Location: ' . getRootPath() . 'todo/requests');
+                header('Location: ' . getRootPath() . 'agenda/requests');
                 exit();
             }
             break;
     }
 }
-header('Location: ' . getRootPath() . 'todo/');
+header('Location: ' . getRootPath() . 'agenda/');

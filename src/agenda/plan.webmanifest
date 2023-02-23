@@ -1,7 +1,7 @@
 {
-  "name": "Todo List de classe",
-  "short_name": "Todo",
-  "description": "Application de cahier de texte collectif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante.",
+  "name": "Cahier de texte collaboratif",
+  "short_name": "UniTask",
+  "description": "Application de cahier de texte collaboratif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante.",
   "icons": [
     {
       "src": "icons/icon-32.png",
@@ -30,7 +30,7 @@
     }
   ],
   "orientation": "portrait",
-  "start_url": "/todo",
+  "start_url": "/unitask",
   "display": "standalone",
   "theme_color": "#CD0E14",
   "background_color": "#CD0E14"

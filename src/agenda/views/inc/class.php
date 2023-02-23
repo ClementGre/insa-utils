@@ -63,7 +63,7 @@ $count = $row ? $row[0] : 0;
         <?php
         if (count($subjects) != 0) {
             ?>
-            <form class="todo" method="post" action="<?= getRootPath() ?>todo/manage">
+            <form class="todo" method="post" action="<?= getRootPath() ?>agenda/manage">
                 <?php set_csrf() ?>
                 <input type="hidden" name="action" value="add"/>
                 <div class="heading">
@@ -113,7 +113,7 @@ $count = $row ? $row[0] : 0;
         } else {
             ?>
             <p class="no-todo">Pour ajouter une tâche, ajoutez d'abord des matières&#8239;:<br><a
-                        href="<?= getRootPath() ?>todo/subjects">Ajouter des matières</a></p>
+                        href="<?= getRootPath() ?>agenda/subjects">Ajouter des matières</a></p>
             <?php
         }
         ?>
@@ -122,22 +122,22 @@ $count = $row ? $row[0] : 0;
         <?php
         if ($count == 1) {
             ?>
-            <a class="fast-link requests" href="<?= getRootPath() ?>todo/requests">
+            <a class="fast-link requests" href="<?= getRootPath() ?>agenda/requests">
                 <p><?= $count ?> personne souhaite rejoindre votre classe</p>
             </a>
             <?php
         }else if ($count != 0) {
             ?>
-            <a class="fast-link requests" href="<?= getRootPath() ?>todo/requests">
+            <a class="fast-link requests" href="<?= getRootPath() ?>agenda/requests">
                 <p><?= $count ?> personnes souhaitent rejoindre votre classe</p>
             </a>
             <?php
         }
         ?>
-        <a class="fast-link" href="<?= getRootPath() ?>todo/subjects">
+        <a class="fast-link" href="<?= getRootPath() ?>agenda/subjects">
             <p>Gestion des matières</p>
         </a>
-        <a class="fast-link" href="<?= getRootPath() ?>todo/all">
+        <a class="fast-link" href="<?= getRootPath() ?>agenda/all">
             <p>Toutes les tâches</p>
         </a>
     </div>

@@ -2,7 +2,7 @@
 $status = get_user_status();
 
 if (!$status['logged_in']) {
-    header('Location: ' . getRootPath() . 'todo/');
+    header('Location: ' . getRootPath() . 'agenda/');
     exit;
 }
 
@@ -13,7 +13,7 @@ $errors = array();
 if(is_csrf_valid('disconnect')){
     remove_cookie('id');
     remove_cookie('auth_token');
-    header('Location: ' . getRootPath() . 'todo/');
+    header('Location: ' . getRootPath() . 'agenda/');
     exit;
 }
 if(is_csrf_valid('disconnect_all')){
@@ -68,8 +68,8 @@ $title = "Mon compte | Todo list de classe";
     </section>
 </main>
 <footer>
-    <?= getFooter('<a href="' . getRootPath() . 'todo/">Tâches à venir</a>', "Clément GRENNERAT") ?>
+    <?= getFooter('<a href="' . getRootPath() . 'agenda/">Tâches à venir</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>todo/js/main.js"></script>
+<script src="<?= getRootPath() ?>agenda/js/main.js"></script>
 </html>

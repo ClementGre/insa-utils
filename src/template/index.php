@@ -3,7 +3,7 @@ require '../template/head.php';
 require '../template/header.php';
 require '../template/footer.php';
 require '../origin_path.php';
-$title = "Calculateur de points Restaurants INSA";
+$title = "RestINSA";
 $desc = "Le nouveau calculateur";
 ?>
 
@@ -11,7 +11,7 @@ $desc = "Le nouveau calculateur";
 <html lang="fr">
 <head><?= getHead($title, $desc) ?></head>
 <body>
-<?= getHeader($title) ?>
+<?php printHeader($title) ?>
 <main class="">
     <section class="b-darken">
         Calculateur

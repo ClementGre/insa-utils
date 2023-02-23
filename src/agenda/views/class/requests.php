@@ -2,7 +2,7 @@
 $status = get_user_status();
 
 if (!$status['logged_in'] || !$status['is_in_class']) {
-    header('Location: ' . getRootPath() . 'todo/');
+    header('Location: ' . getRootPath() . 'agenda/');
     exit;
 }
 
@@ -15,7 +15,7 @@ $title = "Demandes d'ajout";
     <?php
     include __DIR__ . '/../inc/head.php';
     ?>
-    <link href="<?= getRootPath() ?>todo/css/requests.css" rel="stylesheet"/>
+    <link href="<?= getRootPath() ?>agenda/css/requests.css" rel="stylesheet"/>
 </head>
 <body>
 <?php include __DIR__ . '/../inc/header.php' ?>
@@ -43,7 +43,7 @@ $title = "Demandes d'ajout";
         gen_csrf_key();
         foreach ($users as $user) {
             ?>
-            <form class="user" method="post" action="<?= getRootPath() ?>todo/manage">
+            <form class="user" method="post" action="<?= getRootPath() ?>agenda/manage">
                 <?php set_csrf_without_regen(); ?>
                 <input type="hidden" name="id" value="<?= $user['id'] ?>"/>
                 <p class="user-name">
@@ -76,8 +76,8 @@ $title = "Demandes d'ajout";
 
 </main>
 <footer>
-    <?= getFooter('<a href="' . getRootPath() . 'todo/">Tâches à venir</a>', "Clément GRENNERAT") ?>
+    <?= getFooter('<a href="' . getRootPath() . 'agenda/">Tâches à venir</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>todo/js/main.js"></script>
+<script src="<?= getRootPath() ?>agenda/js/main.js"></script>
 </html>

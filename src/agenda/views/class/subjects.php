@@ -3,7 +3,7 @@ $errors = array();
 $status = get_user_status();
 
 if (!$status['is_in_class']) {
-    header('Location: ' . getRootPath() . 'todo/');
+    header('Location: ' . getRootPath() . 'agenda/');
     exit;
 }
 
@@ -34,7 +34,7 @@ $title = "Matières | Todo list de classe";
     <?php
     include __DIR__ . '/../inc/head.php';
     ?>
-    <link href="<?= getRootPath() ?>todo/css/subjects.css" rel="stylesheet"/>
+    <link href="<?= getRootPath() ?>agenda/css/subjects.css" rel="stylesheet"/>
 </head>
 <body>
 <?php include __DIR__ . '/../inc/header.php' ?>
@@ -56,7 +56,7 @@ $title = "Matières | Todo list de classe";
         foreach ($subjects as $subject) {
             ?>
             <section class="b-darken">
-                <form method="post" action="<?= getRootPath() ?>todo/subjects/">
+                <form method="post" action="<?= getRootPath() ?>agenda/subjects/">
                     <?php set_csrf(); ?>
                     <input type="hidden" name="id" value="<?= $subject['id'] ?>">
                     <div class="heading">
@@ -74,7 +74,7 @@ $title = "Matières | Todo list de classe";
                         </select>
                         <input type="submit" name="action" value="Modifier">
                         <button type="submit" name="action" value="Supprimer">
-                            <img src="<?= getRootPath() ?>todo/svg/delete.svg" alt="Supprimer">
+                            <img src="<?= getRootPath() ?>agenda/svg/delete.svg" alt="Supprimer">
                         </button>
                     </div>
                     <div class="color">
@@ -97,7 +97,7 @@ $title = "Matières | Todo list de classe";
 
     <h3>Ajouter une matière</h3>
     <section class="b-darken">
-        <form method="post" action="<?= getRootPath() ?>todo/subjects/">
+        <form method="post" action="<?= getRootPath() ?>agenda/subjects/">
             <?php set_csrf(); ?>
             <div class="heading">
                 <input type="text" name="name" placeholder="Matière" required>
@@ -123,8 +123,8 @@ $title = "Matières | Todo list de classe";
 
 </main>
 <footer>
-    <?= getFooter('<a href="' . getRootPath() . 'todo/">Tâches à venir</a>', "Clément GRENNERAT") ?>
+    <?= getFooter('<a href="' . getRootPath() . 'agenda/">Tâches à venir</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>todo/js/main.js"></script>
+<script src="<?= getRootPath() ?>agenda/js/main.js"></script>
 </html>

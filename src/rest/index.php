@@ -3,7 +3,8 @@ require '../template/head.php';
 require '../template/header.php';
 require '../template/footer.php';
 require '../origin_path.php';
-$title = "Calculateur de points Restaurants INSA";
+$name = "Rest'INSA";
+$title = "Calculateur de points RI";
 $desc = "Déterminer si tu auras assez de solde pour finir le mois n'a jamais été aussi simple. Optimise au maximum ton solde RI grâce à ce calculateur hors norme.";
 $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
 ?>
@@ -11,12 +12,11 @@ $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?= getHead($title, $desc, $keywords) ?>
-    <link rel="icon" href="<?= getRootPath() ?>rest/icons/icon-128.png" type="image/png">
-    <link rel="manifest" href="<?= getRootPath() ?>rest/rest.webmanifest">
+    <?php printHead($name, $title, $desc, $keywords, 'rest/icons/icon-128.png', 'rest/rest.webmanifest') ?>
+    <link href="<?= getRootPath() ?>rest/main.css" rel="stylesheet"/>
 </head>
 <body>
-<?= getHeader($title) ?>
+<?php printHeader("INS'Agenda", "Cahier de texte collaboratif"); ?>
 <main class="">
     <section id="app">
         <div class="output" v-cloak>

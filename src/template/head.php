@@ -1,21 +1,41 @@
 <?php
 require_once 'matomo.php';
-function getHead($title, $desc = '', $keywords = '', $icon = false): string
+function printHead($name, $title, $desc = '', $keywords = '', $iconPath = false, $manifestPath = false): void
 {
-    $current = dirname($_SERVER["PHP_SELF"]);
-    if($current == '/') $current = '';
-    $icon = $icon ? '<link rel="icon" href="icon.png" type="image/png">' : '';
+    ?>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="<?= getRootPath() ?>common.css" rel="stylesheet"/>
+    <?php
 
-    return '<meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-       
-        <title>' . $title . '</title>
-        ' . $icon . '
-       ' . ($desc == '' ? '' : '<meta name="description" content="' . $desc . '"/>') . ' 
-        ' . ($keywords == '' ? '' : '<meta name="keywords" content="' . $keywords . '"/>') . '
-          
-        <link href="' . getRootPath() . 'common.css" rel="stylesheet"/>
-        <link href="' . $current . '/main.css" rel="stylesheet"/>
-        ' . getTrackerScript() . '
-    ';
+    if($name != ''){
+        ?>
+        <title><?= $name ?> - <?= $title ?></title>
+        <?php
+    } else {
+        ?>
+        <title><?= $title ?></title>
+        <?php
+    }
+    if ($iconPath){
+        ?>
+        <link rel="icon" href="<?= getRootPath() . $iconPath ?>" type="image/png">
+        <?php
+    }
+    if ($desc != ''){
+        ?>
+        <meta name="description" content="<?= $desc ?>"/>
+        <?php
+    }
+    if ($keywords != ''){
+        ?>
+        <meta name="keywords" content="<?= $keywords ?>"/>
+        <?php
+    }
+    if ($manifestPath){
+        ?>
+        <link rel="manifest" href="<?= getRootPath() . $manifestPath ?>">
+        <?php
+    }
+    echo getTrackerScript();
 }

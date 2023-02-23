@@ -4,19 +4,20 @@ require 'template/head.php';
 require 'template/header.php';
 require 'template/footer.php';
 require 'origin_path.php';
-$title = "Utilitaires INSA - Menu principal";
+
+$title = "Utilitaires INSA";
 $desc = "LE site permettant de te faciliter la vie à l'INSA, via divers services utiles.";
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?= getHead($title, $desc) ?>
-    <link rel="icon" href="<?= getRootPath() ?>icons/icon-128.png" type="image/png">
+    <?php printHead('', $title, $desc, '', 'icons/icon-128.png') ?>
     <link rel="manifest" href="<?= getRootPath() ?>insautils.webmanifest">
+    <link href="<?= getRootPath() ?>main.css" rel="stylesheet"/>
 </head>
 <body>
-<?= getSimpleHeader($title) ?>
+<?php printSimpleHeader($title) ?>
 <main>
         <?php
         $urls = array();
@@ -39,7 +40,6 @@ $desc = "LE site permettant de te faciliter la vie à l'INSA, via divers service
             echo '<div class="text">
                     <h1>' . $name . '</h1>
                     ' . $desc . '
-                    <p>' . $data['url'] . '</p>
                   </div>
                 </div>
               </a>

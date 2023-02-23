@@ -3,6 +3,7 @@ require '../template/head.php';
 require '../template/header.php';
 require '../template/footer.php';
 require '../origin_path.php';
+$name = "NeoCal";
 $title = "Convertisseur de Calendrier ADE";
 $desc = "Cette passerelle permet de convertir ton calendrier INSA en renommant les évènements pour les rendre plus lisibles. Entre le lien de ton calendrier ADE, puis ajoute sur ton hébergeur de calendrier préféré le lien d'abonnement iCal généré. À chaque actualisation, ce serveur convertira le calendrier ADE.";
 
@@ -17,9 +18,12 @@ if(isset($_GET['room'])) $room = urldecode($_GET['room']);
 
 <!DOCTYPE html>
 <html lang="fr">
-<head><?= getHead($title, $desc) ?></head>
+<head>
+    <?php printHead($name, $title, $desc) ?>
+    <link href="<?= getRootPath() ?>neocal/main.css" rel="stylesheet"/>
+</head>
 <body>
-<?= getHeader($title) ?>
+<?php printHeader($title) ?>
 <main class="">
     <section class="b-darken">
         <p class="info">
@@ -53,7 +57,7 @@ if(isset($_GET['room'])) $room = urldecode($_GET['room']);
 
         <?php
         if(isset($_GET['url'])){
-            $url = 'https://insa-utils.live/cal/get.php?url=' . $url . '&mode=' . $mode . '&room=' . $room;
+            $url = 'https://insa-utils.fr/neocal/get.php?url=' . $url . '&mode=' . $mode . '&room=' . $room;
             ?>
             <p>
                 URL de ton calendrier convertis (nouveau abonnement iCal) :<br>

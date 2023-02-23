@@ -40,6 +40,7 @@ section {
 #app{
     flex: 1;
     padding: 0;
+    margin: 0;
 }
 
 /* OUTPUT */
@@ -47,7 +48,7 @@ section {
 div.output{
     width: 100%;
     max-width: 600px;
-    margin: 20px auto 0;
+    margin: 0 auto;
     font-size: 18px;
 }
 div.output > div{

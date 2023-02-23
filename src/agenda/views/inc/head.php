@@ -7,13 +7,13 @@ require_once __DIR__.'/../../../template/matomo.php';
 
 <title><?= $title ?? '' ?></title>
 
-<link rel="icon" href="<?= getRootPath() ?>todo/icons/icon-256.png" type="image/png">
+<link rel="icon" href="<?= getRootPath() ?>agenda/icons/icon-256.png" type="image/png">
 <meta name="description" content="<?= $desc ?? '' ?>"/>
 <meta name="keywords" content="<?= $keywords ?? '' ?>"/>
 
-<link rel="manifest" href="<?= getRootPath() ?>todo/todo.webmanifest">
+<link rel="manifest" href="<?= getRootPath() ?>agenda/agenda.webmanifest">
 
 <link href="<?= getRootPath() ?>common.css" rel="stylesheet"/>
-<link href="<?= getRootPath() ?>todo/css/main.css" rel="stylesheet"/>
+<link href="<?= getRootPath() ?>agenda/css/main.css" rel="stylesheet"/>
 
 <?= getTrackerScript() ?>

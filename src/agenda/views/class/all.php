@@ -2,7 +2,7 @@
 $status = get_user_status();
 
 if (!$status['logged_in'] || !$status['is_in_class']) {
-    header('Location: ' . getRootPath() . 'todo/');
+    header('Location: ' . getRootPath() . 'agenda/');
     exit;
 }
 
@@ -14,7 +14,7 @@ $title = "Toutes les tâches";
 <head>
     <?php
     include __DIR__ . '/../inc/head.php';
-    echo '<link href="' . getRootPath() . 'todo/css/todo.css" rel="stylesheet"/>';
+    echo '<link href="' . getRootPath() . 'agenda/css/todo.css" rel="stylesheet"/>';
     ?>
 </head>
 <body>
@@ -69,9 +69,9 @@ $title = "Toutes les tâches";
 
 </main>
 <footer>
-    <?= getFooter('<a href="' . getRootPath() . 'todo/">Tâches à venir</a>', "Clément GRENNERAT") ?>
+    <?= getFooter('<a href="' . getRootPath() . 'agenda/">Tâches à venir</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>todo/js/main.js"></script>
-<?php if ($status['is_in_class']) echo '<script src="' . getRootPath() . 'todo/js/todo.js""></script>' ?>
+<script src="<?= getRootPath() ?>agenda/js/main.js"></script>
+<?php if ($status['is_in_class']) echo '<script src="' . getRootPath() . 'agenda/js/todo.js""></script>' ?>
 </html>

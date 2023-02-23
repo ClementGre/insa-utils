@@ -57,8 +57,13 @@ header {
 
 header h1 {
     font-size: 25px;
-    padding: 0;
+    padding: 0 !important;
     font-weight: 600;
+    margin: 0;
+}
+header h2 {
+    font-size: 15px;
+    font-weight: 200;
     margin: 0;
 }
 
@@ -84,7 +89,7 @@ header a.back-link:hover {
 header p {
     margin: 5px;
 }
-header div {
+header div.spacing {
     width: 75px;
     height: 0;
 }

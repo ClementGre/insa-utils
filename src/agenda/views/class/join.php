@@ -2,7 +2,7 @@
 $status = get_user_status();
 
 if (!$status['logged_in']) {
-    header('Location: ' . getRootPath() . 'todo/');
+    header('Location: ' . getRootPath() . 'agenda/');
     exit;
 }
 
@@ -12,7 +12,7 @@ $q = getDB()->prepare("SELECT name FROM classes WHERE id=:id LIMIT 1");
 $q->execute([":id" => $class_id]);
 $row = $q->fetch();
 if ($row == null) {
-    header('Location: ' . getRootPath() . 'todo/classes');
+    header('Location: ' . getRootPath() . 'agenda/classes');
     exit;
 }
 $class_name = $row['name'];
@@ -24,11 +24,11 @@ if (!$status['is_in_class'] || is_csrf_valid()) {
     }
     $q = getDB()->prepare("UPDATE users SET requested_class_id=:class_id WHERE id=:id");
     $q->execute([":class_id" => $class_id, ":id" => $status['id']]);
-    header('Location: ' . getRootPath() . 'todo/');
+    header('Location: ' . getRootPath() . 'agenda/');
     exit;
 }
 if ($status['class_id'] == $class_id) {
-    header('Location: ' . getRootPath() . 'todo/');
+    header('Location: ' . getRootPath() . 'agenda/');
     exit;
 }
 
@@ -59,8 +59,8 @@ $title = "Rejoindre une classe | Todo list de classe";
     </section>
 </main>
 <footer>
-    <?= getFooter('<a href="' . getRootPath() . 'todo/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
+    <?= getFooter('<a href="' . getRootPath() . 'agenda/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>todo/js/main.js"></script>
+<script src="<?= getRootPath() ?>agenda/js/main.js"></script>
 </html>

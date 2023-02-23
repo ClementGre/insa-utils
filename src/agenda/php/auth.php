@@ -6,6 +6,10 @@ function request_login($email): string
 {
     require_once __DIR__ . '/../mailing/mailer.php';
 
+    if(str_ends_with($email, '@insa-lyon.fr')) {
+        $email = substr($email, 0, -strlen('@insa-lyon.fr'));
+    }
+
     $email_prefix = strtolower($email);
     $name = emailToName($email_prefix);
     $email_token = randomToken(32);
@@ -52,7 +56,7 @@ function request_login($email): string
         send_auth_mail($name, $email_prefix, $id, $email_token, $email_code);
 
         set_cookie('id', $id);
-        header('Location: ' . getRootPath() . 'todo/auth');
+        header('Location: ' . getRootPath() . 'agenda/auth');
         exit;
 
     } catch (Exception $e) {
@@ -119,7 +123,7 @@ function try_code_login($id, $email_code): string
 
     set_cookie('id', $id);
     set_cookie('auth_token', $auth_token);
-    header('Location: ' . getRootPath() . 'todo/');
+    header('Location: ' . getRootPath() . 'agenda/');
     exit;
 }
 

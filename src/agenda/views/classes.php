@@ -2,7 +2,7 @@
 $status = get_user_status();
 
 if (!$status['logged_in']) {
-    header('Location: ' . getRootPath() . 'todo/');
+    header('Location: ' . getRootPath() . 'agenda/');
     exit;
 }
 $id = $status['id'];
@@ -27,7 +27,7 @@ if (isset($_POST['class_name'])){
             // Update user class
             $q = getDB()->prepare("UPDATE users SET class_id=:class_id, requested_class_id=null WHERE id=:id");
             $q->execute([":class_id" => $class_id, ":id" => $id]);
-            header('Location: ' . getRootPath() . 'todo/');
+            header('Location: ' . getRootPath() . 'agenda/');
             exit;
         }
     }else{
@@ -48,19 +48,19 @@ $title = "Liste des classes | Todo list de classe";
 <main class="">
     <section class="b-darken">
         <h3>Rejoindre une classe</h3>
+        <div class="class-list">
+            <?php
+            $classes = getDB()->query('SELECT * FROM classes');
 
-        <?php
-        $classes = getDB()->query('SELECT * FROM classes');
-
-        foreach ($classes as $class) {
-            echo '<a href="' . getRootPath() . 'todo/class/' . $class['id']. '/join">' . out($class['name']) . '</a>&nbsp;&nbsp;';
-        }
-        ?>
-
+            foreach ($classes as $class) {
+                echo '<a href="' . getRootPath() . 'agenda/class/' . $class['id']. '/join">' . out($class['name']) . '</a>&nbsp;&nbsp;';
+            }
+            ?>
+        </div>
     </section>
     <section class="b-darken">
         <h3>Créer une classe</h3>
-        <form action="<?= getRootPath() ?>todo/classes" method="post">
+        <form action="<?= getRootPath() ?>agenda/classes" method="post">
             <?php set_csrf() ?>
             <label for="class_name">Nom de la classe&#8239;:</label><br/>
             <input type="text" name="class_name" id="class_name" minlength="2" maxlength="16" placeholder="FIMI Groupe 6"
@@ -71,8 +71,8 @@ $title = "Liste des classes | Todo list de classe";
     </section>
 </main>
 <footer>
-    <?= getFooter('<a href="' . getRootPath() . 'todo/">Tâches à venir</a>', "Clément GRENNERAT") ?>
+    <?= getFooter('<a href="' . getRootPath() . 'agenda/">Tâches à venir</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>todo/js/main.js"></script>
+<script src="<?= getRootPath() ?>agenda/js/main.js"></script>
 </html>

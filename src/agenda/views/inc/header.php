@@ -17,17 +17,17 @@ $has_class = isset($status['class_id']) && $status['class_id'] != null; // reque
                 <?php
                 if ($has_class) {
                     ?>
-                    <a href="<?= getRootPath() ?>todo/">Tâches à venir</a>
-                    <a href="<?= getRootPath() ?>todo/all">Toutes les tâches</a>
-                    <a href="<?= getRootPath() ?>todo/subjects">Gestion des matières</a>
-                    <a href="<?= getRootPath() ?>todo/requests">Demandes d'ajout</a>
-                    <a href="<?= getRootPath() ?>todo/classes">Liste des classes</a>
-                    <a href="<?= getRootPath() ?>todo/account">Mon compte</a>
+                    <a href="<?= getRootPath() ?>agenda/">Tâches à venir</a>
+                    <a href="<?= getRootPath() ?>agenda/all">Toutes les tâches</a>
+                    <a href="<?= getRootPath() ?>agenda/subjects">Gestion des matières</a>
+                    <a href="<?= getRootPath() ?>agenda/requests">Demandes d'ajout</a>
+                    <a href="<?= getRootPath() ?>agenda/classes">Liste des classes</a>
+                    <a href="<?= getRootPath() ?>agenda/account">Mon compte</a>
                     <?php
                 } else {
                     ?>
-                    <a href="<?= getRootPath() ?>todo/classes">Liste des classes</a>
-                    <a href="<?= getRootPath() ?>todo/account">Mon compte</a>
+                    <a href="<?= getRootPath() ?>agenda/classes">Liste des classes</a>
+                    <a href="<?= getRootPath() ?>agenda/account">Mon compte</a>
                     <?php
                 }
                 ?>

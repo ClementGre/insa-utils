@@ -28,7 +28,7 @@ document.querySelectorAll('.make-public-todo').forEach((a) => {
         closeEditingTodos();
         closeDeletingTodos();
         const todoId = a.dataset.todoId;
-        redirectWithPost(getRootPath() + 'todo/manage', {
+        redirectWithPost(getRootPath() + 'agenda/manage', {
             action: 'make_public',
             id: todoId,
             csrf_js: getCsrfToken()
@@ -55,7 +55,7 @@ document.querySelectorAll('.todo .heading .status').forEach((div) => {
         let newStatus = status === 'todo' ? 'in-progress' : (status === 'in-progress' ? 'done' : 'todo');
         let newText = newStatus === 'todo' ? 'À faire' : (newStatus === 'in-progress' ? 'En cours' : 'Fait');
 
-        fetch(getRootPath() + 'todo/statusapi', {
+        fetch(getRootPath() + 'agenda/statusapi', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -127,7 +127,7 @@ function openEditingTodo(todoId, todo, target) {
 function getTodoDeletionConfirmation(todoId) {
     const $html = `
         <div class="todo delete-todo" data-detete-todo-id="${todoId}">
-            <form action="${getRootPath()}todo/manage" method="post">
+            <form action="${getRootPath()}agenda/manage" method="post">
                 <p>Confirmer la suppression de cette tâche ?</p>
                 <input type="hidden" name="csrf_js" value="${out(getCsrfToken())}">
                 <input type="hidden" name="action" value="delete"/>
@@ -145,11 +145,11 @@ function getTodoDeletionConfirmation(todoId) {
 function getTodoEditForm(todoId, subject_id, duedate, type, content, link) {
 
     if (getSubjects().length === 0) {
-        return createElementFromHTML('<p class="no-todo">Pour ajouter une tâche, ajoutez d\'abord des matières&#8239;:<br><a href="' + getRootPath() + 'todo/subjects">Ajouter des matières</a></p>');
+        return createElementFromHTML('<p class="no-todo">Pour ajouter une tâche, ajoutez d\'abord des matières&#8239;:<br><a href="' + getRootPath() + 'agenda/subjects">Ajouter des matières</a></p>');
     }
 
     const $html = `
-        <form class="todo edit-todo" method="post" action="${getRootPath()}todo/manage" data-edit-todo-id="${todoId}">
+        <form class="todo edit-todo" method="post" action="${getRootPath()}agenda/manage" data-edit-todo-id="${todoId}">
             <input type="hidden" name="action" value="edit"/>
             <input type="hidden" name="id" value="${todoId}"/>
             <input type="hidden" name="csrf_js" value="${out(getCsrfToken())}">
@@ -266,7 +266,7 @@ function out(text) {
 
 function onSubjectComboChange(e) {
     if (e.target.value === 'manage') {
-        window.location = getRootPath() + 'todo/subjects'
+        window.location = getRootPath() + 'agenda/subjects'
         e.target.value = null;
     }
 }
