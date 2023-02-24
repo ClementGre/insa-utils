@@ -9,6 +9,21 @@ function request_login($email): string
     if(str_ends_with($email, '@insa-lyon.fr')) {
         $email = substr($email, 0, -strlen('@insa-lyon.fr'));
     }
+    if (strlen($email) == 0) {
+        return "Une adresse INSA ne peut pas faire 0 caractères (à ma connaissance).";
+    }
+    if (str_contains($email, '@')) {
+        return "L'adresse email doit être de la forme \"prénom.nom\" (sans le @insa-lyon.fr).";
+    }
+    if(substr_count($email, '.') != 1) {
+        return "L'adresse email doit être de la forme \"prénom.nom\".";
+    }
+    if (strlen($email) > 64) {
+        return "Une adresse email INSA Lyon ne peut pas dépasser 75 caractères.";
+    }
+    if (str_contains($email, ' ')) {
+        return "L'adresse email doit être de la forme \"prénom.nom\" (sans espace).";
+    }
 
     $email_prefix = strtolower($email);
     $name = emailToName($email_prefix);

@@ -47,7 +47,6 @@ $title = "Rejoindre une classe";
 <main class="">
     <section class="b-darken">
         <h3>Rejoindre la classe <?= out($class_name) ?></h3>
-
         <p>
             Vous êtes déjà dans une classe.<br>Êtes-vous sûr de vouloir la quitter pour rejoindre <?= out($class_name) ?>
         </p>
