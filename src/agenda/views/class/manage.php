@@ -16,6 +16,23 @@ if (isset($_POST['action'])) {
         case 'add':
             if (isset($_POST['subject_id']) && isset($_POST['duedate']) && isset($_POST['type']) && $_POST['content'] && isset($_POST['link']) && isset($_POST['visibility'])) {
                 if (is_csrf_valid()) {
+
+                    if(strlen($_POST['link']) > 0){
+                        if(!filter_var($_POST['link'], FILTER_VALIDATE_URL)){
+                            $_SESSION['errors'][] = 'Le lien n\'est pas valide.';
+                            break;
+                        }
+                    }
+                    if(mb_strlen($_POST['link'], "UTF-16BE") > 2048){
+                        $_SESSION['errors'][] = 'Le lien est trop long.';
+                        break;
+                    }
+                    if(mb_strlen($_POST['content'], "UTF-16BE") > 3000) {
+                        $_SESSION['errors'][] = 'Le contenu est trop long.';
+                        break;
+                    }
+
+
                     $q = getDB()->prepare('INSERT INTO todos (class_id, creator_id, is_private, subject_id, type, duedate, content, link) VALUES (:class_id, :creator_id, :is_private, :subject_id, :type, :duedate, :content, :link)');
                     $r = $q->execute([
                         ':class_id' => $status['class_id'],
@@ -108,6 +125,7 @@ if (isset($_POST['action'])) {
                 exit();
             }
             break;
+
     }
 }
 header('Location: ' . getRootPath() . 'agenda/');

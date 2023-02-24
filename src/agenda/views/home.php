@@ -32,7 +32,7 @@ if ($status['is_in_class']) {
     ?>
 </head>
 <body>
-<?php include __DIR__ . '/inc/header.php' ?>
+<?php $is_home = true; include __DIR__ . '/inc/header.php' ?>
 <main>
 
     <?php

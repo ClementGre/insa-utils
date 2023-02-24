@@ -42,7 +42,14 @@ $title = "Gestion des matières";
 <main>
 
     <?php
-    print_errors_html($errors);
+    if (isset($_SESSION['errors'])) {
+        print_errors_html($_SESSION['errors']);
+        $_SESSION['errors'] = array();
+    }
+    if (isset($_SESSION['infos'])) {
+        print_infos_html($_SESSION['infos']);
+        $_SESSION['infos'] = array();
+    }
     ?>
 
     <h3>Matières</h3>
@@ -81,7 +88,7 @@ $title = "Gestion des matières";
                         <?php
                         foreach (SubjectColor::cases() as $color) {
                             ?>
-                            <input type="radio" name="color" value="<?= strtolower($color->name) ?>"
+                            <input type="radio" name="color" alt="<?= strtolower($color->name) ?>" value="<?= strtolower($color->name) ?>"
                                    style="background-color: <?= $color->value ?>;"
                                 <?= $subject['color'] === strtolower($color->name) ? 'checked="checked"' : '' ?> required>
                             <?php

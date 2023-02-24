@@ -45,6 +45,26 @@ $row = $q->fetch();
 $count = $row ? $row[0] : 0;
 ?>
 
+
+
+        <?php
+        if ($count != 0) {
+            ?>
+            <div class="join-request">
+                <a href="<?= getRootPath() ?>agenda/requests">
+                    <?php
+                    if ($count == 1)
+                        echo "<p>$count personne souhaite rejoindre votre classe</p>";
+                    else
+                        echo "<p>$count personne souhaite rejoindre votre classe</p>";
+                    ?>
+                </a>
+            </div>
+            <?php
+        }
+        ?>
+
+
     <h3>À faire&#8239;:</h3>
     <ul class="todo-list">
         <?php
@@ -93,11 +113,11 @@ $count = $row ? $row[0] : 0;
                     </select>
                 </div>
                 <div class="content">
-        <textarea name="content" rows="4"
-                  placeholder="Titre&#10;Description"><?= out($_POST['content'] ?? '') ?></textarea>
+                    <textarea name="content" rows="4"
+                        placeholder="Titre&#10;Description" maxlength="3000" required><?= out($_POST['content'] ?? '') ?></textarea>
                 </div>
                 <div class="validate">
-                    <input type="text" name="link" placeholder="Lien" value="<?= out($_POST['link'] ?? '') ?>">
+                    <input type="text" name="link" placeholder="Lien" value="<?= out($_POST['link'] ?? '') ?>" maxlength="2048">
                     <select class="fixed" name="visibility" required>
                         <option value="public" <?= (!isset($_POST['visibility']) || $_POST['visibility'] === 'public') ? 'selected="selected"' : '' ?>>
                             Publique
@@ -117,29 +137,6 @@ $count = $row ? $row[0] : 0;
             <?php
         }
         ?>
-    </div>
-    <div class="fast-links">
-        <?php
-        if ($count == 1) {
-            ?>
-            <a class="fast-link requests" href="<?= getRootPath() ?>agenda/requests">
-                <p><?= $count ?> personne souhaite rejoindre votre classe</p>
-            </a>
-            <?php
-        }else if ($count != 0) {
-            ?>
-            <a class="fast-link requests" href="<?= getRootPath() ?>agenda/requests">
-                <p><?= $count ?> personnes souhaitent rejoindre votre classe</p>
-            </a>
-            <?php
-        }
-        ?>
-        <a class="fast-link" href="<?= getRootPath() ?>agenda/subjects">
-            <p>Gestion des matières</p>
-        </a>
-        <a class="fast-link" href="<?= getRootPath() ?>agenda/all">
-            <p>Toutes les tâches</p>
-        </a>
     </div>
 <?php
 if (count($done) != 0) {

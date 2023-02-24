@@ -6,7 +6,8 @@
         "johngrogg/ics-parser": "^3.2",
       "ext-pdo": "*",
       "ext-intl": "*",
-        "phpmailer/phpmailer": "^6.7"
+        "phpmailer/phpmailer": "^6.7",
+      "ext-mbstring": "*"
     },
     "authors": [
         {

@@ -85,7 +85,6 @@ header a {
     cursor: pointer;
     text-decoration: none;
     transition: all .2s ease-in-out;
-    width: fit-content;
 }
 header a:visited {
     color: var(--light-gray);
@@ -98,6 +97,7 @@ header a.back-link {
     justify-content: space-around;
     flex-wrap: nowrap;
     gap: 5px;
+    width: fit-content;
 }
 header a.back-link:hover {
     text-decoration: underline;

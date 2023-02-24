@@ -5,13 +5,29 @@ $has_class = isset($status['class_id']) && $status['class_id'] != null; // reque
 ?>
 <header>
     <div class="side left">
-        <a class="back-link" href="<?= getRootPath() ?>">
-            <div class="arrow">
-                <div class="branch1"></div>
-                <div class="branch2"></div>
-            </div>
-            <p>Menu</p>
-        </a>
+        <?php
+        if ($is_home ?? false) {
+            ?>
+            <a class="back-link" href="<?= getRootPath() ?>">
+                <div class="arrow">
+                    <div class="branch1"></div>
+                    <div class="branch2"></div>
+                </div>
+                <p>Menu</p>
+            </a>
+            <?php
+        } else {
+            ?>
+            <a class="back-link" href="<?= getRootPath() ?>agenda">
+                <div class="arrow">
+                    <div class="branch1"></div>
+                    <div class="branch2"></div>
+                </div>
+                <p>Tâches</p>
+            </a>
+            <?php
+        }
+        ?>
     </div>
     <div class="title">
         <h1>INS'Agenda</h1>

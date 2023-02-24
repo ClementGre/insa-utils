@@ -19,6 +19,7 @@ any(getRootPath() . 'agenda/requests', 'views/class/requests.php');
 any(getRootPath() . 'agenda/manage', 'views/class/manage.php');
 any(getRootPath() . 'agenda/statusapi', 'views/class/statusapi.php');
 any(getRootPath() . 'agenda/subjects', 'views/class/subjects.php');
+any(getRootPath() . 'agenda/manage_subjects', 'views/class/manage_subjects.php');
 
 any(getRootPath() . 'agenda/classes', 'views/classes.php');
 any(getRootPath() . 'agenda/class/$class/join', 'views/class/join.php');

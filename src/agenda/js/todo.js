@@ -169,10 +169,10 @@ function getTodoEditForm(todoId, subject_id, duedate, type, content, link) {
                 </select>
             </div>
             <div class="content">
-                <textarea name="content" rows="4" placeholder="Titre&#10;Description">${out(content)}</textarea>
+                <textarea name="content" rows="4" placeholder="Titre&#10;Description" maxlength="3000" required>${out(content)}</textarea>
             </div>
             <div class="validate">
-                <input type="text" name="link" placeholder="Lien" value="${out(link)}">
+                <input type="text" name="link" placeholder="Lien" value="${out(link)}" maxlength="2048">
                 <input class="fixed" type="button" name="cancel" value="Annuler">
                 <input class="fixed" type="submit" name="submit" value="Éditer">
             </div>

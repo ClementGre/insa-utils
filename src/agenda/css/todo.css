@@ -234,7 +234,9 @@ ul > p.no-todo {
 }
 
 .todo-list form div.content textarea {
+    min-height: 35px;
     height: 70px;
+    max-height: 300px;
     margin-bottom: 5px;
 }
 
@@ -274,37 +276,26 @@ div.delete-todo form div input {
 
 /* FAST LINKS */
 
-div.fast-links {
+div.join-request {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    gap: 10px;
     margin-bottom: 10px;
 }
-
-div.fast-links .fast-link {
-    flex: 1 1 0;
-    background-color: var(--light-gray);
-    border-radius: 5px;
-    padding: 5px;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
-    border: 2px solid var(--dark-blue);
-    font-size: 13px;
-    color: var(--dark-blue);
-    display: flex;
-    align-items: center;
+div.join-request a{
+    background-color: var(--dark-blue);
+    border-radius: 10px;
+    padding: 8px 5px;
+    text-align: center;
+    display: block;
 }
-
-div.fast-links .fast-link.requests{
-    flex: 1 1 20%;
+div.join-request a p{
+    text-decoration: underline;
+    text-decoration-color: var(--gray);
+    color: var(--light-gray);
+    font-size: 14px;
+    margin: 0;
+    display: block;
+    transition: all .2s ease-in-out;
 }
-
-div.fast-links .fast-link:hover {
-    background-color: var(--light-gray-hover);
-}
-
-div.fast-links .fast-link p {
-    margin: auto;
+div.join-request a:hover p{
+    text-decoration-color: var(--light-gray);
 }
