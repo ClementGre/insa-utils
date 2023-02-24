@@ -43,7 +43,7 @@ $title = "Demandes d'ajout";
         gen_csrf_key();
         foreach ($users as $user) {
             ?>
-            <form class="user" method="post" action="<?= getRootPath() ?>agenda/manage">
+            <form class="user" method="post" action="<?= getRootPath() ?>agenda/manage/requests">
                 <?php set_csrf_without_regen(); ?>
                 <input type="hidden" name="id" value="<?= $user['id'] ?>"/>
                 <p class="user-name">

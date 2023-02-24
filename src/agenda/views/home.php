@@ -37,7 +37,7 @@ if ($status['is_in_class']) {
 
     <?php
     if ($status['is_in_class']) {
-        require __DIR__ . '/inc/class.php';
+        require __DIR__ . '/class/class.php';
     } else if ($status['is_requesting_class']) {
         ?>
         <section class="b-darken">

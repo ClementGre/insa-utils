@@ -45,27 +45,46 @@ $title = "Mon compte";
     <section class="b-darken">
         <h3>Se déconnecter</h3>
 
-        <form action="" method="post">
-            <?php set_csrf('disconnect') ?>
-            <input type="submit" value="Se déconnecter">
-        </form>
-        <form action="" method="post">
-            <?php set_csrf('disconnect_all') ?>
-            <input type="submit" value="Se déconnecter de tous les autres appareils">
-        </form>
+        <div class="form-container">
+            <form action="" method="post">
+                <?php set_csrf('disconnect') ?>
+                <input type="submit" value="Se déconnecter">
+            </form>
+            <form action="" method="post">
+                <?php set_csrf('disconnect_all') ?>
+                <input type="submit" value="Se déconnecter de tous les autres appareils">
+            </form>
+        </div>
     </section>
     <section class="b-darken">
         <h3>Gestion de mes données</h3>
 
-        <form action="" method="post">
-            <?php set_csrf('download') ?>
-            <input type="submit" value="Télécharger mes données">
-        </form>
-        <form action="" method="post">
-            <?php set_csrf('delete') ?>
-            <input type="submit" value="Supprimer mon compte et mes données">
-        </form>
+        <div class="form-container">
+            <form action="" method="post">
+                <?php set_csrf('download') ?>
+                <input type="submit" value="Télécharger mes données">
+            </form>
+            <form action="" method="post">
+                <?php set_csrf('delete') ?>
+                <input type="submit" value="Supprimer mon compte et mes données">
+            </form>
+        </div>
     </section>
+
+    <style>
+        .form-container{
+            width: fit-content;
+            margin: auto;
+        }
+        .form-container form{
+            width: 100%;
+        }
+        .form-container form input{
+            width: 100%;
+            height: 35px;
+            padding: 0 9px;
+        }
+    </style>
 </main>
 <footer>
     <?= getFooter('<a href="' . getRootPath() . 'agenda/">Tâches à venir</a>', "Clément GRENNERAT") ?>

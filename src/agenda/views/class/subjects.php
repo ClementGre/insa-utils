@@ -34,6 +34,7 @@ $title = "Gestion des matières";
         print_infos_html($_SESSION['infos']);
         $_SESSION['infos'] = array();
     }
+    gen_csrf_key();
     ?>
 
     <h3>Matières</h3>
@@ -47,8 +48,8 @@ $title = "Gestion des matières";
         foreach ($subjects as $subject) {
             ?>
             <section class="b-darken">
-                <form method="post" action="<?= getRootPath() ?>agenda/subjects/">
-                    <?php set_csrf(); ?>
+                <form method="post" action="<?= getRootPath() ?>agenda/manage/subjects">
+                    <?php set_csrf_without_regen(); ?>
                     <input type="hidden" name="id" value="<?= $subject['id'] ?>">
                     <div class="heading">
                         <input type="text" name="name" placeholder="Matière" value="<?= out($subject['name']) ?>" required>
@@ -88,8 +89,8 @@ $title = "Gestion des matières";
 
     <h3>Ajouter une matière</h3>
     <section class="b-darken">
-        <form method="post" action="<?= getRootPath() ?>agenda/subjects/">
-            <?php set_csrf(); ?>
+        <form method="post" action="<?= getRootPath() ?>agenda/manage/subjects">
+            <?php set_csrf_without_regen(); ?>
             <div class="heading">
                 <input type="text" name="name" placeholder="Matière" required>
                 <select id="type" name="type" required>

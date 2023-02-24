@@ -1,7 +1,6 @@
 <?php
 $status = $status ?? array();
 $logged_in = $status['logged_in'] ?? false;
-$has_class = isset($status['class_id']) && $status['class_id'] != null; // requesting or not
 ?>
 <header>
     <div class="side left">
@@ -43,23 +42,25 @@ $has_class = isset($status['class_id']) && $status['class_id'] != null; // reque
                 <div class="round round-3"></div>
                 <div class="dropdown-content">
                     <?php
-                    if ($has_class) {
+                    if ($status['is_in_class']) {
                         ?>
                         <a href="<?= getRootPath() ?>agenda/">Tâches à venir</a>
                         <a href="<?= getRootPath() ?>agenda/all">Toutes les tâches</a>
                         <a href="<?= getRootPath() ?>agenda/subjects">Gestion des matières</a>
                         <a href="<?= getRootPath() ?>agenda/requests">Demandes d'ajout</a>
-                        <a href="<?= getRootPath() ?>agenda/classes">Liste des classes</a>
-                        <a href="<?= getRootPath() ?>agenda/account">Mon compte</a>
+                        <?php
+                    } else if ($status['is_requesting_class']) {
+                        ?>
+                        <a href="<?= getRootPath() ?>agenda/">Tâches à venir</a>
                         <?php
                     } else {
                         ?>
-                        <a href="<?= getRootPath() ?>agenda/classes">Liste des classes</a>
-                        <a href="<?= getRootPath() ?>agenda/account">Mon compte</a>
+                        <a href="<?= getRootPath() ?>agenda/">Accueil</a>
                         <?php
                     }
                     ?>
-
+                    <a href="<?= getRootPath() ?>agenda/classes">Liste des classes</a>
+                    <a href="<?= getRootPath() ?>agenda/account">Mon compte</a>
                 </div>
             </div>
             <?php

@@ -28,7 +28,7 @@ document.querySelectorAll('.make-public-todo').forEach((a) => {
         closeEditingTodos();
         closeDeletingTodos();
         const todoId = a.dataset.todoId;
-        redirectWithPost(getRootPath() + 'agenda/manage', {
+        redirectWithPost(getRootPath() + 'agenda/manage/todo', {
             action: 'make_public',
             id: todoId,
             csrf_js: getCsrfToken()
@@ -127,7 +127,7 @@ function openEditingTodo(todoId, todo, target) {
 function getTodoDeletionConfirmation(todoId) {
     const $html = `
         <div class="todo delete-todo" data-detete-todo-id="${todoId}">
-            <form action="${getRootPath()}agenda/manage" method="post">
+            <form action="${getRootPath()}agenda/manage/todo" method="post">
                 <p>Confirmer la suppression de cette tâche ?</p>
                 <input type="hidden" name="csrf_js" value="${out(getCsrfToken())}">
                 <input type="hidden" name="action" value="delete"/>
@@ -149,7 +149,7 @@ function getTodoEditForm(todoId, subject_id, duedate, type, content, link) {
     }
 
     const $html = `
-        <form class="todo edit-todo" method="post" action="${getRootPath()}agenda/manage" data-edit-todo-id="${todoId}">
+        <form class="todo edit-todo" method="post" action="${getRootPath()}agenda/manage/todo" data-edit-todo-id="${todoId}">
             <input type="hidden" name="action" value="edit"/>
             <input type="hidden" name="id" value="${todoId}"/>
             <input type="hidden" name="csrf_js" value="${out(getCsrfToken())}">
