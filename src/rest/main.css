@@ -100,8 +100,12 @@ div.form div.soldebtns{
     display: flex;
     flex-flow: row nowrap;
     align-content: stretch;
-    column-gap: 5px;
+    column-gap: 3px;
     justify-content: space-between;
+}
+div.form div.soldebtns button{
+    padding: 5px;
+    font-size: 13px;
 }
 div.form button{
     background-color: white;
