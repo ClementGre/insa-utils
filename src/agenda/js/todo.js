@@ -55,7 +55,7 @@ document.querySelectorAll('.todo .heading .status').forEach((div) => {
         let newStatus = status === 'todo' ? 'in-progress' : (status === 'in-progress' ? 'done' : 'todo');
         let newText = newStatus === 'todo' ? 'À faire' : (newStatus === 'in-progress' ? 'En cours' : 'Fait');
 
-        fetch(getRootPath() + 'agenda/statusapi', {
+        fetch(getRootPath() + 'agenda/jsapi/status', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

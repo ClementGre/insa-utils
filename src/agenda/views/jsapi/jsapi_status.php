@@ -5,7 +5,7 @@ $todo_id = $json['todo_id'];
 $user_id = $json['user_id'];
 $csrf_js = $json['csrf_js'];
 
-$output = [];
+$out = [];
 
 if ($_SESSION["csrf_js"] === $csrf_js) {
     $q = getDB()->prepare('SELECT status FROM status WHERE user_id=:user_id AND todo_id=:todo_id');

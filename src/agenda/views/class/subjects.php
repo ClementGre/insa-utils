@@ -8,22 +8,6 @@ if (!$status['is_in_class']) {
 }
 
 require_once __DIR__ . '/../../php/subjects.php';
-if (isset($_POST['name']) && isset($_POST['color']) && isset($_POST['type'])) {
-    if (is_csrf_valid()) {
-        if (isset($_POST['id'])) {
-            if(isset($_POST['action']) && $_POST['action'] == 'Supprimer') {
-                $errors = array_merge($errors, delete_subject($_POST['id'], $status['class_id']));
-            }else{
-                $errors = array_merge($errors, update_subject($_POST['id'], $_POST['name'], $_POST['color'], $_POST['type'], $status['class_id']));
-
-            }
-        } else {
-            $errors = array_merge($errors, create_subject($_POST['name'], $_POST['color'], $_POST['type'], $status['class_id']));
-        }
-    } else {
-        $errors[] = "Le formulaire a expiré, veuillez réessayer.";
-    }
-}
 
 $title = "Gestion des matières";
 ?>
@@ -113,7 +97,7 @@ $title = "Gestion des matières";
                     <option value="others">Autres</option>
                     <option value="humas">Humanités</option>
                 </select>
-                <input type="submit" value="Ajouter">
+                <input type="submit" name="action" value="Ajouter">
             </div>
             <div class="color">
                 <?php
