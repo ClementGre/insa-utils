@@ -16,7 +16,7 @@ $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
     <link href="<?= getRootPath() ?>rest/main.css" rel="stylesheet"/>
 </head>
 <body>
-<?php printHeader("INS'Agenda", "Cahier de texte collaboratif"); ?>
+<?php printHeader($name, $title); ?>
 <main class="">
     <section id="app">
         <div class="output" v-cloak>

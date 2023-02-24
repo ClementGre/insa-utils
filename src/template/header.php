@@ -3,7 +3,15 @@ function printHeader($name, $subtitle = ''): void
 {
     ?>
     <header>
-        <a class="back-link" href="<?= getRootPath() ?>"><p>←&#8239;Menu</p></a>
+        <div class="side left">
+            <a class="back-link" href="<?= getRootPath() ?>">
+                <div class="arrow">
+                    <div class="branch1"></div>
+                    <div class="branch2"></div>
+                </div>
+                <p>Menu</p>
+            </a>
+        </div>
         <div class="title">
             <h1><?= $name ?></h1>
             <?php
@@ -14,7 +22,7 @@ function printHeader($name, $subtitle = ''): void
             }
             ?>
         </div>
-        <div class="spacing"></div>
+        <div class="side right"></div>
     </header>
     <?php
 }
