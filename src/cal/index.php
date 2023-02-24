@@ -56,7 +56,7 @@ if(isset($_GET['room'])) $room = urldecode($_GET['room']);
 
         <?php
         if(isset($_GET['url'])){
-            $url = 'https://insa-utils.fr/neocal/get.php?url=' . $url . '&mode=' . $mode . '&room=' . $room;
+            $url = 'https://insa-utils.fr/cal/get.php?url=' . $url . '&mode=' . $mode . '&room=' . $room;
             ?>
             <p>
                 URL de ton calendrier convertis (nouveau abonnement iCal) :<br>
