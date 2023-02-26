@@ -21,8 +21,24 @@ function send_auth_mail($name, $email_prefix, $id, $email_token, $email_code): v
         return;
     }
 
-    //send_mail($name, $email_prefix . '@insa-lyon.fr', $subject, $text, $html, $unsubscribe_url);
-    sendMail($name, $email_prefix . '@insa-lyon.fr', $subject, $html, $text, $unsubscribe_url);
+    sendMail($name, $email_prefix . '@insa-lyon.fr', $subject, $html, $text);
+}
+function send_disable_email_mail($name, $email_prefix, $id, $email_disabled_token): void
+{
+
+    require_once __DIR__ . '/../mailing/disable_email_content.php';
+
+    $url = "https://insa-utils.fr/agenda/unsubscribe?id=" . $id . '&resubscribe=' . $email_disabled_token;
+
+    $text = get_disable_email_mail_text_content($url);
+    $html = get_disable_email_mail_content($url);
+
+    $subject = 'Désactivation de la réception d\'emails d\'insa-utils';
+
+    if (str_starts_with($_SERVER['HTTP_HOST'], 'localhost')) {
+        return;
+    }
+    sendMail($name, $email_prefix . '@insa-lyon.fr', $subject, $html, $text);
 }
 
 // Deprecated
@@ -59,7 +75,7 @@ Content-Transfer-Encoding: quoted-printable
  * @param $noHtmlBody : email body if html is not supported
  * @return false|string : false = OK | string = error message
  */
-function sendMail($toName, $to, $subject, $htmlBody, $noHtmlBody, $unsubscribe_url): false|string
+function sendMail($toName, $to, $subject, $htmlBody, $noHtmlBody): false|string
 {
     $mail = new PHPMailer(true);
     $mail->Encoding = 'base64';
@@ -70,7 +86,7 @@ function sendMail($toName, $to, $subject, $htmlBody, $noHtmlBody, $unsubscribe_u
         //Recipients
         $mail->setFrom('auth@insa-utils.fr', 'INSA Utils');
         $mail->addReplyTo('clement.grennerat@insa-lyon.fr', 'Clément Grennerat');
-        $mail->addCustomHeader("List-Unsubscribe",'<' . $unsubscribe_url . '>');
+//        $mail->addCustomHeader("List-Unsubscribe",'<' . $unsubscribe_url . '>');
         $mail->addAddress($to, $toName);
 
         //Content

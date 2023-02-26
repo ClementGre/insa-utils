@@ -16,6 +16,7 @@ date_default_timezone_set("Europe/Paris");
 // Not authenticated pages
 any(getRootPath() . 'agenda', 'views/home.php');
 any(getRootPath() . 'agenda/auth', 'views/auth.php');
+any(getRootPath() . 'agenda/unsubscribe', 'views/unsubscribe.php');
 any(getRootPath() . 'agenda/account', 'views/account.php');
 any(getRootPath() . 'agenda/classes', 'views/classes.php');
 any(getRootPath() . 'agenda/class/$class/join', 'views/class/join.php');
@@ -29,6 +30,7 @@ any(getRootPath() . 'agenda/subjects', 'views/class/subjects.php');
 any(getRootPath() . 'agenda/manage/todo', 'views/manage/manage_todo.php');
 any(getRootPath() . 'agenda/manage/subjects', 'views/manage/manage_subjects.php');
 any(getRootPath() . 'agenda/manage/requests', 'views/manage/manage_requests.php');
+any(getRootPath() . 'agenda/manage/disable_email', 'views/manage/manage_disable_email.php');
 
 // JS API
 any(getRootPath() . 'agenda/jsapi/status', 'views/jsapi/jsapi_status.php');

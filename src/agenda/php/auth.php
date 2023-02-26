@@ -142,6 +142,20 @@ function try_code_login($id, $email_code): string
     exit;
 }
 
+function disable_user_email($id, $name): void
+{
+    $token = randomToken(64);
+    $q = getDB()->prepare("UPDATE users SET status='email_disabled', email_disabled_token=:token, email_code_trials=0, email_token=null, email_code=null, email_date=null WHERE id=:id");
+    $q->execute([
+        ":id" => $id,
+        ":token" => $token
+    ]);
+
+    require_once __DIR__ . '/../mailing/mailer.php';
+    $email_prefix = str_replace(' ', '.', strtolower($name));
+    send_disable_email_mail($name, $email_prefix, $id, $token);
+}
+
 function is_email_date_valid($email_date): bool
 {
     return timestampDiffMn($email_date) < 15;
