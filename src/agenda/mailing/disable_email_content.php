@@ -2,7 +2,7 @@
 
 function get_disable_email_mail_text_content($url) : string
 {
-    return  "Vous avez demandé ne plus recevoir d'emails d'insa-utils.fr.
+    return  "Vous avez demandé de ne plus recevoir d'emails d'insa-utils.fr.
 Vous ne recevrez plus d'emails de insa-utils.fr, ce qui vous empêchera de vous authentifier sur d'autres appareils.
 
 Veuillez suivre ce lien pour réactiver les emails et ainsi pouvoir vous authentifier sur d'autres appareils :
@@ -15,6 +15,9 @@ Si vous n'êtes pas à l'origine de cette demande, veuillez suivre le lien donn�
 
 function get_disable_email_mail_content($url) : string
 {
+
+    $texturl = implode("&#8203;", str_split($url, 10));
+
     return <<<EOT
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -57,7 +60,7 @@ function get_disable_email_mail_content($url) : string
                 <tr>
                     <td align="center"
                         style="text-align: center; font-size: 15px; color: #2B2D42; font-weight: 400; font-family: Verdana, Arial, Helvetica sans-serif">
-                        Vous avez demandé ne plus recevoir d'emails d'insa-utils.fr.
+                        Vous avez demandé de ne plus recevoir d'emails d'insa-utils.fr.
                     </td>
                 </tr>
                 <tr>
@@ -104,10 +107,10 @@ function get_disable_email_mail_content($url) : string
                 </tr>
                 <tr>
                     <td align="center"
-                        style="text-align: center; font-size: 11px; color: #2B2D42; font-weight: 400; font-family: Verdana, Arial, Helvetica sans-serif">
+                        style="text-align: center; font-size: 11px; color: #2B2D42; font-weight: 400; font-family: Verdana, Arial, Helvetica sans-serif;">
                         Si le bouton n'apparaît pas correctement, veuillez suivre ce lien :
                         <br>
-                        <a href="$url">$url</a>
+                        <a href="$url">$texturl</a>
                     </td>
                 </tr>
                 <tr>

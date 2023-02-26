@@ -20,11 +20,11 @@ if (!is_csrf_valid()){
 if (isset($_POST['action'])) {
     switch ($_POST['action']) {
         case 'enable':
-            $q = getDB()->prepare("UPDATE users SET status='normal' WHERE id=:id");
+            $q = getDB()->prepare("UPDATE users SET status='normal', email_resubscribe_token=null WHERE id=:id");
             $q->execute([":id" => $status['id']]);
             $user = $q->fetch();
 
-            $_SESSION['infos'] = "Vous avez bien réactivé les emails.";
+            $_SESSION['infos'][] = "Vous avez bien réactivé les emails.";
 
             break;
         case 'disable':
@@ -34,7 +34,7 @@ if (isset($_POST['action'])) {
             $user = $q->fetch();
 
             disable_user_email($status['id'], $user['name']);
-            $_SESSION['infos'] = "Vous ne recevrez plus d'email d'INSA Utils.<br>Un email de réactivation vous a été envoyé.";
+            $_SESSION['infos'][] = "Vous ne recevrez plus d'email d'INSA Utils.<br>Un email de réactivation vous a été envoyé.";
 
             break;
 

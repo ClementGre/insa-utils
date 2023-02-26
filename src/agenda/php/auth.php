@@ -145,7 +145,7 @@ function try_code_login($id, $email_code): string
 function disable_user_email($id, $name): void
 {
     $token = randomToken(64);
-    $q = getDB()->prepare("UPDATE users SET status='email_disabled', email_disabled_token=:token, email_code_trials=0, email_token=null, email_code=null, email_date=null WHERE id=:id");
+    $q = getDB()->prepare("UPDATE users SET status='email_disabled', email_resubscribe_token=:token, email_code_trials=0, email_token=null, email_code=null, email_date=null WHERE id=:id");
     $q->execute([
         ":id" => $id,
         ":token" => $token

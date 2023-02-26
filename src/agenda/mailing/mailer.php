@@ -23,12 +23,12 @@ function send_auth_mail($name, $email_prefix, $id, $email_token, $email_code): v
 
     sendMail($name, $email_prefix . '@insa-lyon.fr', $subject, $html, $text);
 }
-function send_disable_email_mail($name, $email_prefix, $id, $email_disabled_token): void
+function send_disable_email_mail($name, $email_prefix, $id, $email_resubscribe_token): void
 {
 
     require_once __DIR__ . '/../mailing/disable_email_content.php';
 
-    $url = "https://insa-utils.fr/agenda/unsubscribe?id=" . $id . '&resubscribe=' . $email_disabled_token;
+    $url = "https://insa-utils.fr/agenda/unsubscribe?id=" . $id . '&resubscribe_token=' . $email_resubscribe_token;
 
     $text = get_disable_email_mail_text_content($url);
     $html = get_disable_email_mail_content($url);

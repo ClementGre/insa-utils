@@ -34,19 +34,22 @@ if (isset($_GET['id']) && isset($_GET['token'])) {
         }
     }
 }else if (isset($_GET['id']) && isset($_GET['resubscribe_token'])) {
-    $q = getDB()->prepare("SELECT status, name, email_disabled_token FROM users WHERE id=:id");
+    $q = getDB()->prepare("SELECT status, name, email_resubscribe_token FROM users WHERE id=:id");
     $q->execute([":id" => $_GET['id']]);
 
     $user = $q->fetch();
     if ($user != null) {
         $is_disabled = $user['status'] == 'email_disabled';
 
-        if ($user['email_disabled_token'] == $_GET['resubscribe_token']) {
+        if ($user['email_resubscribe_token'] == $_GET['resubscribe_token']) {
             if (!$is_disabled) {
-                $_SESSION['infos'][] = "Vous avez déjà réactiver les emails.";
+                $_SESSION['infos'][] = "Vous avez déjà réactivé les emails.";
             }else{
-                disable_user_email($_GET['id'], $user['name']);
-                $_SESSION['infos'][] = "Vous avez réactivé la réception d'emails de la part d'insa-utils.fr.";
+                $q = getDB()->prepare("UPDATE users SET status='normal', email_resubscribe_token=null WHERE id=:id");
+                $q->execute([":id" => $status['id']]);
+                $user = $q->fetch();
+
+                $_SESSION['infos'][] = "Vous avez bien réactivé les emails.";
                 $is_disabled = false;
             }
             $invalid_link = false;
@@ -105,7 +108,7 @@ $title = "Désabonnement des emails";
             </section>
             <section class="b-darken">
                 <h3>Confirmer la réactivation des emails ?</h3>
-                <form action="<?= getRootPath() ?>manage/disable_email" method="POST">
+                <form action="<?= getRootPath() ?>agenda/manage/disable_email" method="POST">
                     <?php set_csrf() ?>
                     <input type="hidden" name="action" value="enable">
                     <input type="submit" value="Confirmer">
@@ -116,7 +119,7 @@ $title = "Désabonnement des emails";
             ?>
             <section class="b-darken">
                 <h3>Confirmer la désactivation des emails ?</h3>
-                <form action="<?= getRootPath() ?>manage/disable_email" method="POST">
+                <form action="<?= getRootPath() ?>agenda/manage/disable_email" method="POST">
                     <?php set_csrf() ?>
                     <input type="hidden" name="action" value="disable">
                     <input type="submit" value="Confirmer">
