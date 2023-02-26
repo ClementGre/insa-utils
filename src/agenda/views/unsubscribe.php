@@ -3,6 +3,8 @@
 $status = get_user_status();
 $is_disabled = false;
 $invalid_link = true;
+$_SESSION['infos'] = $_SESSION['infos'] ?? array();
+$_SESSION['errors'] = $_SESSION['errors'] ?? array();
 
 
 if ($status['logged_in']) {
@@ -25,7 +27,7 @@ if (isset($_GET['id']) && isset($_GET['token'])) {
                  $_SESSION['infos'][] = "Vous avez déjà demandé à ne plus recevoir d'email d'INSA Utils.";
              }else{
                  disable_user_email($_GET['id'], $user['name']);
-                 $_SESSION['infos'][] = "Vous ne recevrez plus d'email d'INSA Utils. Un email de réactivation vous a été envoyé.";
+                 $_SESSION['infos'][] = "Vous ne recevrez plus d'email d'INSA Utils.<br>Un email de réactivation vous a été envoyé.";
                  $is_disabled = true;
              }
              $invalid_link = false;

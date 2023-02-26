@@ -58,9 +58,16 @@ function get_disable_email_mail_content($url) : string
                     <td align="center"
                         style="text-align: center; font-size: 15px; color: #2B2D42; font-weight: 400; font-family: Verdana, Arial, Helvetica sans-serif">
                         Vous avez demandé ne plus recevoir d'emails d'insa-utils.fr.
-                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center"
+                        style="text-align: center; font-size: 15px; color: #2B2D42; font-weight: 400; font-family: Verdana, Arial, Helvetica sans-serif">
                         Vous ne recevrez plus d'emails de insa-utils.fr, ce qui vous empêchera de vous authentifier sur d'autres appareils.
                     </td>
+                </tr>
+                <tr>
+                    <td height="30" style="font-size: 30px; line-height: 30px">&nbsp;</td>
                 </tr>
                 <tr>
                     <td align="center"
@@ -88,14 +95,8 @@ function get_disable_email_mail_content($url) : string
                         <![endif]-->
                         <a href="$url"
                            style="background-color:#2B2D42;border-radius:10px;color:#ffffff;display:inline-block;font-family: Verdana, Arial, Helvetica sans-serif;font-size:15px;font-weight:bold;line-height:40px;width:300px;text-align:center;text-decoration:none;-webkit-text-size-adjust:none;mso-hide:all;">
-                            
+                            Réactiver les emails
                         </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center"
-                        style="text-align: center; font-size: 11px; color: #2B2D42; font-weight: 400; font-family: Verdana, Arial, Helvetica sans-serif">
-                        <a href="$url">$url</a>
                     </td>
                 </tr>
                 <tr>
@@ -103,7 +104,7 @@ function get_disable_email_mail_content($url) : string
                 </tr>
                 <tr>
                     <td align="center"
-                        style="text-align: center; font-size: 15px; color: #2B2D42; font-weight: 400; font-family: Verdana, Arial, Helvetica sans-serif">
+                        style="text-align: center; font-size: 11px; color: #2B2D42; font-weight: 400; font-family: Verdana, Arial, Helvetica sans-serif">
                         Si le bouton n'apparaît pas correctement, veuillez suivre ce lien :
                         <br>
                         <a href="$url">$url</a>

@@ -34,7 +34,7 @@ if (isset($_POST['action'])) {
             $user = $q->fetch();
 
             disable_user_email($status['id'], $user['name']);
-            $_SESSION['infos'] = "Vous ne recevrez plus d'email d'INSA Utils. Un email de réactivation vous a été envoyé.";
+            $_SESSION['infos'] = "Vous ne recevrez plus d'email d'INSA Utils.<br>Un email de réactivation vous a été envoyé.";
 
             break;
 
