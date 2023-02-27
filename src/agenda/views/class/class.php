@@ -83,7 +83,7 @@ $count = $row ? $row[0] : 0;
         <?php
         if (count($subjects) != 0) {
             ?>
-            <form class="todo" method="post" action="<?= getRootPath() ?>agenda/manage/subjects">
+            <form class="todo" method="post" action="<?= getRootPath() ?>agenda/manage/todo">
                 <?php set_csrf() ?>
                 <input type="hidden" name="action" value="add"/>
                 <div class="heading">
