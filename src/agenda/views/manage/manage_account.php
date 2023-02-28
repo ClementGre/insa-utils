@@ -38,7 +38,19 @@ if (isset($_POST['action'])) {
             write_user_data_to_csv_output();
             exit;
         case 'delete_account':
+            $q = getDB()->prepare("DELETE FROM users WHERE id=:id");
+            $q->execute([":id" => $status['id']]);
 
+            $q = getDB()->prepare("DELETE FROM status WHERE user_id=:id");
+            $q->execute([":id" => $status['id']]);
+
+            $q = getDB()->prepare("DELETE FROM todos WHERE creator_id=:id AND is_private=1");
+            $q->execute([":id" => $status['id']]);
+
+            remove_cookie('id');
+            remove_cookie('auth_token');
+            header("HTTP/1.1 303 See Other");
+            header('Location: ' . getRootPath() . 'agenda/');
             break;
     }
 }
