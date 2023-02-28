@@ -10,23 +10,6 @@ $id = $status['id'];
 $infos = array();
 $errors = array();
 
-if(is_csrf_valid('disconnect')){
-    remove_cookie('id');
-    remove_cookie('auth_token');
-    header('Location: ' . getRootPath() . 'agenda/');
-    exit;
-}
-if(is_csrf_valid('disconnect_all')){
-    // regen token
-    $auth_token = randomToken(64);
-    $q = getDB()->prepare("UPDATE users SET auth_token=:auth_token WHERE id=:id");
-    $q->execute([
-       'auth_token' => $auth_token,
-       'id' => $status['id']
-    ]);
-    set_cookie('auth_token', $auth_token);
-    $infos[] = "Vous avez été déconecté de tous vos autres appareils";
-}
 
 $title = "Mon compte";
 ?>
@@ -40,18 +23,26 @@ $title = "Mon compte";
 <?php include __DIR__ . '/inc/header.php' ?>
 <main>
 
-    <?php print_infos_html($infos); ?>
+    <?php
+    print_infos_html($_SESSION['infos']);
+    print_errors_html($_SESSION['errors']);
+    $_SESSION['infos'] = array();
+    $_SESSION['errors'] = array();
+    gen_csrf_key()
+    ?>
 
     <section class="b-darken">
         <h3>Se déconnecter</h3>
 
         <div class="form-container">
-            <form action="" method="post">
-                <?php set_csrf('disconnect') ?>
+            <form action="<?= getRootPath() ?>agenda/manage/account" method="post">
+                <?php set_csrf_without_regen(); ?>
+                <input type="hidden" name="action" value="disconnect">
                 <input type="submit" value="Se déconnecter">
             </form>
-            <form action="" method="post">
-                <?php set_csrf('disconnect_all') ?>
+            <form action="<?= getRootPath() ?>agenda/manage/account" method="post">
+                <?php set_csrf_without_regen() ?>
+                <input type="hidden" name="action" value="disconnect_all">
                 <input type="submit" value="Se déconnecter de tous les autres appareils">
             </form>
         </div>
@@ -60,12 +51,14 @@ $title = "Mon compte";
         <h3>Gestion de mes données</h3>
 
         <div class="form-container">
-            <form action="" method="post">
-                <?php set_csrf('download') ?>
+            <form action="<?= getRootPath() ?>agenda/manage/account" method="post">
+                <?php set_csrf_without_regen() ?>
+                <input type="hidden" name="action" value="download_data">
                 <input type="submit" value="Télécharger mes données">
             </form>
-            <form action="" method="post">
-                <?php set_csrf('delete') ?>
+            <form action="<?= getRootPath() ?>agenda/manage/account" method="post">
+                <?php set_csrf_without_regen() ?>
+                <input type="hidden" name="action" value="delete_account">
                 <input type="submit" value="Supprimer mon compte et mes données">
             </form>
         </div>
