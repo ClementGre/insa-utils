@@ -22,14 +22,7 @@ $title = "Demandes d'ajout";
 <main>
 
     <?php
-    if (isset($_SESSION['errors'])) {
-        print_errors_html($_SESSION['errors']);
-        $_SESSION['errors'] = array();
-    }
-    if (isset($_SESSION['infos'])) {
-        print_infos_html($_SESSION['infos']);
-        $_SESSION['infos'] = array();
-    }
+    print_session_messages();
     ?>
 
     <h3>Utilisateurs souhaitant rejoindre votre classe :</h3>

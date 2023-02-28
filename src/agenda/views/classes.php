@@ -68,7 +68,7 @@ $title = "Liste des classes";
                    value="<?= $_POST['class_name'] ?? '' ?>" required><br/>
             <input type="submit" value="Créer">
         </form>
-        <?php print_errors_html($errors); ?>
+        <?php print_messages($errors, true); ?>
     </section>
 </main>
 <footer>

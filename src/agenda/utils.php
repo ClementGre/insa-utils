@@ -41,31 +41,23 @@ function timestampDiffMn($timestamp)
     return (strtotime("now") - strtotime($timestamp)) / 60;
 }
 
-function print_errors_html($errors)
+function print_session_messages(): void
 {
-    if (count($errors) > 0) {
-        ?>
-        <div class="error-container">
-            <div class="errors">
-                <?php
-                foreach ($errors as $error) {
-                    echo '<p>' . $error . '</p>';
-                }
-                ?>
-            </div>
-        </div>
-        <?php
-    }
+    print_messages($_SESSION['errors'], true);
+    print_messages($_SESSION['infos'], false);
+    $_SESSION['errors'] = array();
+    $_SESSION['infos'] = array();
 }
-function print_infos_html($infos)
+
+function print_messages($array, $is_error): void
 {
-    if (count($infos) > 0) {
+    if (isset($array) && count($array) > 0) {
         ?>
         <div class="infos-container">
-            <div class="infos">
+            <div class="<?= $is_error ? 'errors' : 'infos' ?>">
                 <?php
-                foreach ($infos as $error) {
-                    echo '<p>' . $error . '</p>';
+                foreach ($array as $message) {
+                    echo '<p>' . $message . '</p>';
                 }
                 ?>
             </div>

@@ -76,10 +76,7 @@ $title = "Désabonnement des emails";
 <main>
 
     <?php
-    print_infos_html($_SESSION['infos']);
-    print_errors_html($_SESSION['errors']);
-    $_SESSION['infos'] = array();
-    $_SESSION['errors'] = array();
+    print_session_messages();
 
     if(!$is_disabled || !$status['logged_in']){
         ?>

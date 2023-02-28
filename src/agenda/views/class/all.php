@@ -48,10 +48,7 @@ $title = "Toutes les tâches";
     <div class="user-id-container" data-user-id="<?= htmlspecialchars($status['id']) ?>"></div>
 
     <?php
-    if (isset($_SESSION['errors'])) {
-        print_errors_html($_SESSION['errors']);
-        $_SESSION['errors'] = array();
-    }
+    print_session_messages();
     ?>
 
     <h3>Toutes les tâches&#8239;:</h3>

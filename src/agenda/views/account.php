@@ -24,10 +24,7 @@ $title = "Mon compte";
 <main>
 
     <?php
-    print_infos_html($_SESSION['infos']);
-    print_errors_html($_SESSION['errors']);
-    $_SESSION['infos'] = array();
-    $_SESSION['errors'] = array();
+    print_session_messages();
     gen_csrf_key()
     ?>
 

@@ -53,7 +53,7 @@ $title = "Rejoindre une classe";
         <form action="" method="post">
             <?php set_csrf() ?>
             <input type="submit" value="Rejoindre <?= out($class_name) ?>">
-            <?php print_errors_html($errors) ?>
+            <?php print_messages($errors, true) ?>
         </form>
     </section>
 </main>

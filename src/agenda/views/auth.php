@@ -47,7 +47,7 @@ $title = "Authentification";
             <input type="submit" value="Valider">
         </form>
 
-        <?php print_errors_html($errors); ?>
+        <?php print_messages($errors, true); ?>
 
     </section>
 </main>

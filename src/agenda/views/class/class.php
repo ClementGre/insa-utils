@@ -34,10 +34,7 @@ $subjects = get_class_subjects($status['class_id']);
     <div class="user-id-container" data-user-id="<?= htmlspecialchars($status['id']) ?>"></div>
 
 <?php
-if (isset($_SESSION['errors'])) {
-    print_errors_html($_SESSION['errors']);
-    $_SESSION['errors'] = array();
-}
+print_session_messages();
 
 $q = getDB()->prepare('SELECT COUNT(*) FROM users WHERE requested_class_id = :requested_class_id AND class_id IS NULL');
 $q->execute(['requested_class_id' => $status['class_id']]);

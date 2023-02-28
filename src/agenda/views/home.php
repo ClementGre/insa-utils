@@ -36,8 +36,7 @@ if ($status['is_in_class']) {
 <main>
 
     <?php
-    print_infos_html($_SESSION['infos']);
-    $_SESSION['infos'] = array();
+    print_session_messages();
     ?>
 
     <?php
@@ -88,7 +87,7 @@ if ($status['is_in_class']) {
                         style="font-size: 14px">@insa-lyon.fr</span><br/>
                 <input type="submit" value="Envoyer l'email de vérification">
             </form>
-            <?php print_errors_html($errors); ?>
+            <?php print_messages($errors, true); ?>
         </section>
         <?php
     }
