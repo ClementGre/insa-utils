@@ -4,7 +4,7 @@ $status = get_user_status();
 $_SESSION['errors'] = array();
 $_SESSION['infos'] = array();
 
-if (!$status['is_in_class']) {
+if (!$status['logged_in']) {
     header("HTTP/1.1 303 See Other");
     header('Location: ' . getRootPath() . 'agenda/');
     exit;
@@ -22,6 +22,7 @@ if (isset($_POST['action'])) {
             remove_cookie('auth_token');
             header("HTTP/1.1 303 See Other");
             header('Location: ' . getRootPath() . 'agenda/');
+
             exit;
         case 'disconnect_all':
             $auth_token = randomToken(64);
@@ -32,10 +33,12 @@ if (isset($_POST['action'])) {
             ]);
             set_cookie('auth_token', $auth_token);
             $_SESSION['infos'][] = "Vous avez été déconnecté de tous vos autres appareils";
+
             break;
         case 'download_data':
             require_once __DIR__ . '/../../php/download_data.php';
             write_user_data_to_csv_output();
+
             exit;
         case 'delete_account':
             $q = getDB()->prepare("DELETE FROM users WHERE id=:id");
@@ -53,6 +56,7 @@ if (isset($_POST['action'])) {
             remove_cookie('auth_token');
             header("HTTP/1.1 303 See Other");
             header('Location: ' . getRootPath() . 'agenda/');
+
             break;
     }
 }
