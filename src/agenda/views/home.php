@@ -36,6 +36,11 @@ if ($status['is_in_class']) {
 <main>
 
     <?php
+    print_infos_html($_SESSION['infos']);
+    $_SESSION['infos'] = array();
+    ?>
+
+    <?php
     if ($status['is_in_class']) {
         require __DIR__ . '/class/class.php';
     } else if ($status['is_requesting_class']) {

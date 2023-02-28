@@ -47,6 +47,7 @@ if (isset($_POST['action'])) {
             $q = getDB()->prepare("DELETE FROM todos WHERE creator_id=:id AND is_private=1");
             $q->execute([":id" => $status['id']]);
 
+            $_SESSION['infos'] = array();
             $_SESSION['infos'][] = "Votre compte a bien été supprimé";
             remove_cookie('id');
             remove_cookie('auth_token');
