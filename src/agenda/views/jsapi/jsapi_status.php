@@ -40,7 +40,7 @@ if ($_SESSION["csrf_js"] === $csrf_js) {
 
     $out['status'] = 'done';
 } else {
-    $out['status'] = 'error';
+    $out['status'] = 'invalid_csrf';
     $out['error'] = 'Le formulaire a expiré. Veuillez réessayer.';
 }
 

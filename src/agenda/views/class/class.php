@@ -30,7 +30,6 @@ $subjects = get_class_subjects($status['class_id']);
 
     <div class="root-path-container" data-root-path="<?= htmlspecialchars(getRootPath()) ?>"></div>
     <div class="subjects-container" data-subjects="<?= htmlspecialchars(json_encode($subjects)) ?>"></div>
-    <div class="csrf-container" data-csrf="<?= htmlspecialchars(gen_csrf_key('js')) ?>"></div>
     <div class="user-id-container" data-user-id="<?= htmlspecialchars($status['id']) ?>"></div>
 
 <?php

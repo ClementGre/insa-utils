@@ -16,3 +16,32 @@ window.onclick = function (event) {
         });
     }
 }
+
+document.addEventListener("visibilitychange", function() {
+    if (!document.hidden){
+        // check csrf is still valid
+        fetch(getRootPath() + 'agenda/jsapi/checkcsrf', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"csrf_name": 'js', "csrf_value": getCsrfToken()})
+        })
+            .then(response => {
+                return response.json()
+            })
+            .catch(error => {
+                location.reload();
+            })
+            .then(res => {
+                if(res['status'] !== 'success'){
+                    location.reload();
+                }
+            })
+    }
+});
+
+function getCsrfToken() {
+    return document.querySelector('div.csrf-container').dataset.csrf;
+}

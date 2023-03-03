@@ -67,4 +67,7 @@ $logged_in = $status['logged_in'] ?? false;
         }
         ?>
     </div>
+
+    <div class="csrf-container" data-csrf="<?= htmlspecialchars(gen_csrf_key('js')) ?>"></div>
+
 </header>

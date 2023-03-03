@@ -75,6 +75,8 @@ document.querySelectorAll('.todo .heading .status').forEach((div) => {
                     div.classList.remove(status);
                     div.classList.add(newStatus);
                     p.firstChild.textContent = newText;
+                }else if (res['status'] === 'invalid_csrf'){
+                    location.reload();
                 }
             })
     });
