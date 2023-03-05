@@ -1,7 +1,6 @@
 <?php
 
 header("HTTP/1.1 303 See Other");
-header('Location: ' . getRootPath() . 'agenda/');
 
 $status = get_user_status();
 $_SESSION['errors'] = array();
@@ -12,6 +11,11 @@ if (!$status['is_in_class']) {
     exit;
 }
 
+if (isset($_POST['r'])){
+    header('Location: ' . getRootPath() . 'agenda/' . $_POST['r']);
+} else {
+    header('Location: ' . getRootPath() . 'agenda/');
+}
 if (isset($_POST['action'])) {
     switch ($_POST['action']) {
         case 'add':

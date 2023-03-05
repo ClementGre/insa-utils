@@ -47,6 +47,7 @@ $title = "Toutes les tâches";
     <div class="subjects-container" data-subjects="<?= htmlspecialchars(json_encode($subjects)) ?>"></div>
     <div class="csrf-container" data-csrf="<?= htmlspecialchars(gen_csrf_key('js')) ?>"></div>
     <div class="user-id-container" data-user-id="<?= htmlspecialchars($status['id']) ?>"></div>
+    <div class="page-name-container" data-page-name="all"></div>
 
     <?php
     print_session_messages();

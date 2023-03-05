@@ -133,6 +133,7 @@ function getTodoDeletionConfirmation(todoId) {
                 <p>Confirmer la suppression de cette tâche ?</p>
                 <input type="hidden" name="csrf_js" value="${out(getCsrfToken())}">
                 <input type="hidden" name="action" value="delete"/>
+                <input type="hidden" name="r" value="${getPageName()}"/>
                 <input type="hidden" name="id" value="${todoId}"/>
                 <div>
                     <input type="submit" value="Supprimer">
@@ -154,6 +155,7 @@ function getTodoEditForm(todoId, subject_id, duedate, type, content, link) {
         <form class="todo edit-todo" method="post" action="${getRootPath()}agenda/manage/todo" data-edit-todo-id="${todoId}">
             <input type="hidden" name="action" value="edit"/>
             <input type="hidden" name="id" value="${todoId}"/>
+            <input type="hidden" name="r" value="${getPageName()}"/>
             <input type="hidden" name="csrf_js" value="${out(getCsrfToken())}">
             <div class="heading">
                 <select id="subject" name="subject_id" required onChange="onSubjectComboChange(event);">
@@ -163,7 +165,7 @@ function getTodoEditForm(todoId, subject_id, duedate, type, content, link) {
                     <option value="manage">Gérer les matières</option>
                 </select>
                 <input type="date" id="duedate" name="duedate"
-                       value="${duedate}" min="${dateToString()}" max="${lastPossibleDateString()}" required>
+                       value="${duedate}" min="${firstPossibleDateString()}" max="${lastPossibleDateString()}" required>
                 <select class="fixed" id="type" name="type" required>
                     <option value="report" ${type === 'report' ? 'selected="selected"' : ''}>Rendu</option>
                     <option value="practice" ${type === 'practice' ? 'selected="selected"' : ''}>Exercice</option>
@@ -229,9 +231,22 @@ function getUserId() {
     return document.querySelector('div.user-id-container').dataset.userId;
 }
 
-function dateToString() {
-    const date = new Date();
-    return formatDate(date);
+function getPageName() {
+    return document.querySelector('div.page-name-container').dataset.pageName;
+}
+
+function firstPossibleDateString() {
+    if(getPageName() === 'all'){
+        const yyyy = new Date().getFullYear();
+        if (new Date().getMonth() >= 7) {
+            return yyyy + '-09-01'
+        }else{
+            return (yyyy-1) + '-09-01'
+        }
+    }else{
+        const date = new Date();
+        return formatDate(date);
+    }
 }
 
 function lastPossibleDateString() {
