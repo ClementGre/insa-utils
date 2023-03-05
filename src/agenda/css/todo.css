@@ -215,8 +215,8 @@ ul > p.no-todo {
 .todo-list .dropdown .dropdown-content p {
     color: var(--dark-blue);
     opacity: 0.8;
-    padding: 5px 15px;
-    font-size: 12px;
+    padding: 3px 15px;
+    font-size: 11px;
 }
 
 .todo-list .dropdown .dropdown-content a:hover {

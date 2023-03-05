@@ -57,7 +57,15 @@ function sort_todos($a, $b, $asc): int
     return (($a['duedate'] > $b['duedate']) xor $asc) ? -1 : 1;
 }
 
-function dress_todo(&$todo, $user_id){
+function get_class_members_count($class_id): int
+{
+    $q = getDB()->prepare("SELECT COUNT(*) FROM users WHERE class_id=:class_id");
+    $q->execute(['class_id' => $class_id]);
+    $row = $q->fetch();
+    return $row ? $row[0] : 0;
+}
+
+function dress_todo(&$todo, $class_members_count, $user_id){
     $q2 = getDB()->prepare("SELECT status FROM status WHERE todo_id=:todo_id AND user_id=:user_id LIMIT 1");
     $q2->execute([
         'todo_id' => $todo['id'],
@@ -86,6 +94,18 @@ function dress_todo(&$todo, $user_id){
         if ($user) $todo['last_editor'] = $user['name'];
         else $todo['last_editor'] = "Utilisateur inconnu";
     }
+
+    // Compute stats percents
+    $q4 = getDB()->prepare("SELECT COUNT(*) AS count FROM status WHERE todo_id=:todo_id AND status='done'");
+    $q4->execute([":todo_id" => $todo['id']]);
+    $done_count = $q4->fetch()['count'];
+
+    $todo['done_percent'] = intval($done_count / $class_members_count * 100);
+
+    $q4 = getDB()->prepare("SELECT COUNT(*) AS count FROM status WHERE todo_id=:todo_id AND status='in_progress'");
+    $q4->execute([":todo_id" => $todo['id']]);
+    $done_count = $q4->fetch()['count'];
+    $todo['in_progress_percent'] = intval($done_count / $class_members_count * 100);
 }
 
 function print_todos(array $todos, $all_subjects): void
@@ -125,6 +145,12 @@ function print_todos(array $todos, $all_subjects): void
                         <div class="round round-3"></div>
                         <div class="dropdown-content">
                             <?php
+                            if ($todo['type'] !== 'reminder' && $todo['is_private'] !== 1){
+                                ?>
+                                <p><?= $todo['in_progress_percent'] ?>% En cours<br>
+                                <?= $todo['done_percent'] ?>% Fait</p>
+                                <?php
+                            }
                             if ($todo['is_private'] === 1) {
                                 ?>
                                 <a class="make-public-todo" data-todo-id="<?= $todo['id'] ?>">Rendre publique</a>
@@ -133,7 +159,7 @@ function print_todos(array $todos, $all_subjects): void
                                 ?>
                                 <p>Créé par <?= $todo['creator'] ?></p>
                                 <?php
-                                if (isset($todo['last_editor'])) {
+                                if (isset($todo['last_editor']) && $todo['last_editor'] !== $todo['creator']){
                                     ?>
                                     <p>Modifié en dernier par <?= $todo['last_editor'] ?></p>
                                     <?php

@@ -33,8 +33,9 @@ $title = "Toutes les tâches";
         'creator_id' => $status['id']
     ]);
 
+    $class_members_count = get_class_members_count($status['class_id']);
     while ($todo = $q->fetch()) {
-        dress_todo($todo, $status['id']);
+        dress_todo($todo, $class_members_count, $status['id']);
         $todos[] = $todo;
     }
 
