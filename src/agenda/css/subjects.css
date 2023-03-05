@@ -11,20 +11,20 @@ h3 {
 p {
     margin: 0;
 }
-form{
+section.subject form{
     padding: 0;
 }
-input[type="text"]{
+section.subject input[type="text"]{
     margin: 0;
     width: 100%;
     min-width: 0;
 }
-input[type="submit"], button{
+section.subject input[type="submit"], section.subject button{
     min-width: 0;
     width: 80px;
     flex-shrink: 0;
 }
-button{
+section.subject button{
     width: 31px;
     height: 31px;
     padding: 4px;
@@ -40,12 +40,12 @@ button img {
     margin: auto;
     filter: invert(17%) sepia(19%) saturate(857%) hue-rotate(196deg) brightness(94%) contrast(95%);
 }
-select{
+section.subject select{
     min-width: 0;
     width: 115px;
     flex-shrink: 0;
 }
-input[type="radio"] {
+section.subject input[type="radio"] {
     -webkit-appearance: none;
     appearance: none;
     min-width: 25px;
@@ -54,17 +54,17 @@ input[type="radio"] {
     border: none;
     border-radius: 5px;
 }
-input[type="radio"]:checked {
+section.subject input[type="radio"]:checked {
     border: 2px solid black;
     box-shadow: black 0 0 4px;
 }
-form{
+section.subject form{
     display: flex;
     flex-direction: column;
     gap: 5px;
     width: 100%;
 }
-form div{
+section.subject form div{
     display: flex;
     gap: 5px;
     width: 100%;

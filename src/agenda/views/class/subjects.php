@@ -32,7 +32,7 @@ $title = "Gestion des matières";
 
     <h3>Matières</h3>
     <?php
-    $q = getDB()->prepare('SELECT * FROM subjects WHERE class_id = :class_id ORDER BY type, name');
+    $q = getDB()->prepare('SELECT * FROM subjects WHERE class_id = :class_id AND is_deleted=0 ORDER BY type, name');
     $q->execute(['class_id' => $status['class_id']]);
     if ($q->rowCount() == 0) {
         echo '<section class="b-darken"><p>Aucune matière n\'a été ajoutée.</p></section>';
@@ -40,7 +40,7 @@ $title = "Gestion des matières";
         $subjects = $q->fetchAll();
         foreach ($subjects as $subject) {
             ?>
-            <section class="b-darken">
+            <section class="b-darken subject">
                 <form method="post" action="<?= getRootPath() ?>agenda/manage/subjects">
                     <?php set_csrf_without_regen(); ?>
                     <input type="hidden" name="id" value="<?= $subject['id'] ?>">
@@ -81,7 +81,7 @@ $title = "Gestion des matières";
     ?>
 
     <h3>Ajouter une matière</h3>
-    <section class="b-darken">
+    <section class="b-darken subject">
         <form method="post" action="<?= getRootPath() ?>agenda/manage/subjects">
             <?php set_csrf_without_regen(); ?>
             <div class="heading">
@@ -104,6 +104,13 @@ $title = "Gestion des matières";
                 ?>
             </div>
         </form>
+    </section>
+
+    <h3>Charger un modèle</h3>
+    <section class="b-darken">
+        <div>
+            <?php print_subjects_template_form() ?>
+        </div>
     </section>
 
 </main>

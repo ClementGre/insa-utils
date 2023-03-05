@@ -39,7 +39,8 @@ $title = "Toutes les tâches";
     }
 
     uasort($todos, 'sort_todos_asc');
-    $subjects = get_class_subjects($status['class_id']);
+    $all_subjects = get_all_class_subjects($status['class_id']);
+    $subjects = extract_non_deleted_subjects($all_subjects);
     ?>
 
     <div class="root-path-container" data-root-path="<?= htmlspecialchars(getRootPath()) ?>"></div>
@@ -59,7 +60,7 @@ $title = "Toutes les tâches";
             <p class="no-todo">Aucune tâche n'a été ajouté pour cette classe !</p>
             <?php
         }else{
-            print_todos($todos, $subjects);
+            print_todos($todos, $all_subjects);
         }
         ?>
     </ul>

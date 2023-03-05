@@ -88,12 +88,12 @@ function dress_todo(&$todo, $user_id){
     }
 }
 
-function print_todos(array $todos, $subjects): void
+function print_todos(array $todos, $all_subjects): void
 {
     foreach ($todos as $todo) {
         $subject_name = 'Matière supprimée';
         $subject_color = 'black';
-        foreach ($subjects as $subject) {
+        foreach ($all_subjects as $subject) {
             if ($subject['id'] == $todo['subject_id']) {
                 $subject_name = $subject['name'];
                 $subject_color = SubjectColor::fromString($subject['color'])->value;

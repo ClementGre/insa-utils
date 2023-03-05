@@ -147,7 +147,7 @@ function getTodoDeletionConfirmation(todoId) {
 function getTodoEditForm(todoId, subject_id, duedate, type, content, link) {
 
     if (getSubjects().length === 0) {
-        return createElementFromHTML('<p class="no-todo">Pour ajouter une tâche, ajoutez d\'abord des matières&#8239;:<br><a href="' + getRootPath() + 'agenda/subjects">Ajouter des matières</a></p>');
+        return createElementFromHTML('<p class="no-todo">Pour éditer une tâche, ajoutez d\'abord des matières&#8239;:<br><a href="' + getRootPath() + 'agenda/subjects">Ajouter des matières</a></p>');
     }
 
     const $html = `
