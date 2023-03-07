@@ -33,7 +33,7 @@ function is_class_active(mixed $id): bool
     $q = getDB()->prepare("SELECT COUNT(*) FROM todos WHERE class_id=:class_id AND duedate >= CURDATE() AND is_private=0");
     $q->execute([":class_id" => $id]);
     if ($r = $q->fetch()) {
-        return $r[0] >= 5;
+        return $r[0] >= 2;
     } else {
         return false;
     }
@@ -171,7 +171,7 @@ function print_classes_list($status)
                 ?>
                     <p><?= out($class['name']) ?></p>
                     <div>
-                        <p><?= $members_count ?> membres</p>
+                        <p><?= $members_count == 1 ? ($members_count . ' membre') : ($members_count . ' membres') ?></p>
                         <p class="badged<?= $is_active ? '' : ' hidden' ?>">Active</p>
                     </div>
                 <?php
