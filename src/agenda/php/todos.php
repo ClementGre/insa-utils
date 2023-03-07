@@ -57,14 +57,6 @@ function sort_todos($a, $b, $asc): int
     return (($a['duedate'] > $b['duedate']) xor $asc) ? -1 : 1;
 }
 
-function get_class_members_count($class_id): int
-{
-    $q = getDB()->prepare("SELECT COUNT(*) FROM users WHERE class_id=:class_id");
-    $q->execute(['class_id' => $class_id]);
-    $row = $q->fetch();
-    return $row ? $row[0] : 0;
-}
-
 function dress_todo(&$todo, $class_members_count, $user_id){
     $q2 = getDB()->prepare("SELECT status FROM status WHERE todo_id=:todo_id AND user_id=:user_id LIMIT 1");
     $q2->execute([

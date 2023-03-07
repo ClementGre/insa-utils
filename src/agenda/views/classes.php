@@ -49,15 +49,9 @@ $title = "Liste des classes";
 <main class="">
     <section class="b-darken">
         <h3>Rejoindre une classe</h3>
-        <div class="class-list">
-            <?php
-            $classes = getDB()->query('SELECT * FROM classes');
-
-            foreach ($classes as $class) {
-                echo '<a href="' . getRootPath() . 'agenda/class/' . $class['id']. '/join">' . out($class['name']) . '</a>&nbsp;&nbsp;';
-            }
-            ?>
-        </div>
+        <?php
+        print_classes_list($status);
+        ?>
     </section>
     <section class="b-darken">
         <h3>Créer une classe</h3>

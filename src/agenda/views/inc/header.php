@@ -68,6 +68,7 @@ $logged_in = $status['logged_in'] ?? false;
         ?>
     </div>
 
+    <div class="root-path-container" data-root-path="<?= htmlspecialchars(getRootPath()) ?>"></div>
     <div class="csrf-container" data-csrf="<?= htmlspecialchars(gen_csrf_key('js')) ?>"></div>
 
 </header>

@@ -43,10 +43,14 @@ function timestampDiffMn($timestamp)
 
 function print_session_messages(): void
 {
-    print_messages($_SESSION['errors'], true);
-    print_messages($_SESSION['infos'], false);
-    $_SESSION['errors'] = array();
-    $_SESSION['infos'] = array();
+    if (isset($_SESSION['errors']) && count($_SESSION['errors']) > 0) {
+        print_messages($_SESSION['errors'], true);
+        $_SESSION['errors'] = array();
+    }
+    if (isset($_SESSION['infos']) && count($_SESSION['infos']) > 0) {
+        print_messages($_SESSION['infos'], false);
+        $_SESSION['infos'] = array();
+    }
 }
 
 function print_messages($array, $is_error): void

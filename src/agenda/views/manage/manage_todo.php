@@ -11,7 +11,7 @@ if (!$status['is_in_class']) {
     exit;
 }
 
-if (isset($_POST['r'])){
+if (isset($_POST['r'])) {
     header('Location: ' . getRootPath() . 'agenda/' . $_POST['r']);
 } else {
     header('Location: ' . getRootPath() . 'agenda/');
@@ -22,17 +22,17 @@ if (isset($_POST['action'])) {
             if (isset($_POST['subject_id']) && isset($_POST['duedate']) && isset($_POST['type']) && $_POST['content'] && isset($_POST['link']) && isset($_POST['visibility'])) {
                 if (is_csrf_valid()) {
 
-                    if(strlen($_POST['link']) > 0){
-                        if(!filter_var($_POST['link'], FILTER_VALIDATE_URL)){
+                    if (strlen($_POST['link']) > 0) {
+                        if (!filter_var($_POST['link'], FILTER_VALIDATE_URL)) {
                             $_SESSION['errors'][] = 'Le lien n\'est pas valide.';
                             break;
                         }
                     }
-                    if(mb_strlen($_POST['link'], "UTF-16BE") > 2048){
+                    if (mb_strlen($_POST['link'], "UTF-16BE") > 2048) {
                         $_SESSION['errors'][] = 'Le lien est trop long.';
                         break;
                     }
-                    if(mb_strlen($_POST['content'], "UTF-16BE") > 3000) {
+                    if (mb_strlen($_POST['content'], "UTF-16BE") > 3000) {
                         $_SESSION['errors'][] = 'Le contenu est trop long.';
                         break;
                     }

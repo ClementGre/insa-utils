@@ -65,20 +65,6 @@ if ($status['is_in_class']) {
         </section>
 
         <section class="b-darken">
-            <h3>Classes déjà présentes&#8239;:</h3>
-            <div class="class-list">
-                <?php
-                $classes = getDB()->query('SELECT name FROM classes');
-                $is_first = true;
-                foreach ($classes as $class) {
-                    echo '<p>' . out($class['name']) . '</p>';
-                    $is_first = false;
-                }
-                ?>
-            </div>
-        </section>
-
-        <section class="b-darken">
             <h3>Authentification</h3>
             <form action="<?= getRootPath() ?>agenda/" method="post">
                 <?php set_csrf() ?>
@@ -88,6 +74,13 @@ if ($status['is_in_class']) {
                 <input type="submit" value="Envoyer l'email de vérification">
             </form>
             <?php print_messages($errors, true); ?>
+        </section>
+
+        <section class="b-darken">
+            <h3>Classes déjà présentes&#8239;:</h3>
+            <?php
+            print_classes_list($status);
+            ?>
         </section>
         <?php
     }

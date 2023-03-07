@@ -29,7 +29,6 @@ $all_subjects = get_all_class_subjects($status['class_id']);
 $subjects = extract_non_deleted_subjects($all_subjects);
 ?>
 
-    <div class="root-path-container" data-root-path="<?= htmlspecialchars(getRootPath()) ?>"></div>
     <div class="subjects-container" data-subjects="<?= htmlspecialchars(json_encode($subjects)) ?>"></div>
     <div class="user-id-container" data-user-id="<?= htmlspecialchars($status['id']) ?>"></div>
     <div class="page-name-container" data-page-name=""></div>

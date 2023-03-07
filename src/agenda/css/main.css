@@ -130,12 +130,51 @@ header .dropdown .dropdown-content {
 
 .class-list {
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
+    flex-direction: column;
+    gap: 5px;
     align-items: center;
-    justify-content: center;
+    justify-content: stretch;
 }
 
-.class-list p {
+.class-list .class {
     margin: 0;
+    padding: 0 0 0 5px;
+    border: 2px solid var(--gray);
+    border-radius: 5px;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    transition: all .1s ease-in-out;
+    background-color: white;
+}
+.class-list .class, .class-list .class:visited {
+    text-decoration: none;
+    color: var(--dark-blue);
+}
+.class-list a:hover, .class-list > div{
+    background-color: transparent !important;
+}
+.class-list .class div{
+    display: flex;
+    gap: 10px;
+}
+.class-list .class p{
+    margin: auto 0;
+    padding: 0;
+    font-size: 17px;
+}
+.class-list .class div p{
+    font-size: 14px;
+}
+.class-list .class p.badged{
+    height: 100%;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: var(--gray);
+    color: var(--light-gray);
+}
+.hidden{
+    opacity: 0;
 }

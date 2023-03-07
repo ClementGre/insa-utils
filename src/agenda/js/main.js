@@ -41,7 +41,9 @@ document.addEventListener("visibilitychange", function() {
             })
     }
 });
-
+function getRootPath() {
+    return document.querySelector('div.root-path-container').dataset.rootPath;
+}
 function getCsrfToken() {
     return document.querySelector('div.csrf-container').dataset.csrf;
 }

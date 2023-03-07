@@ -28,6 +28,25 @@ function get_class_name($class_id)
     }
 }
 
+function is_class_active(mixed $id): bool
+{
+    $q = getDB()->prepare("SELECT COUNT(*) FROM todos WHERE class_id=:class_id AND duedate >= CURDATE() AND is_private=0");
+    $q->execute([":class_id" => $id]);
+    if ($r = $q->fetch()) {
+        return $r[0] >= 5;
+    } else {
+        return false;
+    }
+}
+
+function get_class_members_count($class_id): int
+{
+    $q = getDB()->prepare("SELECT COUNT(*) FROM users WHERE class_id=:class_id");
+    $q->execute(['class_id' => $class_id]);
+    $row = $q->fetch();
+    return $row ? $row[0] : 0;
+}
+
 enum TodoStatus: string
 {
     case TODO = "À faire";
@@ -108,4 +127,61 @@ function date_in_a_week(): string
 function year(): string
 {
     return (new DateTime())->format('Y');
+}
+
+function sort_classes_by_name($a, $b): int
+{
+    $as = explode(' ', strtolower($a['name']));
+    $bs = explode(' ', strtolower($b['name']));
+    if (count($as) < count($bs)) {
+        $as = array_pad($as, count($bs), '');
+    } else if (count($bs) < count($as)) {
+        $bs = array_pad($bs, count($as), '');
+    }
+
+    for ($i = 0; $i < count($as); $i++) {
+        if (is_numeric($as[$i]) && is_numeric($bs[$i])) {
+            $cmp = $as[$i] <=> $bs[$i];
+        } else {
+            $cmp = strcmp($as[$i], $bs[$i]);
+        }
+        if ($cmp != 0) return $cmp;
+    }
+    return 0;
+}
+
+function print_classes_list($status)
+{
+    $links = $status['logged_in'] ?? false;
+    ?>
+    <div class="class-list">
+        <?php
+        $classes = getDB()->query('SELECT * FROM classes ORDER BY name')->fetchAll();
+
+        uasort($classes, 'sort_classes_by_name');
+
+        foreach ($classes as $class) {
+            $members_count = get_class_members_count($class['id']);
+            $is_active = is_class_active($class['id']);
+            if($links){
+                echo '<a class="class" href="' . getRootPath() . 'agenda/class/' . $class['id'] . '/join">';
+            }else{
+                echo '<div class="class">';
+            }
+                ?>
+                    <p><?= out($class['name']) ?></p>
+                    <div>
+                        <p><?= $members_count ?> membres</p>
+                        <p class="badged<?= $is_active ? '' : ' hidden' ?>">Active</p>
+                    </div>
+                <?php
+            if($links){
+                echo '</a>';
+            }else{
+                echo '</div>';
+            }
+        }
+        ?>
+    </div>
+    <?php
 }
