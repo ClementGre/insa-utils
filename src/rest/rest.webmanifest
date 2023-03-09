@@ -20,7 +20,7 @@
     }
   ],
   "orientation": "portrait",
-  "start_url": "/restinsa",
+  "start_url": "/rest",
   "display": "standalone",
   "theme_color": "#CD0E14",
   "background_color": "#CD0E14"
