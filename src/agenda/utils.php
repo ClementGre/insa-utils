@@ -58,7 +58,7 @@ function print_messages($array, $is_error): void
     if (isset($array) && count($array) > 0) {
         ?>
         <div class="infos-container">
-            <div class="<?= $is_error ? 'errors' : 'infos' ?>">
+            <div class="<?= $is_error ? 'errors' : 'success' ?>">
                 <?php
                 foreach ($array as $message) {
                     echo '<p>' . $message . '</p>';

@@ -28,14 +28,22 @@ uasort($to_do, 'sort_todos_desc');
 $all_subjects = get_all_class_subjects($status['class_id']);
 $subjects = extract_non_deleted_subjects($all_subjects);
 ?>
-
     <div class="subjects-container" data-subjects="<?= htmlspecialchars(json_encode($subjects)) ?>"></div>
     <div class="user-id-container" data-user-id="<?= htmlspecialchars($status['id']) ?>"></div>
     <div class="page-name-container" data-page-name=""></div>
-
-
 <?php
 print_session_messages();
+
+// if date is between 23 of june and 1st of september, display a message :
+if (date('m') == 6 && date('d') >= 23 || date('m') == 7 || date('m') == 8) {
+    ?>
+    <div class="infos-container">
+        <div class="infos">
+            <p>On dirait bien que l'année est déjà finie&nbsp!<br>INS'Agenda va être réinitialisé et vous pourrez créer de nouvelles classes en septembre&nbsp!</p>
+        </div>
+    </div>
+    <?php
+}
 
 $q = getDB()->prepare('SELECT COUNT(*) FROM users WHERE requested_class_id = :requested_class_id AND class_id IS NULL');
 $q->execute(['requested_class_id' => $status['class_id']]);
