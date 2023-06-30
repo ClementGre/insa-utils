@@ -8,7 +8,7 @@ if (!$status['logged_in']) {
 
 // Get class passed in URL
 $class_id = $class ?? null;
-$q = getDB()->prepare("SELECT name FROM classes WHERE id=:id LIMIT 1");
+$q = getDB()->prepare("SELECT name FROM agenda_classes WHERE id=:id LIMIT 1");
 $q->execute([":id" => $class_id]);
 $row = $q->fetch();
 if ($row == null) {

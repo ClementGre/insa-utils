@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../php/subjects.php';
 $to_do = array();
 $done = array();
 
-$q = getDB()->prepare("SELECT * FROM todos WHERE class_id=:class_id AND duedate >= :min_date AND (is_private = 0 OR creator_id = :creator_id) ORDER BY duedate");
+$q = getDB()->prepare("SELECT * FROM agenda_todo WHERE class_id=:class_id AND duedate >= :min_date AND (is_private = 0 OR creator_id = :creator_id) ORDER BY duedate");
 $q->execute([
     'class_id' => $status['class_id'],
     'min_date' => date('Y-m-d', time()), // 30 days ago

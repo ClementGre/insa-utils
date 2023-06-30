@@ -8,7 +8,7 @@ $csrf_js = $json['csrf_js'];
 $out = [];
 
 if ($_SESSION["csrf_js"] === $csrf_js) {
-    $q = getDB()->prepare('SELECT status FROM status WHERE user_id=:user_id AND todo_id=:todo_id');
+    $q = getDB()->prepare('SELECT status FROM agenda_status WHERE user_id=:user_id AND todo_id=:todo_id');
     $r = $q->execute([
         ':user_id' => $user_id,
         ':todo_id' => $todo_id
@@ -17,7 +17,7 @@ if ($_SESSION["csrf_js"] === $csrf_js) {
     if($row = $q->fetch()){
         $status = $row['status'];
 
-        $q = getDB()->prepare('DELETE FROM status WHERE user_id=:user_id AND todo_id=:todo_id');
+        $q = getDB()->prepare('DELETE FROM agenda_status WHERE user_id=:user_id AND todo_id=:todo_id');
         $r = $q->execute([
             ':user_id' => $user_id,
             ':todo_id' => $todo_id
@@ -31,7 +31,7 @@ if ($_SESSION["csrf_js"] === $csrf_js) {
     ];
     $new_status = $map[$status];
 
-    $q = getDB()->prepare('INSERT INTO status (user_id, todo_id, status) VALUES (:user_id, :todo_id, :status)');
+    $q = getDB()->prepare('INSERT INTO agenda_status (user_id, todo_id, status) VALUES (:user_id, :todo_id, :status)');
     $r = $q->execute([
         ':user_id' => $user_id,
         ':todo_id' => $todo_id,

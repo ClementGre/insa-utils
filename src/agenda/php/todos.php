@@ -58,7 +58,7 @@ function sort_todos($a, $b, $asc): int
 }
 
 function dress_todo(&$todo, $class_members_count, $user_id){
-    $q2 = getDB()->prepare("SELECT status FROM status WHERE todo_id=:todo_id AND user_id=:user_id LIMIT 1");
+    $q2 = getDB()->prepare("SELECT status FROM agenda_status WHERE todo_id=:todo_id AND user_id=:user_id LIMIT 1");
     $q2->execute([
         'todo_id' => $todo['id'],
         'user_id' => $user_id
@@ -88,13 +88,13 @@ function dress_todo(&$todo, $class_members_count, $user_id){
     }
 
     // Compute stats percents
-    $q4 = getDB()->prepare("SELECT COUNT(*) AS count FROM status WHERE todo_id=:todo_id AND status='done'");
+    $q4 = getDB()->prepare("SELECT COUNT(*) AS count FROM agenda_status WHERE todo_id=:todo_id AND status='done'");
     $q4->execute([":todo_id" => $todo['id']]);
     $done_count = $q4->fetch()['count'];
 
     $todo['done_percent'] = intval($done_count / $class_members_count * 100);
 
-    $q4 = getDB()->prepare("SELECT COUNT(*) AS count FROM status WHERE todo_id=:todo_id AND status='in_progress'");
+    $q4 = getDB()->prepare("SELECT COUNT(*) AS count FROM agenda_status WHERE todo_id=:todo_id AND status='in_progress'");
     $q4->execute([":todo_id" => $todo['id']]);
     $done_count = $q4->fetch()['count'];
     $todo['in_progress_percent'] = intval($done_count / $class_members_count * 100);

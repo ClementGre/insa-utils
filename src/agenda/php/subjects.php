@@ -59,7 +59,7 @@ function update_subject(mixed $id, mixed $name, mixed $color, mixed $type, $clas
         return array("Le nom de la matière ne doit pas dépasser 16 caractères.");
     }
 
-    $q = getDB()->prepare("UPDATE subjects SET name=:name, color=:color, type=:type WHERE id=:id AND class_id=:class_id");
+    $q = getDB()->prepare("UPDATE agenda_subjects SET name=:name, color=:color, type=:type WHERE id=:id AND class_id=:class_id");
     $r = $q->execute([
         ":id" => $id,
         ":name" => $name,
@@ -75,7 +75,7 @@ function update_subject(mixed $id, mixed $name, mixed $color, mixed $type, $clas
 
 function delete_subject(mixed $id, $class_id): array
 {
-    $q = getDB()->prepare("UPDATE subjects SET is_deleted=1 WHERE id=:id AND class_id=:class_id");
+    $q = getDB()->prepare("UPDATE agenda_subjects SET is_deleted=1 WHERE id=:id AND class_id=:class_id");
     $r = $q->execute([
         ":id" => $id,
         ":class_id" => $class_id
@@ -97,7 +97,7 @@ function create_subject(mixed $name, mixed $color, mixed $type, $class_id): arra
         return array("Le nom de la matière ne doit pas dépasser 16 caractères.");
     }
 
-    $q = getDB()->prepare("INSERT INTO subjects (name, color, type, class_id) VALUES (:name, :color, :type, :class_id)");
+    $q = getDB()->prepare("INSERT INTO agenda_subjects (name, color, type, class_id) VALUES (:name, :color, :type, :class_id)");
     $r = $q->execute([
         ":name" => $name,
         ":color" => strtolower($color->name),
@@ -112,7 +112,7 @@ function create_subject(mixed $name, mixed $color, mixed $type, $class_id): arra
 
 function get_all_class_subjects($class_id)
 {
-    $q = getDB()->prepare("SELECT * FROM subjects WHERE class_id = :class_id ORDER BY type, name");
+    $q = getDB()->prepare("SELECT * FROM agenda_subjects WHERE class_id = :class_id ORDER BY type, name");
     $q->execute([
         'class_id' => $class_id
     ]);
@@ -150,12 +150,12 @@ function print_subjects_template_form($r = 'subjects')
 function load_subjects_templates($class_id, $template_name)
 {
     $template = get_subjects_templates()[$template_name];
-    $q = getDB()->prepare("UPDATE subjects SET is_deleted=1 WHERE class_id = :class_id");
+    $q = getDB()->prepare("UPDATE agenda_subjects SET is_deleted=1 WHERE class_id = :class_id");
     $q->execute([
         'class_id' => $class_id
     ]);
     foreach ($template as $subject) {
-        $q = getDB()->prepare("INSERT INTO subjects (name, color, type, class_id) VALUES (:name, :color, :type, :class_id)");
+        $q = getDB()->prepare("INSERT INTO agenda_subjects (name, color, type, class_id) VALUES (:name, :color, :type, :class_id)");
         $q->execute([
             ":name" => $subject['name'],
             ":color" => $subject['color'],

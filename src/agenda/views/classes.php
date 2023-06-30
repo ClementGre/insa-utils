@@ -11,13 +11,13 @@ $errors = array();
 // Create class
 if (isset($_POST['class_name'])){
     if (is_csrf_valid()){
-        $q = getDB()->prepare("SELECT id FROM classes WHERE name=:name LIMIT 1");
+        $q = getDB()->prepare("SELECT id FROM agenda_classes WHERE name=:name LIMIT 1");
         $q->execute([":name" => $_POST['class_name']]);
         if ($q->fetch() != null) {
             $errors[] = "Une classe avec ce nom existe déjà. Vous devriez peut-être la rejoindre.";
         }else{
             // Create class
-            $q = getDB()->prepare("INSERT INTO classes (name) VALUES (:name)");
+            $q = getDB()->prepare("INSERT INTO agenda_classes (name) VALUES (:name)");
             $q->execute([":name" => $_POST['class_name']]);
             $class_id = getDB()->lastInsertId();
             // Leave current class

@@ -26,17 +26,17 @@ function write_user_data_to_csv_output()
     print_table($output, 'Information utilisateur :', $q);
 
     // User created todos
-    $q = getDB()->prepare("SELECT * FROM todos WHERE creator_id=:id OR last_editor_id=:id");
+    $q = getDB()->prepare("SELECT * FROM agenda_todo WHERE creator_id=:id OR last_editor_id=:id");
     $q->execute([":id" => $status['id']]);
     print_table($output, 'Tâches créés ou modifiés :', $q);
 
     // User totos status
-    $q = getDB()->prepare("SELECT todo_id, status FROM status WHERE user_id=:id");
+    $q = getDB()->prepare("SELECT todo_id, status FROM agenda_status WHERE user_id=:id");
     $q->execute([":id" => $status['id']]);
     print_table($output, 'Status des tâches :', $q);
 
     // Class subjects
-    $q = getDB()->prepare("SELECT * FROM subjects WHERE class_id=:id");
+    $q = getDB()->prepare("SELECT * FROM agenda_subjects WHERE class_id=:id");
     $q->execute([":id" => $status['class_id']]);
     print_table($output, 'Matières de la classe courante :', $q);
 }

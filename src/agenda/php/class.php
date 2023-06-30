@@ -10,7 +10,7 @@ function leave_class($id, $class_id): void
         $q->execute([":class_id" => $class_id]);
         if ($q->rowCount() == 0) {
             // delete class
-            $q = getDB()->prepare("DELETE FROM classes WHERE id=:class_id");
+            $q = getDB()->prepare("DELETE FROM agenda_classes WHERE id=:class_id");
             $q->execute([":class_id" => $class_id]);
         }
     }
@@ -18,7 +18,7 @@ function leave_class($id, $class_id): void
 
 function get_class_name($class_id)
 {
-    $q = getDB()->prepare("SELECT name FROM classes WHERE id=:id LIMIT 1");
+    $q = getDB()->prepare("SELECT name FROM agenda_classes WHERE id=:id LIMIT 1");
     $q->execute([":id" => $class_id]);
     $class = $q->fetch();
     if ($class == null) {
@@ -30,7 +30,7 @@ function get_class_name($class_id)
 
 function is_class_active(mixed $id): bool
 {
-    $q = getDB()->prepare("SELECT COUNT(*) FROM todos WHERE class_id=:class_id AND duedate >= CURDATE() AND is_private=0");
+    $q = getDB()->prepare("SELECT COUNT(*) FROM agenda_todo WHERE class_id=:class_id AND duedate >= CURDATE() AND is_private=0");
     $q->execute([":class_id" => $id]);
     if ($r = $q->fetch()) {
         return $r[0] >= 2;
@@ -156,7 +156,7 @@ function print_classes_list($status)
     ?>
     <div class="class-list">
         <?php
-        $classes = getDB()->query('SELECT * FROM classes ORDER BY name')->fetchAll();
+        $classes = getDB()->query('SELECT * FROM agenda_classes ORDER BY name')->fetchAll();
 
         uasort($classes, 'sort_classes_by_name');
 

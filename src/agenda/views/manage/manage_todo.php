@@ -38,7 +38,7 @@ if (isset($_POST['action'])) {
                     }
 
 
-                    $q = getDB()->prepare('INSERT INTO todos (class_id, creator_id, is_private, subject_id, type, duedate, content, link) VALUES (:class_id, :creator_id, :is_private, :subject_id, :type, :duedate, :content, :link)');
+                    $q = getDB()->prepare('INSERT INTO agenda_todo (class_id, creator_id, is_private, subject_id, type, duedate, content, link) VALUES (:class_id, :creator_id, :is_private, :subject_id, :type, :duedate, :content, :link)');
                     $r = $q->execute([
                         ':class_id' => $status['class_id'],
                         ':creator_id' => $status['id'],
@@ -57,7 +57,7 @@ if (isset($_POST['action'])) {
         case 'delete':
             if (isset($_POST['id'])) {
                 if (is_csrf_valid('js')) {
-                    $q = getDB()->prepare('DELETE FROM todos WHERE id=:id AND class_id=:class_id');
+                    $q = getDB()->prepare('DELETE FROM agenda_todo WHERE id=:id AND class_id=:class_id');
                     $r = $q->execute([
                         ':id' => $_POST['id'],
                         ':class_id' => $status['class_id']
@@ -70,7 +70,7 @@ if (isset($_POST['action'])) {
         case 'edit':
             if (is_csrf_valid('js')) {
                 if (isset($_POST['id']) && isset($_POST['subject_id']) && isset($_POST['duedate']) && isset($_POST['type']) && $_POST['content'] && isset($_POST['link'])) {
-                    $q = getDB()->prepare('UPDATE todos SET subject_id=:subject_id, type=:type, duedate=:duedate, content=:content, link=:link, last_editor_id=:user_id WHERE id=:id AND class_id=:class_id');
+                    $q = getDB()->prepare('UPDATE agenda_todo SET subject_id=:subject_id, type=:type, duedate=:duedate, content=:content, link=:link, last_editor_id=:user_id WHERE id=:id AND class_id=:class_id');
                     $r = $q->execute([
                         ':id' => $_POST['id'],
                         ':class_id' => $status['class_id'],
@@ -89,7 +89,7 @@ if (isset($_POST['action'])) {
         case 'make_public':
             if (isset($_POST['id'])) {
                 if (is_csrf_valid('js')) {
-                    $q = getDB()->prepare('UPDATE todos SET is_private=0 WHERE id=:id AND class_id=:class_id AND creator_id=:creator_id');
+                    $q = getDB()->prepare('UPDATE agenda_todo SET is_private=0 WHERE id=:id AND class_id=:class_id AND creator_id=:creator_id');
                     $r = $q->execute([
                         ':id' => $_POST['id'],
                         ':class_id' => $status['class_id'],

@@ -32,7 +32,7 @@ $title = "Gestion des matières";
 
     <h3>Matières</h3>
     <?php
-    $q = getDB()->prepare('SELECT * FROM subjects WHERE class_id = :class_id AND is_deleted=0 ORDER BY type, name');
+    $q = getDB()->prepare('SELECT * FROM agenda_subjects WHERE class_id = :class_id AND is_deleted=0 ORDER BY type, name');
     $q->execute(['class_id' => $status['class_id']]);
     if ($q->rowCount() == 0) {
         echo '<section class="b-darken"><p>Aucune matière n\'a été ajoutée.</p></section>';

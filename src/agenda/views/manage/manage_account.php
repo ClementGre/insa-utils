@@ -44,10 +44,10 @@ if (isset($_POST['action'])) {
             $q = getDB()->prepare("DELETE FROM users WHERE id=:id");
             $q->execute([":id" => $status['id']]);
 
-            $q = getDB()->prepare("DELETE FROM status WHERE user_id=:id");
+            $q = getDB()->prepare("DELETE FROM agenda_status WHERE user_id=:id");
             $q->execute([":id" => $status['id']]);
 
-            $q = getDB()->prepare("DELETE FROM todos WHERE creator_id=:id AND is_private=1");
+            $q = getDB()->prepare("DELETE FROM agenda_todo WHERE creator_id=:id AND is_private=1");
             $q->execute([":id" => $status['id']]);
 
             $_SESSION['infos'] = array();

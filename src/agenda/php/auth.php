@@ -200,7 +200,7 @@ function get_user_status(): array
                 $data['banned'] = true;
             }
             if($user['class_id'] != null){
-                $q = getDB()->prepare("SELECT name FROM classes WHERE id=:id LIMIT 1");
+                $q = getDB()->prepare("SELECT name FROM agenda_classes WHERE id=:id LIMIT 1");
                 $q->execute([":id" => $user['class_id']]);
                 $class = $q->fetch();
                 $data['is_in_class'] = true;
@@ -208,7 +208,7 @@ function get_user_status(): array
                 $data['class_name'] = $class['name'];
             }
             else if($user['requested_class_id'] != null){
-                $q = getDB()->prepare("SELECT name FROM classes WHERE id=:id LIMIT 1");
+                $q = getDB()->prepare("SELECT name FROM agenda_classes WHERE id=:id LIMIT 1");
                 $q->execute([":id" => $user['requested_class_id']]);
                 $class = $q->fetch();
                 $data['is_requesting_class'] = true;
