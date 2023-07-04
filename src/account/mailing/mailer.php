@@ -4,13 +4,13 @@ require __DIR__ . '/../../../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-function send_auth_mail($name, $email_prefix, $id, $email_token, $email_code): void
+function send_auth_mail($name, $email_prefix, $id, $email_token, $email_code, $redirect): void
 {
 
     require_once __DIR__ . '/../mailing/auth_content.php';
 
-    $url = "https://insa-utils.fr/agenda/?id=" . $id . '&token=' . $email_token;
-    $unsubscribe_url = "https://insa-utils.fr/agenda/unsubscribe?&id=" . $id . '&token=' . $email_token;
+    $url = "https://insa-utils.fr/account/login?id=" . $id . '&token=' . $email_token . '&redirect=' . $redirect;
+    $unsubscribe_url = "https://insa-utils.fr/account/unsubscribe?&id=" . $id . '&token=' . $email_token;
 
     $text = get_auth_mail_text_content($url, $email_code, $unsubscribe_url);
     $html = get_auth_mail_content($url, $email_code, $unsubscribe_url);
@@ -28,7 +28,7 @@ function send_disable_email_mail($name, $email_prefix, $id, $email_resubscribe_t
 
     require_once __DIR__ . '/../mailing/disable_email_content.php';
 
-    $url = "https://insa-utils.fr/agenda/unsubscribe?id=" . $id . '&resubscribe_token=' . $email_resubscribe_token;
+    $url = "https://insa-utils.fr/account/unsubscribe?id=" . $id . '&resubscribe_token=' . $email_resubscribe_token;
 
     $text = get_disable_email_mail_text_content($url);
     $html = get_disable_email_mail_content($url);

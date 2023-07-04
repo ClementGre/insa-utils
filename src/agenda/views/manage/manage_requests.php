@@ -3,7 +3,7 @@
 header("HTTP/1.1 303 See Other");
 header('Location: ' . getRootPath() . 'agenda/requests/');
 
-$status = get_user_status();
+$status = get_user_agenda_status();
 $_SESSION['errors'] = array();
 $_SESSION['infos'] = array();
 

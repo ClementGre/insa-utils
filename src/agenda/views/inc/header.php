@@ -60,7 +60,7 @@ $logged_in = $status['logged_in'] ?? false;
                     }
                     ?>
                     <a href="<?= getRootPath() ?>agenda/classes">Liste des classes</a>
-                    <a href="<?= getRootPath() ?>agenda/account">Mon compte</a>
+                    <a href="<?= getRootPath() ?>account/manage">Mon compte</a>
                 </div>
             </div>
             <?php

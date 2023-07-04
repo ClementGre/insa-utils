@@ -49,7 +49,7 @@ function route($route, $path_to_include)
         }
     }
     if ($route == "/404") {
-        include_once __DIR__ . "/$path_to_include";
+        include_once $path_to_include;
         exit();
     }
     $request_url = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
@@ -65,7 +65,7 @@ function route($route, $path_to_include)
             call_user_func_array($callback, []);
             exit();
         }
-        include_once __DIR__ . "/$path_to_include";
+        include_once $path_to_include;
         exit();
     }
     if (count($route_parts) != count($request_url_parts)) {
@@ -87,7 +87,7 @@ function route($route, $path_to_include)
         call_user_func_array($callback, $parameters);
         exit();
     }
-    include_once __DIR__ . "/$path_to_include";
+    include_once $path_to_include;
     exit();
 }
 

@@ -127,6 +127,81 @@ header a.back-link p {
 }
 
 /********************************************/
+/************** HEADER DROPDOWN *************/
+/********************************************/
+
+header .dropdown {
+    position: relative;
+    min-width: 30px;
+    min-height: 30px;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    background-color: var(--header-button);
+    cursor: pointer;
+}
+
+header .dropdown:hover, header .dropdown.showing {
+    background-color: var(--header-button-hover);
+}
+
+.dropdown .round {
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%) scale(1.15);
+    width: 4px;
+    height: 4px;
+    border-radius: 100%;
+    background: #fff;
+}
+
+.dropdown .round-1 {
+    left: 25%;
+}
+
+.dropdown .round-2 {
+    left: 50%;
+}
+
+.dropdown .round-3 {
+    left: 75%;
+}
+
+.dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    height: auto;
+    background-color: var(--header-button);
+    padding: 5px 0;
+    border-radius: 5px;
+}
+
+header .dropdown .dropdown-content {
+    width: max-content;
+}
+
+.dropdown.showing .dropdown-content {
+    display: block;
+    cursor: default;
+}
+
+.dropdown .dropdown-content a {
+    text-decoration: none;
+    display: block;
+    padding: 5px 15px;
+}
+
+.dropdown .dropdown-content a:hover {
+    background-color: var(--header-button-hover);
+}
+
+/********************************************/
 /******************* MAIN *******************/
 /********************************************/
 
@@ -205,6 +280,63 @@ select{
     background-size: 12px;
 }
 
+h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 10px;
+    color: #262626;
+}
+
+/********************************************/
+/******************* FORM *******************/
+/********************************************/
+
+input[type="text"] {
+    margin: 10px 0;
+    width: 180px;
+}
+
+form {
+    padding: 5px 0;
+}
+
+/********************************************/
+/***************** MESSAGES *****************/
+/********************************************/
+
+div.error-container, div.infos-container {
+    width: 100%;
+    padding: 8px;
+}
+
+div.errors, div.infos, div.success {
+    border-radius: 7px;
+    color: #EDF2F4;
+    font-size: 15px;
+    line-height: 120%;
+    padding: 5px;
+    margin: 5px;
+}
+
+div.errors {
+    background-color: var(--light-red);
+    border: 2px solid var(--header-button-hover);
+}
+div.success {
+    background-color: #1bab14;
+    border: 2px solid #237f0a;
+}
+div.infos {
+    background-color: #50a6c5;
+    border: 2px solid #2d6f98;
+}
+
+div.errors p, div.success p, div.infos p {
+    color: #EDF2F4;
+    font-size: 15px;
+    line-height: 130%;
+    margin: auto;
+}
 
 /********************************************/
 /****************** FOOTER ******************/

@@ -22,15 +22,15 @@ if (isset($_GET['id']) && isset($_GET['token'])) {
     if ($user != null) {
         $is_disabled = $user['status'] == 'email_disabled';
 
-         if ($user['email_token'] == $_GET['token']) {
-             if ($is_disabled) {
-                 $_SESSION['infos'][] = "Vous avez déjà demandé à ne plus recevoir d'email d'INSA Utils.";
-             }else{
-                 disable_user_email($_GET['id'], $user['name']);
-                 $_SESSION['infos'][] = "Vous ne recevrez plus d'email d'INSA Utils.<br>Un email de réactivation vous a été envoyé.";
-                 $is_disabled = true;
-             }
-             $invalid_link = false;
+        if ($user['email_token'] == $_GET['token']) {
+            if ($is_disabled) {
+                $_SESSION['infos'][] = "Vous avez déjà demandé à ne plus recevoir d'email d'INSA Utils.";
+            }else{
+                disable_user_email($_GET['id'], $user['name']);
+                $_SESSION['infos'][] = "Vous ne recevrez plus d'email d'INSA Utils.<br>Un email de réactivation vous a été envoyé.";
+                $is_disabled = true;
+            }
+            $invalid_link = false;
         }
     }
 }else if (isset($_GET['id']) && isset($_GET['resubscribe_token'])) {
@@ -61,18 +61,24 @@ if (!$status['logged_in'] && $invalid_link) {
     $_SESSION['errors'][] = "Ce lien n'est pas valide.<br>Veuillez vous connecter pour accéder à cette page.";
 }
 
-$title = "Désabonnement des emails";
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php
-    include __DIR__ . '/inc/head.php';
-    ?>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Désabonnement des emails insa-utils</title>
+
+    <link rel="icon" href="<?= getRootPath() ?>icons/icon-256.png" type="image/png">
+
+    <link href="<?= getRootPath() ?>common.css" rel="stylesheet"/>
+
+    <?= getTrackerScript() ?>
 </head>
 <body>
-<?php include __DIR__ . '/inc/header.php' ?>
+<?php printHeader("Utilitaires INSA", "Désabonnement des emails"); ?>
 <main>
 
     <?php
@@ -105,7 +111,7 @@ $title = "Désabonnement des emails";
             </section>
             <section class="b-darken">
                 <h3>Confirmer la réactivation des emails ?</h3>
-                <form action="<?= getRootPath() ?>agenda/manage/disable_email" method="POST">
+                <form action="<?= getRootPath() ?>account/manage/disable_email" method="POST">
                     <?php set_csrf() ?>
                     <input type="hidden" name="action" value="enable">
                     <input type="submit" value="Confirmer">
@@ -116,7 +122,7 @@ $title = "Désabonnement des emails";
             ?>
             <section class="b-darken">
                 <h3>Confirmer la désactivation des emails ?</h3>
-                <form action="<?= getRootPath() ?>agenda/manage/disable_email" method="POST">
+                <form action="<?= getRootPath() ?>account/manage/disable_email" method="POST">
                     <?php set_csrf() ?>
                     <input type="hidden" name="action" value="disable">
                     <input type="submit" value="Confirmer">
@@ -128,9 +134,8 @@ $title = "Désabonnement des emails";
     ?>
 </main>
 <footer>
-    <?= getFooter('<a href="' . getRootPath() . 'agenda/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
+    <?= getFooter('<a href="' . getRootPath() . '">Menu</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>agenda/js/main.js"></script>
-<?php if ($status['is_in_class']) echo '<script src="' . getRootPath() . 'agenda/js/todo.js""></script>' ?>
+<script src="<?= getRootPath() ?>account/js/main.js"></script>
 </html>

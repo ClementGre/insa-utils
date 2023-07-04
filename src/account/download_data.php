@@ -2,7 +2,9 @@
 
 function write_user_data_to_csv_output()
 {
-    $status = get_user_status();
+
+    require_once '../agenda/php/auth.php';
+    $status = get_user_agenda_status();
 
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename=UserData.csv');

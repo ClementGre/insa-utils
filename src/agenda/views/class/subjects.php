@@ -1,6 +1,6 @@
 <?php
 $errors = array();
-$status = get_user_status();
+$status = get_user_agenda_status();
 
 if (!$status['is_in_class']) {
     header('Location: ' . getRootPath() . 'agenda/');
@@ -118,5 +118,5 @@ $title = "Gestion des matières";
     <?= getFooter('<a href="' . getRootPath() . 'agenda/">Tâches à venir</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>agenda/js/main.js"></script>
+<script src="<?= getRootPath() ?>account/js/main.js"></script>
 </html>

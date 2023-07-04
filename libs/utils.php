@@ -74,7 +74,7 @@ function set_cookie($name, $value): void
 {
     setcookie($name, $value, [
         'expires' => time() + 60 * 60 * 24 * 365 * 5, // 5 years
-        'path' => getRootPath() . 'agenda/',
+        'path' => getRootPath(),
         'secure' => true,
         'httponly' => true,
         'samesite' => 'Lax',
@@ -85,7 +85,7 @@ function remove_cookie($name): void
 {
     setcookie($name, '', [
         'expires' => 0,
-        'path' => getRootPath() . 'agenda/',
+        'path' => getRootPath(),
         'secure' => true,
         'httponly' => true,
         'samesite' => 'Lax',

@@ -4,15 +4,13 @@ $errors = array();
 
 if (isset($_POST['email'])) {
     if (is_csrf_valid()) {
-        $errors[] = request_login($_POST['email']);
+        $errors[] = request_login($_POST['email'], 'agenda/classes');
     } else {
         $errors[] = "Le formulaire a expiré, veuillez réessayer.";
     }
-} else if (isset($_GET['id']) && isset($_GET['token'])) {
-    $errors[] = try_token_login($_GET['id'], $_GET['token']);
 }
 
-$status = get_user_status();
+$status = get_user_agenda_status();
 
 if ($status['logged_in'] && $status['class_id'] == null) {
     header('Location: ' . getRootPath() . 'agenda/classes');
@@ -32,7 +30,8 @@ if ($status['is_in_class']) {
     ?>
 </head>
 <body>
-<?php $is_home = true; include __DIR__ . '/inc/header.php' ?>
+<?php $is_home = true;
+include __DIR__ . '/inc/header.php' ?>
 <main>
 
     <?php
@@ -91,6 +90,6 @@ if ($status['is_in_class']) {
     <?= getFooter('<a href="' . getRootPath() . 'agenda/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>agenda/js/main.js"></script>
+<script src="<?= getRootPath() ?>account/js/main.js"></script>
 <?php if ($status['is_in_class']) echo '<script src="' . getRootPath() . 'agenda/js/todo.js""></script>' ?>
 </html>

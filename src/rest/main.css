@@ -142,7 +142,7 @@ div.form input::-webkit-inner-spin-button {
     }
     div.form label {
         width: 125px;
-        margin: 0;
+        margin: auto 0;
     }
     div.form label + *{
         width: 210px;

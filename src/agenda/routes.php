@@ -1,44 +1,61 @@
 <?php
-require_once __DIR__.'/router.php';
+// Libs
+require_once __DIR__ . '/../../libs/router.php';
+require_once __DIR__ . '/../../libs/db.php';
+require_once __DIR__ . '/../../libs/origin_path.php';
+require_once __DIR__ . '/../../libs/utils.php';
 
-require __DIR__.'/../template/footer.php';
+// Template
+require __DIR__ . '/../template/footer.php';
+require_once __DIR__ . '/../template/matomo.php';
 
-require_once __DIR__.'/../origin_path.php';
+// Auth
+require_once __DIR__ . '/../account/auth.php';
 
-require_once __DIR__.'/db.php';
-require_once __DIR__.'/utils.php';
-require_once __DIR__.'/php/auth.php';
-require_once __DIR__.'/php/class.php';
+// Agenda
+require_once __DIR__ . '/php/auth.php';
+require_once __DIR__ . '/php/class.php';
 
+// Configuration
 setlocale(LC_ALL, 'fr_FR');
 date_default_timezone_set("Europe/Paris");
 
-// Not authenticated pages
-any(getRootPath() . 'agenda', 'views/home.php');
-any(getRootPath() . 'agenda/auth', 'views/auth.php');
-any(getRootPath() . 'agenda/classes', 'views/classes.php');
-any(getRootPath() . 'agenda/class/$class/join', 'views/class/join.php');
+// Need to remove old cookies that were set on agenda path
+setcookie('id', '', [
+    'expires' => 0,
+    'path' => getRootPath() . 'agenda',
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'Lax',
+]);
+setcookie('auth_token', '', [
+    'expires' => 0,
+    'path' => getRootPath() . 'agenda',
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'Lax',
+]);
 
-// User pages
-any(getRootPath() . 'agenda/unsubscribe', 'views/unsubscribe.php');
-any(getRootPath() . 'agenda/account', 'views/account.php');
+
+// Not authenticated pages
+any(getRootPath() . 'agenda', __DIR__ . '/views/home.php');
+
+any(getRootPath() . 'agenda/classes', __DIR__ . '/views/classes.php');
+any(getRootPath() . 'agenda/class/$class/join', __DIR__ . '/views/class/join.php');
 
 // Class related pages
-any(getRootPath() . 'agenda/all', 'views/class/all.php');
-any(getRootPath() . 'agenda/requests', 'views/class/requests.php');
-any(getRootPath() . 'agenda/subjects', 'views/class/subjects.php');
+any(getRootPath() . 'agenda/all', __DIR__ . '/views/class/all.php');
+any(getRootPath() . 'agenda/requests', __DIR__ . '/views/class/requests.php');
+any(getRootPath() . 'agenda/subjects', __DIR__ . '/views/class/subjects.php');
 
 // Managers
-any(getRootPath() . 'agenda/manage/todo', 'views/manage/manage_todo.php');
-any(getRootPath() . 'agenda/manage/subjects', 'views/manage/manage_subjects.php');
-any(getRootPath() . 'agenda/manage/requests', 'views/manage/manage_requests.php');
-any(getRootPath() . 'agenda/manage/disable_email', 'views/manage/manage_disable_email.php');
-any(getRootPath() . 'agenda/manage/account', 'views/manage/manage_account.php');
+any(getRootPath() . 'agenda/manage/todo', __DIR__ . '/views/manage/manage_todo.php');
+any(getRootPath() . 'agenda/manage/subjects', __DIR__ . '/views/manage/manage_subjects.php');
+any(getRootPath() . 'agenda/manage/requests', __DIR__ . '/views/manage/manage_requests.php');
 
 // JS API
-any(getRootPath() . 'agenda/jsapi/status', 'views/jsapi/jsapi_status.php');
-any(getRootPath() . 'agenda/jsapi/checkcsrf', 'views/jsapi/jsapi_checkcsrf.php');
-
+any(getRootPath() . 'agenda/jsapi/status', __DIR__ . '/views/jsapi/jsapi_status.php');
+any(getRootPath() . 'agenda/jsapi/checkcsrf', __DIR__ . '/views/jsapi/jsapi_checkcsrf.php');
 
 
 

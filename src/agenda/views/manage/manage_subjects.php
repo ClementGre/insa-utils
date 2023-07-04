@@ -1,7 +1,7 @@
 <?php
 
 
-$status = get_user_status();
+$status = get_user_agenda_status();
 $_SESSION['errors'] = array();
 $_SESSION['infos'] = array();
 

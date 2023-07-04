@@ -1,14 +1,14 @@
 <?php
 
 header("HTTP/1.1 303 See Other");
-header('Location: ' . getRootPath() . 'agenda/unsubscribe/');
+header('Location: ' . getRootPath() . 'account/unsubscribe');
 
 $status = get_user_status();
 $_SESSION['errors'] = array();
 $_SESSION['infos'] = array();
 
 if (!$status['logged_in']) {
-    header('Location: ' . getRootPath() . 'agenda/');
+    header('Location: ' . getRootPath() . 'account/login');
     exit;
 }
 

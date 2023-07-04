@@ -6,7 +6,7 @@ $_SESSION['infos'] = array();
 
 if (!$status['logged_in']) {
     header("HTTP/1.1 303 See Other");
-    header('Location: ' . getRootPath() . 'agenda/');
+    header('Location: ' . getRootPath() . '/account/login');
     exit;
 }
 
@@ -20,8 +20,9 @@ if (isset($_POST['action'])) {
         case 'disconnect':
             remove_cookie('id');
             remove_cookie('auth_token');
+            $_SESSION['infos'][] = "Vous avez été déconnecté de insa-utils.";
             header("HTTP/1.1 303 See Other");
-            header('Location: ' . getRootPath() . 'agenda/');
+            header('Location: ' . getRootPath());
 
             exit;
         case 'disconnect_all':
@@ -36,7 +37,7 @@ if (isset($_POST['action'])) {
 
             break;
         case 'download_data':
-            require_once __DIR__ . '/../../php/download_data.php';
+            require_once __DIR__ . '/../../download_data.php';
             write_user_data_to_csv_output();
 
             exit;
@@ -55,10 +56,10 @@ if (isset($_POST['action'])) {
             remove_cookie('id');
             remove_cookie('auth_token');
             header("HTTP/1.1 303 See Other");
-            header('Location: ' . getRootPath() . 'agenda/');
+            header('Location: ' . getRootPath());
 
             break;
     }
 }
 header("HTTP/1.1 303 See Other");
-header('Location: ' . getRootPath() . 'agenda/account');
+header('Location: ' . getRootPath() . 'account/manage');

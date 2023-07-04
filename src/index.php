@@ -3,7 +3,8 @@ require 'template/utils.php';
 require 'template/head.php';
 require 'template/header.php';
 require 'template/footer.php';
-require 'origin_path.php';
+require '../libs/origin_path.php';
+require '../libs/utils.php';
 
 $title = "Utilitaires INSA";
 $desc = "LE site permettant de te faciliter la vie à l'INSA, via divers services utiles.";
@@ -19,6 +20,10 @@ $desc = "LE site permettant de te faciliter la vie à l'INSA, via divers service
 <body>
 <?php printSimpleHeader($title) ?>
 <main>
+        <?php
+        print_session_messages();
+        ?>
+
         <?php
         $urls = array();
         $data = parse_ini_file("links-to-registered-urls.ini");

@@ -1,5 +1,5 @@
 <?php
-$status = get_user_status();
+$status = get_user_agenda_status();
 
 if (!$status['logged_in'] || !$status['is_in_class']) {
     header('Location: ' . getRootPath() . 'agenda/');
@@ -72,6 +72,6 @@ $title = "Toutes les tâches";
     <?= getFooter('<a href="' . getRootPath() . 'agenda/">Tâches à venir</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>agenda/js/main.js"></script>
+<script src="<?= getRootPath() ?>account/js/main.js"></script>
 <?php if ($status['is_in_class']) echo '<script src="' . getRootPath() . 'agenda/js/todo.js""></script>' ?>
 </html>

@@ -2,7 +2,7 @@
 
 header("HTTP/1.1 303 See Other");
 
-$status = get_user_status();
+$status = get_user_agenda_status();
 $_SESSION['errors'] = array();
 $_SESSION['infos'] = array();
 

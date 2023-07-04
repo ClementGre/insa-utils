@@ -1,5 +1,5 @@
 <?php
-$status = get_user_status();
+$status = get_user_agenda_status();
 
 if (!$status['logged_in']) {
     header('Location: ' . getRootPath() . 'agenda/');
@@ -61,5 +61,5 @@ $title = "Rejoindre une classe";
     <?= getFooter('<a href="' . getRootPath() . 'agenda/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>agenda/js/main.js"></script>
+<script src="<?= getRootPath() ?>account/js/main.js"></script>
 </html>
