@@ -84,7 +84,7 @@ function set_cookie($name, $value): void
 function remove_cookie($name): void
 {
     setcookie($name, '', [
-        'expires' => 0,
+        'expires' => time(),
         'path' => getRootPath(),
         'secure' => true,
         'httponly' => true,

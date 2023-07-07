@@ -1,4 +1,5 @@
 <?php
+session_start();
 require 'template/utils.php';
 require 'template/head.php';
 require 'template/header.php';
@@ -54,7 +55,7 @@ $desc = "LE site permettant de te faciliter la vie à l'INSA, via divers service
         foreach (scandir('./') as $dir) {
             $url = $dir;
 
-            if (in_array($url, $urls) || substr($dir, 0, 1) == '.' || endsWith($dir, '.php') || endsWith($dir, '.webmanifest') || endsWith($dir, '.ini') || endsWith($dir, '.css') || endsWith($dir, '.html')) continue;
+            if (in_array($url, $urls) || str_starts_with($dir, '.') || endsWith($dir, '.php') || endsWith($dir, '.webmanifest') || endsWith($dir, '.ini') || endsWith($dir, '.css') || endsWith($dir, '.html')) continue;
 
             echo '
             <section>

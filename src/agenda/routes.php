@@ -23,14 +23,14 @@ date_default_timezone_set("Europe/Paris");
 // Need to remove old cookies that were set on agenda path
 setcookie('id', '', [
     'expires' => 0,
-    'path' => getRootPath() . 'agenda',
+    'path' => getRootPath() . 'agenda/',
     'secure' => true,
     'httponly' => true,
     'samesite' => 'Lax',
 ]);
 setcookie('auth_token', '', [
     'expires' => 0,
-    'path' => getRootPath() . 'agenda',
+    'path' => getRootPath() . 'agenda/',
     'secure' => true,
     'httponly' => true,
     'samesite' => 'Lax',

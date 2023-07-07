@@ -2,7 +2,7 @@
 $status = get_user_status();
 
 if (!$status['logged_in']) {
-    header('Location: ' . getRootPath() . 'account/login');
+    header('Location: ' . getRootPath() . 'account/login?redirect=account/manage');
     exit;
 }
 
