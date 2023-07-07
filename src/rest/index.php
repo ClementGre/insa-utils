@@ -2,7 +2,7 @@
 require '../template/head.php';
 require '../template/header.php';
 require '../template/footer.php';
-require '../../libs/origin_path.php';
+require '../origin_path.php';
 $name = "Rest'INSA";
 $title = "Calculateur de points RI";
 $desc = "Déterminer si tu auras assez de solde pour finir le mois n'a jamais été aussi simple. Optimise au maximum ton solde RI grâce à ce calculateur hors norme.";

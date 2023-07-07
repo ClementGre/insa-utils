@@ -3,7 +3,7 @@ require 'template/utils.php';
 require 'template/head.php';
 require 'template/header.php';
 require 'template/footer.php';
-require '../libs/origin_path.php';
+require 'origin_path.php';
 require '../libs/utils.php';
 
 $title = "Utilitaires INSA";

@@ -2,7 +2,7 @@
 require '../template/head.php';
 require '../template/header.php';
 require '../template/footer.php';
-require '../../libs/origin_path.php';
+require '../origin_path.php';
 $name = "Cal'INSA";
 $title = "Convertisseur de Calendrier ADE";
 $desc = "Cette passerelle permet de convertir ton calendrier INSA en renommant les évènements pour les rendre plus lisibles. Entre le lien de ton calendrier ADE, puis ajoute sur ton hébergeur de calendrier préféré le lien d'abonnement iCal généré. À chaque actualisation, ce serveur convertira le calendrier ADE.";

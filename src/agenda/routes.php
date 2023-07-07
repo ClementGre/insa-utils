@@ -2,7 +2,7 @@
 // Libs
 require_once __DIR__ . '/../../libs/router.php';
 require_once __DIR__ . '/../../libs/db.php';
-require_once __DIR__ . '/../../libs/origin_path.php';
+require_once __DIR__ . '/../origin_path.php';
 require_once __DIR__ . '/../../libs/utils.php';
 
 // Template
