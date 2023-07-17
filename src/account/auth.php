@@ -69,7 +69,7 @@ function request_login($email, $redirect=""): string
         send_auth_mail($name, $email_prefix, $id, $email_token, $email_code, $redirect);
 
         set_cookie('id', $id);
-        header('Location: ' . getRootPath() . 'account/auth?redirect=' . $redirect);
+        header('Location: ' . getRootPath() . 'account/auth?redirect=' . urlencode($redirect));
         exit;
 
     } catch (Exception $e) {

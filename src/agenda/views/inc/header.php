@@ -5,7 +5,7 @@ $logged_in = $status['logged_in'] ?? false;
 <header>
     <div class="side left">
         <?php
-        if ($is_home ?? false) {
+        if ($is_home ?? $status['class_id'] == null) {
             ?>
             <a class="back-link" href="<?= getRootPath() ?>">
                 <div class="arrow">

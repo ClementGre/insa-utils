@@ -7,11 +7,14 @@
 
     --light-red: #f14045;
 
-    --light-gray: #edf2f4;
+    --light-gray: #fafbfe;
     --light-gray-hover: #d0d6d9;
+
     --gray: #8D99AE;
     --dark-blue: #2B2D42;
 
+    --text-on-white: #232323;
+    --text-light-on-white: #282828;
 }
 
 
@@ -25,6 +28,7 @@ body {
     flex-flow: column;
     align-items: stretch;
     font-family: 'Verdana', sans-serif;
+    background-color: var(--light-gray);
 }
 
 body * {
@@ -209,7 +213,7 @@ header .dropdown .dropdown-content {
 main {
     text-align: center;
     flex: 1 1 auto;
-    background-color: white;
+    background-color: var(--light-gray);
 
     display: flex;
     flex-flow: row wrap;
@@ -230,10 +234,8 @@ main > section {
     width: 100%;
 }
 main > section.b-darken {
-    background-color: var(--light-gray);
-}
-main > section.b-light {
     background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
 }
 
 /********************************************/
@@ -257,7 +259,7 @@ input, select, textarea, button {
     font-family: 'Verdana', sans-serif;
     font-size: 14px;
     cursor: pointer;
-    font-weight: 300;
+    font-weight: 400;
     color: var(--dark-blue);
 }
 textarea{
@@ -312,6 +314,7 @@ div.error-container, div.infos-container {
 div.errors, div.infos, div.success {
     border-radius: 7px;
     color: #EDF2F4;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0 12px;
     font-size: 15px;
     line-height: 120%;
     padding: 5px;

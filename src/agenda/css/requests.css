@@ -10,7 +10,8 @@ section.b-darken {
 }
 
 .user {
-    background-color: var(--light-gray);
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
     width: 100%;
     padding: 5px;
     border-radius: 10px;

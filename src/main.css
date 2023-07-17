@@ -8,12 +8,8 @@ main > section{
   align-items: center;
   align-content: center;
   gap: 30px;
-  max-width: 1200px;
-  transition: all .2s ease-in-out;
+  max-width: 500px;
   padding: 0;
-}
-main > section:hover{
-  background-color: #ecf1f3;
 }
 main > section > a{
   text-decoration: none;
@@ -28,8 +24,11 @@ section .link-div{
   justify-content: space-between;
   flex-direction: row;
   padding: 15px 18px;
-  background-color: rgba(200, 200, 200, .1);
+  background-color: white;
   border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
+  border: 1px solid var(--light-gray-hover);
+  transition: border-color .2s ease-in-out;
 }
 @media (max-width: 450px) {
   section .link-div{
@@ -37,8 +36,8 @@ section .link-div{
     padding: 10px 10px;
   }
 }
-section .link-div:focus .link-div:hover{
-  background-color: rgba(200, 200, 200, .2);
+section .link-div:focus, section .link-div:hover{
+  border-color: var(--insa-color);
 }
 section .link-div img {
   min-width: 55px;
@@ -60,12 +59,14 @@ section .link-div h1, section .link-div h2, section .link-div p{
 section .link-div h1{
   padding: 0;
   margin: 0 0 5px 0;
+  color: var(--text-on-white);
 }
 section .link-div h2{
   font-size: 15px;
   font-weight: 300;
   padding: 0;
   margin: 0 0 4px 0;
+  color: var(--text-light-on-white);
 }
 section .link-div p{
   padding: 3px;
