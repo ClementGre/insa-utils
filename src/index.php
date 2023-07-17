@@ -30,7 +30,7 @@ $desc = "LE site permettant de te faciliter la vie à l'INSA, via divers service
         $data = parse_ini_file("links-to-registered-urls.ini");
 
         foreach ($data as $name => $data) {
-            array_push($urls, $data['url']);
+            $urls[] = $data['url'];
 
             if(isset($data['hidden']) && $data['hidden']) continue;
 
