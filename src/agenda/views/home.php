@@ -90,6 +90,6 @@ include __DIR__ . '/inc/header.php' ?>
     <?= getFooter('<a href="' . getRootPath() . 'agenda/classes">Liste des classes</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>account/js/main.js"></script>
+<script src="<?= getRootPath() ?>template/main.js"></script>
 <?php if ($status['is_in_class']) echo '<script src="' . getRootPath() . 'agenda/js/todo.js""></script>' ?>
 </html>

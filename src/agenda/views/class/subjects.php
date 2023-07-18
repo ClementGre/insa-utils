@@ -59,7 +59,7 @@ $title = "Gestion des matières";
                         </select>
                         <input type="submit" name="action" value="Modifier">
                         <button type="submit" name="action" value="Supprimer">
-                            <img src="<?= getRootPath() ?>agenda/svg/delete.svg" alt="Supprimer">
+                            <img src="<?= getRootPath() ?>svg/delete.svg" alt="Supprimer">
                         </button>
                     </div>
                     <div class="color">
@@ -118,5 +118,5 @@ $title = "Gestion des matières";
     <?= getFooter('<a href="' . getRootPath() . 'agenda/">Tâches à venir</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>account/js/main.js"></script>
+<script src="<?= getRootPath() ?>template/main.js"></script>
 </html>

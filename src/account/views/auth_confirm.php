@@ -86,5 +86,5 @@ $title = "Authentification";
     <?= getFooter('<a href="' . getRootPath() . '">Menu</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>account/js/main.js"></script>
+<script src="<?= getRootPath() ?>template/main.js"></script>
 </html>

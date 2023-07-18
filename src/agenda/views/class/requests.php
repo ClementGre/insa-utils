@@ -72,5 +72,5 @@ $title = "Demandes d'ajout";
     <?= getFooter('<a href="' . getRootPath() . 'agenda/">Tâches à venir</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>account/js/main.js"></script>
+<script src="<?= getRootPath() ?>template/main.js"></script>
 </html>

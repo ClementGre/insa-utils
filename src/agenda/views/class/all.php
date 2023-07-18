@@ -72,6 +72,6 @@ $title = "Toutes les tâches";
     <?= getFooter('<a href="' . getRootPath() . 'agenda/">Tâches à venir</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>account/js/main.js"></script>
+<script src="<?= getRootPath() ?>template/main.js"></script>
 <?php if ($status['is_in_class']) echo '<script src="' . getRootPath() . 'agenda/js/todo.js""></script>' ?>
 </html>

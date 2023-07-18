@@ -1,7 +1,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title><?= "INS'Agenda" . (isset($title) ? (' - ' . $title) : 'Cahier de texte collaboratif') ?></title>
+<title><?= "INS'Agenda - " . ($title ?? 'Cahier de texte collaboratif') ?></title>
 
 <link rel="icon" href="<?= getRootPath() ?>agenda/icons/icon-256.png" type="image/png">
 <meta name="description" content="Application de cahier de texte collaboratif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante."/>

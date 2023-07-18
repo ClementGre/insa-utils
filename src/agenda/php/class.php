@@ -124,11 +124,6 @@ function date_in_a_week(): string
     return $date->format('Y-m-d');
 }
 
-function year(): string
-{
-    return (new DateTime())->format('Y');
-}
-
 function sort_classes_by_name($a, $b): int
 {
     $as = explode(' ', strtolower($a['name']));

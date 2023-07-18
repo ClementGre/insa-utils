@@ -109,7 +109,7 @@ if (count($subjects) == 0) {
                 </select>
                 <input type="date" id="duedate" name="duedate"
                        value="<?= $_POST['duedate'] ?? date_in_a_week() ?>" min="<?= current_date() ?>"
-                       max="<?= year() . '-06-30' ?>" required>
+                       max="<?= end_of_class_year() ?>" required>
                 <select class="fixed" id="type" name="type" required>
                     <option value="report" <?= ($_POST['type'] ?? '') === 'report' ? 'selected="selected"' : '' ?>>
                         Rendu

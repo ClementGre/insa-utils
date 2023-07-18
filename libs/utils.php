@@ -91,3 +91,24 @@ function remove_cookie($name): void
         'samesite' => 'Lax',
     ]);
 }
+
+
+function endsWith($haystack, $needle): bool
+{
+    $length = strlen($needle);
+    if (!$length) return true;
+    return substr($haystack, -$length) === $needle;
+}
+
+function date_tomorrow(): string
+{
+    return (new DateTime())->add(new DateInterval('P1D'))->format('Y-m-d');
+}
+function end_of_class_year(): string
+{
+    if((new DateTime())->format('m') < 7){
+        return (new DateTime())->format('Y') . '-06-30';
+    }else{
+        return (intval((new DateTime())->format('Y')) + 1) . '-06-30';
+    }
+}

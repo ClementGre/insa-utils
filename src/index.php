@@ -1,6 +1,5 @@
 <?php
 session_start();
-require 'template/utils.php';
 require 'template/head.php';
 require 'template/header.php';
 require 'template/footer.php';

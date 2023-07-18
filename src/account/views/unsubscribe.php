@@ -78,7 +78,7 @@ if (!$status['logged_in'] && $invalid_link) {
     <?= getTrackerScript() ?>
 </head>
 <body>
-<?php printHeader("Utilitaires INSA", "Désabonnement des emails"); ?>
+<?php printHeader("Utilitaires INSA", "Désabonnement des emails", MenuType::Account); ?>
 <main>
 
     <?php
@@ -137,5 +137,5 @@ if (!$status['logged_in'] && $invalid_link) {
     <?= getFooter('<a href="' . getRootPath() . '">Menu</a>', "Clément GRENNERAT") ?>
 </footer>
 </body>
-<script src="<?= getRootPath() ?>account/js/main.js"></script>
+<script src="<?= getRootPath() ?>template/main.js"></script>
 </html>

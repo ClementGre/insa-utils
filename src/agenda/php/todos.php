@@ -122,14 +122,14 @@ function print_todos(array $todos, $all_subjects): void
                     <p><?= duedate_to_str($todo['duedate']) ?></p>
                 </div>
                 <div class="status <?= $todo['status']->toCSSClass() ?> <?= $todo['type'] ?>">
-                    <p data-todo-id="<?= $todo['id'] ?>"><?= $todo['type'] == 'reminder' ? 'Pense bête' : ($todo['status']->value . '<img src="' . getRootPath() . 'agenda/svg/pointer.svg"/>') ?></p>
+                    <p data-todo-id="<?= $todo['id'] ?>"><?= $todo['type'] == 'reminder' ? 'Pense bête' : ($todo['status']->value . '<img src="' . getRootPath() . 'svg/pointer.svg"/>') ?></p>
                 </div>
             </div>
             <div class="content">
                 <div class="side <?= empty($todo['description']) ? 'inline' : '' ?>">
                     <a href="<?= out($todo['link']) ?>" target="_blank"
                        class="img-button link <?= $todo['link'] ? '' : 'disabled' ?>">
-                        <img alt="Lien associé" src="<?= getRootPath() ?>agenda/svg/link.svg"/>
+                        <img alt="Lien associé" src="<?= getRootPath() ?>svg/link.svg"/>
                     </a>
                     <div class="img-button edit dropdown" tabindex="0" aria-label="Options...">
                         <div class="round round-1"></div>
