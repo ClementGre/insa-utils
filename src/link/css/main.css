@@ -1,3 +1,9 @@
+.b-darken {
+    padding: 5px;
+}
+
+/* SEARCHBAR */
+
 .searchbar {
     display: flex;
     padding: 0;
@@ -26,16 +32,82 @@
     max-width: 300px;
 
     border-radius: 10px;
-    border: 1px solid var(--dark-blue-light);
+    border: 2px solid var(--dark-blue-light);
     background: #FFF;
     font-size: 15px;
 }
 .searchbar input:focus {
     outline: none;
-    border: 1px solid var(--insa-color);
+    border-color: var(--insa-color);
 }
 .searchbar p {
     color: var(--dark-blue);
     font-size: 14px;
     margin: 0;
 }
+
+
+/* LINK */
+
+
+section.results {
+
+}
+
+section.results p.no-results {
+    margin: 15px 0 20px 0;
+}
+
+/* ADDFORM */
+
+form.add-link {
+    gap: 5px;
+    padding: 0;
+}
+form.add-link, form > div.header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+form > div.header{
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--dark-blue);
+}
+form.add-link > div.header > input {
+    border-radius: 5px 5px 0 0;
+}
+form.add-link > div.header > textarea {
+    height: 50px;
+    border-radius: 0 0 5px 5px;
+    border-top: none;
+}
+
+
+form.add-link > div.horizontal {
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    gap: 5px;
+}
+form.add-link input, form.add-link label {
+    margin: 0;
+    flex-grow: 1;
+    width: inherit;
+    min-width: 100px;
+}
+form.add-link label {
+    text-align: right;
+    font-size: 14px;
+}
+form.add-link input[type="submit"],
+form.add-link input[type="date"]{
+    flex-grow: 0;
+    width: 150px;
+}
+
+form.add-link input:focus, form.add-link textarea:focus {
+    outline: none;
+    border: 2px solid var(--insa-color);
+}
+
+

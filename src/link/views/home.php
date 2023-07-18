@@ -70,7 +70,7 @@ $logged_in = $status['logged_in'] ?? false;
 <?php
 if ($logged_in) {
     ?>
-    <script src="<?= getRootPath() ?>link/js/main.js"></script>
+    <script src="<?= getRootPath() ?>link/main.js"></script>
     <?php
 }
 ?>

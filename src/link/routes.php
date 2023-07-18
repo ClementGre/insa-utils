@@ -5,15 +5,11 @@ require_once __DIR__ . '/../../libs/db.php';
 require_once __DIR__ . '/../origin_path.php';
 require_once __DIR__ . '/../../libs/utils.php';
 
-// Template
-require __DIR__ . '/../template/header.php';
-require __DIR__ . '/../template/head.php';
-require __DIR__ . '/../template/footer.php';
-require_once __DIR__ . '/../template/matomo.php';
-
 // Auth
 require_once __DIR__ . '/../account/auth.php';
 
+// Link'INSA
+require_once __DIR__ . '/../link/php/link.php';
 
 // Configuration
 setlocale(LC_ALL, 'fr_FR');
@@ -35,15 +31,27 @@ setcookie('auth_token', '', [
     'samesite' => 'Lax',
 ]);
 
-
-// Not authenticated pages
-any(getRootPath() . 'link', __DIR__ . '/views/home.php');
-
-// Class related pages
-
 // Managers
+any(getRootPath() . 'link/manage/add_link', __DIR__ . '/managers/add_link.php');
+any(getRootPath() . 'link/manage/edit_link', __DIR__ . '/managers/edit_link.php');
+any(getRootPath() . 'link/manage/delete_link', __DIR__ . '/managers/delete_link.php');
 
 // JS API
+any(getRootPath() . 'link/jsapi/like', __DIR__ . '/jsapi/like.php');
+any(getRootPath() . 'link/jsapi/search', __DIR__ . '/jsapi/search.php');
+
+// Template
+require __DIR__ . '/../template/header.php';
+require __DIR__ . '/../template/head.php';
+require __DIR__ . '/../template/footer.php';
+require_once __DIR__ . '/../template/matomo.php';
+
+// Pages
+
+any(getRootPath() . 'link', __DIR__ . '/views/home.php');
+
+
+
 
 
 

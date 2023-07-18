@@ -7,12 +7,20 @@
       "ext-pdo": "*",
       "ext-intl": "*",
         "phpmailer/phpmailer": "^6.7",
-      "ext-mbstring": "*"
+      "ext-mbstring": "*",
+        "meilisearch/meilisearch-php": "^1.2",
+        "guzzlehttp/guzzle": "^7.7",
+        "http-interop/http-factory-guzzle": "^1.0"
     },
     "authors": [
         {
             "name": "Clément Grennerat",
             "email": "clement.grennerat@free.fr"
         }
-    ]
+    ],
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
 }
