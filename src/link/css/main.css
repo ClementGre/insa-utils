@@ -49,13 +49,117 @@
 
 /* LINK */
 
-
-section.results {
-
+#results-section {
+    padding: 0;
 }
 
-section.results p.no-results {
+#results-section p.no-results {
     margin: 15px 0 20px 0;
+}
+
+#results-section .link {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
+}
+
+#results-section h2 {
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark-blue);
+}
+#results-section hr {
+    height: 1px;
+    margin: 0;
+    color: var(--dark-blue-light);
+}
+#results-section p.description {
+    margin: 0;
+
+    font-size: 14px;
+    color: var(--dark-blue);
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#results-section.expanded p.description {
+    white-space: normal;
+}
+
+#results-section .details {
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+    justify-content: space-between;
+    gap: 5px;
+}
+#results-section .details > * {
+    height: 29px;
+}
+#results-section .details a {
+    padding: 5px;
+    flex-grow: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: rgb(57, 150, 13);
+    border: 1px solid rgba(57, 150, 13, 0.80);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.10);
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+}
+#results-section.expanded .details a {
+    flex-grow: 9999999;
+}
+#results-section .details a:visited {
+    color: rgb(57, 150, 13);
+    text-decoration: none;
+}
+
+#results-section .details button.more-button {
+    padding: 5px;
+    height: 29px;
+    border: 1px solid var(--dark-blue-light);
+}
+#results-section .details button.more-button:hover {
+    border-color: var(--insa-color);
+}
+
+#results-section .details button.rating {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    padding: 0 5px;
+
+    border: 1px solid var(--dark-blue-light);
+    font-size: 15px;
+}
+#results-section .details button.rating img {
+    height: 27px;
+}
+#results-section .details button.like:hover {
+    border-color: #1C68AE;
+}
+#results-section .details button.dislike:hover {
+    border-color: var(--insa-color);
+}
+
+#results-section .details button.rating.disabled {
+
 }
 
 /* ADDFORM */

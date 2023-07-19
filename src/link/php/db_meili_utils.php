@@ -86,7 +86,7 @@ function migrate_meilisearch(): void
 
     // Results format
     $client->index('links')->updateDisplayedAttributes([
-        'title'
+        'id'
     ]);
 
     // Search order
