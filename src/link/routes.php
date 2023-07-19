@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../libs/utils.php';
 require_once __DIR__ . '/../account/auth.php';
 
 // Link'INSA
-require_once __DIR__ . '/../link/php/link.php';
+require_once __DIR__ . '/../link/php/db_meili_utils.php';
 
 // Configuration
 setlocale(LC_ALL, 'fr_FR');

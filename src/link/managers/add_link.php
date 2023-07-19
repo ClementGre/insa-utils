@@ -20,12 +20,12 @@ if (isset($_POST['title']) && isset($_POST['description']) && isset($_POST['expi
     if (is_csrf_valid()) {
 
         // Check title
-        if (mb_strlen($_POST['title'], "UTF-8") > 50) {
+        if (mb_strlen($_POST['title'], "UTF-16BE") > 50) {
             $_SESSION['errors'][] = 'Le titre est trop long.';
             exit();
         }
         // Check description
-        if (mb_strlen($_POST['description'], "UTF-8") > 1000) {
+        if (mb_strlen($_POST['description'], "UTF-16BE") > 1000) {
             $_SESSION['errors'][] = 'La description est trop longue.';
             exit();
         }
@@ -39,12 +39,12 @@ if (isset($_POST['title']) && isset($_POST['description']) && isset($_POST['expi
             $_SESSION['errors'][] = 'Le lien n\'est pas valide.';
             exit();
         }
-        if(mb_strlen($_POST['url'], "UTF-8") > 2048){
+        if(mb_strlen($_POST['url'], "UTF-16BE") > 2048){
             $_SESSION['errors'][] = 'Le lien est trop long.';
             exit();
         }
 
-        $r = addLink($status['id'], $status['name'], $_POST['expiration_date'], $_POST['title'], $_POST['description'], $_POST['url']);
+        $r = addLink($status['id'], $_POST['expiration_date'], $_POST['title'], $_POST['description'], $_POST['url']);
         if ($r) {
             $_SESSION['messages'][] = 'Le lien a bien été ajouté.';
         } else {

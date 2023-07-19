@@ -99,7 +99,10 @@ function endsWith($haystack, $needle): bool
     if (!$length) return true;
     return substr($haystack, -$length) === $needle;
 }
-
+function date_today(): string
+{
+    return (new DateTime())->format('Y-m-d');
+}
 function date_tomorrow(): string
 {
     return (new DateTime())->add(new DateInterval('P1D'))->format('Y-m-d');

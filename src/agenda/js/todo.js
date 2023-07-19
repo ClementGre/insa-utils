@@ -215,20 +215,8 @@ function createElementFromHTML(htmlString) {
     return div.firstChild;
 }
 
-function getRootPath() {
-    return document.querySelector('div.root-path-container').dataset.rootPath;
-}
-
 function getSubjects() {
     return JSON.parse(document.querySelector('div.subjects-container').dataset.subjects);
-}
-
-function getCsrfToken() {
-    return document.querySelector('div.csrf-container').dataset.csrf;
-}
-
-function getUserId() {
-    return document.querySelector('div.user-id-container').dataset.userId;
 }
 
 function getPageName() {
