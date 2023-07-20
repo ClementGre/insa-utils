@@ -31,7 +31,7 @@ if($_SESSION["csrf_js"] === $csrf_js){
     $likes = $r['likes'];
     $dislikes = $r['dislikes'];
 
-    if($r['author_id'] === $user_id){
+    if($r['author_id'] == $user_id){
         $out['status'] = 'error';
         $out['error'] = 'It is not possible to like/dislike a link you created.';
         echo json_encode($out);
