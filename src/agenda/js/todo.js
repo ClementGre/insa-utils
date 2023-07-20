@@ -209,12 +209,6 @@ function redirectWithPost(url, data) {
     $form.submit();
 }
 
-function createElementFromHTML(htmlString) {
-    const div = document.createElement('div');
-    div.innerHTML = htmlString.trim();
-    return div.firstChild;
-}
-
 function getSubjects() {
     return JSON.parse(document.querySelector('div.subjects-container').dataset.subjects);
 }
@@ -253,20 +247,6 @@ function formatDate(date) {
         mm = '0' + mm;
     }
     return yyyy + '-' + mm + '-' + dd
-}
-
-function out(text) {
-    const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-
-    return text.replace(/[&<>"']/g, function (m) {
-        return map[m];
-    });
 }
 
 function onSubjectComboChange(e) {

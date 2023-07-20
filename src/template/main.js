@@ -51,3 +51,24 @@ function prettyPrintJSONtoHTML(json) {
         .replace(/\n/g, "<br>")
         .replace(/    /g, "&nbsp;&nbsp;")
 }
+
+function createElementFromHTML(htmlString) {
+    const div = document.createElement('div');
+    div.innerHTML = htmlString.trim();
+    return div.firstChild;
+}
+
+function out(text) {
+    if(!text) return text;
+
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function (m) {
+        return map[m];
+    });
+}

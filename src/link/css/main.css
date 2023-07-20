@@ -1,8 +1,9 @@
 .b-darken {
     padding: 5px;
 }
-
+/*************/
 /* SEARCHBAR */
+/*************/
 
 .searchbar {
     display: flex;
@@ -46,11 +47,13 @@
     margin: 0;
 }
 
+/************/
+/*** LINK ***/
+/************/
 
-/* LINK */
-
-#results-section {
+ul#results-section {
     padding: 0;
+    width: 100%;
 }
 
 #results-section p.no-results {
@@ -64,11 +67,14 @@
     gap: 5px;
     padding: 5px;
     margin-bottom: 10px;
+    list-style: none;
 
     border-radius: 10px;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
 }
+
+/* Title / Description */
 
 #results-section h2 {
     margin: 0;
@@ -92,13 +98,16 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-#results-section.expanded p.description {
+#results-section li.link.expanded p.description {
     white-space: normal;
 }
+
+/* Details: link + mutable content + actions */
 
 #results-section .details {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-content: stretch;
     justify-content: space-between;
     gap: 5px;
@@ -109,6 +118,7 @@
 #results-section .details a {
     padding: 5px;
     flex-grow: 1;
+    flex-basis: 0;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -121,48 +131,120 @@
     text-decoration: none;
     font-size: 14px;
 }
-#results-section.expanded .details a {
-    flex-grow: 9999999;
+#results-section li.link.expanded .details a {
+    flex-basis: 100%;
 }
 #results-section .details a:visited {
     color: rgb(57, 150, 13);
     text-decoration: none;
 }
 
-#results-section .details button.more-button {
+/* Mutable content (in .details ) */
+
+#results-section li.link.expanded .mutable-content .more-button,
+#results-section li.link:not(.expanded) .mutable-content .author {
+    display: none;
+}
+
+#results-section .mutable-content .author {
+    margin: 0;
+    font-size: 14px;
+    color: var(--dark-blue);
+    line-height: 29px;
+}
+
+#results-section .mutable-content .more-button {
     padding: 5px;
     height: 29px;
     border: 1px solid var(--dark-blue-light);
 }
-#results-section .details button.more-button:hover {
+#results-section .mutable-content .more-button {
+    padding: 5px;
+    height: 29px;
+    border: 1px solid var(--dark-blue-light);
+}
+#results-section .mutable-content .more-button:hover {
     border-color: var(--insa-color);
 }
 
-#results-section .details button.rating {
+/* Actions */
+
+#results-section .details .actions {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+#results-section .details .actions button.rating {
     display: flex;
     flex-direction: row;
     gap: 5px;
     align-items: center;
     padding: 0 5px;
+    height: 29px;
 
     border: 1px solid var(--dark-blue-light);
     font-size: 15px;
 }
-#results-section .details button.rating img {
-    height: 27px;
+#results-section .details .actions button.rating.selected:hover {
+    border-color: var(--dark-blue-light);
 }
-#results-section .details button.like:hover {
+
+#results-section .details .actions button.rating img {
+    height: 27px;
+    transition: filter .2s ease-in-out;
+}
+#results-section .details .actions button.like:hover {
     border-color: #1C68AE;
 }
-#results-section .details button.dislike:hover {
+#results-section .details .actions button.dislike:hover {
     border-color: var(--insa-color);
 }
-
-#results-section .details button.rating.disabled {
-
+#results-section .details .actions button.like.selected img {
+    /* #1C68AE */
+    filter: invert(23%) sepia(100%) saturate(1746%) hue-rotate(194deg) brightness(94%) contrast(78%);
+}
+#results-section .details .actions button.dislike.selected {
+    color: var(--insa-color);
+    border-color: var(--insa-color);
+}
+#results-section .details .actions button.dislike.selected img {
+    /* --insa-color */
+    filter: invert(10%) sepia(99%) saturate(6216%) hue-rotate(354deg) brightness(84%) contrast(94%);
+}
+#results-section .details .actions button.like.selected {
+    color: #1C68AE;
+    border-color: #1C68AE;
 }
 
+
+#results-section .details .actions button.rating.disabled {
+    border: none;
+    color: var(--dark-blue-light);
+    font-size: 14px;
+    padding: 0;
+    cursor: default;
+}
+#results-section .details .actions button.rating.disabled img {
+    height: 24px;
+    filter: invert(35%) sepia(8%) saturate(818%) hue-rotate(196deg) brightness(92%) contrast(91%);
+}
+
+#results-section .details .actions button.loading {
+    /*border: none;*/
+    /*box-shadow: 0 0 2px 2px rgba(0,0,0,0.20);*/
+    /*padding: -1px 4px;*/
+}
+#results-section .details .actions button.loading p {
+    color: transparent;
+    text-shadow: 0 0 2px rgba(43, 45, 66, 0.5);
+}
+#results-section .details .actions button.loading img {
+    filter: blur(2px) !important;
+}
+
+/************/
 /* ADDFORM */
+/************/
 
 form.add-link {
     gap: 5px;
@@ -173,7 +255,7 @@ form.add-link, form > div.header {
     flex-direction: column;
     align-items: stretch;
 }
-form > div.header{
+form > div.header {
     padding-bottom: 5px;
     border-bottom: 1px solid var(--dark-blue);
 }
@@ -204,7 +286,7 @@ form.add-link label {
     font-size: 14px;
 }
 form.add-link input[type="submit"],
-form.add-link input[type="date"]{
+form.add-link input[type="date"] {
     flex-grow: 0;
     width: 150px;
 }

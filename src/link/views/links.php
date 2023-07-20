@@ -2,7 +2,7 @@
 $status = $status ?? false;
 ?>
 <div class="user-id-container" data-user-id="<?= htmlspecialchars($status['id']) ?>"></div>
-<div class="page-name-container" data-page-name="all"></div>
+<div class="page-name-container" data-page-name=""></div>
 <div class="root-path-container" data-root-path="<?= htmlspecialchars(getRootPath()) ?>"></div>
 <div class="csrf-container" data-csrf="<?= htmlspecialchars(gen_csrf_key('js')) ?>"></div>
 
@@ -12,9 +12,8 @@ $status = $status ?? false;
     <p id="search-stats"></p>
 </section>
 
-<section id="results-section">
-    <p class="no-results">Aucun résultat</p>
-</section>
+<ul id="results-section">
+</ul>
 
 <h3>Publier un lien :</h3>
 

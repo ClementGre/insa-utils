@@ -40,14 +40,44 @@ function editLink()
 
 }
 
-function likeLink()
+function update_link_likes($link_id, $likes, $dislikes): bool
 {
 
+    $q = getDB()->prepare('UPDATE links SET likes = :likes, dislikes = :dislikes WHERE id = :link_id');
+    $r = $q->execute([
+        ':likes' => $likes,
+        ':dislikes' => $dislikes,
+        ':link_id' => $link_id
+    ]);
+    if ($r) {
+        require_once __DIR__ . '/../php/meilisearch_connect.php';
+        global $client;
+        $client->index('links')->updateDocuments([
+            [
+                'id' => $link_id,
+                'likes' => $likes,
+                'dislikes' => $dislikes,
+            ]
+        ]);
+    }
+    return $r;
 }
-
-function unlikeLink()
+function recalculate_link_likes(): void
 {
+    $q = getDB()->prepare("SELECT id FROM links");
+    $q->execute();
+    $links = $q->fetchAll(PDO::FETCH_COLUMN);
+    foreach($links as $link_id){
+        $q = getDB()->prepare('SELECT COUNT(*) FROM links_likes WHERE link_id = :link_id AND type = \'like\'');
+        $q->execute([':link_id' => $link_id]);
+        $likes = $q->fetch()[0];
 
+        $q = getDB()->prepare('SELECT COUNT(*) FROM links_likes WHERE link_id = :link_id AND type = \'dislike\'');
+        $q->execute([':link_id' => $link_id]);
+        $dislikes = $q->fetch()[0];
+
+        update_link_likes($link_id, $likes, $dislikes);
+    }
 }
 
 function synchronize_db_to_meili(): void
