@@ -25,11 +25,18 @@ if($_SESSION["csrf_js"] === $csrf_js){
         }
     }
 
-    $q = getDB()->prepare('SELECT likes, dislikes FROM links WHERE id = :link_id');
+    $q = getDB()->prepare('SELECT likes, dislikes, author_id FROM links WHERE id = :link_id');
     $q->execute([':link_id' => $link_id]);
     $r = $q->fetch(PDO::FETCH_ASSOC);
     $likes = $r['likes'];
     $dislikes = $r['dislikes'];
+
+    if($r['author_id'] === $user_id){
+        $out['status'] = 'error';
+        $out['error'] = 'It is not possible to like/dislike a link you created.';
+        echo json_encode($out);
+        exit();
+    }
 
     // Updating likes/dislikes
 

@@ -58,7 +58,10 @@ function updateLinks(query) {
                         last_opened_details = div;
                     })
                 })
+                // Like/Dislike events
                 res['hits'].forEach((data) => {
+                    if (data['author_id'] === parseInt(getUserId(), 10)) return;
+
                     let link_id = data['id'];
                     let link = section.querySelector('li.link[data-link-id="' + link_id + '"]');
                     let like = link.querySelector('button.like');
@@ -92,7 +95,7 @@ function updateLinks(query) {
 
 function getLinkHtml(data) {
     let is_own = data['author_id'] === parseInt(getUserId(), 10);
-    is_own = false;
+
     let html = `
         <h2>` + data['title'] + `</h2>
         <hr>
