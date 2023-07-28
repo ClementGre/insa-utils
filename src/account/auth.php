@@ -187,12 +187,13 @@ function get_user_status(): array
         $id = $_COOKIE['id'];
         $auth_token = $_COOKIE['auth_token'];
 
-        $q = getDB()->prepare("SELECT auth_token, status FROM users WHERE id=:id LIMIT 1");
+        $q = getDB()->prepare("SELECT auth_token, name, status FROM users WHERE id=:id LIMIT 1");
         $q->execute([":id" => $id]);
         $user = $q->fetch();
 
         if($auth_token == $user['auth_token']){
             $data['logged_in'] = true;
+            $data['name'] = $user['name'];
             if($user['status'] == 'banned'){
                 $data['banned'] = true;
             }

@@ -1,6 +1,6 @@
 <?php
 
-function addLink($author_id, $expiration_date, $title, $description, $link): bool
+function addLink($author_id, $author_name, $expiration_date, $title, $description, $link): bool
 {
     $q = getDB()->prepare('INSERT INTO links (author_id, expiration_date, title, description, link) VALUES (:author_id, :expiration_date, :title, :description, :link)');
     $r = $q->execute([
@@ -19,6 +19,7 @@ function addLink($author_id, $expiration_date, $title, $description, $link): boo
             'title' => $title,
             'description' => $description,
             'link' => $link,
+            'author_name' => $author_name,
             'likes' => 0,
             'dislikes' => 0,
         ];
@@ -64,19 +65,19 @@ function update_link_likes($link_id, $likes, $dislikes): bool
 }
 function recalculate_link_likes(): void
 {
-    $q = getDB()->prepare("SELECT id FROM links");
+    $q = getDB()->prepare("SELECT id, author_id FROM links");
     $q->execute();
-    $links = $q->fetchAll(PDO::FETCH_COLUMN);
-    foreach($links as $link_id){
-        $q = getDB()->prepare('SELECT COUNT(*) FROM links_likes WHERE link_id = :link_id AND type = \'like\'');
-        $q->execute([':link_id' => $link_id]);
+    $links = $q->fetchAll(PDO::FETCH_ASSOC);
+    foreach($links as $link){
+        $q = getDB()->prepare('SELECT COUNT(*) FROM links_likes WHERE link_id = :id AND type = \'like\' AND user_id != :author_id');
+        $q->execute([':id' => $link['id'], ':author_id' => $link['author_id']]);
         $likes = $q->fetch()[0];
 
-        $q = getDB()->prepare('SELECT COUNT(*) FROM links_likes WHERE link_id = :link_id AND type = \'dislike\'');
-        $q->execute([':link_id' => $link_id]);
+        $q = getDB()->prepare('SELECT COUNT(*) FROM links_likes WHERE link_id = :id AND type = \'dislike\' AND user_id != :author_id');
+        $q->execute([':id' => $link['id'], ':author_id' => $link['author_id']]);
         $dislikes = $q->fetch()[0];
 
-        update_link_likes($link_id, $likes, $dislikes);
+        update_link_likes($link['id'], $likes, $dislikes);
     }
 }
 
@@ -89,11 +90,15 @@ function synchronize_db_to_meili(): void
     global $client;
 
     $documents = array_map(function ($row) {
+        $q = getDB()->prepare('SELECT name from users WHERE id = ?');
+        $q->execute([$row['author_id']]);
+        $name = $q->fetch()[0];
         $document = [
             'id' => $row['id'],
             'title' => $row['title'],
             'description' => $row['description'],
             'link' => $row['link'],
+            'author_name' => $name,
             'likes' => $row['likes'],
             'dislikes' => $row['dislikes'],
         ];
@@ -123,7 +128,8 @@ function migrate_meilisearch(): void
     $client->index('links')->updateSearchableAttributes([
         'title',
         'description',
-        'link'
+        'link',
+        'author_name'
     ]);
 
     $client->index('links')->updateRankingRules([

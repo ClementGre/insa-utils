@@ -12,6 +12,7 @@ document.querySelectorAll('form input[name="title"]').forEach((a) => {
 const section = document.querySelector('#results-section')
 const search_stats = document.querySelector('#search-stats')
 const no_result_html = '<p class="no-results">Aucun résultat</p>';
+const loader = '<div class="loader"></div>';
 
 let last_query_time = 0;
 
@@ -19,16 +20,28 @@ let last_opened_details = null
 
 updateLinks('')
 
-function updateLinks(query) {
+/**
+ * @param query
+ * @param offset If different from 0, the results will be appended to the current ones
+ */
+function updateLinks(query, offset = 0) {
     last_query_time = new Date() / 1;
     let this_query_time = new Date() / 1;
+
+    if (offset === 0) {
+        section.innerHTML = loader;
+    }else{
+        section.querySelector('#more-button')?.remove()
+        section.innerHTML += loader;
+    }
+
     fetch(getRootPath() + 'link/jsapi/search', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({'query': query, 'user_id': getUserId(), "csrf_js": getCsrfToken()})
+        body: JSON.stringify({'query': query, 'user_id': getUserId(), 'offset': offset * 20, "csrf_js": getCsrfToken()})
     })
         .then((response) => {
             return response.json();
@@ -40,16 +53,18 @@ function updateLinks(query) {
             if (res['status'] === 'done') {
                 last_opened_details = null;
 
+                section.querySelector('.loader')?.remove();
+
                 let hits_count = res['hits_count'];
                 if (hits_count === 0) {
                     search_stats.innerHTML = '0 résultats en ' + res['processing_time_ms'] + ' ms';
                     section.innerHTML = no_result_html;
                     return;
                 }
-                let approx = res['hits_count_estimated'] ? '~' : '';
+                let approx = res['last_offset'] ? '' : '~';
 
                 search_stats.innerHTML = approx + hits_count + ' résultats en ' + res['processing_time_ms'] + ' ms';
-                section.innerHTML = res['hits'].map((data) => getLinkHtml(data)).join('');
+                section.innerHTML += res['hits'].map((data) => getLinkHtml(data)).join('');
 
                 section.querySelectorAll('li.link').forEach((div) => {
                     div.querySelector('button.more-button').addEventListener('click', (e) => {
@@ -85,6 +100,11 @@ function updateLinks(query) {
                         }
                     })
                 })
+
+                section.querySelector('#more-button')?.remove();
+                if(!res['last_offset']) {
+                    add_more_button(query, offset + 1);
+                }
 
             } else if (res['status'] === 'invalid_csrf') {
                 location.reload();
@@ -176,6 +196,11 @@ function updateLikeInfos(link_id, is_liked, is_disliked, type) {
                 location.reload();
             }
         })
+}
+
+function add_more_button(query, offset){
+    let more_button = '<button id="more-button" onclick="updateLinks(\'' + query + '\', ' + offset + ')">Plus de résultats</button>';
+    section.innerHTML += more_button;
 }
 
 let last_input_time = 0;

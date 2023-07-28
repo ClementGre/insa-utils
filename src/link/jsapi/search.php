@@ -3,8 +3,9 @@ header('Content-Type: application/json');
 $json = json_decode(file_get_contents('php://input'), true);
 
 $user_id = $json['user_id'];
-$csrf_js = $json['csrf_js'];
 $query = $json['query'];
+$offset = $json['offset'];
+$csrf_js = $json['csrf_js'];
 $out = [];
 
 if($_SESSION["csrf_js"] === $csrf_js){
@@ -15,7 +16,6 @@ if($_SESSION["csrf_js"] === $csrf_js){
 //    synchronize_db_to_meili();
 //    recalculate_link_likes();
 
-    $offset = 0;
     $limit = 20;
 
     $out['status'] = 'done';
@@ -39,7 +39,7 @@ if($_SESSION["csrf_js"] === $csrf_js){
     }
 
     $out['hits_count'] = $result->getEstimatedTotalHits();
-    $out['hits_count_estimated'] = $result->getEstimatedTotalHits() > $offset + $limit;
+    $out['last_offset'] = $result->getEstimatedTotalHits() <= $offset + $limit;
     $out['processing_time_ms'] = $result->getProcessingTimeMs();
     $out['hits'] = array_map(function ($hit) use ($liked, $disliked) {
         $id = $hit['id'];

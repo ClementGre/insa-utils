@@ -44,7 +44,7 @@ if (isset($_POST['title']) && isset($_POST['description']) && isset($_POST['expi
             exit();
         }
 
-        $r = addLink($status['id'], $_POST['expiration_date'], $_POST['title'], $_POST['description'], $_POST['url']);
+        $r = addLink($status['id'], $status['name'], $_POST['expiration_date'], $_POST['title'], $_POST['description'], $_POST['url']);
         if ($r) {
             $_SESSION['messages'][] = 'Le lien a bien été ajouté.';
         } else {

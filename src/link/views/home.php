@@ -4,7 +4,7 @@ $errors = array();
 
 if (isset($_POST['email'])) {
     if (is_csrf_valid()) {
-        $errors[] = request_login($_POST['email'], 'agenda');
+        $errors[] = request_login($_POST['email'], 'link');
     } else {
         $errors[] = "Le formulaire a expiré, veuillez réessayer.";
     }
