@@ -10,6 +10,7 @@ document.querySelectorAll('form input[name="title"]').forEach((a) => {
 
 
 const section = document.querySelector('#results-section')
+const search_input = document.querySelector('#search-input')
 const search_stats = document.querySelector('#search-stats')
 const no_result_html = '<p class="no-results">Aucun résultat</p>';
 const loader = '<div class="loader"></div>';
@@ -19,8 +20,20 @@ let last_query_time = 0;
 let opened_details = null
 let editing_link_el = null;
 
+let last_query = new URLSearchParams(window.location.search).get('q');
+updateLinks(last_query)
+search_input.value = last_query;
 
-updateLinks('')
+
+let last_input_time = 0;
+search_input.addEventListener('input', (e) => {
+    last_input_time = new Date() / 1;
+    setTimeout(() => {
+        if (new Date() / 1 - last_input_time >= 300) {
+            updateLinks(e.target.value)
+        }
+    }, 300);
+})
 
 /**
  * @param query
@@ -38,6 +51,7 @@ function updateLinks(query, offset = 0) {
         section.querySelector('#more-button')?.remove()
         section.innerHTML += loader;
     }
+    search_stats.innerHTML = 'Recherche en cours...';
 
     fetch(getRootPath() + 'link/jsapi/search', {
         method: 'POST',
@@ -56,6 +70,8 @@ function updateLinks(query, offset = 0) {
             }
             if (res['status'] === 'done') {
                 opened_details = null;
+                editing_link_el = null;
+                last_query = query;
 
                 section.querySelector('.loader')?.remove();
 
@@ -111,7 +127,8 @@ function updateLinks(query, offset = 0) {
                         e.preventDefault();
                         if (confirm("Êtes-vous sûr de vouloir supprimer ce lien ?\nCette action est irréversible.")) {
                             redirectWithPost(getRootPath() + 'link/manage/delete_link', {
-                                id: a.dataset.linkId
+                                id: a.dataset.linkId,
+                                r: '?q=' + last_query,
                             });
                         }
                     });
@@ -261,6 +278,7 @@ function show_edit_link_form(button_el) {
             <form class="add-link" method="post" action="` + getRootPath() + `link/manage/edit_link">
                 <input type="hidden" name="id" value="` + id + `">
                 <input type="hidden" name="csrf_js" value="` + getCsrfToken() + `">
+                <input type="hidden" name="r" value="?q=` + last_query + `">
                 <p>Modifier un lien entraîne la réinitialisation des compteurs de like/dislike.</p>
                 <div class="header">
                     <input type="text" name="title" placeholder="Titre" maxlength="50" required
@@ -294,14 +312,6 @@ function date_tomorrow_formatted() {
     return formatDate(tomorrow)
 }
 
-let last_input_time = 0;
-document.querySelector('#search-input').addEventListener('input', (e) => {
-    last_input_time = new Date() / 1;
-    setTimeout(() => {
-        if (new Date() / 1 - last_input_time >= 300) {
-            updateLinks(e.target.value)
-        }
-    }, 300);
-})
+
 
 
