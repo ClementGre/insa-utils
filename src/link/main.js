@@ -101,7 +101,17 @@ function updateLinks(query, offset = 0) {
                     })
                 })
 
-                section.querySelector('#more-button')?.remove();
+                section.querySelectorAll('button.delete').forEach((a) => {
+                    a.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        if (confirm("Êtes-vous sûr de vouloir supprimer ce lien ?\nCette action est irréversible.")){
+                            redirectWithPost(getRootPath() + 'link/manage/delete_link', {
+                                id: a.dataset.linkId
+                            });
+                        }
+                    });
+                });
+
                 if(!res['last_offset']) {
                     add_more_button(query, offset + 1);
                 }
@@ -115,6 +125,16 @@ function updateLinks(query, offset = 0) {
 
 function getLinkHtml(data) {
     let is_own = data['author_id'] === parseInt(getUserId(), 10);
+    let own_actions = ''
+    if (is_own) {
+        own_actions = `
+            <button class="edit show-if-opened" data-link-id="` + data['id'] + `">
+                <img src="` + getRootPath() + `svg/edit.svg" alt="Modifier">
+            </button>
+            <button class="delete show-if-opened" data-link-id="` + data['id'] + `">
+                <img src="` + getRootPath() + `svg/delete.svg" alt="Supprimer">
+            </button>`
+    }
 
     let html = `
         <h2>` + data['title'] + `</h2>
@@ -135,6 +155,7 @@ function getLinkHtml(data) {
                     <img src="` + getRootPath() + `svg/dislike.svg" alt="Je n'aime pas">
                     <p>` + data['dislikes'] + `</p>
                 </button>
+                ` + own_actions + `
             </div>
         </div>
     `

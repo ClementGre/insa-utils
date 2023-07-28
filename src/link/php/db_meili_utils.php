@@ -31,9 +31,21 @@ function addLink($author_id, $author_name, $expiration_date, $title, $descriptio
     return $r;
 }
 
-function deleteLink()
+function deleteLink($id, $author_id): bool
 {
+    // The link is deleted only if the author is the one who deletes it
 
+    $q = getDB()->prepare('DELETE FROM links WHERE id = :id AND author_id = :author_id');
+    $r = $q->execute([
+        ':id' => $id,
+        ':author_id' => $author_id
+    ]);
+    if ($r && $q->rowCount() > 0){
+        require_once __DIR__ . '/../php/meilisearch_connect.php';
+        global $client;
+        $client->index('links')->deleteDocument($id);
+    }
+    return $r && $q->rowCount() > 0;
 }
 
 function editLink()

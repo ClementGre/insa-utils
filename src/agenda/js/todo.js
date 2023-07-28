@@ -30,8 +30,7 @@ document.querySelectorAll('.make-public-todo').forEach((a) => {
         const todoId = a.dataset.todoId;
         redirectWithPost(getRootPath() + 'agenda/manage/todo', {
             action: 'make_public',
-            id: todoId,
-            csrf_js: getCsrfToken()
+            id: todoId
         });
     });
 });
@@ -185,29 +184,7 @@ function getTodoEditForm(todoId, subject_id, duedate, type, content, link) {
     return createElementFromHTML($html);
 }
 
-function redirectWithPost(url, data) {
-    const $form = document.createElement('form');
-    $form.method = 'post';
-    $form.action = url;
-    for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-            const $input = document.createElement('input');
-            $input.type = 'hidden';
-            $input.name = key;
-            $input.value = data[key];
-            $form.appendChild($input);
-        }
-    }
-    // csrf
-    const $input = document.createElement('input');
-    $input.type = 'hidden';
-    $input.name = 'csrf_js';
-    $input.value = getCsrfToken();
-    $form.appendChild($input);
 
-    document.body.appendChild($form);
-    $form.submit();
-}
 
 function getSubjects() {
     return JSON.parse(document.querySelector('div.subjects-container').dataset.subjects);

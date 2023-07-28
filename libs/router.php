@@ -76,8 +76,8 @@ function route($route, $path_to_include)
         $route_part = $route_parts[$__i__];
         if (preg_match("/^[$]/", $route_part)) {
             $route_part = ltrim($route_part, '$');
-            array_push($parameters, $request_url_parts[$__i__]);
-            $$route_part = $request_url_parts[$__i__];
+            $parameters[] = $request_url_parts[$__i__];
+            $route_part = $request_url_parts[$__i__];
         } else if ($route_parts[$__i__] != $request_url_parts[$__i__]) {
             return;
         }

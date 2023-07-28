@@ -194,24 +194,56 @@ ul#results-section {
     flex-direction: row;
     gap: 5px;
 }
-#results-section .details .actions button.rating {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    align-items: center;
-    padding: 0 5px;
+#results-section .details .actions button.show-if-opened{
+    display: none;
+}
+#results-section li.link.expanded .details .actions button.show-if-opened{
+    display: block;
+}
+#results-section .details .actions button {
+    padding: 3px 5px;
     height: 29px;
 
     border: 1px solid var(--dark-blue-light);
     font-size: 15px;
 }
-#results-section .details .actions button.rating.selected:hover {
-    border-color: var(--dark-blue-light);
+#results-section .details .actions button img {
+    height: 21px;
+    transition: filter .2s ease-in-out;
+}
+#results-section .details .actions button:hover {
+    border-color: var(--insa-color);
 }
 
+/* Own Actions */
+
+#results-section .details .actions button.edit img {
+    filter: invert(13%) sepia(29%) saturate(804%) hue-rotate(197deg) brightness(94%) contrast(87%);
+}
+#results-section .details .actions button.delete img {
+    filter: invert(14%) sepia(98%) saturate(4426%) hue-rotate(351deg) brightness(80%) contrast(101%);
+}
+
+
+/* Rating Actions */
+
+#results-section .details .actions button.rating {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    align-items: center;
+    padding: 0 5px;
+    height: 29px;
+}
+#results-section .details .actions button.rating {
+    padding: 0 5px;
+}
 #results-section .details .actions button.rating img {
     height: 27px;
     transition: filter .2s ease-in-out;
+}
+#results-section .details .actions button.rating.selected:hover {
+    border-color: var(--dark-blue-light);
 }
 #results-section .details .actions button.like:hover {
     border-color: #1C68AE;
