@@ -13,7 +13,8 @@ function getRootPath_intern(): string
     $origin_ = $_SERVER['PHP_SELF']; // Starts in the wanted value
 
     $intersect_array = array_intersect(explode('/', $_origin), explode('/', $origin_));
-    $intersect_array = array_filter($intersect_array, fn($value) => !is_null($value) && $value !== '');
+    $root_path = implode('/', $intersect_array) . '/';
 
-    return '/' . implode('/', $intersect_array) . '/';
+    if(str_starts_with($root_path, '/')) return $root_path;
+    return '/' . $root_path;
 }
