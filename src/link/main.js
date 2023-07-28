@@ -16,7 +16,9 @@ const loader = '<div class="loader"></div>';
 
 let last_query_time = 0;
 
-let last_opened_details = null
+let opened_details = null
+let editing_link_el = null;
+
 
 updateLinks('')
 
@@ -29,8 +31,10 @@ function updateLinks(query, offset = 0) {
     let this_query_time = new Date() / 1;
 
     if (offset === 0) {
+        opened_details = null;
+        editing_link_el = null;
         section.innerHTML = loader;
-    }else{
+    } else {
         section.querySelector('#more-button')?.remove()
         section.innerHTML += loader;
     }
@@ -51,7 +55,7 @@ function updateLinks(query, offset = 0) {
                 return;
             }
             if (res['status'] === 'done') {
-                last_opened_details = null;
+                opened_details = null;
 
                 section.querySelector('.loader')?.remove();
 
@@ -68,9 +72,10 @@ function updateLinks(query, offset = 0) {
 
                 section.querySelectorAll('li.link').forEach((div) => {
                     div.querySelector('button.more-button').addEventListener('click', (e) => {
-                        if (last_opened_details != null) last_opened_details.classList.toggle('expanded');
+                        hide_edit_link_form();
+                        if (opened_details != null) opened_details.classList.remove('expanded');
                         div.classList.toggle('expanded');
-                        last_opened_details = div;
+                        opened_details = div;
                     })
                 })
                 // Like/Dislike events
@@ -104,15 +109,21 @@ function updateLinks(query, offset = 0) {
                 section.querySelectorAll('button.delete').forEach((a) => {
                     a.addEventListener('click', (e) => {
                         e.preventDefault();
-                        if (confirm("Êtes-vous sûr de vouloir supprimer ce lien ?\nCette action est irréversible.")){
+                        if (confirm("Êtes-vous sûr de vouloir supprimer ce lien ?\nCette action est irréversible.")) {
                             redirectWithPost(getRootPath() + 'link/manage/delete_link', {
                                 id: a.dataset.linkId
                             });
                         }
                     });
                 });
+                section.querySelectorAll('button.edit').forEach((a) => {
+                    a.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        show_edit_link_form(a)
+                    });
+                });
 
-                if(!res['last_offset']) {
+                if (!res['last_offset']) {
                     add_more_button(query, offset + 1);
                 }
 
@@ -128,7 +139,9 @@ function getLinkHtml(data) {
     let own_actions = ''
     if (is_own) {
         own_actions = `
-            <button class="edit show-if-opened" data-link-id="` + data['id'] + `">
+            <button class="edit show-if-opened" data-link-id="` + data['id'] + `"
+                data-link-title="` + data['title'] + `" data-link-description="` + data['description'] + `"
+                data-link-expiration-date="` + data['expiration_date'] + `" data-link-link="` + data['link'] + `">
                 <img src="` + getRootPath() + `svg/edit.svg" alt="Modifier">
             </button>
             <button class="delete show-if-opened" data-link-id="` + data['id'] + `">
@@ -136,10 +149,15 @@ function getLinkHtml(data) {
             </button>`
     }
 
+    let expiration_html = ''
+    if (data['expiration_date'] !== null) {
+        expiration_html = '<span>Expire le ' + formatDateFr(data['expiration_date']) + '</span>';
+    }
     let html = `
         <h2>` + data['title'] + `</h2>
         <hr>
         <p class="description">` + out(data['description']) + `</p>
+        ` + expiration_html + `
         <div class="details">
             <a target="_blank" href="` + out(data['link']) + `">` + out(data['link']) + `</a>
             <div class="mutable-content">
@@ -218,10 +236,62 @@ function updateLikeInfos(link_id, is_liked, is_disliked, type) {
             }
         })
 }
+function hide_edit_link_form() {
+    if(editing_link_el != null){
+        editing_link_el.classList.remove('hidden');
+        editing_link_el.nextElementSibling.remove();
+        editing_link_el = null;
+    }
+}
+function show_edit_link_form(button_el) {
+    let id = button_el.dataset.linkId;
+    let title = button_el.dataset.linkTitle;
+    let description = button_el.dataset.linkDescription;
+    let expiration_date = button_el.dataset.linkExpirationDate;
+    let url = button_el.dataset.linkLink;
 
-function add_more_button(query, offset){
+    if (opened_details != null) opened_details.classList.remove('expanded');
+    if (editing_link_el != null) hide_edit_link_form()
+
+    editing_link_el = section.querySelector('li.link[data-link-id="' + id + '"]');
+    editing_link_el.classList.add('hidden');
+
+    let html = `
+        <li class="edit-link">
+            <form class="add-link" method="post" action="` + getRootPath() + `link/manage/edit_link">
+                <input type="hidden" name="id" value="` + id + `">
+                <input type="hidden" name="csrf_js" value="` + getCsrfToken() + `">
+                <p>Modifier un lien entraîne la réinitialisation des compteurs de like/dislike.</p>
+                <div class="header">
+                    <input type="text" name="title" placeholder="Titre" maxlength="50" required
+                           value="` + out(title) + `">
+                    <textarea name="description" rows="4" placeholder="Description" maxlength="1000">` + out(description) + `</textarea>
+                </div>
+                <div class="horizontal">
+                    <label for="expiration_date">Date d'expiration (facultatif)</label>
+                    <input type="date" id="expiration_date" name="expiration_date"
+                           value="` + out(expiration_date) + `" min="` + date_tomorrow_formatted() + `">
+                </div>
+                <div class="horizontal">
+                    <input type="url" name="url" value="` + url + `" placeholder="Lien (URL)" maxlength="2048" required>
+                    <input class="fixed" type="submit" value="Annuler" onclick="hide_edit_link_form()">
+                    <input class="fixed" type="submit" name="submit" value="Modifier">
+                </div>
+            </form>
+        </li>`;
+
+    editing_link_el.insertAdjacentHTML('afterend', html);
+}
+
+function add_more_button(query, offset) {
     let more_button = '<button id="more-button" onclick="updateLinks(\'' + query + '\', ' + offset + ')">Plus de résultats</button>';
     section.innerHTML += more_button;
+}
+
+function date_tomorrow_formatted() {
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return formatDate(tomorrow)
 }
 
 let last_input_time = 0;

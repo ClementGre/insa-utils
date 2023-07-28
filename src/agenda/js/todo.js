@@ -213,18 +213,7 @@ function lastPossibleDateString() {
     return yyyy + '-06-30'
 }
 
-function formatDate(date) {
-    let dd = date.getDate();
-    let mm = date.getMonth() + 1;
-    const yyyy = date.getFullYear();
-    if (dd < 10) {
-        dd = '0' + dd;
-    }
-    if (mm < 10) {
-        mm = '0' + mm;
-    }
-    return yyyy + '-' + mm + '-' + dd
-}
+
 
 function onSubjectComboChange(e) {
     if (e.target.value === 'manage') {

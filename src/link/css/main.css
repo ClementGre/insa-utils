@@ -79,12 +79,7 @@ ul#results-section {
 #results-section p.no-results {
     margin: 15px 0 20px 0;
 }
-
-#results-section .link {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 5px;
+#results-section li {
     padding: 5px;
     margin-bottom: 10px;
     list-style: none;
@@ -92,6 +87,15 @@ ul#results-section {
     border-radius: 10px;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
+}
+#results-section li.link {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+}
+#results-section li.link.hidden {
+    display: none;
 }
 
 /* Title / Description */
@@ -117,6 +121,14 @@ ul#results-section {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+#results-section li.link:not(.expanded) span {
+    display: none;
+}
+#results-section span {
+    text-align: left;
+    font-size: 13px;
+    color: var(--dark-blue-light);
 }
 #results-section li.link.expanded p.description {
     white-space: normal;
@@ -302,6 +314,10 @@ form.add-link {
     gap: 5px;
     padding: 0;
 }
+form.add-link > p {
+    margin: 0;
+    font-size: 14px;
+}
 form.add-link, form > div.header {
     display: flex;
     flex-direction: column;
@@ -341,6 +357,9 @@ form.add-link input[type="submit"],
 form.add-link input[type="date"] {
     flex-grow: 0;
     width: 150px;
+}
+ul li form.add-link input[type="submit"] {
+    min-width: 80px;
 }
 
 form.add-link input:focus, form.add-link textarea:focus {
