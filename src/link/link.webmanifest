@@ -1,7 +1,7 @@
 {
-  "name": "Utilitaires INSA",
-  "short_name": "INSA Utils",
-  "description": "LE site permettant de te faciliter la vie à l'INSA, via divers services utiles.",
+  "name": "Partage collaboratif de liens",
+  "short_name": "Link'INSA",
+  "description": "Link'INSA permet aux Insaliens de partager tous types de liens : ressources éducatives, associatives ou techniques !",
   "icons": [
     {
         "src": "icons/icon-32.png",
@@ -30,7 +30,7 @@
     }
   ],
   "orientation": "portrait",
-  "start_url": "/",
+  "start_url": "/link",
   "display": "standalone",
   "theme_color": "#CD0E14",
   "background_color": "#CD0E14"

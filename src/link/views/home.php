@@ -20,7 +20,7 @@ $logged_in = $status['logged_in'] ?? false;
     <?php
     printHead("Link'INSA", "Partage collaboratif de liens",
         "Link'INSA permet aux Insaliens de partager tous types de liens : ressources éducatives, associatives ou techniques !",
-        '', 'icons/icon-128.png');
+        '', 'icons/icon-128.png', 'link/link.webmanifest');
     ?>
     <link href="<?= getRootPath() ?>link/css/main.css" rel="stylesheet"/>
 </head>
