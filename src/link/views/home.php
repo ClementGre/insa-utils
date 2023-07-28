@@ -26,7 +26,7 @@ $logged_in = $status['logged_in'] ?? false;
 </head>
 <body>
 <?php printHeader("Link'INSA", "Partage collaboratif de liens",
-    $logged_in ? MenuType::Link : MenuType::None); ?>
+    $logged_in ? MenuType::Link : MenuType::None, $status); ?>
 <main>
 
     <?php print_session_messages(); ?>

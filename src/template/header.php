@@ -5,7 +5,7 @@ enum MenuType
     case Link;
     case None;
 }
-function printHeader($name, $subtitle = '', $menu_type = MenuType::None): void
+function printHeader($name, $subtitle = '', $menu_type = MenuType::None, $status = []): void
 {
     ?>
     <header>
@@ -33,7 +33,7 @@ function printHeader($name, $subtitle = '', $menu_type = MenuType::None): void
                 if($menu_type == MenuType::Account){
                     printAccountSideRight();
                 }else if($menu_type == MenuType::Link){
-                    printLinkSideRight();
+                    printLinkSideRight($status);
                 }
             ?>
         </div>
@@ -74,7 +74,7 @@ function printAccountSideRight(): void
     </div>
     <?php
 }
-function printLinkSideRight(): void
+function printLinkSideRight($status): void
 {
     ?>
     <div class="dropdown" tabindex="0" aria-label="Autre">
@@ -83,7 +83,7 @@ function printLinkSideRight(): void
         <div class="round round-3"></div>
         <div class="dropdown-content">
             <a href="<?= getRootPath() ?>link/">Liens</a>
-            <a href="<?= getRootPath() ?>link/own">Mes liens</a>
+            <a href="<?= getRootPath() ?>link/?q=<?= $status['name'] ?>">Mes liens</a>
             <a href="<?= getRootPath() ?>account/manage">Mon compte</a>
         </div>
     </div>
