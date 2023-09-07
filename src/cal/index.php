@@ -32,12 +32,12 @@ if(isset($_GET['room'])) $room = urldecode($_GET['room']);
             <br>
             Récupère le lien de ton calendrier ici&#8239;:
             <br>
-            <a href="https://ade-outils.insa-lyon.fr/ADE-iCal@2022-2023">https://ade-outils.insa-lyon.fr/ADE-iCal@2022-2023</a>.
+            <a href="https://ade-outils.insa-lyon.fr/ADE-iCal@2023-2024">https://ade-outils.insa-lyon.fr/ADE-iCal@2023-2024</a>.
         </p>
 
         <form action="./" method="get">
             <p>URL de ton calendrier ADE (lien abonnement iCal)&#8239;:</p>
-            <input class="url-input" type="text" name="url" value="<?= $url ?>" placeholder="https://ade-outils.insa-lyon.fr/ADE-Cal:~jgarzer!2022-2023:459877899af69B3D">
+            <input class="url-input" type="text" name="url" value="<?= $url ?>" placeholder="https://ade-outils.insa-lyon.fr/ADE-Cal:~jgarzer!2023-2024:459877899af69B3D">
             <br><br>
             <p>Mode d'affichage des évènements&#8239;:</p>
             <select name="mode">
