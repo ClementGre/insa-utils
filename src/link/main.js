@@ -21,8 +21,8 @@ let opened_details = null
 let editing_link_el = null;
 
 let last_query = new URLSearchParams(window.location.search).get('q');
-updateLinks(last_query)
 search_input.value = last_query;
+updateLinks(last_query);
 
 
 let last_input_time = 0;
@@ -40,6 +40,7 @@ search_input.addEventListener('input', (e) => {
  * @param offset If different from 0, the results will be appended to the current ones
  */
 function updateLinks(query, offset = 0) {
+    if (!query) query = '';
     last_query_time = new Date() / 1;
     let this_query_time = new Date() / 1;
 
@@ -84,7 +85,17 @@ function updateLinks(query, offset = 0) {
                 let approx = res['last_offset'] ? '' : '~';
 
                 search_stats.innerHTML = approx + hits_count + ' résultats en ' + res['processing_time_ms'] + ' ms';
-                section.innerHTML += res['hits'].map((data) => getLinkHtml(data)).join('');
+                res['hits'].map((data) => getLinkElement(data)).forEach((el) => {
+                    section.appendChild(el)
+
+                    el.querySelector('button.more-button').addEventListener('click', (e) => {
+                        hide_edit_link_form();
+                        if (opened_details != null) opened_details.classList.remove('expanded');
+                        el.classList.toggle('expanded');
+                        opened_details = el;
+                    })
+                })
+
 
                 section.querySelectorAll('li.link').forEach((div) => {
                     div.querySelector('button.more-button').addEventListener('click', (e) => {
@@ -151,7 +162,7 @@ function updateLinks(query, offset = 0) {
         })
 }
 
-function getLinkHtml(data) {
+function getLinkElement(data) {
     let is_own = data['author_id'] === parseInt(getUserId(), 10);
     let own_actions = ''
     if (is_own) {
@@ -194,7 +205,7 @@ function getLinkHtml(data) {
             </div>
         </div>
     `
-    return '<li class="link" data-link-id="' + data['id'] + '">' + html + '</li>';
+    return createElementFromHTML('<li class="link" data-link-id="' + data['id'] + '">' + html + '</li>');
 }
 
 /**
@@ -253,13 +264,15 @@ function updateLikeInfos(link_id, is_liked, is_disliked, type) {
             }
         })
 }
+
 function hide_edit_link_form() {
-    if(editing_link_el != null){
+    if (editing_link_el != null) {
         editing_link_el.classList.remove('hidden');
         editing_link_el.nextElementSibling.remove();
         editing_link_el = null;
     }
 }
+
 function show_edit_link_form(button_el) {
     let id = button_el.dataset.linkId;
     let title = button_el.dataset.linkTitle;
