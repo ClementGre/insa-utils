@@ -20,10 +20,6 @@ let last_query_time = 0;
 let opened_details = null
 let editing_link_el = null;
 
-let last_query = new URLSearchParams(window.location.search).get('q');
-search_input.value = last_query;
-updateLinks(last_query);
-
 
 let last_input_time = 0;
 search_input.addEventListener('input', (e) => {
@@ -34,6 +30,66 @@ search_input.addEventListener('input', (e) => {
         }
     }, 300);
 })
+
+let last_query = new URLSearchParams(window.location.search).get('q');
+document.addEventListener('DOMContentLoaded', (e) => {
+    if (last_query) {
+        search_input.value = last_query;
+    }
+    updateLinks(last_query);
+});
+
+// Setup links buttons listeners
+section.addEventListener('click', (e) => {
+    const target = e.target;
+
+    // Check if the clicked element is a more-button
+    if (target.classList.contains('more-button')) {
+        const link = target.closest('li.link');
+        if (link) {
+            hide_edit_link_form();
+            if (opened_details !== null) opened_details.classList.remove('expanded');
+            link.classList.toggle('expanded');
+            opened_details = link;
+        }
+    }
+
+    // Check if the clicked element is a like or dislike button
+    if (target.classList.contains('like') || target.classList.contains('dislike')) {
+        const link = target.closest('li.link');
+        if (link) {
+            const like = link.querySelector('button.like');
+            const dislike = link.querySelector('button.dislike');
+            let is_liked = like.classList.contains('selected');
+            let is_disliked = dislike.classList.contains('selected');
+            let is_like = target.classList.contains('like'); // else dislike
+
+            let link_id = link.dataset.linkId;
+            if (is_like && is_liked || !is_like && is_disliked) {
+                updateLikeInfos(link_id, is_liked, is_disliked, 0);
+            } else{
+                updateLikeInfos(link_id, is_liked, is_disliked, is_like ? 1 : -1);
+            }
+        }
+    }
+
+    // Check if the clicked element is a delete button
+    if (target.classList.contains('delete')) {
+        e.preventDefault();
+        if (confirm("Êtes-vous sûr de vouloir supprimer ce lien ?\nCette action est irréversible.")) {
+            redirectWithPost(getRootPath() + 'link/manage/delete_link', {
+                id: target.dataset.linkId,
+                r: '?q=' + last_query,
+            });
+        }
+    }
+
+    // Check if the clicked element is an edit button
+    if (target.classList.contains('edit')) {
+        e.preventDefault();
+        show_edit_link_form(target);
+    }
+});
 
 /**
  * @param query
@@ -73,7 +129,6 @@ function updateLinks(query, offset = 0) {
                 opened_details = null;
                 editing_link_el = null;
                 last_query = query;
-
                 section.querySelector('.loader')?.remove();
 
                 let hits_count = res['hits_count'];
@@ -87,68 +142,6 @@ function updateLinks(query, offset = 0) {
                 search_stats.innerHTML = approx + hits_count + ' résultats en ' + res['processing_time_ms'] + ' ms';
                 res['hits'].map((data) => getLinkElement(data)).forEach((el) => {
                     section.appendChild(el)
-
-                    el.querySelector('button.more-button').addEventListener('click', (e) => {
-                        hide_edit_link_form();
-                        if (opened_details != null) opened_details.classList.remove('expanded');
-                        el.classList.toggle('expanded');
-                        opened_details = el;
-                    })
-                })
-
-
-                section.querySelectorAll('li.link').forEach((div) => {
-                    div.querySelector('button.more-button').addEventListener('click', (e) => {
-                        hide_edit_link_form();
-                        if (opened_details != null) opened_details.classList.remove('expanded');
-                        div.classList.toggle('expanded');
-                        opened_details = div;
-                    })
-                })
-                // Like/Dislike events
-                res['hits'].forEach((data) => {
-                    if (data['author_id'] === parseInt(getUserId(), 10)) return;
-
-                    let link_id = data['id'];
-                    let link = section.querySelector('li.link[data-link-id="' + link_id + '"]');
-                    let like = link.querySelector('button.like');
-                    let dislike = link.querySelector('button.dislike');
-                    like.addEventListener('click', (e) => {
-                        let is_liked = like.classList.contains('selected');
-                        let is_disliked = dislike.classList.contains('selected');
-                        if (is_liked) {
-                            updateLikeInfos(link_id, is_liked, is_disliked, 0)
-                        } else {
-                            updateLikeInfos(link_id, is_liked, is_disliked, 1)
-                        }
-                    })
-                    dislike.addEventListener('click', (e) => {
-                        let is_liked = like.classList.contains('selected');
-                        let is_disliked = dislike.classList.contains('selected');
-                        if (is_disliked) {
-                            updateLikeInfos(link_id, is_liked, is_disliked, 0)
-                        } else {
-                            updateLikeInfos(link_id, is_liked, is_disliked, -1)
-                        }
-                    })
-                })
-
-                section.querySelectorAll('button.delete').forEach((a) => {
-                    a.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        if (confirm("Êtes-vous sûr de vouloir supprimer ce lien ?\nCette action est irréversible.")) {
-                            redirectWithPost(getRootPath() + 'link/manage/delete_link', {
-                                id: a.dataset.linkId,
-                                r: '?q=' + last_query,
-                            });
-                        }
-                    });
-                });
-                section.querySelectorAll('button.edit').forEach((a) => {
-                    a.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        show_edit_link_form(a)
-                    });
                 });
 
                 if (!res['last_offset']) {
@@ -168,8 +161,8 @@ function getLinkElement(data) {
     if (is_own) {
         own_actions = `
             <button class="edit show-if-opened" data-link-id="` + data['id'] + `"
-                data-link-title="` + data['title'] + `" data-link-description="` + data['description'] + `"
-                data-link-expiration-date="` + data['expiration_date'] + `" data-link-link="` + data['link'] + `">
+                data-link-title="` + out(data['title']) + `" data-link-description="` + out(data['description']) + `"
+                data-link-expiration-date="` + out(data['expiration_date']) + `" data-link-link="` + out(data['link']) + `">
                 <img src="` + getRootPath() + `svg/edit.svg" alt="Modifier">
             </button>
             <button class="delete show-if-opened" data-link-id="` + data['id'] + `">
@@ -264,15 +257,13 @@ function updateLikeInfos(link_id, is_liked, is_disliked, type) {
             }
         })
 }
-
 function hide_edit_link_form() {
-    if (editing_link_el != null) {
+    if(editing_link_el != null){
         editing_link_el.classList.remove('hidden');
         editing_link_el.nextElementSibling.remove();
         editing_link_el = null;
     }
 }
-
 function show_edit_link_form(button_el) {
     let id = button_el.dataset.linkId;
     let title = button_el.dataset.linkTitle;
