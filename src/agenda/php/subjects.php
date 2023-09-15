@@ -212,17 +212,25 @@ function get_subjects_templates()
                 'name' => 'ETRE', 'color' => 'purple', 'type' => 'humas'
             ]
         ],
-        'FIMI S4' => [
+        'FIMI S3' => [
             [
                 'name' => 'Maths', 'color' => 'red', 'type' => 'main'
+            ],  [
+                'name' => 'ISN', 'color' => 'yellow', 'type' => 'main'
             ], [
-                'name' => 'Physique', 'color' => 'orange', 'type' => 'main'
+                'name' => 'Electromag', 'color' => 'orange', 'type' => 'main'
             ], [
                 'name' => 'Mécanique', 'color' => 'blue', 'type' => 'main'
             ], [
-                'name' => 'Algo', 'color' => 'yellow', 'type' => 'main'
+                'name' => 'Chimie', 'color' => 'green', 'type' => 'main'
+            ], [
+                'name' => 'Conception', 'color' => 'pink', 'type' => 'main'
             ], [
                 'name' => 'Anglais', 'color' => 'purple', 'type' => 'humas'
+            ], [
+                'name' => 'CSS', 'color' => 'purple', 'type' => 'humas'
+            ], [
+                'name' => 'ETRE', 'color' => 'purple', 'type' => 'humas'
             ]
         ]
     ];

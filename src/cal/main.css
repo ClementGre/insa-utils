@@ -26,4 +26,10 @@ form input[type="checkbox"]{
     height: 20px;
     width: 20px;
     flex-shrink: 0;
+    z-index: 100;
+    cursor: pointer;
+    -webkit-appearance: checkbox;
+}
+form label[for="room-checkbox"]{
+    cursor: pointer;
 }
