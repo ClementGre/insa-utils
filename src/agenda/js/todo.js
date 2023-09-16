@@ -209,8 +209,13 @@ function firstPossibleDateString() {
 }
 
 function lastPossibleDateString() {
-    const yyyy = new Date().getFullYear();
-    return yyyy + '-06-30'
+    const date = new Date();
+    const mm = date.getMonth() + 1;
+    const yyyy = date.getFullYear();
+    if(mm < 7){
+        return yyyy + '-06-30'
+    }
+    return (yyyy+1) + '-06-30'
 }
 
 
