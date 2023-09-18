@@ -165,7 +165,7 @@ function load_subjects_templates($class_id, $template_name)
     }
 }
 
-function get_subjects_templates()
+function get_subjects_templates(): array
 {
     return [
         'FIMI S1' => [
@@ -188,7 +188,7 @@ function get_subjects_templates()
             ], [
                 'name' => 'CSS', 'color' => 'purple', 'type' => 'humas'
             ], [
-                'name' => 'Autre', 'color' => 'gray', 'type' => 'other'
+                'name' => 'Autre', 'color' => 'gray', 'type' => 'others'
             ]
         ],
         'FIMI S2' => [
@@ -213,7 +213,7 @@ function get_subjects_templates()
             ], [
                 'name' => 'ETRE', 'color' => 'purple', 'type' => 'humas'
             ], [
-                'name' => 'Autre', 'color' => 'gray', 'type' => 'other'
+                'name' => 'Autre', 'color' => 'gray', 'type' => 'others'
             ]
         ],
         'FIMI S3' => [
@@ -236,7 +236,7 @@ function get_subjects_templates()
             ], [
                 'name' => 'ETRE', 'color' => 'purple', 'type' => 'humas'
             ], [
-                'name' => 'Autre', 'color' => 'gray', 'type' => 'other'
+                'name' => 'Autre', 'color' => 'gray', 'type' => 'others'
             ]
         ]
     ];
