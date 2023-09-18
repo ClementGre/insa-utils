@@ -69,7 +69,7 @@ $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
     </section>
 </main>
 <footer>
-    <?= getFooter('<a href="https://restaurants.insa-lyon.fr/sites/restaurants.insa-lyon.fr/files/u130/2022_2023itarifs_restaurants-.pdf" target="_blank">Grille tarifaire</a>', "Clément GRENNERAT") ?>
+    <?= getFooter('<a href="https://restaurants.insa-lyon.fr/content/tarifs" target="_blank">Grille tarifaire</a>', "Clément GRENNERAT") ?>
 </footer>
 <script src="main.js" type="module"></script>
 </body>

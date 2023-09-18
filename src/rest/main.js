@@ -9,8 +9,8 @@ createApp({
             regime: 0, // 0: 7/7 | 1: 5/7 | 2: 5/7 lib | 3: 15 | 4: unité
             weeks: [],
             pricing: { // index = regime
-                dej: [1.87, 2.14, 2.25, 2.25, 2.43],
-                rep: [3.74, 4.23, 4.47, 4.59, 4.81]
+                dej: [2.00, 2.29, 2.41, 2.41, 2.60],
+                rep: [4.00, 4.53, 4.78, 4.91, 5.15]
             },
             newSolde: 0
         }
@@ -25,7 +25,7 @@ createApp({
         updateCalculations: function(){
             let newSolde = this.solde;
             let date = new Date();
-    
+
             this.weeks.forEach(week => {
                 week.forEach(day => {
                     if(day.dej && isValidRep(date, day.wDay, day.mDay, this.regime != 1, 0)){
@@ -39,9 +39,9 @@ createApp({
                     }
                 });
             });
-    
+
             this.newSolde = newSolde;
-            
+
         },
         twoDecimals: function(number){
             return (Math.round(number * 100) / 100).toFixed(2);
@@ -62,7 +62,7 @@ createApp({
             handler: debounce(function(newWeeks){
                 let data = JSON.parse(localStorage.getItem('data'));
                 if(!data) data = {};
-                
+
                 newWeeks.forEach(week => {
                     week.forEach(day => {
                         data[day.mDay] = {dej: day.dej, rep1: day.rep1, rep2: day.rep2};
@@ -87,12 +87,12 @@ createApp({
             data = new Array(31).fill({dej: false, rep1: true, rep2: true});
             solde = 0;
         }
-        
+
         if(solde) this.solde = solde;
         if(regime) this.regime = regime;
-        
+
         let toRemoveDej = 0, toRemoveRep1 = 0, toRemoveRep2 = 0;
-        
+
         let weeks = [];
         let currentWeek = [];
         let wDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
@@ -100,7 +100,7 @@ createApp({
         wDay--;
         let mDay = 1;
         while(mDay <= this.maxMDay(date)){
-            
+
             // Count passed dejs/reps to decrease solde
             if(data[mDay]?.dej && !isValidRep(date, wDay, mDay, this.regime != 1, 0)
                 && isValidRep(lastVisitDate, wDay, mDay, this.regime != 1, 0)){
@@ -114,7 +114,7 @@ createApp({
                 && isValidRep(lastVisitDate, wDay, mDay, this.regime != 1, 2)){
                 toRemoveRep2++;
             }
-            
+
             currentWeek.push({mDay: mDay, wDay: wDay, dej: data[mDay]?.dej, rep1: data[mDay]?.rep1, rep2: data[mDay]?.rep2});
             mDay++;
             wDay++;
@@ -125,9 +125,9 @@ createApp({
             }
         }
         if(currentWeek.length > 0) weeks.push(currentWeek);
-    
+
         console.log("Should decrease (dej/rep1/rep2):", toRemoveDej, toRemoveRep1, toRemoveRep2);
-    
+
         let doDecrease = false;
         let toDecrease = toRemoveDej * this.pricing.dej[this.regime] + (toRemoveRep1 + toRemoveRep2) * this.pricing.rep[this.regime];
         if(toRemoveDej !== 0 && toRemoveRep1+toRemoveRep2 === 0){
@@ -140,13 +140,13 @@ createApp({
             doDecrease = confirm("Vous avez mangé " + toRemoveDej + " déjeuners et " + (toRemoveRep1+toRemoveRep2) + " repas depuis votre dernière visite.\n" +
                 "Souhaitez-vous déduire votre solde de " + this.twoDecimals(toDecrease) + " points ?");
         }
-        
+
         if(doDecrease){
             setTimeout(() => {
                 this.solde = solde - toDecrease;
             }, 1000)
         }
-        
+
         localStorage.setItem('lastMonth', date.getMonth().toString());
         localStorage.setItem('lastVisit', date.toString());
         this.weeks = weeks;
