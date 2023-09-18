@@ -187,6 +187,8 @@ function get_subjects_templates()
                 'name' => 'Anglais', 'color' => 'purple', 'type' => 'humas'
             ], [
                 'name' => 'CSS', 'color' => 'purple', 'type' => 'humas'
+            ], [
+                'name' => 'Autre', 'color' => 'gray', 'type' => 'other'
             ]
         ],
         'FIMI S2' => [
@@ -210,6 +212,8 @@ function get_subjects_templates()
                 'name' => 'CE', 'color' => 'purple', 'type' => 'humas'
             ], [
                 'name' => 'ETRE', 'color' => 'purple', 'type' => 'humas'
+            ], [
+                'name' => 'Autre', 'color' => 'gray', 'type' => 'other'
             ]
         ],
         'FIMI S3' => [
@@ -231,6 +235,8 @@ function get_subjects_templates()
                 'name' => 'CSS', 'color' => 'purple', 'type' => 'humas'
             ], [
                 'name' => 'ETRE', 'color' => 'purple', 'type' => 'humas'
+            ], [
+                'name' => 'Autre', 'color' => 'gray', 'type' => 'other'
             ]
         ]
     ];
