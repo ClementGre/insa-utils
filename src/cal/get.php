@@ -3,7 +3,25 @@ require "../../vendor/autoload.php";
 
 use ICal\ICal;
 
-function convertCalendar($url, $mode, $room)
+function strstr_after($string, $needle): string
+{
+    $result = substr(strstr($string, $needle), strlen($needle));
+    if($result) return $result;
+    return $string; // Return $string if needle not found
+}
+function strstr_before($string, $needle): string{
+    $result = strstr($string, $needle, true);
+    if($result) return $result;
+    return $string; // Return $string if needle not found
+}
+function strstr_between($string, $needle1, $needle2): string{
+    return strstr_after(strstr_before($string, $needle2), $needle1);
+}
+function get_after_last_occurrence_of($string, $needle): string {
+    return substr($string, strrpos($needle . $string, $needle));
+}
+
+function convertCalendar($url, $mode, $room): void
 {
     try {
         $ical = new ICal('ICal.ics', array(
@@ -40,34 +58,57 @@ function convertCalendar($url, $mode, $room)
 
 function editEventAndPrint($event, $mode, $room)
 {
-    $line1 = explode("\n()", $event->description)[0];
-    $subject = explode("] ", $line1)[1]; // Full name
+    $subject = strstr_between($event->description, "] ", "\n("); // Full name
+    $classDetails = strstr_between($event->description, "\n(", ")\n");
 
-    $explodedSummary = explode(":", $event->summary);
-
-    $tag = count($explodedSummary) >= 1 ? $explodedSummary[0] : ""; // PC-S1-PH-AMP
-    $type = count($explodedSummary) >= 2 ? $explodedSummary[1] : null; // CM, TD, TP, EV => IE
-    if ($type == "EV") $type = "IE";
-
-    if (str_starts_with($tag, "ANG-1FC-")) { // Anglais
-        $tag = "PC-S1-ANG";
-    }
-    if (str_starts_with($tag, "EPS-1-MA14-")) { // Sport
-        $tag = "PC-S1-EPS";
-        $type = null;
+    $firstExplodedSummary = explode("::", $event->summary);  // Exploding  FIMI:2:S1::MA-TF:TD::048 #011
+    $explodedSummary = "";
+    if (count($firstExplodedSummary) >= 2) {
+        $explodedSummary = explode(":", $firstExplodedSummary[1]); // [MA-TF, TD]
     }
 
-    $subjectTag = str_replace("PC-S2-", "", str_replace("PC-S1-", "", $tag)); // PH-AMP, MA-AP, SOL-TF
+    $subjectTag = count($explodedSummary) >= 1 ? $explodedSummary[0] : ""; // FIMI:2:S1::MA-TF:TD::048 #011
+    $type = count($explodedSummary) >= 2 ? $explodedSummary[1] : null; // CM, TD, TP, EV => IE, EDT => Autre
 
-    if (!$room || $room == 'false') $location = null;
-    else $location = $event->location == null ? null :
-        str_replace("Amphithéâtre", "Amphi", explode(" - ", $event->location)[1]); // Room letter & number only
 
-    if ($tag === "PC-S1-SOU-EDT" // Soutien
-        || $tag === "PC-S13-LV-EDT" // Langues *2
-        || $tag === "PC-S13-EPS-EDT") { // Sport *2
+    if ($subjectTag === "SOU") { // Soutien
         return;
     }
+
+    if ($type == "EDT") $type = null;
+
+    // Location
+
+    if ($event->location == null) {
+        if (str_contains($classDetails, "Amphi Capelle")){
+            $location = "Amphi Capelle";
+            $fullLocation = "Amphi Capelle";
+        }else{
+            $location = null;
+            $fullLocation = null;
+        }
+    } else {
+        $location = join(", ", array_map(function ($loc) {
+            $room = strstr_before($loc, " (");
+            $room = get_after_last_occurrence_of($room, " - ");
+
+            if (str_starts_with($room, "Amphithéâtre")){
+                $amphiExploded = explode(" ", $room);
+                if (count($amphiExploded) >= 3){
+                    return "Amphi " . $amphiExploded[count($amphiExploded) - 1]; // Takes only the last word : William Hamilton => Hamilton
+                }
+                array_shift($amphiExploded);
+                return "Amphi " . join(" ", $amphiExploded);
+            }
+            return $room;
+        }, explode(",", $event->location)));
+
+        $fullLocation = join(" / ", array_map(function ($loc) {
+            $fullRoom = strstr_after($loc, " - ");
+            return str_replace("Amphithéâtre", "Amphi", $fullRoom);
+        }, explode(",", $event->location)));
+    }
+
 
     // Modes : 0 = full name, 1 = short, 2 = default
     if ($mode != 2) {
@@ -76,30 +117,35 @@ function editEventAndPrint($event, $mode, $room)
             $subjectTag = match ($subjectTag) {
                 "PH" => "Physique",
                 "MA" => "Maths",
-                "CO" => "Conception",
+                "CO", "CP" => "Conception",
                 "CH" => "Chimie",
                 "TH" => "Thermo",
+                "MS" => "Méca",
                 "ANG" => "Anglais",
-                "EPS-EDT" => "Sport",
+                "LV" => "Langues",
+                "EPS" => "Sport",
+                "*" => $subject,
                 default => $subjectTag
             };
         }
     }
 
-    $event->summary = ($type == null ? "" : $type . " ") . $subjectTag . ($location == null ? "" : " - " . $location);
-    $event->location = $location;
+    $locationInSummary = $room && $room != 'false';
+
+    $event->summary = ($type == null ? "" : $type . " ") . $subjectTag . (($location == null || !$locationInSummary) ? "" : " - " . $location);
+    $event->location = $fullLocation;
 
     printEvent($event);
 }
 
-function printEvent($event)
+function printEvent($event): void
 {
     echo "BEGIN:VEVENT\r\n";
     echo getEventDataString($event);
     echo "END:VEVENT\r\n";
 }
 
-function getEventDataString($event)
+function getEventDataString($event): string
 {
     $data = array(
         'SUMMARY' => $event->summary,
