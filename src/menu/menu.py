@@ -9,13 +9,13 @@ import datetime
 import json
 
 def today():
-    return datetime.datetime.now().isoformat()[:datetime.datetime.now().isoformat().find("T")]
+    return datetime.date.today().isoformat()
 
 def past(date, days):
-    return (datetime.datetime.fromisoformat(date) - datetime.timedelta(days=days)).isoformat()[:datetime.datetime.now().isoformat().find("T")]
+    return (datetime.date.fromisoformat(date) - datetime.timedelta(days=days)).isoformat()
 
 def future(date, days):
-    return (datetime.datetime.fromisoformat(date) + datetime.timedelta(days=days)).isoformat()[:datetime.datetime.now().isoformat().find("T")]
+    return (datetime.date.fromisoformat(date) + datetime.timedelta(days=days)).isoformat()
 
 def write_to_file(dictionnary):
     with open("menu.json", "w", encoding="utf8") as menu :
@@ -55,6 +55,10 @@ def find_label(intitule):
         {
             "TagLbl": "<HVE>",
             "LibLbl": "Haute valeur environnementale"
+            },
+        {
+            "TagLbl": "<BIO>",
+            "LibLbl": "Bio"
             }
         ]
     label = None
@@ -239,7 +243,20 @@ def notify(time):
     })
     return data
 
+# Obtenir le menu de la semaine actuelle et celui de la semaine suivante
+d = get_weeks(today(), 1)
 
+# Envoyer une notification
+if 8 < datetime.datetime.now().hour < 14:
+    notify("midi")
+elif 13 < datetime.datetime.now().hour < 21 and datetime.date.today().weekday() != 5:
+    notify("soir")
+# Pas de notification si exécution pendant la nuit et pas de notification le samedi soir
+
+# Ecrire le menu dans un fichier JSON (attention, écrase le contenu précédent)
+write_to_file(d)
+
+""" Exemples :
 # Obtenir la date du jour au format ISO
 today()
 
@@ -262,3 +279,4 @@ write_to_file(d)
 
 # Notifier les utilisateurs sur le sujet menu-insa un midi
 notify("midi")
+"""
