@@ -11,9 +11,6 @@ import json
 def today():
     return datetime.date.today().isoformat()
 
-def past(date, days):
-    return (datetime.date.fromisoformat(date) - datetime.timedelta(days=days)).isoformat()
-
 def future(date, days):
     return (datetime.date.fromisoformat(date) + datetime.timedelta(days=days)).isoformat()
 
@@ -183,41 +180,10 @@ def get_day(date):
             
     return res
 
-def get_around_date(date, before=0, after=0, res=[]):
-    if abs(before) > 0 :
-        for i in range(abs(before), 0, -1):
-            res.append(get_day(past(date, i)))
-    for i in range(0, after, 1):
-        res.append(get_day(future(date, i)))
-    
-    return res
-
-def get_current_week():
+def get_next_7_days():
     res = []
-    t = datetime.datetime.now().weekday() # 0 -> lundi, 6 -> dimanche
-    return get_around_date(today(), t, 7-t, res)
-
-def get_weeks(date, nb_weeks):
-    """
-    Renvoie le menu de plusieurs semaines à l'avance'
-
-    Parameters
-    ----------
-    date : str au format ISO (2023-09-24 pour le 24 septembre 2023)
-        date d'origine du calcul, peut-être une des fonctions today(), past(date, i) ou future(date, i)
-    nb_weeks : int
-        Nombre de semaines à l'avance à renvoyer. 0 -> semaine de la date, 1 -> semaine de la date + semaine d'après ...
-
-    Returns
-    -------
-    res
-        liste des menus des jours
-
-    """
-    res = []
-    t = datetime.datetime.fromisoformat(date).weekday() # 0 -> lundi, 6 -> dimanche
-    for i in range(nb_weeks+1):
-        get_around_date(future(date, 7*i), t, 7-t, res)
+    for i in range(7):
+        res.append(get_day(future(today(), i)))
     return res
 
 def notify(time):
@@ -244,7 +210,8 @@ def notify(time):
     return data
 
 # Obtenir le menu de la semaine actuelle et celui de la semaine suivante
-d = get_weeks(today(), 1)
+# d = get_weeks(today(), 1)
+d = get_next_7_days()
 
 # Envoyer une notification
 if 8 < datetime.datetime.now().hour < 14:
@@ -255,28 +222,3 @@ elif 13 < datetime.datetime.now().hour < 21 and datetime.date.today().weekday() 
 
 # Ecrire le menu dans un fichier JSON (attention, écrase le contenu précédent)
 write_to_file(d)
-
-""" Exemples :
-# Obtenir la date du jour au format ISO
-today()
-
-# Obtenir la date d'avant-hier au format ISO
-past(today(), 2)
-
-# Obtenir la date de demain au format ISO
-future(today(), 1)
-
-# Obtenir le menu de cette semaine (2 possibilités équivalentes)
-w1 = get_current_week()
-w2 = get_weeks(today(), 0)
-print(w1 == w2) # -> True
-
-# Obtenir le menu des 4 prochaines semaines
-d = get_weeks(today(), 4)
-
-# Ecrire un menu dans un fichier JSON (attention, écrase le contenu précédent)
-write_to_file(d)
-
-# Notifier les utilisateurs sur le sujet menu-insa un midi
-notify("midi")
-"""
