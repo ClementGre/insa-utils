@@ -209,8 +209,7 @@ def notify(time):
     })
     return data
 
-# Obtenir le menu de la semaine actuelle et celui de la semaine suivante
-# d = get_weeks(today(), 1)
+# Obtenir le menu des 7 prochains jours
 d = get_next_7_days()
 
 # Envoyer une notification
