@@ -1,6 +1,5 @@
 vendor/
 .idea/
-src
-/src/menu/data/menu.json
+src/menu/data/menu.json
 /workers/menu-scrapping-node/secrets.json
-/workers/menu-scrapping-node/node_modules/
+/workers/menu-scrapping-node/no--helpde_modules/
