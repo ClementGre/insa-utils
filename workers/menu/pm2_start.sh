@@ -1,5 +1,29 @@
-echo -n Password:
-read -s password
+#!/bin/sh
+
+# Read secret string
+read_secret()
+{
+    # Disable echo.
+    stty -echo
+
+    # Set up trap to ensure echo is enabled before exiting if the script
+    # is terminated while echo is disabled.
+    trap 'stty echo' EXIT
+
+    # Read secret.
+    read "$@"
+
+    # Enable echo.
+    stty echo
+    trap - EXIT
+
+    # Print a newline because the newline entered by the user after
+    # entering the passcode is not echoed. This ensures that the
+    # next line of output begins at a new line.
+    echo
+}
+
+read_secret password
 echo
-echo "$password" > password.env
-pm2 start menu.py --name INSApetitScrapper --time
+echo "$password" > ./password.env
+pm2 start INSApetitScrapper --time -f --no-autorestart

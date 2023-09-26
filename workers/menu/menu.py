@@ -10,7 +10,7 @@ import json
 import subprocess
 import schedule
 import time
-
+import os
 
 def today():
     return datetime.date.today().isoformat()
@@ -25,7 +25,10 @@ def get_weekday(date):
 
 
 def write_to_file(dictionnary):
-    with open("./../../src/menu/data/menu.json", "w", encoding="utf8") as menu:
+    path = "./../../src/menu/data/"
+    if not os.path.exists(path):
+        os.makedirs(path)
+    with open(path + "menu.json", "w", encoding="utf8") as menu:
         json.dump(dictionnary, menu, ensure_ascii=False)
 
 
@@ -72,7 +75,7 @@ def get_menu_for_day(date):
 
 
 def process_menu(date, rest_id, time_id):
-    data = get_menu(date, time_id, rest_id);
+    data = get_menu(date, time_id, rest_id)
     entree, plat, sauce, garniture, fromage, dessert = [], [], [], [], [], []
 
     for el in data:
@@ -96,10 +99,14 @@ def process_menu(date, rest_id, time_id):
 
 
 def get_menu_7days():
-    res = []
+    days = []
     for i in range(7):
-        res.append(get_menu_for_day(future(today(), i)))
-    return res
+        days.append(get_menu_for_day(future(today(), i)))
+
+    return {
+        "last_update": datetime.date.isoformat(sep='T',timespec='auto'),
+        "days": days
+    }
 
 
 def send_ntfy_notification(time):
@@ -164,15 +171,22 @@ def recurrent_update():
     print("Disconnected.")
 
 
+print("Reading password...")
 # Getting the VPN password from password.env
-with open("./password.env", "r") as f:
+path = "/home/clement/insa-utils/workers/menu/password.env"
+with open("password.env", "r") as f:
     password = f.read()
-subprocess.call(['sh', '-c', 'rm ./password.env'])
 
+print("Password read from password.env")
+subprocess.call(['sh', '-c', 'rm ' + path])
+
+print("Scheduling updates...")
 schedule.every().day.at("10:00").do(recurrent_update)
 schedule.every().day.at("16:00").do(recurrent_update)
 recurrent_update()
 
+
+print("Waiting for updates...")
 while True:
     schedule.run_pending()
     time.sleep(1)
