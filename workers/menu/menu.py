@@ -7,7 +7,10 @@ Created on Fri Sep 22 22:43:17 2023
 import requests
 import datetime
 import json
-
+import subprocess
+import getpass
+import schedule
+import time
 
 def today():
     return datetime.date.today().isoformat()
@@ -22,15 +25,19 @@ def get_weekday(date):
 
 
 def write_to_file(dictionnary):
-    with open("menu.json", "w", encoding="utf8") as menu:
+    with open("./../../src/menu/data/menu.json", "w", encoding="utf8") as menu:
         json.dump(dictionnary, menu, ensure_ascii=False)
 
 
 def get_menu(date, time_id, rest_id):
     base_url = f"https://menu-restaurants.insa-lyon.fr/API/public/v1/Semaine/{rest_id}/1/{time_id}/{date}"
     # base_url = "https://menu-restaurants.insa-lyon.fr/API/public/v1/Semaine/4/1/38/2023-09-25"
+    req = None
     with requests.session() as s:
-        req = s.get(base_url, headers={"Authorization": "Basic c2FsYW1hbmRyZTpzYWxhbQ=="}, timeout=(3, 5)).json()
+        try:
+            req = s.get(base_url, headers={"Authorization": "Basic c2FsYW1hbmRyZTpzYWxhbQ=="}, timeout=(3, 5)).json();
+        except requests.exceptions.ConnectTimeout:
+            print("Connection Timeout, maybe the VPN password is wrong.")
 
     # print(f"Menu received for rest_id: {rest_id}, date: {date}, time_id: {time_id} ", req)
     return req["MenuSemaine"] if req else {}
@@ -131,4 +138,37 @@ def update_menu():
     # Writing to file
     write_to_file(menu)
 
-update_menu()
+
+password = ""
+def vpn_connect():
+    subprocess.call(['sh', '-c', "echo \"" + password + "\" | sudo ./vpn_connect.sh"])
+    # Waiting 5 seconds to make sure the VPN is connected
+    time.sleep(5)
+
+def vpn_disconnect():
+    subprocess.call(['sh', '-c', 'sudo ./vpn_disconnect.sh'])
+
+
+def recurrent_update():
+    print("Connecting to the VPN...")
+    vpn_connect()
+    print("Connected.")
+    print("Updating the menu...")
+    update_menu()
+    print("Menu updated.")
+    print("Disconnecting from the VPN...")
+    vpn_disconnect()
+    print("Disconnected.")
+
+try:
+    password = getpass.getpass()
+except Exception as error:
+    print('ERROR', error)
+
+schedule.every().day.at("10:00").do(recurrent_update)
+schedule.every().day.at("16:00").do(recurrent_update)
+recurrent_update()
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
