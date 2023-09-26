@@ -8,9 +8,9 @@ import requests
 import datetime
 import json
 import subprocess
-import getpass
 import schedule
 import time
+
 
 def today():
     return datetime.date.today().isoformat()
@@ -140,10 +140,13 @@ def update_menu():
 
 
 password = ""
+
+
 def vpn_connect():
     subprocess.call(['sh', '-c', "echo \"" + password + "\" | sudo ./vpn_connect.sh"])
     # Waiting 5 seconds to make sure the VPN is connected
     time.sleep(5)
+
 
 def vpn_disconnect():
     subprocess.call(['sh', '-c', 'sudo ./vpn_disconnect.sh'])
@@ -160,10 +163,11 @@ def recurrent_update():
     vpn_disconnect()
     print("Disconnected.")
 
-try:
-    password = getpass.getpass()
-except Exception as error:
-    print('ERROR', error)
+
+# Getting the VPN password from password.env
+with open("./password.env", "r") as f:
+    password = f.read()
+subprocess.call(['sh', '-c', 'rm ./password.env'])
 
 schedule.every().day.at("10:00").do(recurrent_update)
 schedule.every().day.at("16:00").do(recurrent_update)
