@@ -110,25 +110,46 @@ def get_menu_7days():
 
 
 def send_ntfy_notification(time):
-    if time not in ["midi", "soir"]:
+    if time not in ["lunch", "dinner"]:
         return "Enter a valid time"
     d = get_menu_for_day(today())
-    p = []
+    p, g, o = [], [], []
     try:
         p = d[time]["ri"]["plat"]
+        g = d[time]["ri"]["garniture"]
+        if time == "lunch":
+            o = d[time]["olivier"]["plat"]
+        data = ""
     except:
         data = "Pas de repas au RI"
 
     if p:
-        data = "Menu :"
+        data += "RI :"
         for el in p:
-            data += "\n- " + el["Dish"]
+            if "<" in el :
+                el = el[:el.find("<")]
+            data += "\n- " + el
+        if g :
+            data += "\n"
+            for el in g:
+                if "<" in el :
+                    el = el[:el.find("<")]
+                data += "\n- " + el
+        if o :
+            data += "\n\n"
+    if o:
+        data += "Olivier :"
+        for el in o:
+            if "<" in el :
+                el = el[:el.find("<")]
+            data += "\n- " + el
 
     requests.post("https://ntfy.sh/menu-insa",
                   data=data.encode(encoding='utf-8'),
                   headers={
-                      "Title": "Menu disponible",
+                      "Title": f"Menu disponible - {datetime.date.today().day}/{datetime.date.today().month}",
                       "Tags": "plate_with_cutlery",
+                      "Actions": "view, Voir menu, https://menu-restaurants.insa-lyon.fr/, clear=true"
                   })
     return data
 
