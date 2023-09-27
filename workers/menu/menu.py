@@ -47,6 +47,7 @@ def get_menu(date, time_id, rest_id):
 
 
 def get_menu_for_day(date):
+    print("Requesting menu for " + date)
     weekday = get_weekday(date)
 
     # heure = {"midi_semaine": 32, "soir_semaine": 38, "midi_samedi": 123, "midi_dimanche": 125, "soir_dimanche": 126}
@@ -104,21 +105,21 @@ def get_menu_7days():
         days.append(get_menu_for_day(future(today(), i)))
 
     return {
-        "last_update": datetime.date.isoformat(sep='T',timespec='auto'),
+        "last_update": datetime.date.today().isoformat(),
         "days": days
     }
 
 
-def send_ntfy_notification(time):
-    if time not in ["lunch", "dinner"]:
-        return "Enter a valid time"
-    d = get_menu_for_day(today())
+def send_ntfy_notification(day_menu, is_lunch):
+    print("Sending ntfy.sh notification...")
+    time = 'lunch' if is_lunch else 'dinner'
+
     p, g, o = [], [], []
     try:
-        p = d[time]["ri"]["plat"]
-        g = d[time]["ri"]["garniture"]
-        if time == "lunch":
-            o = d[time]["olivier"]["plat"]
+        p = day_menu[time]["ri"]["plat"]
+        g = day_menu[time]["ri"]["garniture"]
+        if is_lunch:
+            o = day_menu[time]["olivier"]["plat"]
         data = ""
     except:
         data = "Pas de repas au RI"
@@ -126,21 +127,21 @@ def send_ntfy_notification(time):
     if p:
         data += "RI :"
         for el in p:
-            if "<" in el :
+            if "<" in el:
                 el = el[:el.find("<")]
             data += "\n- " + el
-        if g :
+        if g:
             data += "\n"
             for el in g:
-                if "<" in el :
+                if "<" in el:
                     el = el[:el.find("<")]
                 data += "\n- " + el
-        if o :
+        if o:
             data += "\n\n"
     if o:
         data += "Olivier :"
         for el in o:
-            if "<" in el :
+            if "<" in e:
                 el = el[:el.find("<")]
             data += "\n- " + el
 
@@ -158,10 +159,11 @@ def update_menu():
     menu = get_menu_7days()
 
     # Sending notification
+    print(f"Checking to send notification... hour: {datetime.datetime.now().hour}")
     if 8 < datetime.datetime.now().hour < 14:
-        send_ntfy_notification("midi")
+        send_ntfy_notification(menu["days"][0], True)
     elif 13 < datetime.datetime.now().hour < 21 and datetime.date.today().weekday() != 5:
-        send_ntfy_notification("soir")
+        send_ntfy_notification(menu["days"][0], False)
 
     # Writing to file
     write_to_file(menu)
@@ -202,8 +204,8 @@ print("Password read from password.env")
 subprocess.call(['sh', '-c', 'rm ' + path])
 
 print("Scheduling updates...")
-schedule.every().day.at("10:00").do(recurrent_update)
-schedule.every().day.at("16:00").do(recurrent_update)
+schedule.every().day.at("11:00").do(recurrent_update)
+schedule.every().day.at("17:00").do(recurrent_update)
 recurrent_update()
 
 
