@@ -123,6 +123,17 @@ def send_ntfy_notification(day_menu, is_lunch):
         send_ntfy_notification_content("Pas de repas aujourd'hui")
         return
 
+    if is_lunch:
+        menu_olivier = menu.get('olivier')
+        if menu_olivier is None:
+            send_ntfy_notification_content("Pas d'Olivier aujourd'hui")
+        else:
+            plat = day_menu[struct_time]["ri"]["plat"]
+            text = ''
+            for el in plat:
+                text += "\n- " + el.split('<', 1)[0]
+            send_ntfy_notification_content(f"Menu de l'Olivier disponible", text)
+
     menu_ri = menu.get('ri')
     if menu_ri is None:
         send_ntfy_notification_content("Pas de RI aujourd'hui")
@@ -137,21 +148,10 @@ def send_ntfy_notification(day_menu, is_lunch):
             for el in garniture:
                 text += "\n- " + el.split('<', 1)[0]
 
-        send_ntfy_notification_content(f"Menu du RI disponible")
-
-    if is_lunch:
-        menu_olivier = menu.get('olivier')
-        if menu_olivier is None:
-            send_ntfy_notification_content("Pas d'Olivier aujourd'hui")
-        else:
-            plat = day_menu[struct_time]["ri"]["plat"]
-            text = ''
-            for el in plat:
-                text += "\n- " + el.split('<', 1)[0]
-            send_ntfy_notification_content(f"Menu de l'Olivier disponible", text)
+        send_ntfy_notification_content(f"Menu du RI disponible", text)
 
 
-def send_ntfy_notification_content(title, text=''):
+def send_ntfy_notification_content(title, text=' '):
     requests.post("https://ntfy.sh/menu-insa",
                   data=text.encode(encoding='utf-8'),
                   headers={
