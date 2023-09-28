@@ -12,6 +12,7 @@ import schedule
 import time
 import os
 
+
 def today():
     return datetime.date.today().isoformat()
 
@@ -32,7 +33,7 @@ def write_to_file(dictionnary):
         json.dump(dictionnary, menu, ensure_ascii=False)
 
 
-def get_menu(date, time_id, rest_id):
+def fetch_menu_data(date, time_id, rest_id):
     base_url = f"https://menu-restaurants.insa-lyon.fr/API/public/v1/Semaine/{rest_id}/1/{time_id}/{date}"
     # base_url = "https://menu-restaurants.insa-lyon.fr/API/public/v1/Semaine/4/1/38/2023-09-25"
     req = None
@@ -43,7 +44,7 @@ def get_menu(date, time_id, rest_id):
             print("Connection Timeout, maybe the VPN password is wrong.")
 
     # print(f"Menu received for rest_id: {rest_id}, date: {date}, time_id: {time_id} ", req)
-    return req["MenuSemaine"] if req else {}
+    return req["MenuSemaine"] if req else None
 
 
 def get_menu_for_day(date):
@@ -53,21 +54,21 @@ def get_menu_for_day(date):
     # heure = {"midi_semaine": 32, "soir_semaine": 38, "midi_samedi": 123, "midi_dimanche": 125, "soir_dimanche": 126}
     # resto = {"olivier" : 6, "RI": 4}
     if weekday <= 4:
-        ri_lunch = process_menu(date, 4, 32)
-        ri_dinner = process_menu(date, 4, 38)
+        ri_lunch = get_menu(date, 4, 32)
+        ri_dinner = get_menu(date, 4, 38)
     elif weekday == 6:
-        ri_lunch = process_menu(date, 4, 123)
+        ri_lunch = get_menu(date, 4, 123)
         ri_dinner = {}
     else:
-        ri_lunch = process_menu(date, 4, 125)
-        ri_dinner = process_menu(date, 4, 126)
+        ri_lunch = get_menu(date, 4, 125)
+        ri_dinner = get_menu(date, 4, 126)
 
     return {
         "date": {"day": datetime.datetime.fromisoformat(date).day,
                  "month": datetime.datetime.fromisoformat(date).month},
         "lunch": {
             "ri": ri_lunch,
-            "olivier": process_menu(date, 6, 2) if weekday <= 4 else {},
+            "olivier": get_menu(date, 6, 2) if weekday <= 4 else None,
         },
         "dinner": {
             "ri": ri_dinner,
@@ -75,8 +76,11 @@ def get_menu_for_day(date):
     }
 
 
-def process_menu(date, rest_id, time_id):
-    data = get_menu(date, time_id, rest_id)
+def get_menu(date, rest_id, time_id):
+    data = fetch_menu_data(date, time_id, rest_id)
+    if data is None:
+        return None
+
     entree, plat, sauce, garniture, fromage, dessert = [], [], [], [], [], []
 
     for el in data:
@@ -105,54 +109,56 @@ def get_menu_7days():
         days.append(get_menu_for_day(future(today(), i)))
 
     return {
-        "last_update": datetime.date.today().isoformat(),
+        "last_update": datetime.datetime.now().isoformat(),
         "days": days
     }
 
 
 def send_ntfy_notification(day_menu, is_lunch):
     print("Sending ntfy.sh notification...")
-    time = 'lunch' if is_lunch else 'dinner'
+    struct_time = 'lunch' if is_lunch else 'dinner'
 
-    p, g, o = [], [], []
-    try:
-        p = day_menu[time]["ri"]["plat"]
-        g = day_menu[time]["ri"]["garniture"]
-        if is_lunch:
-            o = day_menu[time]["olivier"]["plat"]
-        data = ""
-    except:
-        data = "Pas de repas au RI"
+    menu = day_menu.get(struct_time)
+    if menu is None:
+        send_ntfy_notification_content("Pas de repas aujourd'hui")
+        return
 
-    if p:
-        data += "RI :"
-        for el in p:
-            if "<" in el:
-                el = el[:el.find("<")]
-            data += "\n- " + el
-        if g:
-            data += "\n"
-            for el in g:
-                if "<" in el:
-                    el = el[:el.find("<")]
-                data += "\n- " + el
-        if o:
-            data += "\n\n"
-    if o:
-        data += "Olivier :"
-        for el in o:
-            if "<" in e:
-                el = el[:el.find("<")]
-            data += "\n- " + el
+    menu_ri = menu.get('ri')
+    if menu_ri is None:
+        send_ntfy_notification_content("Pas de RI aujourd'hui")
+    else:
+        plat = day_menu[struct_time]["ri"]["plat"]
+        garniture = day_menu[struct_time]["ri"]["garniture"]
+        text = ''
+        for el in plat:
+            text += "\n- " + el.split('<', 1)[0]
+        if garniture:
+            text += "\n"
+            for el in garniture:
+                text += "\n- " + el.split('<', 1)[0]
 
+        send_ntfy_notification_content(f"Menu du RI disponible")
+
+    if is_lunch:
+        menu_olivier = menu.get('olivier')
+        if menu_olivier is None:
+            send_ntfy_notification_content("Pas d'Olivier aujourd'hui")
+        else:
+            plat = day_menu[struct_time]["ri"]["plat"]
+            text = ''
+            for el in plat:
+                text += "\n- " + el.split('<', 1)[0]
+            send_ntfy_notification_content(f"Menu de l'Olivier disponible", text)
+
+
+def send_ntfy_notification_content(title, text=''):
     requests.post("https://ntfy.sh/menu-insa",
-                  data=data.encode(encoding='utf-8'),
+                  data=text.encode(encoding='utf-8'),
                   headers={
-                      "Title": f"Menu disponible - {datetime.date.today().day}/{datetime.date.today().month}",
+                      "Title": title + f" - {datetime.date.today().day}/{datetime.date.today().month}",
                       "Tags": "plate_with_cutlery",
                       "Actions": "view, Voir menu, https://menu-restaurants.insa-lyon.fr/, clear=true"
                   })
-    return data
 
 
 def update_menu():
@@ -207,7 +213,6 @@ print("Scheduling updates...")
 schedule.every().day.at("11:00").do(recurrent_update)
 schedule.every().day.at("17:00").do(recurrent_update)
 recurrent_update()
-
 
 print("Waiting for updates...")
 while True:
