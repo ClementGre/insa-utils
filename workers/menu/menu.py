@@ -128,7 +128,7 @@ def send_ntfy_notification(day_menu, is_lunch):
         if menu_olivier is None:
             send_ntfy_notification_content("Pas d'Olivier aujourd'hui")
         else:
-            plat = day_menu[struct_time]["ri"]["plat"]
+            plat = menu_olivier["plat"]
             text = ''
             for el in plat:
                 text += "\n- " + el.split('<', 1)[0]
@@ -138,8 +138,8 @@ def send_ntfy_notification(day_menu, is_lunch):
     if menu_ri is None:
         send_ntfy_notification_content("Pas de RI aujourd'hui")
     else:
-        plat = day_menu[struct_time]["ri"]["plat"]
-        garniture = day_menu[struct_time]["ri"]["garniture"]
+        plat = menu_ri["plat"]
+        garniture = menu_ri["garniture"]
         text = ''
         for el in plat:
             text += "\n- " + el.split('<', 1)[0]
