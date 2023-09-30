@@ -1,4 +1,6 @@
 
+[v-cloak] { display: none; }
+
 * {
     --insa-color: #CD0E14;
 

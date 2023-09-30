@@ -58,7 +58,7 @@ def get_menu_for_day(date):
         ri_dinner = get_menu(date, 4, 38)
     elif weekday == 6:
         ri_lunch = get_menu(date, 4, 123)
-        ri_dinner = {}
+        ri_dinner = None
     else:
         ri_lunch = get_menu(date, 4, 125)
         ri_dinner = get_menu(date, 4, 126)
@@ -72,6 +72,7 @@ def get_menu_for_day(date):
         },
         "dinner": {
             "ri": ri_dinner,
+            "olivier": None
         }
     }
 
