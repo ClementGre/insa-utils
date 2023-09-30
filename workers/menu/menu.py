@@ -48,15 +48,15 @@ def fetch_menu_data(date, time_id, rest_id):
 
 
 def get_menu_for_day(date):
-    print("Requesting menu for " + date)
     weekday = get_weekday(date)
+    print(f"Requesting menu for {date} (weekday: {weekday})")
 
     # heure = {"midi_semaine": 32, "soir_semaine": 38, "midi_samedi": 123, "midi_dimanche": 125, "soir_dimanche": 126}
     # resto = {"olivier" : 6, "RI": 4}
     if weekday <= 4:
         ri_lunch = get_menu(date, 4, 32)
         ri_dinner = get_menu(date, 4, 38)
-    elif weekday == 6:
+    elif weekday == 5:
         ri_lunch = get_menu(date, 4, 123)
         ri_dinner = None
     else:
