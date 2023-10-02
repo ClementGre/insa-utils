@@ -218,8 +218,8 @@ print("Password read from password.env")
 subprocess.call(['sh', '-c', 'rm ' + path])
 
 print("Scheduling updates...")
-schedule.every().day.at("11:00").do(recurrent_update)
-schedule.every().day.at("17:00").do(recurrent_update)
+schedule.every().day.at("11:10").do(recurrent_update)
+schedule.every().day.at("17:10").do(recurrent_update)
 recurrent_update()
 
 print("Waiting for updates...")
