@@ -71,7 +71,7 @@ function editEventAndPrint($event, $mode, $room)
     $type = count($explodedSummary) >= 2 ? $explodedSummary[1] : null; // CM, TD, TP, EV => IE, EDT => Autre
 
 
-    if ($subjectTag === "SOU") { // Soutien
+    if ($subjectTag === "SOU" || $subjectTag === "LV") { // Matières à ne pas afficher : Soutien et Langues
         return;
     }
 
@@ -122,7 +122,6 @@ function editEventAndPrint($event, $mode, $room)
                 "TH" => "Thermo",
                 "MS" => "Méca",
                 "ANG" => "Anglais",
-                "LV" => "Langues",
                 "EPS" => "Sport",
                 "*" => $subject,
                 default => $subjectTag
