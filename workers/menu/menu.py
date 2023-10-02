@@ -127,7 +127,8 @@ def send_ntfy_notification(day_menu, is_lunch):
     if is_lunch:
         menu_olivier = menu.get('olivier')
         if menu_olivier is None:
-            send_ntfy_notification_content("Pas d'Olivier aujourd'hui")
+            if datetime.date.today().weekday() <= 4:
+                send_ntfy_notification_content("Pas d'Olivier aujourd'hui")
         else:
             plat = menu_olivier["plat"]
             text = ''
@@ -137,7 +138,8 @@ def send_ntfy_notification(day_menu, is_lunch):
 
     menu_ri = menu.get('ri')
     if menu_ri is None:
-        send_ntfy_notification_content("Pas de RI aujourd'hui")
+        if not is_lunch and datetime.date.today().weekday() != 5:
+            send_ntfy_notification_content("Pas de RI aujourd'hui")
     else:
         plat = menu_ri["plat"]
         garniture = menu_ri["garniture"]
@@ -152,14 +154,19 @@ def send_ntfy_notification(day_menu, is_lunch):
         send_ntfy_notification_content(f"Menu du RI disponible", text)
 
 
-def send_ntfy_notification_content(title, text=' '):
-    requests.post("https://ntfy.sh/menu-insa",
-                  data=text.encode(encoding='utf-8'),
-                  headers={
-                      "Title": title + f" - {datetime.date.today().day}/{datetime.date.today().month}",
-                      "Tags": "plate_with_cutlery",
-                      "Actions": "view, Voir menu, https://menu-restaurants.insa-lyon.fr/, clear=true"
-                  })
+def send_ntfy_notification_content(title, text=''):
+    headers = {
+        "Title": title + f" - {datetime.date.today().day}/{datetime.date.today().month}",
+        "Tags": "plate_with_cutlery",
+        "Actions": "view, Voir menu, https://menu-restaurants.insa-lyon.fr/, clear=true"
+    }
+    if text == '':
+        requests.post("https://ntfy.sh/menu-insa",
+                      headers=headers)
+    else:
+        requests.post("https://ntfy.sh/menu-insa",
+                      data=text.encode(encoding='utf-8'),
+                      headers=headers)
 
 
 def update_menu():
