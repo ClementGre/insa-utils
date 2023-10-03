@@ -104,9 +104,28 @@ def get_menu(date, rest_id, time_id):
             "dessert": dessert}
 
 
-def get_menu_7days():
+def get_whole_week():
     days = []
-    for i in range(7):
+    before = get_weekday(today())
+    after = 7 - before
+
+    if before > 0 :
+        for i in range(before, 0, -1):
+            days.append(get_menu_for_day(future(today(), -i)))
+    for i in range(0, after, 1):
+        days.append(get_menu_for_day(future(today(), i)))
+
+    return {
+        "last_update": datetime.datetime.now().isoformat(),
+        "days": days
+    }
+
+
+def get_week_from_today():
+    days = []
+    after = 7 - get_weekday(today())
+
+    for i in range(0, after, 1):
         days.append(get_menu_for_day(future(today(), i)))
 
     return {
@@ -168,16 +187,18 @@ def send_ntfy_notification_content(title, text=''):
                       data=text.encode(encoding='utf-8'),
                       headers=headers)
 
-
 def update_menu():
-    menu = get_menu_7days()
+    menu = get_whole_week() # Pour avoir la semaine complète
+    # menu = get_week_from_today() # Pour ne pas avoir les jours passés
 
     # Sending notification
     print(f"Checking to send notification... hour: {datetime.datetime.now().hour}")
     if 8 < datetime.datetime.now().hour < 14:
-        send_ntfy_notification(menu["days"][0], True)
+        send_ntfy_notification(menu["days"][datetime.date.today().weekday()], True)
+        # send_ntfy_notification(menu["days"][0], True) # si passage sur semaine incomplète
     elif 13 < datetime.datetime.now().hour < 21 and datetime.date.today().weekday() != 5:
-        send_ntfy_notification(menu["days"][0], False)
+        send_ntfy_notification(menu["days"][datetime.date.today().weekday()], False)
+        # send_ntfy_notification(menu["days"][0], False) # si passage sur semaine incomplète
 
     # Writing to file
     write_to_file(menu)
