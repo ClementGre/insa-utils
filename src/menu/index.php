@@ -31,7 +31,7 @@ $desc = "Tiens toi au courant du menu du RI et de l'Olivier sans VPN. Il est aus
                 v-model:selected_index="ui.selected_rest_index"
         ></toggle-group>
     </section>
-    <section id="menu" v-if="data" :set="menu = data[ui.selected_day_index][time_id][rest_id]" v-cloak>
+    <section id="menu" v-if="data" :set="menu = data?.[ui.selected_day_index]?.[time_id]?.[rest_id]" v-cloak>
         <b>Plat :</b>
         <div class="plat">
             <p v-for="s in menu.plat">{{s}}</p>
