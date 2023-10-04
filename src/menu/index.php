@@ -18,10 +18,18 @@ $desc = "Tiens toi au courant du menu du RI et de l'Olivier sans VPN. Il est aus
 <?php printHeader($name, $title); ?>
 <main class="" id="app">
     <section id="day-select">
-        <toggle-group :buttons="[]"></toggle-group>
+        <toggle-group
+                label="Jour de la semaine"
+                :buttons="['Lun:4 oct.', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']"
+                v-model:selected_index="ui.selected_day_index"
+        ></toggle-group>
     </section>
     <section id="rest-select">
-        <toggle-group :buttons="['RI', 'Olivier']"></toggle-group>
+        <toggle-group
+                label="Restaurant"
+                :buttons="['RI:Déjeuner', 'Olivier', 'RI:Diner']"
+                v-model:selected_index="ui.selected_rest_index"
+        ></toggle-group>
     </section>
     <section id="menu" v-if="data" :set="menu = data[ui.selected_day_index][time_id][rest_id]" v-cloak>
         <b>Plat :</b>
