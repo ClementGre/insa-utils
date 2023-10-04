@@ -1,20 +1,19 @@
 import {createApp} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js' // vue.esm-browser.prod.js
 import toggle_group from './toggle-group.js'
-import {remove_before, remove_after} from './utils.js'
 const today_date = new Date();
 
-const REST_IDS = {
-    RI_LUNCH: 0,
-    OLIVIER_LUNCH: 1,
-    RI_DINNER: 2
+const REST_INDICES = {
+    OLIVIER_LUNCH: 0,
+    RI_LUNCH: 1,
+    RI_DINNER: 2,
 }
-function get_default_selected_rest(){
-    const storage_value = localStorage.getItem('selected_rest_id');
-    if(storage_value === REST_IDS.OLIVIER_LUNCH) return REST_IDS.OLIVIER_LUNCH;
+function get_default_selected_rest(disable_olivier = false){
+    const storage_value = localStorage.getItem('selected_rest_index');
+    if(storage_value == REST_INDICES.OLIVIER_LUNCH && !disable_olivier) return REST_INDICES.OLIVIER_LUNCH;
 
     if(today_date.getHours() < 14){
-        return REST_IDS.RI_LUNCH
-    }else return REST_IDS.RI_DINNER
+        return REST_INDICES.RI_LUNCH
+    }else return REST_INDICES.RI_DINNER
 }
 
 createApp({
@@ -23,7 +22,7 @@ createApp({
             data: null,
             ui: {
                 selected_day_index: today_date.getDay() === 0 ? 6 : today_date.getDay() - 1,
-                selected_rest_index: get_default_selected_rest(), // 'ri:lunch' or 'ri:dinner' or 'olivier:lunch' = 'olivier'
+                selected_rest_index: get_default_selected_rest(),
             },
             selected_date: {
                 month: today_date.getMonth(),
@@ -36,26 +35,60 @@ createApp({
     },
     computed: {
         rest_id: function(){
-            if(this.ui.selected_rest_index === REST_IDS.OLIVIER_LUNCH) return 'olivier';
+            if(this.ui.selected_rest_index === REST_INDICES.OLIVIER_LUNCH) return 'olivier';
             return 'ri'
         },
         time_id: function(){
-            if(this.ui.selected_rest_index === REST_IDS.RI_DINNER) return 'dinner';
+            if(this.ui.selected_rest_index === REST_INDICES.RI_DINNER) return 'dinner';
             return 'lunch'
+        },
+        disabled_rest_indices: function(){
+            let indices = [];
+            if(this.ui.selected_day_index >= 5){
+                indices.push(REST_INDICES.OLIVIER_LUNCH)
+                if(this.ui.selected_day_index === 5){
+                    indices.push(REST_INDICES.RI_DINNER)
+                }
+            }
+            return indices;
         }
     },
     methods: {
+        get_day_buttons_names: function(){
+            let data = [];
+            const current_week_index = today_date.getDay() === 0 ? 6 : today_date.getDay() - 1;
 
+            for(let i = -current_week_index; i < 7-current_week_index; i++){
+                const date = new Date(today_date.getFullYear(), today_date.getMonth(), today_date.getDate() + i)
+
+                let title = date.toLocaleDateString('fr', {weekday: 'short'});
+                title = title.substring(0, 1).toUpperCase() + title.substring(1, title.length-1)
+                let subtitle = date.toLocaleDateString('fr', {month: 'short', day: 'numeric'}).toLowerCase();
+
+                data.push(title + ':' + subtitle);
+            }
+            return data;
+        }
     },
     watch: {
         'ui.selected_day_index': function(new_selected_day_index){
 
         },
-        'ui.selected_rest': function(new_selected_rest){
-            localStorage.setItem('selected_rest', new_selected_rest);
+        'ui.selected_rest_index': function(new_selected_rest_index){
+            localStorage.setItem('selected_rest_index', new_selected_rest_index);
         },
-        data: function(data){
-        }
+        disabled_rest_indices: function(new_disabled_indices){
+            if(new_disabled_indices.includes(this.ui.selected_rest_index)){
+                const def = get_default_selected_rest(true)
+                if(new_disabled_indices.includes(def)){
+                    console.log(REST_INDICES.RI_LUNCH)
+                    this.ui.selected_rest_index = REST_INDICES.RI_LUNCH; // always available
+                }else{
+                    console.log(def)
+                    this.ui.selected_rest_index = def;
+                }
+            }
+        },
     },
     created(){
         console.log("Fetching menu...")

@@ -25,12 +25,14 @@ main {
     display: flex;
     flex-wrap: nowrap;
     align-content: stretch;
+    justify-content: center;
     gap: 1px;
     min-height: 30px;
 }
 .toggle-group div {
     flex-basis: 100%;
     display: flex;
+    max-width: 50%;
     flex-direction: column;
     justify-content: center;
     border-radius: 10px;
@@ -39,6 +41,9 @@ main {
 .toggle-group div[aria-checked="true"] {
     background-color: var(--header-button);
 }
+.toggle-group div.disabled {
+    color: var(--gray);
+}
 
 .toggle-group div p{
     margin: 0;
@@ -46,5 +51,4 @@ main {
 }
 .toggle-group div p.subtitle{
     font-size: 12px;
-    font-weight: 200;
 }
