@@ -32,36 +32,44 @@ $desc = "Tiens toi au courant du menu du RI et de l'Olivier sans VPN. Il est aus
                 v-model:selected_index="ui.selected_rest_index"
         ></toggle-group>
     </section>
-    <section id="menu" v-if="data?.days?.[ui.selected_day_index]?.[time_id]?.[rest_id]" :set="menu = data?.days?.[ui.selected_day_index]?.[time_id]?.[rest_id]" v-cloak>
-        <b>Plat :</b>
-        <div class="plat">
-            <p v-for="s in menu.plat">{{s}}</p>
+    <section id="menu"
+             v-if="data?.days?.[ui.selected_day_index]?.[time_id]?.[rest_id]"
+             :set="menu = data?.days?.[ui.selected_day_index]?.[time_id]?.[rest_id]">
+        <div>
+            <h2>Plat</h2>
+            <div class="plat">
+                <p v-for="s in menu.plat" v-cloak>{{s}}</p>
+            </div>
         </div>
-        <b>Garniture :</b>
-        <div class="garniture">
-            <p v-for="s in menu.garniture">{{s}}</p>
+        <div>
+            <h2>Garniture</h2>
+            <div class="garniture">
+                <p v-for="s in menu.garniture" v-cloak>{{s}}</p>
+            </div>
+            <div class="sauce">
+                <p v-for="s in menu.sauce" v-cloak><span>Sauce :</span>{{s}}</p>
+            </div>
         </div>
-        <b>Sauce :</b>
-        <div class="sauce">
-            <p v-for="s in menu.sauce">{{s}}</p>
+        <div>
+            <h2>Entrée</h2>
+            <div class="entree">
+                <p v-for="s in menu.entree" v-cloak>{{s}}</p>
+            </div>
         </div>
-        <b>Entrée :</b>
-        <div class="entree">
-            <p v-for="s in menu.entree">{{s}}</p>
-        </div>
-        <b>Fromage :</b>
-        <div class="fromage">
-            <p v-for="s in menu.fromage">{{s}}</p>
-        </div>
-        <b>Déssert :</b>
-        <div class="dessert">
-            <p v-for="s in menu.dessert">{{s}}</p>
+        <div>
+            <h2>Déssert</h2>
+            <div class="dessert">
+                <p v-for="s in menu.dessert" v-cloak>{{s}}</p>
+            </div>
+            <div class="fromage">
+                <p v-for="s in menu.fromage" v-cloak><span>Fromage :</span>{{s}}</p>
+            </div>
         </div>
     </section>
     <section id="Notification" v-cloak>
-        <button>
-            S'abonner aux notifications avant chaque repas
-        </button>
+<!--        <button>-->
+<!--            S'abonner aux notifications avant chaque repas-->
+<!--        </button>-->
     </section>
 </main>
 <footer>
