@@ -23,6 +23,11 @@ main {
     align-items: stretch;
     gap: 10px;
 }
+#menu > h2{
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 25px;
+}
 #menu > div {
     background-color: white;
     border-radius: 10px;
@@ -74,6 +79,8 @@ main {
     justify-content: center;
     border-radius: 10px;
     padding: 5px 0;
+
+    cursor: pointer;
 }
 .toggle-group div[aria-checked="true"] {
     background-color: var(--header-button);

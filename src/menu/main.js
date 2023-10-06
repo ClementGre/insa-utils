@@ -23,6 +23,7 @@ createApp({
             ui: {
                 selected_day_index: today_date.getDay() === 0 ? 6 : today_date.getDay() - 1,
                 selected_rest_index: get_default_selected_rest(),
+                week_menu_available: !(today_date.getDay() === 1 && (today_date.getHours() <= 10 || (today_date.getHours() === 11 && today_date.getMinutes() < 10)))
             },
             selected_date: {
                 month: today_date.getMonth(),
@@ -96,7 +97,6 @@ createApp({
             .then(response => response.json())
             .then(data => {
                 console.log("Menu fetched.", data)
-                console.log(this.data)
                 this.data = data
             });
 
