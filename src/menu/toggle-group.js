@@ -3,7 +3,7 @@ import {remove_before, remove_after} from './utils.js'
 export default {
     name: 'calendar',
     props: ["buttons", "label", "selected_index", "disabled_indices"],
-    template: `<div class="toggle-group" role="radiogroup" :aria-labelledby="label">
+    template: `<div class="toggle-group unselectable" role="radiogroup" :aria-labelledby="label">
             <template v-for="(name, i) in buttons" :key="name">
                 <div v-if="!disabled_indices?.includes(i)"
                     @click="select_button(i)"

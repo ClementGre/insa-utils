@@ -56,10 +56,19 @@ main {
 #menu div > div p{
     margin: 0;
 }
-#menu div > div p span{
+#menu div > div p span.prefix{
     font-size: 12px;
     color: var(--gray);
     padding-right: 4px;
+}
+#menu p > span.image{
+    position: relative;
+    display: inline;
+    min-width: 36px;
+}
+#menu p > img{
+    height: 26px; /* Default: 16px */
+    margin: -5px 0;
 }
 
 

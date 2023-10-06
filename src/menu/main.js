@@ -69,6 +69,21 @@ createApp({
                 data.push(title + ':' + subtitle);
             }
             return data;
+        },
+        convert_labels_to_icons: function(title){
+            title = out(title)
+            for(const [key, value] of LABELS.entries()){
+                title = title.replaceAll('&lt;' + key + '&gt;', ` <img src="labels/${key}.png" alt="${value}" title="${value}"> `);
+            }
+            return title;
+        },
+        get_dish_html: function(dish, prefix = false){
+            let html = '';
+
+            if(prefix){
+                html += `<span class="prefix">${prefix} :</span>`
+            }
+            return html + this.convert_labels_to_icons(dish);
         }
     },
     watch: {
@@ -102,3 +117,14 @@ createApp({
 
     }
 }).mount('#app')
+
+
+const LABELS= new Map([
+    ['BBC', 'Bleu Blanc Coeur'],
+    ['VF', 'Viande française'],
+    ['FL>', 'Fruits et légumes de France'],
+    ['FM', 'Fait maison'],
+    ['VEG', 'Végétarien'],
+    ['HVE', 'Haute valeur environnementale'],
+    ['BIO', 'Bio']
+]);

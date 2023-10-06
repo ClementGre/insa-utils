@@ -40,31 +40,31 @@ $desc = "Tiens toi au courant du menu du RI et de l'Olivier sans VPN. Il est aus
             <div>
                 <h2>Plat</h2>
                 <div class="plat">
-                    <p v-for="s in menu.plat" v-cloak>{{s}}</p>
+                    <p v-for="s in menu.plat" v-cloak v-html="get_dish_html(s)"></p>
                 </div>
             </div>
             <div>
                 <h2>Garniture</h2>
                 <div class="garniture">
-                    <p v-for="s in menu.garniture" v-cloak>{{s}}</p>
+                    <p v-for="s in menu.garniture" v-cloak v-html="get_dish_html(s)"></p>
                 </div>
                 <div class="sauce">
-                    <p v-for="s in menu.sauce" v-cloak><span>Sauce :</span>{{s}}</p>
+                    <p v-for="s in menu.sauce" v-cloak  v-html="get_dish_html(s, 'Sauce')"></p>
                 </div>
             </div>
             <div>
                 <h2>Entrée</h2>
                 <div class="entree">
-                    <p v-for="s in menu.entree" v-cloak>{{s}}</p>
+                    <p v-for="s in menu.entree" v-cloak v-html="get_dish_html(s)"></p>
                 </div>
             </div>
             <div>
                 <h2>Déssert</h2>
                 <div class="dessert">
-                    <p v-for="s in menu.dessert" v-cloak>{{s}}</p>
+                    <p v-for="s in menu.dessert" v-cloak v-html="get_dish_html(s)"></p>
                 </div>
                 <div class="fromage">
-                    <p v-for="s in menu.fromage" v-cloak><span>Fromage :</span>{{s}}</p>
+                    <p v-for="s in menu.fromage" v-cloak v-html="get_dish_html(s, 'Fromage')"></p>
                 </div>
             </div>
         </template>
@@ -81,6 +81,7 @@ $desc = "Tiens toi au courant du menu du RI et de l'Olivier sans VPN. Il est aus
 <footer>
     <?= getFooter('<a href="https://menu-restaurants.insa-lyon.fr" target="_blank">Page officielle</a>', "Clément GRENNERAT") ?>
 </footer>
+<script src="<?= getRootPath() ?>template/main.js"></script>
 <script src="main.js" type="module"></script>
 </body>
 </html>
