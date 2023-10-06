@@ -3,6 +3,7 @@ require '../template/head.php';
 require '../template/header.php';
 require '../template/footer.php';
 require '../origin_path.php';
+require '../../libs/router.php';
 $name = "INS'Appétit";
 $title = "Menu des restaurants";
 $desc = "Tiens toi au courant du menu du RI et de l'Olivier sans VPN. Il est aussi possible de recevoir une notification avec le menu avant chaque repas.";
@@ -15,6 +16,8 @@ $desc = "Tiens toi au courant du menu du RI et de l'Olivier sans VPN. Il est aus
     <link href="<?= getRootPath() ?>menu/main.css" rel="stylesheet"/>
 </head>
 <body>
+<div class="csrf-container" data-csrf="<?= htmlspecialchars(gen_csrf_key('js')) ?>"></div>
+
 <?php printHeader($name, $title); ?>
 <main class="" id="app">
     <section id="day-select">
@@ -73,9 +76,9 @@ $desc = "Tiens toi au courant du menu du RI et de l'Olivier sans VPN. Il est aus
         </template>
     </section>
     <section id="Notification" v-cloak>
-<!--        <button>-->
-<!--            S'abonner aux notifications avant chaque repas-->
-<!--        </button>-->
+        <button @click="enable_notifications()">
+            S'abonner aux notifications avant chaque repas
+        </button>
     </section>
 </main>
 <footer>

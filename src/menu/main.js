@@ -1,5 +1,7 @@
 import {createApp} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js' // vue.esm-browser.prod.js
 import toggle_group from './toggle-group.js'
+import {initializePushNotifications} from './push-notifications.js'
+
 const today_date = new Date();
 
 const REST_INDICES = {
@@ -7,6 +9,7 @@ const REST_INDICES = {
     RI_LUNCH: 1,
     RI_DINNER: 2,
 }
+
 function get_default_selected_rest(disable_olivier = false){
     const storage_value = localStorage.getItem('selected_rest_index');
     if(storage_value == REST_INDICES.OLIVIER_LUNCH && !disable_olivier) return REST_INDICES.OLIVIER_LUNCH;
@@ -59,11 +62,11 @@ createApp({
             let data = [];
             const current_week_index = today_date.getDay() === 0 ? 6 : today_date.getDay() - 1;
 
-            for(let i = -current_week_index; i < 7-current_week_index; i++){
+            for(let i = -current_week_index; i < 7 - current_week_index; i++){
                 const date = new Date(today_date.getFullYear(), today_date.getMonth(), today_date.getDate() + i)
 
                 let title = date.toLocaleDateString('fr', {weekday: 'short'});
-                title = title.substring(0, 1).toUpperCase() + title.substring(1, title.length-1)
+                title = title.substring(0, 1).toUpperCase() + title.substring(1, title.length - 1)
                 let subtitle = date.toLocaleDateString('fr', {month: 'short', day: 'numeric'}).toLowerCase();
 
                 data.push(title + ':' + subtitle);
@@ -84,6 +87,15 @@ createApp({
                 html += `<span class="prefix">${prefix} :</span>`
             }
             return html + this.convert_labels_to_icons(dish);
+        },
+        enable_notifications: function(){
+            let form_data = {
+                ri_lunch: true,
+                ri_dinner: true,
+                ri_weekend: true,
+                olivier: true
+            }
+            initializePushNotifications(form_data);
         }
     },
     watch: {
@@ -119,7 +131,7 @@ createApp({
 }).mount('#app')
 
 
-const LABELS= new Map([
+const LABELS = new Map([
     ['BBC', 'Bleu Blanc Coeur'],
     ['VF', 'Viande française'],
     ['FL>', 'Fruits et légumes de France'],

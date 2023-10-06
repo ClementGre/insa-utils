@@ -188,17 +188,14 @@ def send_ntfy_notification_content(title, text=''):
                       headers=headers)
 
 def update_menu():
-    menu = get_whole_week() # Pour avoir la semaine complète
-    # menu = get_week_from_today() # Pour ne pas avoir les jours passés
+    menu = get_whole_week()
 
     # Sending notification
-    print(f"Checking to send notification... hour: {datetime.datetime.now().hour}")
+    print("Checking whether to send notifications...")
     if 8 < datetime.datetime.now().hour < 14:
         send_ntfy_notification(menu["days"][datetime.date.today().weekday()], True)
-        # send_ntfy_notification(menu["days"][0], True) # si passage sur semaine incomplète
     elif 13 < datetime.datetime.now().hour < 21 and datetime.date.today().weekday() != 5:
         send_ntfy_notification(menu["days"][datetime.date.today().weekday()], False)
-        # send_ntfy_notification(menu["days"][0], False) # si passage sur semaine incomplète
 
     # Writing to file
     write_to_file(menu)
