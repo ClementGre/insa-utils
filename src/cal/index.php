@@ -19,7 +19,7 @@ if(isset($_GET['room'])) $room = urldecode($_GET['room']);
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php printHead($name, $title, $desc) ?>
+    <?php printHead($name, $title, $desc, '', 'cal/icons/icon-128.png') ?>
     <link href="<?= getRootPath() ?>cal/main.css" rel="stylesheet"/>
 </head>
 <body>

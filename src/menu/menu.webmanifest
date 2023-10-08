@@ -2,6 +2,7 @@
   "name": "Menu des restaurants",
   "short_name": "INS'Appétit",
   "description": "Tiens toi au courant du menu du RI et de l'Olivier sans VPN. Il est aussi possible de recevoir une notification avec le menu avant chaque repas.",
+  "id": "fr.clementgre.insautils.menu",
   "icons": [
     {
         "src": "icons/icon-32.png",

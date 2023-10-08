@@ -2,6 +2,7 @@
   "name": "Calculateur de points RI",
   "short_name": "Rest'INSA",
   "description": "Déterminer si tu auras assez de solde pour finir le mois n'a jamais été aussi simple. Optimise au maximum ton solde RI grâce à ce calculateur hors norme.",
+  "id": "fr.clementgre.insautils.rest",
   "icons": [
     {
         "src": "icons/icon-32.png",

@@ -2,6 +2,7 @@
   "name": "Partage collaboratif de liens",
   "short_name": "Link'INSA",
   "description": "Link'INSA permet aux Insaliens de partager tous types de liens : ressources éducatives, associatives ou techniques !",
+  "id": "fr.clementgre.insautils.link",
   "icons": [
     {
         "src": "icons/icon-32.png",

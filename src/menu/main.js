@@ -134,7 +134,7 @@ createApp({
 const LABELS = new Map([
     ['BBC', 'Bleu Blanc Coeur'],
     ['VF', 'Viande française'],
-    ['FL>', 'Fruits et légumes de France'],
+    ['FLF', 'Fruits et légumes de France'],
     ['FM', 'Fait maison'],
     ['VEG', 'Végétarien'],
     ['HVE', 'Haute valeur environnementale'],

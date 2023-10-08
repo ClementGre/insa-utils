@@ -2,6 +2,7 @@
   "name": "Utilitaires INSA",
   "short_name": "INSA Utils",
   "description": "LE site permettant de te faciliter la vie à l'INSA, via divers services utiles.",
+  "id": "fr.clementgre.insautils.global",
   "icons": [
     {
         "src": "icons/icon-32.png",

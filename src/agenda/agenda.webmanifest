@@ -2,6 +2,7 @@
   "name": "Cahier de texte collaboratif",
   "short_name": "INS'Agenda",
   "description": "Application de cahier de texte collaboratif pour ta classe. Crée une nouvelle classe ou rejoint-en une existante.",
+  "id": "fr.clementgre.insautils.agenda",
   "icons": [
     {
       "src": "icons/icon-32.png",

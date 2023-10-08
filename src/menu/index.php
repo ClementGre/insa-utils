@@ -12,7 +12,7 @@ $desc = "Tiens toi au courant du menu du RI et de l'Olivier sans VPN. Il est aus
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php printHead($name, $title, $desc, '', /*'menu/icons/icon-128.png', 'menu/menu.webmanifest'*/) ?>
+    <?php printHead($name, $title, $desc, '', 'menu/icons/icon-128.png', 'menu/menu.webmanifest') ?>
     <link href="<?= getRootPath() ?>menu/main.css" rel="stylesheet"/>
 </head>
 <body>
