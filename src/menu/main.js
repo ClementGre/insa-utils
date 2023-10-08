@@ -12,7 +12,14 @@ const REST_INDICES = {
 
 function get_default_selected_rest(disable_olivier = false){
     const storage_value = localStorage.getItem('selected_rest_index');
-    if(storage_value == REST_INDICES.OLIVIER_LUNCH && !disable_olivier) return REST_INDICES.OLIVIER_LUNCH;
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if((storage_value == REST_INDICES.OLIVIER_LUNCH || urlParams.get('rest') === 'olivier') && !disable_olivier){
+        if(today_date.getDay() !== 0 && today_date.getDay() !== 6){ // Not weekend
+            return REST_INDICES.OLIVIER_LUNCH;
+        }
+    }
 
     if(today_date.getHours() < 14){
         return REST_INDICES.RI_LUNCH
@@ -93,6 +100,8 @@ createApp({
                 ri_lunch: true,
                 ri_dinner: true,
                 ri_weekend: true,
+                lunch_time: '11:10',
+                dinner_time: '17:10',
                 olivier: true
             }
             initializePushNotifications(form_data);

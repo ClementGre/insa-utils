@@ -28,6 +28,8 @@ INSERT INTO menu_subscriptions
                          ri_lunch = :ri_lunch,
                          ri_dinner = :ri_dinner,
                          ri_weekend = :ri_weekend,
+                         lunch_time = :lunch_time,
+                        dinner_time = :dinner_time,
                          olivier = :olivier,
                          endpoint = :endpoint;');
 
@@ -35,6 +37,8 @@ $r = $q->execute([
     ':ri_lunch' => $form_data['ri_lunch'],
     ':ri_dinner' => $form_data['ri_dinner'],
     ':ri_weekend' => $form_data['ri_weekend'],
+    ':lunch_time' => $form_data['lunch_time'],
+    ':dinner_time' => $form_data['dinner_time'],
     ':olivier' => $form_data['olivier'],
     ':endpoint' => $subscription['endpoint'],
     ':key_p256dh' => $subscription['keys']['p256dh'],
