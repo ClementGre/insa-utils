@@ -18,7 +18,9 @@ def send_notifications_for_meal(day_menu, is_lunch, time_string):
     # Olivier
     menu = day_menu.get(struct_time)
     if menu is None:
-        send_notifications_content("Pas de repas aujourd'hui")
+        send_notifications_content("Pas de repas aujourd'hui",
+                                   "Le menu n'est pas disponible ou les restaurants sont fermés.",
+                                   False, True, is_weekend, time_string)
         return
 
     if is_lunch:
@@ -32,7 +34,7 @@ def send_notifications_for_meal(day_menu, is_lunch, time_string):
             plat = menu_olivier["plat"]
             text = ''
             for el in plat:
-                text += "\n- " + el.sub('<[A-Z]*>', '', el)
+                text += "\n- " + re.sub('<[A-Z]*>', '', el)
             send_notifications_content(f"Menu de l'Olivier disponible", text, False, True, is_weekend, time_string)
 
     # RI
@@ -47,11 +49,11 @@ def send_notifications_for_meal(day_menu, is_lunch, time_string):
         garniture = menu_ri["garniture"]
         text = ''
         for el in plat:
-            text += "\n- " + el.sub('<[A-Z]*>', '', el)
+            text += "\n- " + re.sub('<[A-Z]*>', '', el)
         if garniture:
             text += "\n"
             for el in garniture:
-                text += "\n- " + el.sub('<[A-Z]*>', '', el)
+                text += "\n- " + re.sub('<[A-Z]*>', '', el)
 
         send_notifications_content(f"Menu du RI disponible", text, True, is_lunch, is_weekend, time_string)
 
@@ -59,6 +61,7 @@ def send_notifications_for_meal(day_menu, is_lunch, time_string):
 def send_notifications_content(title, text, is_ri, is_lunch, is_weekend, time_string):
     if time_string == '11:10' or time_string == '17:10':
         print("Sending ntfy.sh notifications...")
+        print(title, text)
         try:
             headers = {
                 "Title": title + f" - {datetime.date.today().day}/{datetime.date.today().month}",
