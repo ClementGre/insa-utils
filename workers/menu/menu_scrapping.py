@@ -1,3 +1,4 @@
+from menu_config import *
 from menu_utils import *
 
 

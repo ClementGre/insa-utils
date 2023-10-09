@@ -1,8 +1,9 @@
-from menu import *
-
+from menu_config import *
+from menu_utils import *
 
 def send_notifications(time_string):
     print("Checking whether to send notifications...")
+    menu = get_menu()
     if 8 < datetime.datetime.now().hour < 14:
         send_notifications_for_meal(menu["days"][datetime.date.today().weekday()], True, time_string)
     elif 13 < datetime.datetime.now().hour < 21 and datetime.date.today().weekday() != 5:
@@ -112,6 +113,6 @@ def send_notifications_content(title, text, is_ri, is_lunch, is_weekend, time_st
                 "body": text,
                 "is_olivier": not is_ri
             }),
-            vapid_private_key=secrets['webpush']['privateKey'],
+            vapid_private_key=get_secrets()['webpush']['privateKey'],
             vapid_claims={"sub": "mailto:clement.grennerat@free.fr'}"}
         )

@@ -1,21 +1,7 @@
+from menu_config import *
+from menu_utils import *
 from menu_scrapping import *
 from menu_notifications import *
-from menu_utils import *
-
-import requests
-import datetime
-import json
-import subprocess
-import schedule
-import time
-import os
-import pywebpush
-import mysql.connector
-
-vpn_password = None
-secrets = None
-menu = None
-
 
 def update_menu():
     print("Connecting to the VPN...")
@@ -23,9 +9,8 @@ def update_menu():
     print("Connected.")
     print("Updating the menu...")
 
-    global menu
-    menu = get_whole_week_menu()
-    write_menu_to_file(menu)
+    set_menu(get_whole_week_menu())
+    write_menu_to_file(get_menu())
 
     print("Menu updated.")
     print("Disconnecting from the VPN...")
@@ -43,22 +28,21 @@ def recurrent_update(do_update, time_string):
 def register_recurrent_update(at, do_update):
     schedule.every().day.at(at).do(lambda: recurrent_update(do_update, at))
 
+def print_vpn_pwd_main():
+    print(get_vpn_password())
 
 def main():
-    global vpn_password
-    global secrets
-
     print("Reading password...")
     path = "/home/clement/insa-utils/workers/menu/password.env"
     with open("password.env", "r") as f:
-        vpn_password = f.read()
+        set_vpn_password(f.read())
 
     print("Password read from password.env")
     subprocess.call(['sh', '-c', 'rm ' + path])
 
     print("Reading secrets...")
     with open("secrets.json", "r") as f:
-        secrets = json.load(f)
+        set_secrets(json.load(f))
 
     print("Scheduling updates...")
     register_recurrent_update("11:10", True)
@@ -75,7 +59,6 @@ def main():
     while True:
         schedule.run_pending()
         time.sleep(1)
-
 
 if __name__ == "__main__":
     main()

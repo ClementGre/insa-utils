@@ -1,4 +1,4 @@
-from menu import *
+from menu_config import *
 
 
 # Dates
@@ -36,7 +36,7 @@ def read_menu_from_file():
 # VPN
 
 def vpn_connect():
-    subprocess.call(['sh', '-c', f"echo \"{vpn_password}\" | sudo ./vpn_connect.sh {secrets['vpn']['user']}"])
+    subprocess.call(['sh', '-c', f"echo \"{get_vpn_password()}\" | sudo ./vpn_connect.sh {get_secrets()['vpn']['user']}"])
     # Waiting 5 seconds to make sure the VPN is connected
     time.sleep(5)
 
@@ -45,12 +45,16 @@ def vpn_disconnect():
     subprocess.call(['sh', '-c', 'sudo ./vpn_disconnect.sh'])
 
 
+def print_vpn_pwd():
+    print(get_vpn_password())
+
+
 # Database
 
 def db_connect():
     return mysql.connector.connect(
         host="pdf4teachers.org",
         user="insa_utils",
-        password=secrets['db']['password'],
+        password=get_secrets()['db']['password'],
         database="insa_utils"
     )
