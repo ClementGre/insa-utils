@@ -44,6 +44,9 @@ def main():
     with open("secrets.json", "r") as f:
         set_secrets(json.load(f))
 
+    print("Updating menu...")
+    update_menu()
+
     print("Scheduling updates...")
     register_recurrent_update("11:10", True)
     register_recurrent_update("11:30", False)
