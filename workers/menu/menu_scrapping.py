@@ -8,11 +8,15 @@ def fetch_menu_data(date, time_id, rest_id):
     req = None
     with requests.session() as s:
         try:
-            req = s.get(url, headers={"Authorization": "Basic c2FsYW1hbmRyZTpzYWxhbQ=="}, timeout=(3, 5)).json();
+            req = s.get(url, headers={"Authorization": "Basic c2FsYW1hbmRyZTpzYWxhbQ=="}, timeout=(3, 5)).json()
         except requests.exceptions.ConnectTimeout:
             print("Connection Timeout, maybe the VPN password is wrong.")
 
     # print(f"Menu received for rest_id: {rest_id}, date: {date}, time_id: {time_id} ", req)
+
+    if datetime.datetime.fromisoformat(req['crt_max_date']) < datetime.datetime.fromisoformat(date):
+        print("Menu is not up to date, returning None.")
+        return None
     return req["MenuSemaine"] if req else None
 
 
@@ -32,12 +36,15 @@ def get_menu_for_day(date):
         ri_lunch = get_menu_for_meal(date, 4, 125)
         ri_dinner = get_menu_for_meal(date, 4, 126)
 
+    olivier = get_menu_for_meal(date, 6, 2) if weekday <= 4 else None
+
     return {
         "date": {"day": datetime.datetime.fromisoformat(date).day,
                  "month": datetime.datetime.fromisoformat(date).month},
+        "is_empty": ri_lunch is None and ri_dinner is None and olivier is None,
         "lunch": {
             "ri": ri_lunch,
-            "olivier": get_menu_for_meal(date, 6, 2) if weekday <= 4 else None,
+            "olivier": olivier,
         },
         "dinner": {
             "ri": ri_dinner,

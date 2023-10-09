@@ -60,5 +60,16 @@ def main():
         schedule.run_pending()
         time.sleep(1)
 
+
+def local_test():
+    print("Reading secrets...")
+    with open("secrets.json", "r") as f:
+        set_secrets(json.load(f))
+
+    set_menu(get_whole_week_menu())
+    write_menu_to_file(get_menu())
+    send_notifications("11:10")
+
+
 if __name__ == "__main__":
     main()
