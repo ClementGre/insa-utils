@@ -65,13 +65,9 @@ def send_notifications_content(title, text, is_ri, is_lunch, is_weekend, time_st
                 "Tags": "plate_with_cutlery",
                 "Actions": "view, Voir menu, https://menu-restaurants.insa-lyon.fr/, clear=true"
             }
-            if text == '':
-                requests.post("https://ntfy.sh/menu-insa",
-                              headers=headers)
-            else:
-                requests.post("https://ntfy.sh/menu-insa",
-                              data=text.encode(encoding='utf-8'),
-                              headers=headers)
+            requests.post("https://ntfy.sh/menu-insa",
+                          data=text.encode(encoding='utf-8'),
+                          headers=headers)
         except Exception as e:
             print("Unable to send ntfy.sh notifications:", e)
 

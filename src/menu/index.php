@@ -40,33 +40,33 @@ $desc = "Tiens toi au courant du menu du RI et de l'Olivier sans VPN. Il est aus
             <h2>Le menu de la semaine sera disponible à 11h10.</h2>
         </template>
         <template v-else-if="menu">
-            <div>
+            <div v-if="menu.plat && menu.plat.length != 0">
                 <h2>Plat</h2>
                 <div class="plat">
                     <p v-for="s in menu.plat" v-cloak v-html="get_dish_html(s)"></p>
                 </div>
             </div>
-            <div>
-                <h2>Garniture</h2>
-                <div class="garniture">
+            <div v-if="(menu.garniture && menu.garniture.length != 0) || (menu.sauce && menu.sauce.length != 0)">
+                <h2>Accompagnements</h2>
+                <div class="garniture" v-if="menu.garniture && menu.garniture.length != 0">
                     <p v-for="s in menu.garniture" v-cloak v-html="get_dish_html(s)"></p>
                 </div>
-                <div class="sauce">
+                <div class="sauce" v-if="menu.sauce && menu.sauce.length != 0">
                     <p v-for="s in menu.sauce" v-cloak  v-html="get_dish_html(s, 'Sauce')"></p>
                 </div>
             </div>
-            <div>
+            <div v-if="menu.entree && menu.entree.length != 0">
                 <h2>Entrée</h2>
                 <div class="entree">
                     <p v-for="s in menu.entree" v-cloak v-html="get_dish_html(s)"></p>
                 </div>
             </div>
-            <div>
-                <h2>Déssert</h2>
-                <div class="dessert">
+            <div v-if="(menu.dessert && menu.dessert.length != 0) || (menu.fromage && menu.fromage.length != 0)">
+                <h2>Desserts</h2>
+                <div class="dessert" v-if="menu.dessert && menu.dessert.length != 0">
                     <p v-for="s in menu.dessert" v-cloak v-html="get_dish_html(s)"></p>
                 </div>
-                <div class="fromage">
+                <div class="fromage" v-if="menu.fromage && menu.fromage.length != 0">
                     <p v-for="s in menu.fromage" v-cloak v-html="get_dish_html(s, 'Fromage')"></p>
                 </div>
             </div>
