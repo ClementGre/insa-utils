@@ -21,7 +21,7 @@ function get_default_selected_rest(disable_olivier = false){
         }
     }
 
-    if(today_date.getHours() < 14){
+    if(today_date.getHours() < 14 || today_date.getDay() === 6){ // Before 14h or sunday
         return REST_INDICES.RI_LUNCH
     }else return REST_INDICES.RI_DINNER
 }
@@ -129,7 +129,7 @@ createApp({
     },
     created(){
         console.log("Fetching menu...")
-        fetch('data/menu.json')
+        fetch('data/menu.json', {cache: "no-store"})
             .then(response => response.json())
             .then(data => {
                 console.log("Menu fetched.", data)
