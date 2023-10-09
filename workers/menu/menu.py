@@ -12,9 +12,9 @@ import os
 import pywebpush
 import mysql.connector
 
-global vpn_password
-global secrets
-global menu
+vpn_password = None
+secrets = None
+menu = None
 
 
 def update_menu():
