@@ -11,24 +11,25 @@ self.addEventListener("push", (event) => {
     const options = {
         //data: "something you want to send within the notification, such an URL to open",
         body: body,
-        //icon: image,
+        icon: "icons/icon-256.png",
         vibrate: [200, 100, 200],
         //image: image,
         badge: "https://spyna.it/icons/favicon.ico",
-        actions: [{ action: "Detail", title: "View", icon: "https://via.placeholder.com/128/ff0000" }]
+        actions: [{ action: "Detail", title: "View", icon: "icons/icon-256.png" }]
     };
     event.waitUntil(self.registration.showNotification(title, options));
 });
 
 self.addEventListener("notificationclick", (event) => {
-    console.log("[Service Worker] Notification click Received.", event.notification.data);
+    console.log("[Service Worker] Notification click Received.", event);
 
-    const is_ri = event.data.json().is_ri;
+    const is_ri = false//event.data.json().is_ri;
     event.notification.close();
-    event.waitUntil(openUrl("https://insa-utils.fr/menu/" + is_ri ? "" : "?rest=olivier"));
+    event.waitUntil(openUrl("https://insa-utils.fr/menu/" + (is_ri ? "" : "?rest=olivier")));
 });
 
 async function openUrl(url) {
+    console.log("Opening URL " + url)
     const windowClients = await self.clients.matchAll({
         type: "window",
         includeUncontrolled: true,
