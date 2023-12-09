@@ -1,6 +1,32 @@
 let deletingTodos = [];
 let editingTodos = [];
 
+document.addEventListener("visibilitychange", function(){
+    if(!document.hidden){
+        // check csrf is still valid
+        fetch(getRootPath() + 'account/jsapi/checkcsrf', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"csrf_name": 'js', "csrf_value": getCsrfToken()})
+        })
+            .then(response => {
+                return response.json()
+            })
+            .catch(error => {
+                location.reload();
+            })
+            .then(res => {
+                if(res['status'] !== 'success'){
+                    location.reload();
+                }
+            })
+    }
+});
+
+
 document.querySelectorAll('.delete-todo').forEach((a) => {
     a.addEventListener('click', (e) => {
         e.preventDefault();
@@ -38,7 +64,7 @@ document.querySelectorAll('.make-public-todo').forEach((a) => {
 document.querySelectorAll('.todo .heading .status').forEach((div) => {
     const p = div.firstElementChild;
     p.addEventListener('click', (e) => {
-        if (p.classList.contains('loading') || div.classList.contains('reminder')) {
+        if(p.classList.contains('loading') || div.classList.contains('reminder')){
             return;
         }
         e.preventDefault();
@@ -47,7 +73,7 @@ document.querySelectorAll('.todo .heading .status').forEach((div) => {
 
         let status = 'done';
         div.classList.forEach((className) => {
-            if (className === 'todo' || className === 'in-progress' || className === 'done') {
+            if(className === 'todo' || className === 'in-progress' || className === 'done'){
                 status = className;
             }
         });
@@ -74,14 +100,14 @@ document.querySelectorAll('.todo .heading .status').forEach((div) => {
                     div.classList.remove(status);
                     div.classList.add(newStatus);
                     p.firstChild.textContent = newText;
-                }else if (res['status'] === 'invalid_csrf'){
+                }else if(res['status'] === 'invalid_csrf'){
                     location.reload();
                 }
             })
     });
 });
 
-function closeDeletingTodos() {
+function closeDeletingTodos(){
     deletingTodos.forEach((deletingTodo) => {
         deletingTodo.todo.classList.remove('hidden');
         deletingTodo.form.remove();
@@ -89,7 +115,7 @@ function closeDeletingTodos() {
     deletingTodos = [];
 }
 
-function closeEditingTodos() {
+function closeEditingTodos(){
     editingTodos.forEach((editingTodos) => {
         editingTodos.todo.classList.remove('hidden');
         editingTodos.form.remove();
@@ -97,7 +123,7 @@ function closeEditingTodos() {
     editingTodos = [];
 }
 
-function openDeletingTodo(todoId, todo) {
+function openDeletingTodo(todoId, todo){
     todo.classList.add('hidden');
     let form = getTodoDeletionConfirmation(todoId);
     todo.parentNode.insertBefore(form, todo.nextSibling);
@@ -111,7 +137,7 @@ function openDeletingTodo(todoId, todo) {
     });
 }
 
-function openEditingTodo(todoId, todo, target) {
+function openEditingTodo(todoId, todo, target){
     todo.classList.add('hidden');
     let form = getTodoEditForm(todoId, target.dataset.subjectId, target.dataset.duedate, target.dataset.type, target.dataset.content, target.dataset.link);
     todo.parentNode.insertBefore(form, todo.nextSibling);
@@ -125,7 +151,7 @@ function openEditingTodo(todoId, todo, target) {
     });
 }
 
-function getTodoDeletionConfirmation(todoId) {
+function getTodoDeletionConfirmation(todoId){
     const $html = `
         <div class="todo delete-todo" data-detete-todo-id="${todoId}">
             <form action="${getRootPath()}agenda/manage/todo" method="post">
@@ -144,9 +170,9 @@ function getTodoDeletionConfirmation(todoId) {
     return createElementFromHTML($html);
 }
 
-function getTodoEditForm(todoId, subject_id, duedate, type, content, link) {
+function getTodoEditForm(todoId, subject_id, duedate, type, content, link){
 
-    if (getSubjects().length === 0) {
+    if(getSubjects().length === 0){
         return createElementFromHTML('<p class="no-todo">Pour éditer une tâche, ajoutez d\'abord des matières&#8239;:<br><a href="' + getRootPath() + 'agenda/subjects">Ajouter des matières</a></p>');
     }
 
@@ -159,8 +185,8 @@ function getTodoEditForm(todoId, subject_id, duedate, type, content, link) {
             <div class="heading">
                 <select id="subject" name="subject_id" required onChange="onSubjectComboChange(event);">
                     ${getSubjects().map((s) => {
-                return `<option value="${s.id}" ${subject_id == s.id ? 'selected="selected"' : ''}>${out(s.name)}</option>`;
-            }).join('')}
+        return `<option value="${s.id}" ${subject_id == s.id ? 'selected="selected"' : ''}>${out(s.name)}</option>`;
+    }).join('')}
                     <option value="manage">Gérer les matières</option>
                 </select>
                 <input type="date" id="duedate" name="duedate"
@@ -185,22 +211,21 @@ function getTodoEditForm(todoId, subject_id, duedate, type, content, link) {
 }
 
 
-
-function getSubjects() {
+function getSubjects(){
     return JSON.parse(document.querySelector('div.subjects-container').dataset.subjects);
 }
 
-function getPageName() {
+function getPageName(){
     return document.querySelector('div.page-name-container').dataset.pageName;
 }
 
-function firstPossibleDateString() {
+function firstPossibleDateString(){
     if(getPageName() === 'all'){
         const yyyy = new Date().getFullYear();
-        if (new Date().getMonth() >= 7) {
+        if(new Date().getMonth() >= 7){
             return yyyy + '-09-01'
         }else{
-            return (yyyy-1) + '-09-01'
+            return (yyyy - 1) + '-09-01'
         }
     }else{
         const date = new Date();
@@ -208,20 +233,19 @@ function firstPossibleDateString() {
     }
 }
 
-function lastPossibleDateString() {
+function lastPossibleDateString(){
     const date = new Date();
     const mm = date.getMonth() + 1;
     const yyyy = date.getFullYear();
     if(mm < 7){
         return yyyy + '-06-30'
     }
-    return (yyyy+1) + '-06-30'
+    return (yyyy + 1) + '-06-30'
 }
 
 
-
-function onSubjectComboChange(e) {
-    if (e.target.value === 'manage') {
+function onSubjectComboChange(e){
+    if(e.target.value === 'manage'){
         window.location = getRootPath() + 'agenda/subjects'
         e.target.value = null;
     }

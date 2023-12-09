@@ -55,7 +55,6 @@ any(getRootPath() . 'agenda/manage/requests', __DIR__ . '/views/manage/manage_re
 
 // JS API
 any(getRootPath() . 'agenda/jsapi/status', __DIR__ . '/views/jsapi/jsapi_status.php');
-any(getRootPath() . 'agenda/jsapi/checkcsrf', __DIR__ . '/views/jsapi/jsapi_checkcsrf.php');
 
 
 

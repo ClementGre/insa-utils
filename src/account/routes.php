@@ -27,6 +27,9 @@ any(getRootPath() . 'account/manage', __DIR__.'/views/account.php');
 any(getRootPath() . 'account/manage/disable_email', __DIR__.'/views/manage/manage_disable_email.php');
 any(getRootPath() . 'account/manage/account', __DIR__.'/views/manage/manage_account.php');
 
+// JSAPI
+any(getRootPath() . 'account/jsapi/checkcsrf', __DIR__ . '/views/jsapi/jsapi_checkcsrf.php');
+
 
 
 
