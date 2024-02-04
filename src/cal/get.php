@@ -84,8 +84,8 @@ function editEventAndPrint($event, $mode, $room)
     }
     $p2i_number = "";
     if (str_starts_with($subjectTag, "P2I")) {
-        $subjectTag = "P2I"; // P2I2-TF-SH2 => P2I
         $p2i_number = substr($subjectTag, 3, 1);
+        $subjectTag = "P2I"; // P2I2-TF-SH2 => P2I
     }
 
     if ($type == "EDT") $type = null;
