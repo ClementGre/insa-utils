@@ -238,6 +238,25 @@ function get_subjects_templates(): array
             ], [
                 'name' => 'Autre', 'color' => 'gray', 'type' => 'others'
             ]
+        ],
+        'FIMI S4' => [
+            [
+                'name' => 'Maths', 'color' => 'red', 'type' => 'main'
+            ],  [
+                'name' => 'ISN', 'color' => 'yellow', 'type' => 'main'
+            ], [
+                'name' => 'Ondes', 'color' => 'orange', 'type' => 'main'
+            ], [
+                'name' => 'Mécanique', 'color' => 'blue', 'type' => 'main'
+            ], [
+                'name' => 'Anglais', 'color' => 'purple', 'type' => 'humas'
+            ], [
+                'name' => 'CSS', 'color' => 'purple', 'type' => 'humas'
+            ], [
+                'name' => 'ETRE', 'color' => 'purple', 'type' => 'humas'
+            ], [
+                'name' => 'P2I', 'color' => 'green', 'type' => 'others'
+            ]
         ]
     ];
 }

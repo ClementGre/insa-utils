@@ -6,18 +6,24 @@ use ICal\ICal;
 function strstr_after($string, $needle): string
 {
     $result = substr(strstr($string, $needle), strlen($needle));
-    if($result) return $result;
+    if ($result) return $result;
     return $string; // Return $string if needle not found
 }
-function strstr_before($string, $needle): string{
+
+function strstr_before($string, $needle): string
+{
     $result = strstr($string, $needle, true);
-    if($result) return $result;
+    if ($result) return $result;
     return $string; // Return $string if needle not found
 }
-function strstr_between($string, $needle1, $needle2): string{
+
+function strstr_between($string, $needle1, $needle2): string
+{
     return strstr_after(strstr_before($string, $needle2), $needle1);
 }
-function get_after_last_occurrence_of($string, $needle): string {
+
+function get_after_last_occurrence_of($string, $needle): string
+{
     return substr($string, strrpos($needle . $string, $needle));
 }
 
@@ -71,8 +77,15 @@ function editEventAndPrint($event, $mode, $room)
     $type = count($explodedSummary) >= 2 ? $explodedSummary[1] : null; // CM, TD, TP, EV => IE, EDT => Autre
 
 
-    if ($subjectTag === "SOU" || $subjectTag === "LV") { // Matières à ne pas afficher : Soutien et Langues
+    if ($subjectTag === "SOU" || $subjectTag === "LV"
+        || ($subjectTag == "EPS" && $type == "EDT")
+        || ($subjectTag == "*" && $type == "EDT")) { // Matières à ne pas afficher : Créneaux Soutien, Langues et Sport
         return;
+    }
+    $p2i_number = "";
+    if (str_starts_with($subjectTag, "P2I")) {
+        $subjectTag = "P2I"; // P2I2-TF-SH2 => P2I
+        $p2i_number = substr($subjectTag, 3, 1);
     }
 
     if ($type == "EDT") $type = null;
@@ -80,10 +93,10 @@ function editEventAndPrint($event, $mode, $room)
     // Location
 
     if ($event->location == null) {
-        if (str_contains($classDetails, "Amphi Capelle")){
+        if (str_contains($classDetails, "Amphi Capelle")) {
             $location = "Amphi Capelle";
             $fullLocation = "Amphi Capelle";
-        }else{
+        } else {
             $location = null;
             $fullLocation = null;
         }
@@ -92,9 +105,9 @@ function editEventAndPrint($event, $mode, $room)
             $room = strstr_before($loc, " (");
             $room = get_after_last_occurrence_of($room, " - ");
 
-            if (str_starts_with($room, "Amphithéâtre")){
+            if (str_starts_with($room, "Amphithéâtre")) {
                 $amphiExploded = explode(" ", $room);
-                if (count($amphiExploded) >= 3){
+                if (count($amphiExploded) >= 3) {
                     return "Amphi " . $amphiExploded[count($amphiExploded) - 1]; // Takes only the last word : William Hamilton => Hamilton
                 }
                 array_shift($amphiExploded);
@@ -123,6 +136,7 @@ function editEventAndPrint($event, $mode, $room)
                 "MS" => "Méca",
                 "ANG" => "Anglais",
                 "EPS" => "Sport",
+                "P2I" => "P2I" . $p2i_number . " - " . $classDetails,
                 "*" => $subject,
                 default => $subjectTag
             };
@@ -175,7 +189,6 @@ function getEventDataString($event): string
     }
     return $output;
 }
-
 
 if (isset($_GET['url'])) {
     convertCalendar(urldecode($_GET['url']), $_GET['mode'], $_GET['room']);
