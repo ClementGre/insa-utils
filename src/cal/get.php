@@ -79,7 +79,7 @@ function editEventAndPrint($event, $mode, $room)
 
     if ($subjectTag === "SOU" || $subjectTag === "LV"
         || ($subjectTag == "EPS" && $type == "EDT")
-        || ($subjectTag == "*" && $type == "EDT")) { // Matières à ne pas afficher : Créneaux Soutien, Langues et Sport
+        || ($subjectTag == "*" && $type == "EDT" && $classDetails == "Créneau P2i")) { // Matières à ne pas afficher : Créneaux Soutien, Langues et Sport
         return;
     }
     $p2i_number = "";
@@ -140,6 +140,8 @@ function editEventAndPrint($event, $mode, $room)
                 "*" => $subject,
                 default => $subjectTag
             };
+        }else if($subjectTag == "P2I") {
+            $subjectTag = "P2I" . $p2i_number . " - " . $classDetails;
         }
     }
 
