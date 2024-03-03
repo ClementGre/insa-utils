@@ -68,7 +68,7 @@ function editEventAndPrint($event, $mode, $room)
     $classDetails = strstr_between($event->description, "\n(", ")\n");
 
     $firstExplodedSummary = explode("::", $event->summary);  // Exploding  FIMI:2:S1::MA-TF:TD::048 #011
-    $explodedSummary = "";
+    $explodedSummary = [];
     if (count($firstExplodedSummary) >= 2) {
         $explodedSummary = explode(":", $firstExplodedSummary[1]); // [MA-TF, TD]
     }
