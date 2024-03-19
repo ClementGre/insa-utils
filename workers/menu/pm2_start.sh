@@ -26,4 +26,4 @@ read_secret()
 read_secret password
 echo
 echo "$password" > ./password.env
-pm2 start INSApetitScrapper --time -f --no-autorestart
+pm2 start INSAppetitScrapper --time -f --no-autorestart
