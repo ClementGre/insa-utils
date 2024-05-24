@@ -3,19 +3,23 @@ from menu_utils import *
 from menu_scrapping import *
 from menu_notifications import *
 
+do_use_vpn = True
+
 def update_menu():
-    print("Connecting to the VPN...")
-    vpn_connect()
-    print("Connected.")
+    if do_use_vpn:
+        print("Connecting to the VPN...")
+        vpn_connect()
+        print("Connected.")
     print("Updating the menu...")
 
     set_menu(get_whole_week_menu())
     write_menu_to_file(get_menu())
 
     print("Menu updated.")
-    print("Disconnecting from the VPN...")
-    vpn_disconnect()
-    print("Disconnected.")
+    if do_use_vpn:
+        print("Disconnecting from the VPN...")
+        vpn_disconnect()
+        print("Disconnected.")
 
 
 def recurrent_update(do_update, time_string):
@@ -32,13 +36,14 @@ def print_vpn_pwd_main():
     print(get_vpn_password())
 
 def main():
-    print("Reading password...")
-    path = "/home/clement/insa-utils/workers/menu/password.env"
-    with open("password.env", "r") as f:
-        set_vpn_password(f.read())
+    if do_use_vpn:
+        print("Reading password...")
+        path = "/home/clement/insa-utils/workers/menu/password.env"
+        with open("password.env", "r") as f:
+            set_vpn_password(f.read())
 
-    print("Password read from password.env")
-    subprocess.call(['sh', '-c', 'rm ' + path])
+        print("Password read from password.env")
+        subprocess.call(['sh', '-c', 'rm ' + path])
 
     print("Reading secrets...")
     with open("secrets.json", "r") as f:
@@ -48,13 +53,13 @@ def main():
     update_menu()
 
     print("Scheduling updates...")
-    register_recurrent_update("11:10", True)
-    register_recurrent_update("11:30", False)
+    register_recurrent_update("11:00", False)
+    register_recurrent_update("11:30", True)
     register_recurrent_update("12:00", False)
     register_recurrent_update("12:30", False)
 
-    register_recurrent_update("17:10", True)
-    register_recurrent_update("17:30", False)
+    register_recurrent_update("17:00", False)
+    register_recurrent_update("17:30", True)
     register_recurrent_update("18:00", False)
     register_recurrent_update("18:30", False)
 

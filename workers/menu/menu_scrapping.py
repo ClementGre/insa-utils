@@ -7,14 +7,14 @@ def fetch_menu_data(date, time_id, rest_id):
     # url = "https://menu-restaurants.insa-lyon.fr/API/public/v1/Semaine/4/1/38/2023-09-25"
     req = None
     with requests.session() as s:
+        print("Request session established")
         try:
             req = s.get(url, headers={"Authorization": "Basic c2FsYW1hbmRyZTpzYWxhbQ=="}, timeout=(3, 5)).json()
         except requests.exceptions.ConnectTimeout:
             print("Connection Timeout, maybe the VPN password is wrong.")
 
     # print(f"Menu received for rest_id: {rest_id}, date: {date}, time_id: {time_id} ", req)
-
-    if datetime.datetime.fromisoformat(req['crt_max_date']) < datetime.datetime.fromisoformat(date):
+    if req is None or datetime.datetime.fromisoformat(req['crt_max_date']) < datetime.datetime.fromisoformat(date):
         print("Menu is not up to date, returning None.")
         return None
     return req["MenuSemaine"] if req else None
