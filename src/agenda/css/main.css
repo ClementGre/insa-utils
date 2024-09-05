@@ -9,11 +9,12 @@
     align-items: center;
     justify-content: stretch;
 }
-
+.class-list a.class {
+    border: 2px solid var(--gray);
+}
 .class-list .class {
     margin: 0;
     padding: 0 0 0 5px;
-    border: 2px solid var(--gray);
     border-radius: 5px;
     width: 100%;
 
