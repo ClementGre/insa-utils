@@ -36,7 +36,7 @@ section {
     text-align: center;
 }
 
-#app{
+#app {
     flex: 1;
     padding: 0;
     margin: 0;
@@ -44,13 +44,13 @@ section {
 
 /* OUTPUT */
 
-div.output{
+div.output {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
     font-size: 18px;
 }
-div.output > div{
+div.output > div {
     background-color: #8D99AE;
     color: #EDF2F4;
     border-radius: 12px;
@@ -60,34 +60,39 @@ div.output > div{
     flex-direction: column;
     gap: 10px;
 }
-div.output > div > div.centered{
+div.output > div > div.centered {
     display: inline;
     margin: 0 auto;
     text-align: left;
     font-size: 15px;
 }
-div.output p, div.output ul{
+div.output p, div.output ul {
     margin: 0;
 }
 
 /* INPUT */
-
-div.form {
+div.forms {
     width: 100%;
     max-width: 600px;
     margin: auto;
     padding: 5px;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 2px;
+}
+div.form {
+    width: 100%;
     display: flex;
     box-sizing: border-box;
     flex-flow: row wrap;
-    justify-content: space-between;
-
+    justify-content: space-around;
 }
 div.form > div {
     width: auto;
     display: flex;
     flex-flow: column wrap;
-
+    flex-basis: 200px;
 }
 
 div.form label {
@@ -95,18 +100,18 @@ div.form label {
     font-size: 16px;
 }
 
-div.form div.soldebtns{
+div.form div.soldebtns {
     display: flex;
     flex-flow: row nowrap;
     align-content: stretch;
     column-gap: 3px;
     justify-content: space-between;
 }
-div.form div.soldebtns button{
+div.form div.soldebtns button {
     padding: 5px;
     font-size: 13px;
 }
-div.form button{
+div.form button {
     background-color: white;
     padding: 5px 7px;
     border: 2px solid #2B2D42;
@@ -116,7 +121,7 @@ div.form button{
     word-wrap: normal;
     margin: 0;
 }
-div.form button:hover{
+div.form button:hover {
     background-color: #ececec;
 }
 
@@ -134,16 +139,17 @@ div.form input::-webkit-inner-spin-button {
     div.form > div {
         margin: auto;
         flex-flow: row wrap;
-        justify-content: center;
+        justify-content: stretch;
         align-items: stretch;
         align-content: stretch;
-        gap: 5px;
+        gap: 2px;
+        flex-basis: inherit;
     }
     div.form label {
         width: 125px;
         margin: auto 0;
     }
-    div.form label + *{
+    div.form label + * {
         width: 210px;
     }
 }
@@ -187,7 +193,7 @@ div.rapid-selection > div > button:hover {
 
 div.rapid-selection > div + span {
     position: absolute;
-    background-color: white;
+    background-color: var(--light-gray);
     color: #D90429;
     top: -2px;
     left: 20px;

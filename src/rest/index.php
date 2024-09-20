@@ -36,7 +36,9 @@ $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
                 <div class="centered" v-else>
                     <p>Vous devez</p>
                     <ul>
-                        <li>payer {{ Math.floor(-newSolde / pricing.rep[regime]) }} repas à l'unité ({{(Math.floor(-newSolde / pricing.rep[regime]) * 5.30).toFixed(2)}}&nbsp;€)</li>
+                        <li>payer {{ Math.floor(-newSolde / pricing.rep[regime]) }} repas à l'unité
+                            ({{(Math.floor(-newSolde / pricing.rep[regime]) * 5.30).toFixed(2)}}&nbsp;€)
+                        </li>
                         <li>manger {{ Math.ceil(-newSolde / pricing.rep[regime]) }} repas de moins</li>
                         <li>ou manger {{ Math.ceil(-newSolde / pricing.dej[regime]) }} petits-déjeuners de moins.</li>
                     </ul>
@@ -44,35 +46,39 @@ $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
             </div>
         </div>
 
-        <div class="form">
-            <div>
-                <label for="solde_mois">Solde mois&#8239;:</label>
-                <input v-model="solde_mois_input" @blur="format_solde_mois" @input="update_solde_mois_input"
-                       type="number" id="solde" name="solde_mois" min="-1000" max="1000" step="0.01">
-            </div>
-            <div>
-                <label for="solde">Solde actuel&#8239;:</label>
-                <input v-model="solde_input" @blur="format_solde" @input="update_solde_input" ref="solde_input"
-                       type="number" id="solde" name="solde" min="-1000" max="1000" step="0.01">
-            </div>
-            <div>
-                <label>Modifier solde&#8239;:</label>
-                <div class="soldebtns">
-                    <button @click="solde_mois -= pricing.rep[regime]; format_soldes()">&#8209;1</button>
-                    <button @click="solde_mois += pricing.rep[regime]; format_soldes()">+1</button>
-                    <button @click="solde_mois -= 6.00; format_soldes()">&#8209;double</button>
-                    <button @click="solde_mois += 6.00; format_soldes()">+double</button>
+        <div class="forms">
+            <div class="form">
+                <div>
+                    <label for="solde_mois">Solde mois&#8239;:</label>
+                    <input v-model="solde_mois_input" @blur="format_solde_mois" @input="update_solde_mois_input"
+                           type="number" id="solde" name="solde_mois" min="-1000" max="1000" step="0.01">
+                </div>
+                <div>
+                    <label for="solde">Solde actuel&#8239;:</label>
+                    <input v-model="solde_input" @blur="format_solde" @input="update_solde_input" ref="solde_input"
+                           type="number" id="solde" name="solde" min="-1000" max="1000" step="0.01">
                 </div>
             </div>
-            <div>
-                <label for="regime">Régime&thinsp;:</label>
-                <select v-model="regime" name="regime" id="regime" required>
-                    <option value="0">7/7</option>
-                    <option value="1">5/7 petit dej.</option>
-                    <option value="2">5/7 simple</option>
-                    <option value="3">Demi-pension</option>
-                    <option value="4">À l'unité</option>
-                </select>
+            <div class="form">
+                <div>
+                    <label>Modifier solde&#8239;:</label>
+                    <div class="soldebtns">
+                        <button @click="solde_mois -= pricing.rep[regime]; format_soldes()">&#8209;1</button>
+                        <button @click="solde_mois += pricing.rep[regime]; format_soldes()">+1</button>
+                        <button @click="solde_mois -= 6.00; format_soldes()">&#8209;double</button>
+                        <button @click="solde_mois += 6.00; format_soldes()">+double</button>
+                    </div>
+                </div>
+                <div>
+                    <label for="regime">Régime&thinsp;:</label>
+                    <select v-model="regime" name="regime" id="regime" required>
+                        <option value="0">7/7</option>
+                        <option value="1">5/7 petit dej.</option>
+                        <option value="2">5/7 simple</option>
+                        <option value="3">Demi-pension</option>
+                        <option value="4">À l'unité</option>
+                    </select>
+                </div>
             </div>
         </div>
         <calendar v-model:weeks="weeks" :allow-weekends="true"></calendar>
