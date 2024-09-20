@@ -3,13 +3,13 @@ import cal_empty_cell from "./cal-empty-cell.js";
 
 export default {
     name: 'cal-col',
-    props: ["wIndex", "week", "wCount", "current", "allowedWeekdays"],
+    props: ["wIndex", "week", "wCount", "current", "allowWeekends"],
     template: `
         <tr class="cal-day">
        
             <cal-empty-cell v-for="index in getDayShift()" />
-            <cal-cell v-for="(data, index) in week" :wDay="index + getDayShift() + 1" :disabled="data.mDay < current"
-                :allowed-weekdays="allowedWeekdays" v-model:data="data"/>
+            <cal-cell v-for="(data, index) in week" :wDay="index + getDayShift()"
+                :allow-weekends="allowWeekends" v-model:data="data"/>
                 
             <cal-empty-cell v-for="index in getTrailingDays()" />
         </tr>`,

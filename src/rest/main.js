@@ -1,11 +1,14 @@
 import {createApp} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js'
 import calendar from "./calendar.js";
-import {debounce, isValidRep} from "./helpers.js";
+import {debounce, isValidNotPassedRep, isValidPassedRep} from "./helpers.js";
 
 createApp({
     data(){
         return {
+            solde_mois: 0,
             solde: 0,
+            solde_mois_input: '0',
+            solde_input: '0',
             regime: 0, // 0: 7/7 | 1: 5/7 petit dej. | 2: 5/7 simple | 3: Demi-pension | 4: À l'unité
             weeks: [],
             pricing: { // index = regime
@@ -23,40 +26,74 @@ createApp({
             return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
         },
         updateCalculations: function(){
-            let newSolde = this.solde;
+            console.log("Updating calculations, solde_mois=", this.solde_mois)
+            let solde = this.solde_mois;
             let date = new Date();
 
+            // Passed reps
             this.weeks.forEach(week => {
                 week.forEach(day => {
-                    if(day.dej && isValidRep(date, day.wDay, day.mDay, this.regime != 1, 0)){
+                    if(day.dej && isValidPassedRep(date, day.wDay, day.mDay, true, 0)){
+                        solde -= this.pricing.dej[this.regime];
+                    }
+                    if(day.rep1 && isValidPassedRep(date, day.wDay, day.mDay, true, 1)){
+                        solde -= this.pricing.rep[this.regime];
+                    }
+                    if(day.rep2 && isValidPassedRep(date, day.wDay, day.mDay, true, 2)){
+                        solde -= this.pricing.rep[this.regime];
+                    }
+                });
+            });
+            this.solde = solde;
+            let newSolde = solde;
+            // New solde
+            this.weeks.forEach(week => {
+                week.forEach(day => {
+                    if(day.dej && isValidNotPassedRep(date, day.wDay, day.mDay, true, 0)){
                         newSolde -= this.pricing.dej[this.regime];
                     }
-                    if(day.rep1 && isValidRep(date, day.wDay, day.mDay, this.regime != 1, 1)){
+                    if(day.rep1 && isValidNotPassedRep(date, day.wDay, day.mDay, true, 1)){
                         newSolde -= this.pricing.rep[this.regime];
                     }
-                    if(day.rep2 && isValidRep(date, day.wDay, day.mDay, this.regime != 1, 2)){
+                    if(day.rep2 && isValidNotPassedRep(date, day.wDay, day.mDay, true, 2)){
                         newSolde -= this.pricing.rep[this.regime];
                     }
                 });
             });
-
             this.newSolde = newSolde;
-
+            if(!this.is_solde_input_focused()) this.format_solde()
         },
-        twoDecimals: function(number){
-            return (Math.round(number * 100) / 100).toFixed(2);
-        }
+        format_solde_mois(){
+            this.solde_mois_input = this.solde_mois.toFixed(2)
+        },
+        format_solde(){
+            this.solde_input = this.solde.toFixed(2)
+        },
+        format_soldes(){
+            this.format_solde_mois()
+        },
+        is_solde_input_focused() {
+            return document.activeElement === this.$refs.solde_input
+        },
+        update_solde_mois_input: function(event){
+            this.solde_mois = parseFloat(event.target.value) || 0
+        },
+        update_solde_input: function(event){
+            this.solde_mois += (parseFloat(event.target.value) || 0) - this.solde
+            this.format_solde_mois();
+        },
     },
     watch: {
-        solde: debounce(function(newSolde){
-            localStorage.setItem('solde', newSolde);
+        solde_mois: debounce(function(newSolde){
+            console.log("Saving solde_mois=", newSolde)
+            localStorage.setItem('solde_mois', newSolde);
         }, 1000, function(){
-            this.updateCalculations();
+            this.updateCalculations()
         }),
         regime: debounce(function(newRegime){
             localStorage.setItem('regime', newRegime);
         }, 1000, function(){
-            this.updateCalculations();
+            this.updateCalculations()
         }),
         weeks: {
             handler: debounce(function(newWeeks){
@@ -70,29 +107,26 @@ createApp({
                 });
                 localStorage.setItem('data', JSON.stringify(data));
             }, 2000, function(){
-                this.updateCalculations();
+                this.updateCalculations()
             }),
             deep: true
         }
     },
     created(){
         let date = new Date();
-        let lastMonth = localStorage.getItem('lastMonth');
-        let lastVisitDate = new Date(localStorage.getItem('lastVisit'));
-        console.log("Last visit date:", lastVisitDate.toString());
-        let solde = localStorage.getItem('solde');
+
+        let solde_mois = parseInt(localStorage.getItem('solde_mois'), 10);
         let regime = localStorage.getItem('regime');
         let data = JSON.parse(localStorage.getItem('data'));
-        if(!data || lastMonth != date.getMonth()){
+        if(!data){
             data = new Array(31).fill({dej: false, rep1: true, rep2: true});
-            solde = 0;
+            solde_mois = 0;
         }
 
-        if(solde) this.solde = solde;
+        if(solde_mois) this.solde_mois = solde_mois;
         if(regime) this.regime = regime;
 
-        let toRemoveDej = 0, toRemoveRep1 = 0, toRemoveRep2 = 0;
-
+        // Building weeks object
         let weeks = [];
         let currentWeek = [];
         let wDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
@@ -100,22 +134,13 @@ createApp({
         wDay--;
         let mDay = 1;
         while(mDay <= this.maxMDay(date)){
-
-            // Count passed dejs/reps to decrease solde
-            if(data[mDay]?.dej && !isValidRep(date, wDay, mDay, this.regime != 1, 0)
-                && isValidRep(lastVisitDate, wDay, mDay, this.regime != 1, 0)){
-                toRemoveDej++;
-            }
-            if(data[mDay]?.rep1 && !isValidRep(date, wDay, mDay, this.regime != 1, 1)
-                && isValidRep(lastVisitDate, wDay, mDay, this.regime != 1, 1)){
-                toRemoveRep1++;
-            }
-            if(data[mDay]?.rep2 && !isValidRep(date, wDay, mDay, this.regime != 1, 2)
-                && isValidRep(lastVisitDate, wDay, mDay, this.regime != 1, 2)){
-                toRemoveRep2++;
-            }
-
-            currentWeek.push({mDay: mDay, wDay: wDay, dej: data[mDay]?.dej, rep1: data[mDay]?.rep1, rep2: data[mDay]?.rep2});
+            currentWeek.push({
+                mDay: mDay,
+                wDay: wDay,
+                dej: !!data[mDay]?.dej,
+                rep1: !!data[mDay]?.rep1,
+                rep2: !!data[mDay]?.rep2
+            });
             mDay++;
             wDay++;
             if(wDay > 6){
@@ -125,30 +150,7 @@ createApp({
             }
         }
         if(currentWeek.length > 0) weeks.push(currentWeek);
-
-        console.log("Should decrease (dej/rep1/rep2):", toRemoveDej, toRemoveRep1, toRemoveRep2);
-
-        let doDecrease = false;
-        let toDecrease = toRemoveDej * this.pricing.dej[this.regime] + (toRemoveRep1 + toRemoveRep2) * this.pricing.rep[this.regime];
-        if(toRemoveDej !== 0 && toRemoveRep1+toRemoveRep2 === 0){
-            doDecrease = confirm("Vous avez mangé " + toRemoveDej + " déjeuners depuis votre dernière visite.\n" +
-                "Souhaitez-vous déduire votre solde de " + this.twoDecimals(toDecrease) + " points ?");
-        }else if(toRemoveDej === 0 && toRemoveRep1+toRemoveRep2 !== 0){
-            doDecrease = confirm("Vous avez mangé " + (toRemoveRep1+toRemoveRep2) + " repas depuis votre dernière visite.\n" +
-                "Souhaitez-vous déduire votre solde de " + this.twoDecimals(toDecrease) + " points ?");
-        }else if(toRemoveDej !== 0 && toRemoveRep1+toRemoveRep2 !== 0){
-            doDecrease = confirm("Vous avez mangé " + toRemoveDej + " déjeuners et " + (toRemoveRep1+toRemoveRep2) + " repas depuis votre dernière visite.\n" +
-                "Souhaitez-vous déduire votre solde de " + this.twoDecimals(toDecrease) + " points ?");
-        }
-
-        if(doDecrease){
-            setTimeout(() => {
-                this.solde = solde - toDecrease;
-            }, 1000)
-        }
-
-        localStorage.setItem('lastMonth', date.getMonth().toString());
-        localStorage.setItem('lastVisit', date.toString());
         this.weeks = weeks;
+        this.format_solde_mois()
     }
 }).mount('#app')

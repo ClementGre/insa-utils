@@ -306,7 +306,6 @@ td.select-cell div.select {
     height: 100%;
     width: 100%;
 }
-
 td.select-cell div.select > div {
     flex: 1;
 }
@@ -314,6 +313,9 @@ td.select-cell div.select > div {
 td.select-cell div.x-select {
     background-color: #eaeaea;
     cursor: pointer;
+}
+td.select-cell div.x-select.passed {
+    opacity: .5;
 }
 
 td.select-cell div.dej-select {

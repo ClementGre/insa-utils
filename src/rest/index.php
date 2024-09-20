@@ -21,18 +21,22 @@ $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
     <section id="app">
         <div class="output" v-cloak>
             <div>
-                <p>Solde restant&#8239;: {{ twoDecimals(newSolde) }}</p>
-                <div class="centered" v-if="newSolde >= 0">
+                <p>Solde restant&#8239;: {{ newSolde.toFixed(2) }}</p>
+                <div class="centered" v-if="Math.abs(newSolde) <= 0.01">
+                    <p>Waw, vous êtes un génie, votre solde est opti au maximum&nbsp;!</p>
+                </div>
+                <div class="centered" v-else-if="newSolde > 0">
                     <p>Vous pouvez</p>
                     <ul>
-                        <li>doubler {{ Math.floor(newSolde / 5.83) }} fois</li>
-                        <li>ou manger {{ Math.floor(newSolde / pricing.rep[regime]) }} repas de plus</li>
-                        <li>ou manger {{ Math.floor(newSolde / pricing.dej[regime]) }} petits-déjeuners de plus.</li>
+                        <li>doubler {{ Math.floor(newSolde / 6.00) }} fois</li>
+                        <li>manger {{ Math.floor(newSolde / pricing.rep[regime]) }} repas de plus</li>
+                        <li>manger {{ Math.floor(newSolde / pricing.dej[regime]) }} petits-déjeuners de plus</li>
                     </ul>
                 </div>
                 <div class="centered" v-else>
                     <p>Vous devez</p>
                     <ul>
+                        <li>payer {{ Math.floor(-newSolde / pricing.rep[regime]) }} repas à l'unité ({{(Math.floor(-newSolde / pricing.rep[regime]) * 5.30).toFixed(2)}}&nbsp;€)</li>
                         <li>manger {{ Math.ceil(-newSolde / pricing.rep[regime]) }} repas de moins</li>
                         <li>ou manger {{ Math.ceil(-newSolde / pricing.dej[regime]) }} petits-déjeuners de moins.</li>
                     </ul>
@@ -42,16 +46,22 @@ $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
 
         <div class="form">
             <div>
-                <label for="solde">Solde&#8239;:</label>
-                <input v-model="solde" type="number" id="solde" name="solde" min="-1000" max="1000" step="0.01">
+                <label for="solde_mois">Solde mois&#8239;:</label>
+                <input v-model="solde_mois_input" @blur="format_solde_mois" @input="update_solde_mois_input"
+                       type="number" id="solde" name="solde_mois" min="-1000" max="1000" step="0.01">
+            </div>
+            <div>
+                <label for="solde">Solde actuel&#8239;:</label>
+                <input v-model="solde_input" @blur="format_solde" @input="update_solde_input" ref="solde_input"
+                       type="number" id="solde" name="solde" min="-1000" max="1000" step="0.01">
             </div>
             <div>
                 <label>Modifier solde&#8239;:</label>
                 <div class="soldebtns">
-                    <button @click="solde -= pricing.rep[regime]">&#8209;1</button>
-                    <button @click="solde += pricing.rep[regime]">+1</button>
-                    <button @click="solde -= 5.83">&#8209;double</button>
-                    <button @click="solde += 5.83">+double</button>
+                    <button @click="solde_mois -= pricing.rep[regime]; format_soldes()">&#8209;1</button>
+                    <button @click="solde_mois += pricing.rep[regime]; format_soldes()">+1</button>
+                    <button @click="solde_mois -= 6.00; format_soldes()">&#8209;double</button>
+                    <button @click="solde_mois += 6.00; format_soldes()">+double</button>
                 </div>
             </div>
             <div>
@@ -65,7 +75,7 @@ $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
                 </select>
             </div>
         </div>
-        <calendar v-model:weeks="weeks" :allowed-weekdays="regime != 1"></calendar>
+        <calendar v-model:weeks="weeks" :allow-weekends="true"></calendar>
     </section>
 </main>
 <footer>

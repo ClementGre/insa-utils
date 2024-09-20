@@ -1,23 +1,25 @@
+import {isPassedRep, isValidRep} from "./helpers.js";
+
 export default {
     name: 'cal-cell',
-    props: ["data", "wDay", "disabled", "allowedWeekdays"],
+    props: ["data", "wDay", "disabled", "allowWeekends"],
     template: `<td class="select-cell">
 
             <div>
                 <div>
                     <h3>{{ data.mDay }}</h3>
                 
-                    <div class="select" v-if="!disabled">
-                        <div :class="[{'x-select': dej_enabled()}, {'dej-select': dej_enabled()}, {selected: data.dej}]"
+                    <div class="select">
+                        <div :class="[{'x-select': dej_enabled()}, {'dej-select': dej_enabled()}, {'passed': dej_passed()}, {selected: data.dej}]"
                             @click="invert_dej">
                         
                         </div>
                        
-                        <div :class="[{'x-select': rep1_enabled()}, {'rep1-select': rep1_enabled()}, {selected: data.rep1}]"
+                        <div :class="[{'x-select': rep1_enabled()}, {'rep1-select': rep1_enabled()}, {'passed': rep1_passed()}, {selected: data.rep1}]"
                             @click="invert_rep1">
                         
                         </div>
-                        <div :class="[{'x-select': rep2_enabled()}, {'rep2-select': rep2_enabled()}, {selected: data.rep2}]"
+                        <div :class="[{'x-select': rep2_enabled()}, {'rep2-select': rep2_enabled()}, {'passed': rep2_passed()}, {selected: data.rep2}]"
                             @click="invert_rep2">
                         
                         </div>
@@ -29,25 +31,26 @@ export default {
         </td>`,
     data(){
         return {
-            isSunday: this.wDay === 6,
-            isWeekend: this.wDay === 6 || this.wDay === 7
         }
     },
     methods: {
+        dej_passed: function(){
+            return isPassedRep(new Date(), this.data.mDay, this.allowWeekends, 0);
+        },
+        rep1_passed: function(){
+            return isPassedRep(new Date(), this.data.mDay, this.allowWeekends, 1);
+        },
+        rep2_passed: function(){
+            return isPassedRep(new Date(), this.data.mDay, this.allowWeekends, 2);
+        },
         dej_enabled: function(){
-            let date = new Date();
-            return (this.data.mDay != date.getDate() || date.getHours() < 8)
-                && !this.isWeekend;
+            return isValidRep(new Date(), this.wDay, this.allowWeekends, 0);
         },
         rep1_enabled: function(){
-            let date = new Date();
-            return (this.data.mDay != date.getDate() || date.getHours() < 14)
-                && (this.allowedWeekdays || !this.isWeekend);
+            return isValidRep(new Date(), this.wDay, this.allowWeekends, 1);
         },
         rep2_enabled: function(){
-            let date = new Date();
-            return (this.data.mDay != date.getDate() || date.getHours() < 20)
-                && !this.isSunday && (this.allowedWeekdays || !this.isWeekend);
+            return isValidRep(new Date(), this.wDay, this.allowWeekends, 2);
         },
         
         invert_dej(){

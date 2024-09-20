@@ -14,20 +14,35 @@ function debounce(fn, delay, alwaysExecuted = () => {}){
         }, delay)
     }
 }
-
-function isValidRep(date, wDay, mDay, allowWeekdays, type){ // type: 1: dej, 2: rep1, 3: rep2
-    if(mDay >= date.getDate()){
-        if(type === 0){
-            return (wDay < 5 && (mDay !== date.getDate() || date.getHours() < 8));
-        }
-        if(type === 1){
-            return (allowWeekdays || wDay < 5) && (mDay !== date.getDate() || date.getHours() < 14);
-        }
-        if(type === 2){
-            return wDay !== 5 && (allowWeekdays || wDay < 5) && (mDay !== date.getDate() || date.getHours() < 20);
-        }
+function isValidNotPassedRep(date, wDay, mDay, allowWeekends, type){ // type: 1: dej, 2: rep1, 3: rep2
+    return isValidRep(date, wDay, allowWeekends, type) && !isPassedRep(date, mDay, allowWeekends, type);
+}
+function isValidPassedRep(date, wDay, mDay, allowWeekends, type){ // type: 1: dej, 2: rep1, 3: rep2
+    return isValidRep(date, wDay, allowWeekends, type) && isPassedRep(date, mDay, allowWeekends, type);
+}
+function isValidRep(date, wDay, allowWeekends, type){ // type: 1: dej, 2: rep1, 3: rep2
+    if(type === 0){
+        return wDay < 5;
+    }
+    if(type === 1){
+        return allowWeekends || wDay < 5;
+    }
+    if(type === 2){
+        return wDay !== 5 && (allowWeekends || wDay < 5);
+    }
+    return false;
+}
+function isPassedRep(date, mDay, allowWeekends, type){ // type: 1: dej, 2: rep1, 3: rep2
+    if(type === 0){
+        return mDay < date.getDate() || (mDay === date.getDate() && date.getHours() < 8);
+    }
+    if(type === 1){
+        return mDay < date.getDate() || (mDay === date.getDate() && date.getHours() < 14);
+    }
+    if(type === 2){
+        return mDay < date.getDate() || (mDay === date.getDate() && date.getHours() < 20);
     }
     return false;
 }
 
-export {debounce, isValidRep}
+export {debounce, isValidRep, isPassedRep, isValidNotPassedRep, isValidPassedRep};

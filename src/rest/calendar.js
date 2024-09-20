@@ -1,9 +1,9 @@
 import cal_row from "./cal-row.js";
-import {isValidRep} from "./helpers.js";
+import {isValidNotPassedRep} from "./helpers.js";
 
 export default {
     name: 'calendar',
-    props: ["weeks", "allowedWeekdays"],
+    props: ["weeks", "allowWeekends"],
     template: `<div>
             
             <div class="rapid-selection">
@@ -32,7 +32,7 @@ export default {
                </tr>
                
                 <cal-row v-for="(week, index) in weeks" :wIndex="index+1" :wCount="weeks.length" :week="week"
-                    :current="date.getDate()" :allowed-weekdays="allowedWeekdays"/>
+                    :current="date.getDate()" :allow-weekends="allowWeekends"/>
                 
             </table>
             
@@ -48,66 +48,68 @@ export default {
             let alreadySelected = this.weeks.every((week, wCount) => {
                 let index = day - (wCount === 0 ? (7 - week.length) : 0);
                 if(index < 0 || !week[index]) return true;
+                const mDay = week[index].mDay
                 
-                return (week[index]?.dej || !isValidRep(this.date, day, week[index].mDay, this.allowedWeekdays, 0))
-                    && (week[index]?.rep1 || !isValidRep(this.date, day, week[index].mDay, this.allowedWeekdays, 1))
-                    && (week[index]?.rep2 || !isValidRep(this.date, day, week[index].mDay, this.allowedWeekdays, 2))
+                return (week[index]?.dej || !isValidNotPassedRep(this.date, day, mDay, this.allowWeekends, 0))
+                    && (week[index]?.rep1 || !isValidNotPassedRep(this.date, day, mDay, this.allowWeekends, 1))
+                    && (week[index]?.rep2 || !isValidNotPassedRep(this.date, day, mDay, this.allowWeekends, 2))
             });
             
             this.weeks.forEach((week, wCount) => {
                 let index = day - (wCount === 0 ? (7 - week.length) : 0);
                 if(index < 0) return;
+                const mDay = week[index].mDay
+
                 if(week[index]){
-                    week[index].dej = !alreadySelected;
-                    week[index].rep1 = !alreadySelected;
-                    week[index].rep2 = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, day, mDay, this.allowWeekends, 0)) week[index].dej = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, day, mDay, this.allowWeekends, 1)) week[index].rep1 = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, day, mDay, this.allowWeekends, 2)) week[index].rep2 = !alreadySelected;
                 }
             });
         },
         selectAll: function(){
-            
             let alreadySelected = this.weeks.every(week =>
-                week.every(day => (day.dej || !isValidRep(this.date, day.wDay, day.mDay, this.allowedWeekdays, 0))
-                    && (day.rep1 || !isValidRep(this.date, day.wDay, day.mDay, this.allowedWeekdays, 1))
-                    && (day.rep2 || !isValidRep(this.date, day.wDay, day.mDay, this.allowedWeekdays, 2)))
+                week.every(day => (day.dej || !isValidNotPassedRep(this.date, day.wDay, day.mDay, this.allowWeekends, 0))
+                    && (day.rep1 || !isValidNotPassedRep(this.date, day.wDay, day.mDay, this.allowWeekends, 1))
+                    && (day.rep2 || !isValidNotPassedRep(this.date, day.wDay, day.mDay, this.allowWeekends, 2)))
             );
             this.weeks.forEach(week => {
                 week.forEach(day => {
-                    day.dej = !alreadySelected;
-                    day.rep1 = !alreadySelected;
-                    day.rep2 = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, day.wDay, day.mDay, this.allowWeekends, 0)) day.dej = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, day.wDay, day.mDay, this.allowWeekends, 1)) day.rep1 = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, day.wDay, day.mDay, this.allowWeekends, 2)) day.rep2 = !alreadySelected;
                 });
             });
         },
         selectDej: function(){
             let alreadySelected = this.weeks.every(week =>
                 week.every(day => {
-                    return day.dej || !isValidRep(this.date, day.wDay, day.mDay, this.allowedWeekdays, 0);
+                    return day.dej || !isValidNotPassedRep(this.date, day.wDay, day.mDay, this.allowWeekends, 0);
                 })
             );
             this.weeks.forEach(week => {
                 week.forEach(day => {
-                    day.dej = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, day.wDay, day.mDay, this.allowWeekends, 0)) day.dej = !alreadySelected;
                 });
             });
         },
         selectRep1: function(){
             let alreadySelected = this.weeks.every(week =>
-                week.every(day => day.rep1 || !isValidRep(this.date, day.wDay, day.mDay, this.allowedWeekdays, 1))
+                week.every(day => day.rep1 || !isValidNotPassedRep(this.date, day.wDay, day.mDay, this.allowWeekends, 1))
             );
             this.weeks.forEach(week => {
                 week.forEach(day => {
-                    day.rep1 = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, day.wDay, day.mDay, this.allowWeekends, 1)) day.rep1 = !alreadySelected;
                 });
             });
         },
         selectRep2: function(){
             let alreadySelected = this.weeks.every(week =>
-                week.every(day => day.rep2 || !isValidRep(this.date, day.wDay, day.mDay, this.allowedWeekdays, 2))
+                week.every(day => day.rep2 || !isValidNotPassedRep(this.date, day.wDay, day.mDay, this.allowWeekends, 2))
             );
             this.weeks.forEach(week => {
                 week.forEach(day => {
-                    day.rep2 = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, day.wDay, day.mDay, this.allowWeekends, 2)) day.rep2 = !alreadySelected;
                 });
             });
         },
@@ -115,32 +117,32 @@ export default {
             let alreadySelected = this.weeks.every((week, wCount) => {
                 let index = 5 - (wCount === 0 ? (7 - week.length) : 0);
                 if(index < -1 || !week[index]) return true;
-                
-                let saturday = index === -1 ? true : (week[index]?.dej || !isValidRep(this.date, 5, week[index].mDay, this.allowedWeekdays, 0))
-                    && (week[index]?.rep1 || !isValidRep(this.date, 5, week[index].mDay, this.allowedWeekdays, 1))
-                    && (week[index]?.rep2 || !isValidRep(this.date, 5, week[index].mDay, this.allowedWeekdays, 2))
-                
+
+                let saturday = index === -1 ? true : (week[index]?.dej || !isValidNotPassedRep(this.date, 5, week[index].mDay, this.allowWeekends, 0))
+                    && (week[index]?.rep1 || !isValidNotPassedRep(this.date, 5, week[index].mDay, this.allowWeekends, 1))
+                    && (week[index]?.rep2 || !isValidNotPassedRep(this.date, 5, week[index].mDay, this.allowWeekends, 2))
+
                 index++;
-                let sunday = (week[index]?.dej || !isValidRep(this.date, 6, week[index].mDay, this.allowedWeekdays, 0))
-                    && (week[index]?.rep1 || !isValidRep(this.date, 6, week[index].mDay, this.allowedWeekdays, 1))
-                    && (week[index]?.rep2 || !isValidRep(this.date, 6, week[index].mDay, this.allowedWeekdays, 2))
-                
+                let sunday = (week[index]?.dej || !isValidNotPassedRep(this.date, 6, week[index].mDay, this.allowWeekends, 0))
+                    && (week[index]?.rep1 || !isValidNotPassedRep(this.date, 6, week[index].mDay, this.allowWeekends, 1))
+                    && (week[index]?.rep2 || !isValidNotPassedRep(this.date, 6, week[index].mDay, this.allowWeekends, 2))
+
                 return saturday && sunday;
             });
-    
+
             this.weeks.forEach((week, wCount) => {
                 let index = 5 - (wCount === 0 ? (7 - week.length) : 0);
-                
+
                 if(index >= 0 && week[index]){
-                    week[index].dej = !alreadySelected;
-                    week[index].rep1 = !alreadySelected;
-                    week[index].rep2 = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, 5, week[index].mDay, this.allowWeekends, 0)) week[index].dej = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, 5, week[index].mDay, this.allowWeekends, 1)) week[index].rep1 = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, 5, week[index].mDay, this.allowWeekends, 2)) week[index].rep2 = !alreadySelected;
                 }
                 index++;
                 if(index >= 0 && week[index]){
-                    week[index].dej = !alreadySelected;
-                    week[index].rep1 = !alreadySelected;
-                    week[index].rep2 = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, 6, week[index].mDay, this.allowWeekends, 0)) week[index].dej = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, 6, week[index].mDay, this.allowWeekends, 1)) week[index].rep1 = !alreadySelected;
+                    if(isValidNotPassedRep(this.date, 6, week[index].mDay, this.allowWeekends, 2)) week[index].rep2 = !alreadySelected;
                 }
             });
         }
