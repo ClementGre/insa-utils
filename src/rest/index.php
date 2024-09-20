@@ -58,9 +58,9 @@ $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
                 <label for="regime">Régime&thinsp;:</label>
                 <select v-model="regime" name="regime" id="regime" required>
                     <option value="0">7/7</option>
-                    <option value="1">5/7</option>
-                    <option value="2">5/7 Liberté</option>
-                    <option value="3">15</option>
+                    <option value="1">5/7 petit dej.</option>
+                    <option value="2">5/7 simple</option>
+                    <option value="3">Demi-pension</option>
                     <option value="4">À l'unité</option>
                 </select>
             </div>
@@ -69,7 +69,7 @@ $keywords = 'insa, calculer, restaurant, ri, solde, olivier, doubler';
     </section>
 </main>
 <footer>
-    <?= getFooter('<a href="https://restaurants.insa-lyon.fr/content/tarifs" target="_blank">Grille tarifaire</a>', "Clément GRENNERAT") ?>
+    <?= getFooter('<a href="/rest/data/Tarification_restaurants_2024-2025.pdf" target="_blank">Grille tarifaire</a>', "Clément GRENNERAT") ?>
 </footer>
 <script src="main.js" type="module"></script>
 </body>

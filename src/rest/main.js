@@ -6,11 +6,11 @@ createApp({
     data(){
         return {
             solde: 0,
-            regime: 0, // 0: 7/7 | 1: 5/7 | 2: 5/7 lib | 3: 15 | 4: unité
+            regime: 0, // 0: 7/7 | 1: 5/7 petit dej. | 2: 5/7 simple | 3: Demi-pension | 4: À l'unité
             weeks: [],
             pricing: { // index = regime
-                dej: [2.00, 2.29, 2.41, 2.41, 2.60],
-                rep: [4.00, 4.53, 4.78, 4.91, 5.15]
+                dej: [2.06, 2.48, 2.68, 2.68, 2.68],
+                rep: [4.12, 4.92, 5.06, 5.06, 5.30]
             },
             newSolde: 0
         }
