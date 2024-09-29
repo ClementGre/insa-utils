@@ -34,13 +34,13 @@ function isValidRep(date, wDay, allowWeekends, type){ // type: 1: dej, 2: rep1, 
 }
 function isPassedRep(date, mDay, allowWeekends, type){ // type: 1: dej, 2: rep1, 3: rep2
     if(type === 0){
-        return mDay < date.getDate() || (mDay === date.getDate() && date.getHours() < 8);
+        return mDay < date.getDate() || (mDay === date.getDate() && date.getHours() >= 8);
     }
     if(type === 1){
-        return mDay < date.getDate() || (mDay === date.getDate() && date.getHours() < 14);
+        return mDay < date.getDate() || (mDay === date.getDate() && date.getHours() >= 14);
     }
     if(type === 2){
-        return mDay < date.getDate() || (mDay === date.getDate() && date.getHours() < 20);
+        return mDay < date.getDate() || (mDay === date.getDate() && date.getHours() >= 20);
     }
     return false;
 }
