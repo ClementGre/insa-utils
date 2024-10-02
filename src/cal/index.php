@@ -35,7 +35,7 @@ if(date('m') < 9) $year--;
             <br>
             Récupère le lien de ton calendrier ici&#8239;:
             <br>
-            <a href="https://ade-outils.insa-lyon.fr/ADE-iCal@<?= $year ?>-<?= $year+1 ?>">https://ade-outils.insa-lyon.fr/ADE-iCal@2023-2024</a>.
+            <a href="https://ade-outils.insa-lyon.fr/ADE-iCal@<?= $year ?>-<?= $year+1 ?>">https://ade-outils.insa-lyon.fr/ADE-iCal@<?= $year ?>-<?= $year+1 ?></a>.
         </p>
 
         <form action="./" method="get">
