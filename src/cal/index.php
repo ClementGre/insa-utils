@@ -14,6 +14,9 @@ if(isset($_GET['mode'])) $mode = urldecode($_GET['mode']);
 $room = '';
 if(isset($_GET['room'])) $room = urldecode($_GET['room']);
 
+$year = date('Y');
+if(date('m') < 9) $year--;
+
 ?>
 
 <!DOCTYPE html>
@@ -32,12 +35,12 @@ if(isset($_GET['room'])) $room = urldecode($_GET['room']);
             <br>
             Récupère le lien de ton calendrier ici&#8239;:
             <br>
-            <a href="https://ade-outils.insa-lyon.fr/ADE-iCal@2023-2024">https://ade-outils.insa-lyon.fr/ADE-iCal@2023-2024</a>.
+            <a href="https://ade-outils.insa-lyon.fr/ADE-iCal@<?= $year ?>-<?= $year+1 ?>">https://ade-outils.insa-lyon.fr/ADE-iCal@2023-2024</a>.
         </p>
 
         <form action="./" method="get">
             <p>URL de ton calendrier ADE (lien abonnement iCal)&#8239;:</p>
-            <input class="url-input" type="text" name="url" value="<?= $url ?>" placeholder="https://ade-outils.insa-lyon.fr/ADE-Cal:~jgarzer!2023-2024:459877899af69B3D">
+            <input class="url-input" type="text" name="url" value="<?= $url ?>" placeholder="https://ade-outils.insa-lyon.fr/ADE-Cal:~jgarzer!<?= $year ?>-<?= $year+1 ?>:459877899af69B3D">
             <br><br>
             <p>Mode d'affichage des évènements&#8239;:</p>
             <select name="mode">
