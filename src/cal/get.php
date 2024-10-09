@@ -11,35 +11,6 @@ function removeFirstNLines(string $text, int $n): string
     $remainingLines = array_slice($lines, $n);
     return implode(PHP_EOL, $remainingLines);
 }
-
-function strstr_after($string, $needle): string
-{
-    $result = substr(strstr($string, $needle), strlen($needle));
-    if ($result) {
-        return $result;
-    }
-    return $string; // Return $string if needle not found
-}
-
-function strstr_before($string, $needle): string
-{
-    $result = strstr($string, $needle, true);
-    if ($result) {
-        return $result;
-    }
-    return $string; // Return $string if needle not found
-}
-
-function strstr_between($string, $needle1, $needle2): string
-{
-    return strstr_after(strstr_before($string, $needle2), $needle1);
-}
-
-function get_after_last_occurrence_of($string, $needle): string
-{
-    return substr($string, strrpos($needle . $string, $needle));
-}
-
 function convertCalendar($url, $mode, $cleanDescription, $locationInSummary, $countInSummary, $types): void
 {
     try {
