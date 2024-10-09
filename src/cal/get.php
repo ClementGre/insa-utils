@@ -277,9 +277,9 @@ function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary,
     }
 
     if ($cleanDescription) {
-        $event->description = removeFirstNLines($event->description, 3);
-        if($classDetails) $event->description = $classDetails . '\n' . strstr_after($event->description, "\n");
-        $event->description = $subject . ' ' . $full_count . '\n' . strstr_after($event->description, "\n");
+        $event->description = removeFirstNLines($event->description, 4);
+        if($classDetails) $event->description = $classDetails . '\n' . $event->description;
+        $event->description = $subject . ' ' . $full_count . '\n' . $event->description;
     }
 
     printEvent($event);

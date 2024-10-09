@@ -20,11 +20,11 @@ if(isset($_GET['url'])) $url = urldecode($_GET['url']);
 $mode = 1;
 if(isset($_GET['mode'])) $mode = urldecode($_GET['mode']);
 $room = false;
-if(isset($_GET['room']) && $_GET['room']) $room = true;
+if(isset($_GET['room'])) $room = $_GET['room'];
 $count = true;
-if(isset($_GET['count']) && $_GET['count']) $count = true;
+if(isset($_GET['count'])) $count = $_GET['count'];
 $clean_desc = true;
-if(isset($_GET['desc']) && $_GET['desc']) $clean_desc = true;
+if(isset($_GET['desc'])) $clean_desc = $_GET['desc'];
 
 $types = Yaml::parseFile('cal-config.yml')['event_type'];
 $selected_types = [];
