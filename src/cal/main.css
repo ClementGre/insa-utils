@@ -6,21 +6,20 @@ main > div{
     background-color: #EDF2F4;
 
 }
-
-select, input.url-input{
-    width: 100%;
-    margin-top: 5px;
+main p.info{
+    text-align: left;
+    margin: 0 0 10px;
 }
 
+form {
+    text-align: left;
+}
 form p{
-    margin: 5px 0;
+    margin: 10px 0 5px 0;
 }
-form div{
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+form select, form input[type="text"]{
+    margin: 0;
+    width: 100%;
 }
 form input[type="checkbox"]{
     height: 20px;
@@ -29,7 +28,24 @@ form input[type="checkbox"]{
     z-index: 100;
     cursor: pointer;
     -webkit-appearance: checkbox;
+    margin: 2px 2px;
 }
 form label[for="room-checkbox"]{
     cursor: pointer;
+}
+form div.submit{
+    margin: auto;
+    width: fit-content;
+    min-width: 33%;
+}
+form input[type="submit"]{
+    width: 100%;
+}
+
+form div.types {
+
+}
+form div.types > div > label{
+    cursor: pointer;
+    width: 100%;
 }

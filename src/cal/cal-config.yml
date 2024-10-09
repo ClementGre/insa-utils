@@ -4,20 +4,36 @@
 
 # Required names:
 # - full
-# A class can specify a type setting a property [selector]_event: true.
+# default field: if true, the frontend checkbox is checked by default
+# A class can specify a type by adding a type property with the value being the type code.
 event_type:
+  - full_name: "Créneaux généraux langues"
+    code: "general_lang"
+    default: false
+  - full_name: "Créneaux généraux sport"
+    code: "general_sport"
+    default: true
   - full_name: "Langues"
-    selector: "language"
+    code: "lang"
+    default: true
   - full_name: "Sport"
-    selector: "sport"
+    code: "sport"
+    default: true
+  - full_name: "Humanités"
+    code: "huma"
+    default: true
   - full_name: "Soutien"
-    selector: "support"
-  - full_name: "FIMI : P2I"
-    selector: "p2i"
+    code: "support"
+    default: true
+  - full_name: "FIMI : P2I"
+    code: "p2i"
+    default: true
   - full_name: "Autres évènements"
-    selector: "other"
-  - full_name: "Évènement normaux"
-    selector: "*"
+    code: "other"
+    default: true
+  - full_name: "Évènement classiques"
+    code: "*"
+    default: true
 
 # Required names:
 # - full
@@ -27,8 +43,12 @@ event_type:
 # - %DETAILS% (class details)
 # Available regexes to match locations (work in conjunction):
 # - type_regex (over location)
+# - subject_regex (over class full subject)
 # - details_regex (over class details)
 types:
+  - full_name: ""
+    short_name: ""
+    subject_regex: "^Créneau Groupe$"
   - full_name: "Travail Dirigé"
     short_name: "TD"
     class_regex: "^TD$"
@@ -51,6 +71,7 @@ types:
 # - %DETAILS% (class details)
 # Available regexes to match locations (work in conjunction):
 # - location_regex (over location)
+# - subject_regex (over class full subject)
 # - details_regex (over class details)
 locations:
   - full_name: "Amphithéâtre Jean Capelle"
@@ -86,6 +107,7 @@ locations:
 # - group_regex (over Department:Year:Semester:Group)
 # Available regexes to match classes (work in conjunction):
 # - class_regex (over SubjectTag:Type)
+# - subject_regex (over class full subject)
 # - details_regex (over class details)
 class_groups:
   - name: "FIMI"
@@ -118,23 +140,23 @@ class_groups:
       - full_name: "Anglais"
         short_name: "Anglais"
         code_name: "ANG"
-        language_event: true
+        type: "general_lang"
         class_regex: "^ANG(?=[-:]|$)"
       - full_name: "Sport"
         short_name: "Sport"
         code_name: "EPS"
-        sport_event: true
+        type: "general_sport"
         class_regex: "^EPS(?=[-:]|$)"
       - full_name: "P2I"
         short_name: "P2I"
         code_name: "P2I"
-        p2i_event: true
+        type: "p2i"
         class_regex: "^\\*:EDT$"
         details_regex: "^Créneau P2i$"
       - full_name: "%DETAILS%"
         short_name: "%DETAILS%"
         code_name: "%DETAILS%"
-        other_event: true
+        type: "other"
         class_regex: "^\\*:EDT$"
 
   - name: "IF"
@@ -199,32 +221,32 @@ class_groups:
       - full_name: "Langue Vivante 1"
         short_name: "LV1"
         code_name: "LV1"
-        language_event: true
+        type: "general_lang"
         class_regex: "^LV1(?=[-:]|$)"
       - full_name: "Langue Vivante 2"
         short_name: "LV2"
         code_name: "LV2"
-        language_event: true
+        type: "general_lang"
         class_regex: "^LV2(?=[-:]|$)"
       - full_name: "Éducation Physique et Sportive"
         short_name: "EPS"
         code_name: "EPS"
-        sport_event: true
+        type: "general_sport"
         class_regex: "^EPS(?=[-:]|$)"
       - full_name: "Programmation Orientée Objet - C++ - Les Bases"
         short_name: "C++ Bases"
         code_name: "POO1"
-        support_event: true
+        type: "support"
         class_regex: "^POO1:TA(?=[-:]|$)"
       - full_name: "Architecture des circuits numériques"
         short_name: "Archi Circuit"
         code_name: "AC"
-        support_event: true
+        type: "support"
         class_regex: "^AC:TA(?=[-:]|$)"
       - full_name: "%DETAILS%"
         short_name: "%DETAILS%"
         code_name: "%DETAILS%"
-        other_event: true
+        type: "support"
         class_regex: "^\\*:EDT$"
 
   - name: "GI"
@@ -273,24 +295,23 @@ class_groups:
       - full_name: "Langue Vivante 1"
         short_name: "LV1"
         code_name: "LV1"
-        language_event: true
+        type: "general_lang"
         class_regex: "^LV1(?=[-:]|$)"
       - full_name: "Langue Vivante 2"
         short_name: "LV2"
         code_name: "LV2"
-        language_event: true
+        type: "general_lang"
         class_regex: "^LV2(?=[-:]|$)"
       - full_name: "Éducation Physique et Sportive"
         short_name: "EPS"
         code_name: "EPS"
-        sport_event: true
+        type: "general_sport"
         class_regex: "^EPS(?=[-:]|$)"
       - full_name: "%DETAILS%"
         short_name: "%DETAILS%"
         code_name: "%DETAILS%"
-        other_event: true
+        type: "other"
         class_regex: "^\\*:EDT$"
-
 
   - name: "HU"
     group_regex: "^HU(?=:.*)"
@@ -298,49 +319,69 @@ class_groups:
       - full_name: "Allemand"
         short_name: "Allemand"
         code_name: "ALL"
+        type: "lang"
         class_regex: "^ALL(?=[-:]|$)"
       - full_name: "Anglais"
         short_name: "Anglais"
         code_name: "ANG"
+        type: "lang"
         class_regex: "^ANG(?=[-:]|$)"
       - full_name: "Arabe"
         short_name: "Arabe"
         code_name: "ARA"
+        type: "lang"
         class_regex: "^ARA(?=[-:]|$)"
       - full_name: "Chinois"
         short_name: "Chinois"
         code_name: "CHI"
+        type: "lang"
         class_regex: "^CHI(?=[-:]|$)"
       - full_name: "Espagnol"
         short_name: "Espagnol"
         code_name: "ESP"
+        type: "lang"
         class_regex: "^ESP(?=[-:]|$)"
       - full_name: "Français Langue Étrangère"
         short_name: "FLE"
         code_name: "FLE"
+        type: "lang"
         class_regex: "^FLE(?=[-:]|$)"
       - full_name: "Italien"
         short_name: "Italien"
         code_name: "ITA"
+        type: "lang"
         class_regex: "^ITA(?=[-:]|$)"
       - full_name: "Japonais"
         short_name: "Japonais"
         code_name: "JAP"
+        type: "lang"
         class_regex: "^JAP(?=[-:]|$)"
       - full_name: "Portugais"
         short_name: "Portugais"
         code_name: "POR"
+        type: "lang"
         class_regex: "^POR(?=[-:]|$)"
       - full_name: "Russe"
         short_name: "Russe"
         code_name: "RUS"
+        type: "lang"
         class_regex: "^RUS(?=[-:]|$)"
       - full_name: "Tandem"
         short_name: "Tandem"
         code_name: "TAN"
+        type: "lang"
         class_regex: "^TAN(?=[-:]|$)"
       - full_name: "%DETAILS%"
         short_name: "%DETAILS%"
         code_name: "%DETAILS%"
-        other_event: true
+        type: "other"
         class_regex: "^\\*:EDT$"
+
+  - name: "CDS"
+    group_regex: "^CDS(?=:.*)"
+    classes:
+      - full_name: "Éducation Physique et Sportive Adaptée"
+        short_name: "EPS Adaptée"
+        code_name: "EPSA"
+        type: "sport"
+        class_regex: "^EPSA(?=[-:]|$)"

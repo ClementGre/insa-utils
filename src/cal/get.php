@@ -54,7 +54,7 @@ function convertCalendar($url, $mode, $locationInSummary, $countInSummary, $type
         );
 
         header("Content-type:text/text");
-//        header("Content-Disposition:attachment;filename=edt_insa.ics");
+        header("Content-Disposition:attachment;filename=edt_insa.ics");
 
         echo "BEGIN:VCALENDAR\r\n";
         echo "METHOD:REQUEST\r\n";
@@ -119,7 +119,7 @@ function match_regex_and_update(&$object, $regex_name, $text): bool
 }
 
 // Function to match a class group from the YAML config
-function match_class($config, $group_info, $class_info, $details)
+function match_class($config, $group_info, $class_info, $subject, $details)
 {
     foreach ($config['class_groups'] as $group) {
         if (!match_regex_and_update($group, 'group', $group_info)) {
@@ -127,6 +127,9 @@ function match_class($config, $group_info, $class_info, $details)
         }
         foreach ($group['classes'] as $class) {
             if (!match_regex_and_update($class, 'class', $class_info)) {
+                continue;
+            }
+            if (!match_regex_and_update($sub, 'subject', $subject)) {
                 continue;
             }
             if (!match_regex_and_update($class, 'details', $details)) {
@@ -140,10 +143,13 @@ function match_class($config, $group_info, $class_info, $details)
 }
 
 // Function to match location from YAML config
-function match_location($config, $location, $details)
+function match_location($config, $location, $subject, $details)
 {
     foreach ($config['locations'] as $loc) {
         if (!match_regex_and_update($loc, 'location', $location)) {
+            continue;
+        }
+        if (!match_regex_and_update($loc, 'subject', $subject)) {
             continue;
         }
         if (!match_regex_and_update($loc, 'details', $details)) {
@@ -155,10 +161,13 @@ function match_location($config, $location, $details)
 }
 
 // Function to match type from YAML config
-function match_type($config, $type, $details)
+function match_type($config, $type, $subject, $details)
 {
     foreach ($config['types'] as $t) {
         if (!match_regex_and_update($t, 'type', $type)) {
+            continue;
+        }
+        if (!match_regex_and_update($t, 'subject', $subject)) {
             continue;
         }
         if (!match_regex_and_update($t, 'details', $details)) {
@@ -177,30 +186,17 @@ function match_type($config, $type, $details)
  */
 function is_class_valid($class, $types): bool
 {
-    foreach ($types as $type) {
-        if (isset($class[$type . '_event']) && $class[$type . '_event']) {
-            return true;
-        }
+    if(!isset($class['type'])){
+        return in_array('*', $types);
     }
-    if (in_array('*', $types)) {
-        // Check if the class has no type
-        if (empty(array_filter(array_keys($class), function ($key) use ($class) {
-            if (preg_match('/^.*_event$/', $key, $match)) {
-                return isset($class[$match[0]]) && $class[$match[0]];
-            }
-            return false;
-        }))) {
-            return true;
-        }
-    }
-    return false;
+    return in_array($class['type'], $types);
 }
-
 
 /**
  * @param $event
- * @param $mode 0 = full name, 1 = short, 2 = default
- * @param $locationInSummary
+ * @param $mode int 0 = full, 1 = short, 2 = default
+ * @param $locationInSummary bool show the location in the summary after the subject
+ * @param $countInSummary bool show the class number in the summary right after the type
  * @param $types mixed list of event type selectors to include: language, support, other... "*" to include events that has no type.
  * @param $config
  * @return void
@@ -233,30 +229,29 @@ function editEventAndPrint($event, $mode, $locationInSummary, $countInSummary, $
     // Information about the class: SubjectTag:Type
     $class_info = count($explodedSummary) >= 2 ? $explodedSummary[1] : ""; // MA-TF:TD, MA-TF:CM, BDR:TD, EPS:EDT, ...
 
-
-    if (!is_class_valid($config, $types)) {
+    // Match the class group, type and location, will be displayed as type class | location
+    $matched_class = match_class($config, $group_info, $class_info, $subject, $classDetails);
+    if (!is_class_valid($matched_class, $types)) {
         return;
     }
+    $matched_type = match_type($config, $type, $subject, $classDetails);
 
-    // Match the class group, type and location, will be displayed as type class | location
-    $matched_class = match_class($config, $group_info, $class_info, $classDetails);
-    $matched_type = match_type($config, $type, $classDetails);
-
-    $matched_locations = $event->location ? array_map(function ($loc) use ($classDetails, $config) {
-        return match_location($config, $loc, $classDetails);
+    $matched_locations = $event->location ? array_map(function ($loc) use ($subject, $classDetails, $config) {
+        return match_location($config, $loc, $subject, $classDetails);
     }, explode(",", $event->location)) : []; // Locations are comma-separated
 
 
     $event_name_name = $mode == 0 ? 'full' : ($mode == 1 ? 'short' : 'code');
 
     if ($matched_type) {
-        $event->summary = format_name_from_regex_result($matched_type, 'short', $classDetails);
+        $event_type_formatted = format_name_from_regex_result($matched_type, 'short', $classDetails);
     } else {
-        $event->summary = $type;
+        $event_type_formatted = $type;
     }
-    if($countInSummary) $event->summary .= $count;
-    $event->summary .= " ";
-    
+    $event->summary = $event_type_formatted ?: "";
+    if($countInSummary && $event_type_formatted) $event->summary .= $count;
+    $event->summary .= $event_type_formatted ? " " : "";
+
     if ($matched_class) {
         $event->summary .= format_name_from_regex_result($matched_class, $event_name_name, $classDetails);
     } else {
