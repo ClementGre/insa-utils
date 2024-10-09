@@ -33,7 +33,7 @@ function get_after_last_occurrence_of($string, $needle): string
     return substr($string, strrpos($needle . $string, $needle));
 }
 
-function convertCalendar($url, $mode, $locationInSummary, $types): void
+function convertCalendar($url, $mode, $locationInSummary, $countInSummary, $types): void
 {
     try {
         $ical = new ICal("ICal.ics", [
@@ -64,7 +64,7 @@ function convertCalendar($url, $mode, $locationInSummary, $types): void
 
         $config = Yaml::parseFile('cal-config.yml');
         foreach ($ical->events() as $i => $event) {
-            editEventAndPrint($event, $mode, $locationInSummary, $types, $config);
+            editEventAndPrint($event, $mode, $locationInSummary, $countInSummary, $types, $config);
         }
 
         echo "END:VCALENDAR\r\n";
@@ -81,7 +81,7 @@ function format_name_from_regex_result($obj, $name_name, $details): string
     // Replace %MATCHED_***_***% with the corresponding matched regex group: from $obj['regex_***_matched'][***]
     $name = preg_replace_callback('/%MATCHED_([^%]+)_([0-9])%/', function ($matches) use ($obj) {
         $key = 'regex_' . strtolower($matches[1]) . '_matched';
-        if(!isset($obj[$key])){
+        if (!isset($obj[$key])) {
             return '';
         }
         $index = min(count($obj[$key]) - 1, intval($matches[2]));
@@ -90,7 +90,7 @@ function format_name_from_regex_result($obj, $name_name, $details): string
     // Replace %MATCHED_***% with the corresponding matched regex group: from $obj['regex_***_matched'][0]
     return preg_replace_callback('/%MATCHED_([^%]+)%/', function ($matches) use ($obj) {
         $key = 'regex_' . strtolower($matches[1]) . '_matched';
-        if(!isset($obj[$key]) && count($obj[$key]) >= 1){
+        if (!isset($obj[$key]) && count($obj[$key]) >= 1) {
             return '';
         }
         return $obj[$key][0];
@@ -178,18 +178,18 @@ function match_type($config, $type, $details)
 function is_class_valid($class, $types): bool
 {
     foreach ($types as $type) {
-        if (isset($class[$type . '_event']) && $class[$type . '_event']){
+        if (isset($class[$type . '_event']) && $class[$type . '_event']) {
             return true;
         }
     }
-    if(in_array('*', $types)){
+    if (in_array('*', $types)) {
         // Check if the class has no type
-        if(empty(array_filter(array_keys($class), function ($key) use ($class) {
-            if(preg_match('/^.*_event$/', $key, $match)){
+        if (empty(array_filter(array_keys($class), function ($key) use ($class) {
+            if (preg_match('/^.*_event$/', $key, $match)) {
                 return isset($class[$match[0]]) && $class[$match[0]];
             }
             return false;
-        }))){
+        }))) {
             return true;
         }
     }
@@ -205,7 +205,7 @@ function is_class_valid($class, $types): bool
  * @param $config
  * @return void
  */
-function editEventAndPrint($event, $mode, $locationInSummary, $types, $config): void
+function editEventAndPrint($event, $mode, $locationInSummary, $countInSummary, $types, $config): void
 {
     $subject = strstr_between($event->description, "] ", "\n("); // Full name
     $classDetails = strstr_between($event->description, "\n(", ")\n");
@@ -234,7 +234,7 @@ function editEventAndPrint($event, $mode, $locationInSummary, $types, $config): 
     $class_info = count($explodedSummary) >= 2 ? $explodedSummary[1] : ""; // MA-TF:TD, MA-TF:CM, BDR:TD, EPS:EDT, ...
 
 
-    if(!is_class_valid($config, $types)){
+    if (!is_class_valid($config, $types)) {
         return;
     }
 
@@ -250,24 +250,27 @@ function editEventAndPrint($event, $mode, $locationInSummary, $types, $config): 
     $event_name_name = $mode == 0 ? 'full' : ($mode == 1 ? 'short' : 'code');
 
     if ($matched_type) {
-        $event->summary .= format_name_from_regex_result($matched_type, $event_name_name, $classDetails) . ' ';
+        $event->summary = format_name_from_regex_result($matched_type, 'short', $classDetails);
     } else {
-        $event->summary .= $type . ' ';
+        $event->summary = $type;
     }
+    if($countInSummary) $event->summary .= $count;
+    $event->summary .= " ";
+    
     if ($matched_class) {
         $event->summary .= format_name_from_regex_result($matched_class, $event_name_name, $classDetails);
     } else {
         $event->summary .= $subjectTag;
     }
 
-    $location = join(", ", array_map(function ($loc) use ($classDetails) {
-        return format_name_from_regex_result($loc, 'short', $classDetails);
+    $location = join(", ", array_map(function ($loc) use ($event_name_name, $classDetails) {
+        return format_name_from_regex_result($loc, $event_name_name, $classDetails);
     }, array_filter($matched_locations, function ($loc) {
         return $loc != null;
     })));
-    if ($location){
+    if ($location) {
         $event->location = $location;
-        if($locationInSummary) $event->summary .= " | " . $location;
+        if ($locationInSummary) $event->summary .= " | " . $location;
     }
 
     printEvent($event);
@@ -313,14 +316,15 @@ function getEventDataString($event): string
 }
 
 if (isset($_GET["url"])) {
-    if(!isset($_GET["types"])){
+    if (!isset($_GET["types"])) {
         $types = ["*"];
-    }else{
+    } else {
         $types = explode(",", $_GET["types"]);
     }
     $locationInSummary = isset($_GET["room"]) && $_GET["room"] != "false";
+    $countInSummary = isset($_GET["count"]) && $_GET["count"] != "false";
 
-    convertCalendar(urldecode($_GET["url"]), $_GET["mode"], $locationInSummary, $types);
+    convertCalendar(urldecode($_GET["url"]), $_GET["mode"], $locationInSummary, $countInSummary, $types);
 } else {
     header("Location: ./");
 }
