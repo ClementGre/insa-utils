@@ -32,7 +32,7 @@ function convertCalendar($url, $mode, $cleanDescription, $locationInSummary, $co
         );
 
         header("Content-type:text/text");
-//        header("Content-Disposition:attachment;filename=edt_insa.ics");
+        header("Content-Disposition:attachment;filename=edt_insa.ics");
 
         echo "BEGIN:VCALENDAR\r\n";
         echo "METHOD:REQUEST\r\n";
@@ -182,9 +182,10 @@ function is_class_valid($class, $types): bool
 function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary, $countInSummary, $types, $config): void
 {
     $subject = ''; // Full name, between ] and \n(
-    if (preg_match('/](.*?)\n\(/', $event->description, $matches)) {
+    if (preg_match('/]\s(.*?)\n\(/', $event->description, $matches)) {
         $subject = $matches[1];
     }
+
     $classDetails = ''; // between \n( and )\n
     if (preg_match('/\n\((.*?)\)\n/', $event->description, $matches)) {
         $classDetails = $matches[1];
