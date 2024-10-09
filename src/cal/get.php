@@ -61,7 +61,7 @@ function convertCalendar($url, $mode, $cleanDescription, $locationInSummary, $co
         );
 
         header("Content-type:text/text");
-        header("Content-Disposition:attachment;filename=edt_insa.ics");
+//        header("Content-Disposition:attachment;filename=edt_insa.ics");
 
         echo "BEGIN:VCALENDAR\r\n";
         echo "METHOD:REQUEST\r\n";
@@ -210,8 +210,14 @@ function is_class_valid($class, $types): bool
  */
 function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary, $countInSummary, $types, $config): void
 {
-    $subject = strstr_between($event->description, "] ", "\n("); // Full name
-    $classDetails = strstr_between($event->description, "\n(", ")\n");
+    $subject = ''; // Full name, between ] and \n(
+    if (preg_match('/](.*?)\n\(/', $event->description, $matches)) {
+        $subject = $matches[1];
+    }
+    $classDetails = ''; // between \n( and )\n
+    if (preg_match('/\n\((.*?)\)\n/', $event->description, $matches)) {
+        $classDetails = $matches[1];
+    }
 
     $explodedSummary = explode("::", $event->summary); // Exploding  FIMI:2:S1::MA-TF:TD::048 #011 into [FIMI:2:S1, MA-TF:TD, 048]
 
@@ -277,8 +283,9 @@ function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary,
     }
 
     if ($cleanDescription) {
-        $event->description = removeFirstNLines($event->description, 4);
-        if($classDetails) $event->description = $classDetails . '\n' . $event->description;
+        $event->description = removeFirstNLines($event->description, 3);
+        if($classDetails) $event->description = $classDetails . '\n\n' . $event->description;
+        else $event->description = '\n' . $event->description;
         $event->description = $subject . ' ' . $full_count . '\n' . $event->description;
     }
 
