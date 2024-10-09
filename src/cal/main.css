@@ -52,3 +52,9 @@ form div.types > div > label{
     cursor: pointer;
     width: 100%;
 }
+
+p.cal-link {
+    margin: 0;
+    word-break: break-all;
+    text-align: left !important;
+}

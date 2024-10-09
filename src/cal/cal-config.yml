@@ -1,6 +1,5 @@
 # Events are formatted as follows:
-# Title: [location name] [class name]( - [location])
-# Description: [class full name]\n[N°count]\n\n[original description]
+# Title: [location name] [class name]( | [location])
 
 # Required names:
 # - full

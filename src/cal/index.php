@@ -17,12 +17,14 @@ $sample_url = 'https://ade-outils.insa-lyon.fr/ADE-Cal:~jgarzer!' . $year . '-' 
 
 $url = '';
 if(isset($_GET['url'])) $url = urldecode($_GET['url']);
-$mode = '';
+$mode = 1;
 if(isset($_GET['mode'])) $mode = urldecode($_GET['mode']);
-$room = '';
-if(isset($_GET['room'])) $room = urldecode($_GET['room']);
-$count = '';
-if(isset($_GET['count'])) $count = urldecode($_GET['count']);
+$room = false;
+if(isset($_GET['room']) && $_GET['room']) $room = true;
+$count = true;
+if(isset($_GET['count']) && $_GET['count']) $count = true;
+$clean_desc = true;
+if(isset($_GET['desc']) && $_GET['desc']) $clean_desc = true;
 
 $types = Yaml::parseFile('cal-config.yml')['event_type'];
 $selected_types = [];
@@ -88,6 +90,10 @@ $selected_types = [];
                 <input id="count-checkbox" type="checkbox" name="count" value="true" <?= $count ? 'checked' : '' ?>>
                 <label for="count-checkbox">Afficher le numéro du cours dans le nom des évènements</label>
             </div>
+            <div>
+                <input id="desc-checkbox" type="checkbox" name="desc" value="true" <?= $clean_desc ? 'checked' : '' ?>>
+                <label for="desc-checkbox">Mettre en forme la description des évènements</label>
+            </div>
             <br>
 
             <div class="submit">
@@ -98,12 +104,15 @@ $selected_types = [];
         <?php
         if(isset($_GET['url'])){
             $mode = $mode != 0 ? '&mode=' . $mode : '';
+            $desc = $clean_desc ? '&desc=true' : '';
             $room = $room ? '&room=true' : '';
             $count = $count ? '&count=true' : '';
-            $url = 'https://insa-utils.fr/cal/get.php?url=' . $url . $mode . $room . $count . "&types=" . implode(',', $selected_types);
+            $url = 'https://insa-utils.fr/cal/get.php?url=' . $url . $mode . $desc . $room . $count . "&types=" . implode(',', $selected_types);
             ?>
             <h3>URL de ton calendrier convertis (nouvel abonnement iCal) :</h3>
-            <?php echo '<a style="word-break: break-all" href="' . $url . '">' . $url . '</a>'; ?>
+            <p class="cal-link">
+                <?php echo '<a href="' . $url . '">' . $url . '</a>'; ?>
+            </p>
             <?php
         }
         ?>

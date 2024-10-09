@@ -5,6 +5,13 @@ use ICal\ICal;
 use Symfony\Component\Yaml\Yaml;
 
 
+function removeFirstNLines(string $text, int $n): string
+{
+    $lines = explode(PHP_EOL, $text);
+    $remainingLines = array_slice($lines, $n);
+    return implode(PHP_EOL, $remainingLines);
+}
+
 function strstr_after($string, $needle): string
 {
     $result = substr(strstr($string, $needle), strlen($needle));
@@ -33,7 +40,7 @@ function get_after_last_occurrence_of($string, $needle): string
     return substr($string, strrpos($needle . $string, $needle));
 }
 
-function convertCalendar($url, $mode, $locationInSummary, $countInSummary, $types): void
+function convertCalendar($url, $mode, $cleanDescription, $locationInSummary, $countInSummary, $types): void
 {
     try {
         $ical = new ICal("ICal.ics", [
@@ -64,7 +71,7 @@ function convertCalendar($url, $mode, $locationInSummary, $countInSummary, $type
 
         $config = Yaml::parseFile('cal-config.yml');
         foreach ($ical->events() as $i => $event) {
-            editEventAndPrint($event, $mode, $locationInSummary, $countInSummary, $types, $config);
+            editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary, $countInSummary, $types, $config);
         }
 
         echo "END:VCALENDAR\r\n";
@@ -186,7 +193,7 @@ function match_type($config, $type, $subject, $details)
  */
 function is_class_valid($class, $types): bool
 {
-    if(!isset($class['type'])){
+    if (!isset($class['type'])) {
         return in_array('*', $types);
     }
     return in_array($class['type'], $types);
@@ -201,7 +208,7 @@ function is_class_valid($class, $types): bool
  * @param $config
  * @return void
  */
-function editEventAndPrint($event, $mode, $locationInSummary, $countInSummary, $types, $config): void
+function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary, $countInSummary, $types, $config): void
 {
     $subject = strstr_between($event->description, "] ", "\n("); // Full name
     $classDetails = strstr_between($event->description, "\n(", ")\n");
@@ -213,8 +220,8 @@ function editEventAndPrint($event, $mode, $locationInSummary, $countInSummary, $
     $explodedGroupAndCount = count($explodedSummary) >= 3 ? explode(" ", $explodedSummary[2]) : []; // [3IF3, #011]
 
     $group = count($explodedGroupAndCount) >= 1 ? $explodedGroupAndCount[0] : ""; // 3IF3, 221, ...
-    $count = count($explodedGroupAndCount) >= 2 ? $explodedGroupAndCount[1] : ""; // #001, #011, ...
-    $count = str_replace("#", "", $count); // 011, 003, ...
+    $full_count = count($explodedGroupAndCount) >= 2 ? $explodedGroupAndCount[1] : ""; // #001, #011, ...
+    $count = str_replace("#", "", $full_count); // 011, 003, ...
     $count = intval($count); // 11, 3, ...
 
     $department = count($explodedFormationDetails) >= 1 ? $explodedFormationDetails[0] : ""; // FIMI, IF, GI, ...
@@ -249,7 +256,7 @@ function editEventAndPrint($event, $mode, $locationInSummary, $countInSummary, $
         $event_type_formatted = $type;
     }
     $event->summary = $event_type_formatted ?: "";
-    if($countInSummary && $event_type_formatted) $event->summary .= $count;
+    if ($countInSummary && $event_type_formatted) $event->summary .= $count;
     $event->summary .= $event_type_formatted ? " " : "";
 
     if ($matched_class) {
@@ -258,7 +265,7 @@ function editEventAndPrint($event, $mode, $locationInSummary, $countInSummary, $
         $event->summary .= $subjectTag;
     }
 
-    if($event_name_name == 'code') $event_name_name = 'short'; // locations does not have code names
+    if ($event_name_name == 'code') $event_name_name = 'short'; // locations does not have code names
     $location = join(", ", array_map(function ($loc) use ($event_name_name, $classDetails) {
         return format_name_from_regex_result($loc, $event_name_name, $classDetails);
     }, array_filter($matched_locations, function ($loc) {
@@ -267,6 +274,12 @@ function editEventAndPrint($event, $mode, $locationInSummary, $countInSummary, $
     if ($location) {
         $event->location = $location;
         if ($locationInSummary) $event->summary .= " | " . $location;
+    }
+
+    if ($cleanDescription) {
+        $event->description = removeFirstNLines($event->description, 3);
+        if($classDetails) $event->description = $classDetails . '\n' . strstr_after($event->description, "\n");
+        $event->description = $subject . ' ' . $full_count . '\n' . strstr_after($event->description, "\n");
     }
 
     printEvent($event);
@@ -317,10 +330,11 @@ if (isset($_GET["url"])) {
     } else {
         $types = explode(",", $_GET["types"]);
     }
+    $cleanDescription = isset($_GET["desc"]) && $_GET["desc"] != "false";
     $locationInSummary = isset($_GET["room"]) && $_GET["room"] != "false";
     $countInSummary = isset($_GET["count"]) && $_GET["count"] != "false";
 
-    convertCalendar(urldecode($_GET["url"]), $_GET["mode"], $locationInSummary, $countInSummary, $types);
+    convertCalendar(urldecode($_GET["url"]), $_GET["mode"], $cleanDescription, $locationInSummary, $countInSummary, $types);
 } else {
     header("Location: ./");
 }
