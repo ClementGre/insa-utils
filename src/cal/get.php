@@ -258,6 +258,7 @@ function editEventAndPrint($event, $mode, $locationInSummary, $countInSummary, $
         $event->summary .= $subjectTag;
     }
 
+    if($event_name_name == 'code') $event_name_name = 'short'; // locations does not have code names
     $location = join(", ", array_map(function ($loc) use ($event_name_name, $classDetails) {
         return format_name_from_regex_result($loc, $event_name_name, $classDetails);
     }, array_filter($matched_locations, function ($loc) {

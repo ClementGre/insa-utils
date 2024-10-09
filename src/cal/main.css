@@ -14,7 +14,10 @@ main p.info{
 form {
     text-align: left;
 }
-form p{
+form p, h3{
+    text-align: left;
+    font-size: 16px;
+    font-weight: normal;
     margin: 10px 0 5px 0;
 }
 form select, form input[type="text"]{

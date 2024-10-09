@@ -49,17 +49,17 @@ $selected_types = [];
         </p>
 
         <form action="./" method="get">
-            <p>URL de ton calendrier ADE (lien abonnement iCal)&#8239;:</p>
+            <h3>URL de ton calendrier ADE (lien abonnement iCal)&#8239;:</h3>
             <input class="url-input" type="text" name="url" value="<?= $url ?>" placeholder="<?= $sample_url ?>">
 
-            <p>Mode d'affichage des évènements&#8239;:</p>
+            <h3>Mode d'affichage des évènements&#8239;:</h3>
             <select name="mode">
                 <option value="0" <?= $mode == 0 ? 'selected' : '' ?>>Nom complet (Mathématiques, Thermodynamique...)</option>
                 <option value="1" <?= $mode == 1 ? 'selected' : '' ?>>Nom court (Maths, Thermo...)</option>
                 <option value="2" <?= $mode == 2 ? 'selected' : '' ?>>Nom acronyme (MA, TH...)</option>
             </select>
 
-            <p>Types d'évènements à afficher&#8239;:</p>
+            <h3>Types d'évènements à afficher&#8239;:</h3>
             <div class="types">
                 <?php
                 foreach ($types as $type) {
@@ -79,14 +79,14 @@ $selected_types = [];
                 ?>
             </div>
 
-            <p>Options&#8239;:</p>
+            <h3>Options&#8239;:</h3>
             <div>
                 <input id="room-checkbox" type="checkbox" name="room" value="true" <?= $room ? 'checked' : '' ?>>
-                <label for="room-checkbox">Afficher le nom de la salle dans le nom des évènements.</label>
+                <label for="room-checkbox">Afficher le nom de la salle dans le nom des évènements</label>
             </div>
             <div>
                 <input id="count-checkbox" type="checkbox" name="count" value="true" <?= $count ? 'checked' : '' ?>>
-                <label for="count-checkbox">Afficher le numéro du cours dans le nom.</label>
+                <label for="count-checkbox">Afficher le numéro du cours dans le nom des évènements</label>
             </div>
             <br>
 
@@ -97,15 +97,13 @@ $selected_types = [];
 
         <?php
         if(isset($_GET['url'])){
-            $mode = $mode ? '&mode=true' : '';
+            $mode = $mode != 0 ? '&mode=' . $mode : '';
             $room = $room ? '&room=true' : '';
             $count = $count ? '&count=true' : '';
             $url = 'https://insa-utils.fr/cal/get.php?url=' . $url . $mode . $room . $count . "&types=" . implode(',', $selected_types);
             ?>
-            <p>
-                URL de ton calendrier convertis (nouvel abonnement iCal) :<br>
-                <span style="word-break: break-all"><?php echo '<a href="' . $url . '">' . $url . '</a>'; ?></span>
-            </p>
+            <h3>URL de ton calendrier convertis (nouvel abonnement iCal) :</h3>
+            <?php echo '<a style="word-break: break-all" href="' . $url . '">' . $url . '</a>'; ?>
             <?php
         }
         ?>
