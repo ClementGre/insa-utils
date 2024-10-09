@@ -31,16 +31,10 @@ event_type:
   - full_name: "FIMI : P2I"
     code: "p2i"
     default: true
-  - full_name: "Évènements non reconnus"
+  - full_name: "Évènements non reconnus et créneaux groupes"
     code: "other"
     default: true
-  - full_name: "TP"
-    code: "other"
-    default: true
-  - full_name: "TD"
-    code: "other"
-    default: true
-  - full_name: "Autres évènements"
+  - full_name: "Évènements classiques"
     code: "*"
     default: true
 
