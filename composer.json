@@ -10,7 +10,8 @@
       "ext-mbstring": "*",
         "meilisearch/meilisearch-php": "^1.2",
         "guzzlehttp/guzzle": "^7.7",
-        "http-interop/http-factory-guzzle": "^1.0"
+        "http-interop/http-factory-guzzle": "^1.0",
+        "symfony/yaml": "^7.1"
     },
     "authors": [
         {

@@ -1,0 +1,339 @@
+# Events are formatted as follows:
+# Title: [location name] [class name]( - [location])
+# Description: [class full name]\n[N°count]\n\n[original description]
+
+# Required names:
+# - full
+# A class can specify a type setting a property [selector]_event: true.
+event_type:
+  - full_name: "Langues"
+    selector: "language"
+  - full_name: "Sport"
+    selector: "sport"
+  - full_name: "Soutien"
+    selector: "support"
+  - full_name: "FIMI : P2I"
+    selector: "p2i"
+  - full_name: "Autres évènements"
+    selector: "other"
+  - full_name: "Évènement normaux"
+    selector: "*"
+
+# Required names:
+# - full
+# - short
+# Available variable inside names:
+# - %MATCHED_TYPE (matched type regex, add _i to get the match group n°i)
+# - %DETAILS% (class details)
+# Available regexes to match locations (work in conjunction):
+# - type_regex (over location)
+# - details_regex (over class details)
+types:
+  - full_name: "Travail Dirigé"
+    short_name: "TD"
+    class_regex: "^TD$"
+  - full_name: "Cour Magistral"
+    short_name: "CM"
+    class_regex: "^CM$"
+  - full_name: "Travail Pratique"
+    short_name: "TP"
+    class_regex: "^TP$"
+  - full_name: "Soutien"
+    short_name: "Soutien"
+    type_regex: "^TA$"
+
+# Required names:
+# - full
+# - short
+# Available variable inside names:
+# - %MATCHED_LOCATION% (matched location regex, add _i to get the match group n°i)
+# - %MATCHED_DETAILS% (matched details regex, add _i to get the match group n°i)
+# - %DETAILS% (class details)
+# Available regexes to match locations (work in conjunction):
+# - location_regex (over location)
+# - details_regex (over class details)
+locations:
+  - full_name: "Amphithéâtre Jean Capelle"
+    short_name: "Amphi Capelle"
+    details_regex: "Amphi Capelle"
+  - full_name: "Amphithéâtre %MATCHED_LOCATION_2% %MATCHED_LOCATION_3%"
+    short_name: "Amphi %MATCHED_LOCATION_3%"
+    location_regex: "^(?:[0-9]+\\s-\\sAmphithéâtre\\s[A-Za-zÀ-ÿ]+)(\\s[A-Za-zÀ-ÿ]+)$"
+  - full_name: "Amphithéâtre %MATCHED_LOCATION_2%"
+    short_name: "Amphi %MATCHED_LOCATION_2%"
+    location_regex: "^(?:[0-9]+\\s-\\sAmphithéâtre)(.+)$$"
+  - full_name: "%MATCHED_LOCATION_2%"
+    short_name: "%MATCHED_LOCATION_2%"
+    location_regex: "^(?:^[0-9]+\\s-\\s)(.+)$"
+
+# Available names:
+# - full
+# - short
+# - code
+# Available variable inside names:
+# - %MATCHED_GROUP% (matched group regex, add _i to get the match group n°i)
+# - %MATCHED_CLASS% (matched class regex, add _i to get the match group n°i)
+# - %MATCHED_DETAILS% (matched details regex, add _i to get the match group n°i)
+# - %DETAILS% (class details)
+# Available regexes to match class groups:
+# - group_regex (over Department:Year:Semester:Group)
+# Available regexes to match classes (work in conjunction):
+# - class_regex (over SubjectTag:Type)
+# - details_regex (over class details)
+class_groups:
+  - name: "FIMI"
+    group_regex: "^FIMI(?=:.*)"
+    classes:
+      - full_name: "Physique"
+        short_name: "Physique"
+        code_name: "PH"
+        class_regex: "^PH(?=[-:]|$)"
+      - full_name: "Mathématiques"
+        short_name: "Maths"
+        code_name: "MA"
+        class_regex: "^MA(?=[-:]|$)"
+      - full_name: "Conception"
+        short_name: "Concep"
+        code_name: "CO|CP"
+        class_regex: "^(CO|CP)(?=[-:]|$)"
+      - full_name: "Chimie"
+        short_name: "Chimie"
+        code_name: "CH"
+        class_regex: "^CH(?=[-:]|$)"
+      - full_name: "Thermodynamique"
+        short_name: "Thermo"
+        code_name: "TH"
+        class_regex: "^TH(?=[-:]|$)"
+      - full_name: "Mécanique"
+        short_name: "Méca"
+        code_name: "MS"
+        class_regex: "^MS(?=[-:]|$)"
+      - full_name: "Anglais"
+        short_name: "Anglais"
+        code_name: "ANG"
+        language_event: true
+        class_regex: "^ANG(?=[-:]|$)"
+      - full_name: "Sport"
+        short_name: "Sport"
+        code_name: "EPS"
+        sport_event: true
+        class_regex: "^EPS(?=[-:]|$)"
+      - full_name: "P2I"
+        short_name: "P2I"
+        code_name: "P2I"
+        p2i_event: true
+        class_regex: "^\\*:EDT$"
+        details_regex: "^Créneau P2i$"
+      - full_name: "%DETAILS%"
+        short_name: "%DETAILS%"
+        code_name: "%DETAILS%"
+        other_event: true
+        class_regex: "^\\*:EDT$"
+
+  - name: "IF"
+    group_regex: "^IF(?=:.*)"
+    classes:
+      - full_name: "Architecture des circuits numériques"
+        short_name: "Archi Circuit"
+        code_name: "AC"
+        class_regex: "^AC(?=[-:]|$)"
+      - full_name: "Architecture des ordinateurs"
+        short_name: "Archi Ordi"
+        code_name: "AO"
+        class_regex: "^AO(?=[-:]|$)"
+      - full_name: "Programmation en C"
+        short_name: "Prog C"
+        code_name: "PRC"
+        class_regex: "^PRC(?=[-:]|$)"
+      - full_name: "Algorithmes et structures de données"
+        short_name: "Algo"
+        code_name: "ALGO"
+        class_regex: "^ALGO(?=[-:]|$)"
+      - full_name: "Programmation Orientée Objet - C++ - Les Bases"
+        short_name: "C++ Bases"
+        code_name: "POO1"
+        class_regex: "^POO1(?=[-:]|$)"
+      - full_name: "Programmation Orientée Objet - C++ - Avancée"
+        short_name: "C+ Avancée"
+        code_name: "POO2"
+        class_regex: "^POO2(?=[-:]|$)"
+      - full_name: "Outils de Programmation"
+        short_name: "Outils Prog"
+        code_name: "OP"
+        class_regex: "^OP(?=[-:]|$)"
+      - full_name: "Calcul matriciel et synthèse d'images"
+        short_name: "Calcul matriciel"
+        code_name: "CMSI"
+        class_regex: "^CMSI(?=[-:]|$)"
+      - full_name: "Traitement du Signal et des Images"
+        short_name: "Traitement du signal"
+        code_name: "TSI"
+        class_regex: "^TSI(?=[-:]|$)"
+      - full_name: "Modélisation des données"
+        short_name: "Mod. données"
+        code_name: "MD"
+        class_regex: "^MD(?=[-:]|$)"
+      - full_name: "Modélisation des Processus"
+        short_name: "Mod. process"
+        code_name: "MP"
+        class_regex: "^MP(?=[-:]|$)"
+      - full_name: "Système de gestion de base de données"
+        short_name: "SGBD"
+        code_name: "BDR"
+        class_regex: "^BDR(?=[-:]|$)"
+      - full_name: "Sciences Humaines et Communication"
+        short_name: "Com"
+        code_name: "SHC1"
+        class_regex: "^SHC1(?=[-:]|$)"
+      - full_name: "Projet Personnel et Professionnel"
+        short_name: "Projet P&P"
+        code_name: "PPP1"
+        class_regex: "^PPP1(?=[-:]|$)"
+      - full_name: "Langue Vivante 1"
+        short_name: "LV1"
+        code_name: "LV1"
+        language_event: true
+        class_regex: "^LV1(?=[-:]|$)"
+      - full_name: "Langue Vivante 2"
+        short_name: "LV2"
+        code_name: "LV2"
+        language_event: true
+        class_regex: "^LV2(?=[-:]|$)"
+      - full_name: "Éducation Physique et Sportive"
+        short_name: "EPS"
+        code_name: "EPS"
+        sport_event: true
+        class_regex: "^EPS(?=[-:]|$)"
+      - full_name: "Programmation Orientée Objet - C++ - Les Bases"
+        short_name: "C++ Bases"
+        code_name: "POO1"
+        support_event: true
+        class_regex: "^POO1:TA(?=[-:]|$)"
+      - full_name: "Architecture des circuits numériques"
+        short_name: "Archi Circuit"
+        code_name: "AC"
+        support_event: true
+        class_regex: "^AC:TA(?=[-:]|$)"
+      - full_name: "%DETAILS%"
+        short_name: "%DETAILS%"
+        code_name: "%DETAILS%"
+        other_event: true
+        class_regex: "^\\*:EDT$"
+
+  - name: "GI"
+    group_regex: "^GI(?=:.*)"
+    classes:
+      - full_name: "Gestion industrielle"
+        short_name: "Gestion indus."
+        code_name: "GIN"
+        class_regex: "^GIN(?=[-:]|$)"
+      - full_name: "Systèmes automatisés de production"
+        short_name: "Systèmes prod."
+        code_name: "APS"
+        class_regex: "^APS(?=[-:]|$)"
+      - full_name: "Algorithmique, programmation et modélisation en UML"
+        short_name: "Algo"
+        code_name: "APM"
+        class_regex: "^APM(?=[-:]|$)"
+      - full_name: "Recherche Opérationnelle"
+        short_name: "Recherche Op."
+        code_name: "ROO"
+        class_regex: "^ROO(?=[-:]|$)"
+      - full_name: "Probabilités, statistiques, plans d'expériences"
+        short_name: "Proba"
+        code_name: "PSX"
+        class_regex: "^PSX(?=[-:]|$)"
+      - full_name: "Résistance Des Matériaux"
+        short_name: "RDM"
+        code_name: "RDM"
+        class_regex: "^RDM(?=[-:]|$)"
+      - full_name: "Procédés de fabrication, industrialisation"
+        short_name: "Procédés fab."
+        code_name: "PFI"
+        class_regex: "^PFI(?=[-:]|$)"
+      - full_name: "Penser système et cycle de vie"
+        short_name: "Cycle de vie"
+        code_name: "PSC"
+        class_regex: "^PSC(?=[-:]|$)"
+      - full_name: "Théâtre Sciences humaines et Communication"
+        short_name: "Théâtre SHC"
+        code_name: "COM"
+        class_regex: "^COM(?=[-:]|$)"
+      - full_name: "Projet Personnel Professionnel"
+        short_name: "Projet P&P"
+        code_name: "PPP"
+        class_regex: "^PPP(?=[-:]|$)"
+      - full_name: "Langue Vivante 1"
+        short_name: "LV1"
+        code_name: "LV1"
+        language_event: true
+        class_regex: "^LV1(?=[-:]|$)"
+      - full_name: "Langue Vivante 2"
+        short_name: "LV2"
+        code_name: "LV2"
+        language_event: true
+        class_regex: "^LV2(?=[-:]|$)"
+      - full_name: "Éducation Physique et Sportive"
+        short_name: "EPS"
+        code_name: "EPS"
+        sport_event: true
+        class_regex: "^EPS(?=[-:]|$)"
+      - full_name: "%DETAILS%"
+        short_name: "%DETAILS%"
+        code_name: "%DETAILS%"
+        other_event: true
+        class_regex: "^\\*:EDT$"
+
+
+  - name: "HU"
+    group_regex: "^HU(?=:.*)"
+    classes:
+      - full_name: "Allemand"
+        short_name: "Allemand"
+        code_name: "ALL"
+        class_regex: "^ALL(?=[-:]|$)"
+      - full_name: "Anglais"
+        short_name: "Anglais"
+        code_name: "ANG"
+        class_regex: "^ANG(?=[-:]|$)"
+      - full_name: "Arabe"
+        short_name: "Arabe"
+        code_name: "ARA"
+        class_regex: "^ARA(?=[-:]|$)"
+      - full_name: "Chinois"
+        short_name: "Chinois"
+        code_name: "CHI"
+        class_regex: "^CHI(?=[-:]|$)"
+      - full_name: "Espagnol"
+        short_name: "Espagnol"
+        code_name: "ESP"
+        class_regex: "^ESP(?=[-:]|$)"
+      - full_name: "Français Langue Étrangère"
+        short_name: "FLE"
+        code_name: "FLE"
+        class_regex: "^FLE(?=[-:]|$)"
+      - full_name: "Italien"
+        short_name: "Italien"
+        code_name: "ITA"
+        class_regex: "^ITA(?=[-:]|$)"
+      - full_name: "Japonais"
+        short_name: "Japonais"
+        code_name: "JAP"
+        class_regex: "^JAP(?=[-:]|$)"
+      - full_name: "Portugais"
+        short_name: "Portugais"
+        code_name: "POR"
+        class_regex: "^POR(?=[-:]|$)"
+      - full_name: "Russe"
+        short_name: "Russe"
+        code_name: "RUS"
+        class_regex: "^RUS(?=[-:]|$)"
+      - full_name: "Tandem"
+        short_name: "Tandem"
+        code_name: "TAN"
+        class_regex: "^TAN(?=[-:]|$)"
+      - full_name: "%DETAILS%"
+        short_name: "%DETAILS%"
+        code_name: "%DETAILS%"
+        other_event: true
+        class_regex: "^\\*:EDT$"

@@ -2,6 +2,8 @@
 require "../../vendor/autoload.php";
 
 use ICal\ICal;
+use Symfony\Component\Yaml\Yaml;
+
 
 function strstr_after($string, $needle): string
 {
@@ -31,7 +33,7 @@ function get_after_last_occurrence_of($string, $needle): string
     return substr($string, strrpos($needle . $string, $needle));
 }
 
-function convertCalendar($url, $mode, $room): void
+function convertCalendar($url, $mode, $locationInSummary, $types): void
 {
     try {
         $ical = new ICal("ICal.ics", [
@@ -51,8 +53,8 @@ function convertCalendar($url, $mode, $room): void
             $userAgent = null
         );
 
-        header("Content-type:text/calendar");
-        header("Content-Disposition:attachment;filename=edt_insa.ics");
+        header("Content-type:text/text");
+//        header("Content-Disposition:attachment;filename=edt_insa.ics");
 
         echo "BEGIN:VCALENDAR\r\n";
         echo "METHOD:REQUEST\r\n";
@@ -60,8 +62,9 @@ function convertCalendar($url, $mode, $room): void
         echo "VERSION:2.0\r\n";
         echo "CALSCALE:GREGORIAN\r\n";
 
+        $config = Yaml::parseFile('cal-config.yml');
         foreach ($ical->events() as $i => $event) {
-            editEventAndPrint($event, $mode, $room);
+            editEventAndPrint($event, $mode, $locationInSummary, $types, $config);
         }
 
         echo "END:VCALENDAR\r\n";
@@ -70,171 +73,202 @@ function convertCalendar($url, $mode, $room): void
     }
 }
 
-function editEventAndPrint($event, $mode, $room)
+function format_name_from_regex_result($obj, $name_name, $details): string
+{
+    $name = $obj[$name_name . '_name'];
+    $name = str_replace('%DETAILS%', $details, $name);
+
+    // Replace %MATCHED_***_***% with the corresponding matched regex group: from $obj['regex_***_matched'][***]
+    $name = preg_replace_callback('/%MATCHED_([^%]+)_([0-9])%/', function ($matches) use ($obj) {
+        $key = 'regex_' . strtolower($matches[1]) . '_matched';
+        if(!isset($obj[$key])){
+            return '';
+        }
+        $index = min(count($obj[$key]) - 1, intval($matches[2]));
+        return $obj[$key][$index];
+    }, $name);
+    // Replace %MATCHED_***% with the corresponding matched regex group: from $obj['regex_***_matched'][0]
+    return preg_replace_callback('/%MATCHED_([^%]+)%/', function ($matches) use ($obj) {
+        $key = 'regex_' . strtolower($matches[1]) . '_matched';
+        if(!isset($obj[$key]) && count($obj[$key]) >= 1){
+            return '';
+        }
+        return $obj[$key][0];
+    }, $name);
+}
+
+/**
+ * Tries to match a regex configured in $object and named $regex_name with the text $text
+ * If the regex is found, the matched text is stored in $object['regex_' . $regex_name . '_matched']
+ * @param $object mixed object to work on
+ * @param $regex_name string of the regex to match
+ * @param $text string to match the regex with
+ * @return bool true if the regex has matched or is invalid, false otherwise
+ */
+function match_regex_and_update(&$object, $regex_name, $text): bool
+{
+    if (!isset($object[$regex_name . '_regex'])) {
+        $object['regex_' . $regex_name . '_matched'] = $text;
+        return true;
+    }
+    if (preg_match('/' . $object[$regex_name . '_regex'] . '/', $text, $matched)) {
+        $object['regex_' . $regex_name . '_matched'] = $matched;
+        return true;
+    }
+    return false;
+}
+
+// Function to match a class group from the YAML config
+function match_class($config, $group_info, $class_info, $details)
+{
+    foreach ($config['class_groups'] as $group) {
+        if (!match_regex_and_update($group, 'group', $group_info)) {
+            continue;
+        }
+        foreach ($group['classes'] as $class) {
+            if (!match_regex_and_update($class, 'class', $class_info)) {
+                continue;
+            }
+            if (!match_regex_and_update($class, 'details', $details)) {
+                continue;
+            }
+            $class['regex_group_matched'] = $group['regex_group_matched'];
+            return $class;
+        }
+    }
+    return null;
+}
+
+// Function to match location from YAML config
+function match_location($config, $location, $details)
+{
+    foreach ($config['locations'] as $loc) {
+        if (!match_regex_and_update($loc, 'location', $location)) {
+            continue;
+        }
+        if (!match_regex_and_update($loc, 'details', $details)) {
+            continue;
+        }
+        return $loc;
+    }
+    return null;
+}
+
+// Function to match type from YAML config
+function match_type($config, $type, $details)
+{
+    foreach ($config['types'] as $t) {
+        if (!match_regex_and_update($t, 'type', $type)) {
+            continue;
+        }
+        if (!match_regex_and_update($t, 'details', $details)) {
+            continue;
+        }
+        return $t;
+    }
+    return null;
+}
+
+
+/**
+ * @param $class mixed YAML class object
+ * @param $types array of types to accept
+ * @return bool true if the class has one of the types in types, or if class has no type and * is in types, false otherwise
+ */
+function is_class_valid($class, $types): bool
+{
+    foreach ($types as $type) {
+        if (isset($class[$type . '_event']) && $class[$type . '_event']){
+            return true;
+        }
+    }
+    if(in_array('*', $types)){
+        // Check if the class has no type
+        if(empty(array_filter(array_keys($class), function ($key) use ($class) {
+            if(preg_match('/^.*_event$/', $key, $match)){
+                return isset($class[$match[0]]) && $class[$match[0]];
+            }
+            return false;
+        }))){
+            return true;
+        }
+    }
+    return false;
+}
+
+
+/**
+ * @param $event
+ * @param $mode 0 = full name, 1 = short, 2 = default
+ * @param $locationInSummary
+ * @param $types mixed list of event type selectors to include: language, support, other... "*" to include events that has no type.
+ * @param $config
+ * @return void
+ */
+function editEventAndPrint($event, $mode, $locationInSummary, $types, $config): void
 {
     $subject = strstr_between($event->description, "] ", "\n("); // Full name
     $classDetails = strstr_between($event->description, "\n(", ")\n");
 
-    $firstExplodedSummary = explode("::", $event->summary); // Exploding  FIMI:2:S1::MA-TF:TD::048 #011 into [FIMI:2:S1, MA-TF:TD, 048]
-    $explodedSummary = [];
-    $explodedFormationDetails = [];
+    $explodedSummary = explode("::", $event->summary); // Exploding  FIMI:2:S1::MA-TF:TD::048 #011 into [FIMI:2:S1, MA-TF:TD, 048]
 
-    if (count($firstExplodedSummary) >= 2) {
-        $explodedSummary = explode(":", $firstExplodedSummary[1]); // [MA-TF, TD]
-        $explodedFormationDetails = explode(":", $firstExplodedSummary[0]); // [FIMI, 2, S1]
-    }
+    $explodedFormationDetails = count($explodedSummary) >= 1 ? explode(":", $explodedSummary[0]) : []; // [FIMI, 2, S1]
+    $explodedSubject = count($explodedSummary) >= 2 ? explode(":", $explodedSummary[1]) : []; // [MA-TF, TD]
+    $explodedGroupAndCount = count($explodedSummary) >= 3 ? explode(" ", $explodedSummary[2]) : []; // [3IF3, #011]
 
-    $formation = count count($explodedFormationDetails) >= 2 ? $explodedFormationDetails[0] : ""; // FIMI, IF, GI
-    $subjectTag = count($explodedSummary) >= 1 ? $explodedSummary[0] : ""; // MA-TF
-    $type = count($explodedSummary) >= 2 ? $explodedSummary[1] : null; // CM, TD, TP, EV => IE, EDT => Autre
+    $group = count($explodedGroupAndCount) >= 1 ? $explodedGroupAndCount[0] : ""; // 3IF3, 221, ...
+    $count = count($explodedGroupAndCount) >= 2 ? $explodedGroupAndCount[1] : ""; // #001, #011, ...
+    $count = str_replace("#", "", $count); // 011, 003, ...
+    $count = intval($count); // 11, 3, ...
 
-    if (
-        $subjectTag === "SOU" ||
-        $subjectTag === "LV" ||
-        ($subjectTag == "EPS" && $type == "EDT") ||
-        ($subjectTag == "*" && $type == "EDT" && $classDetails == "Créneau P2i")
-    ) {
-        // Matières à ne pas afficher : Créneaux Soutien, Langues et Sport
+    $department = count($explodedFormationDetails) >= 1 ? $explodedFormationDetails[0] : ""; // FIMI, IF, GI, ...
+    $year = count($explodedFormationDetails) >= 2 ? $explodedFormationDetails[1] : ""; // 1, 2, 3, 4, 5
+    $semester = count($explodedFormationDetails) >= 3 ? $explodedFormationDetails[2] : ""; // S1, S2
+
+    $subjectTag = count($explodedSubject) >= 1 ? $explodedSubject[0] : ""; // MA-TF, ...
+    $type = count($explodedSubject) >= 2 ? $explodedSubject[1] : null; // CM, TD, TP, EV => IE, EDT => Autre, PR => Projet
+
+    // Information about the group used in the group regex: Department:Year:Semester:Group
+    $group_info = count($explodedSummary) >= 1 ? $explodedSummary[0] . ':' . $group : ""; // FIMI:2:S2:221, FIMI:2:S2:048, IF:3:S1:3IF3, ...
+    // Information about the class: SubjectTag:Type
+    $class_info = count($explodedSummary) >= 2 ? $explodedSummary[1] : ""; // MA-TF:TD, MA-TF:CM, BDR:TD, EPS:EDT, ...
+
+
+    if(!is_class_valid($config, $types)){
         return;
     }
-    $p2i_number = "";
-    if (str_starts_with($subjectTag, "P2I")) {
-        $p2i_number = substr($subjectTag, 3, 1);
-        $subjectTag = "P2I"; // P2I2-TF-SH2 => P2I
-    }
 
-    if ($type == "EDT") {
-        $type = null;
-    }
+    // Match the class group, type and location, will be displayed as type class | location
+    $matched_class = match_class($config, $group_info, $class_info, $classDetails);
+    $matched_type = match_type($config, $type, $classDetails);
 
-    // Location
+    $matched_locations = $event->location ? array_map(function ($loc) use ($classDetails, $config) {
+        return match_location($config, $loc, $classDetails);
+    }, explode(",", $event->location)) : []; // Locations are comma-separated
 
-    if ($event->location == null) {
-        if (str_contains($classDetails, "Amphi Capelle")) {
-            $location = "Amphi Capelle";
-            $fullLocation = "Amphi Capelle";
-        } else {
-            $location = null;
-            $fullLocation = null;
-        }
+
+    $event_name_name = $mode == 0 ? 'full' : ($mode == 1 ? 'short' : 'code');
+
+    if ($matched_type) {
+        $event->summary .= format_name_from_regex_result($matched_type, $event_name_name, $classDetails) . ' ';
     } else {
-        $location = join(
-            ", ",
-            array_map(function ($loc) {
-                $room = strstr_before($loc, " (");
-                $room = get_after_last_occurrence_of($room, " - ");
-
-                if (str_starts_with($room, "Amphithéâtre")) {
-                    $amphiExploded = explode(" ", $room);
-                    if (count($amphiExploded) >= 3) {
-                        return "Amphi " .
-                            $amphiExploded[count($amphiExploded) - 1]; // Takes only the last word : William Hamilton => Hamilton
-                    }
-                    array_shift($amphiExploded);
-                    return "Amphi " . join(" ", $amphiExploded);
-                }
-                return $room;
-            }, explode(",", $event->location))
-        );
-
-        $fullLocation = join(
-            " / ",
-            array_map(function ($loc) {
-                $fullRoom = strstr_after($loc, " - ");
-                return str_replace("Amphithéâtre", "Amphi", $fullRoom);
-            }, explode(",", $event->location))
-        );
+        $event->summary .= $type . ' ';
+    }
+    if ($matched_class) {
+        $event->summary .= format_name_from_regex_result($matched_class, $event_name_name, $classDetails);
+    } else {
+        $event->summary .= $subjectTag;
     }
 
-    // Modes : 0 = full name, 1 = short, 2 = default
-    if ($mode != 2) {
-        $subjectTag = explode("-", $subjectTag)[0]; // explodes from MA-TF to [MA, TF]
-        if ($mode != 1) {
-            // Default, Human full readable names
-            if ($formation == "FIMI") {
-                $subjectTag = match ($subjectTag) {
-                    "PH" => "Physique",
-                    "MA" => "Maths",
-                    "CO", "CP" => "Conception",
-                    "CH" => "Chimie",
-                    "TH" => "Thermo",
-                    "MS" => "Méca",
-                    "ANG" => "Anglais",
-                    "EPS" => "Sport",
-                    "P2I" => "P2I" . $p2i_number . " - " . $classDetails,
-                    "*" => $subject,
-                    default => $subjectTag,
-                };
-            } else if ($formation == "IF") {
-                $subjectTag = match ($subjectTag) {
-                    "AC" => "Architecture des circuits numériques",
-                    "AO" => "Architecture des ordinateurs",
-                    "PRC" => "Programmation en C",
-                    "ALGO" => "Algorithmes et structures de données",
-                    "POO1" => "Programmation Orientée Objet - C++ - Les Bases",
-                    "POO2" => "Programmation Orientée Objet - C++ - Avancée",
-                    "OP" => "Outils de Programmation",
-                    "CMSI" => "Calcul matriciel et synthèse d'images",
-                    "TSI" => "Traitement du Signal et des Images",
-                    "MD" => "Modélisation des données",
-                    "MP" => "Modélisation des Processus",
-                    "BDR" => "Système de gestion de base de données",
-                    "SHC1" => "Sciences Humaines et Communication",
-                    "PPP1" => "Projet Personnel et Professionnel",
-                    "LV1" => "Langue Vivante 1",
-                    "LV2" => "Langue Vivante 2",
-                    "EPS" => "Éducation Physique et Sportive",
-                    "*" => $subject,
-                    default => $subjectTag,
-                };
-            } else if ($formation == "GI") {
-                $subjectTag = match ($subjectTag) {
-                    "GIN" => "Gestion industrielle",
-                    "APS" => "Systèmes automatisés de production",
-                    "APM" => "Algorithmique, programmation et modélisation en UML",
-                    "ROO" => "Recherche Opérationnelle",
-                    "PSX" => "Probabilités, statistiques, plans d'expériences",
-                    "RDM" => "Résistance Des Matériaux",
-                    "PFI" => "Procédés de fabrication, industrialisation",
-                    "PSC" => "Penser système et cycle de vie",
-                    "COM" => "Théâtre Sciences humaines et Communication",
-                    "PPP" => "Projet Personnel Professionnel",
-                    "LV1" => "Langue Vivante 1",
-                    "LV2" => "Langue Vivante 2",
-                    "EPS" => "Éducation Physique et Sportive",
-                    "*" => $subject,
-                    default => $subjectTag,
-                };
-            } else if ($formation == "HU") {
-                // matières des humas
-                $subjectTag = match ($subjectTag) {
-                    "ALL" => "Allemand",
-                    "ANG" => "Anglais",
-                    "ARA" => "Arabe",
-                    "CHI" => "Chinois",
-                    "ESP" => "Espagnol",
-                    "FLE" => "Français Langue Étrangère",
-                    "ITA" => "Italien",
-                    "JAP" => "Japonais",
-                    "POR" => "Portugais",
-                    "RUS" => "Russe",
-                    "TAN" => "Tandem",
-                    "*" => $subject,
-                    default => $subjectTag,
-                };
-
-        } elseif ($subjectTag == "P2I") {
-            $subjectTag = "P2I" . $p2i_number . " - " . $classDetails;
-        }
+    $location = join(", ", array_map(function ($loc) use ($classDetails) {
+        return format_name_from_regex_result($loc, 'short', $classDetails);
+    }, array_filter($matched_locations, function ($loc) {
+        return $loc != null;
+    })));
+    if ($location){
+        $event->location = $location;
+        if($locationInSummary) $event->summary .= " | " . $location;
     }
-
-    $locationInSummary = $room && $room != "false";
-
-    $event->summary =
-        ($type == null ? "" : $type . " ") .
-        $subjectTag .
-        ($location == null || !$locationInSummary ? "" : " - " . $location);
-    $event->location = $fullLocation;
 
     printEvent($event);
 }
@@ -279,7 +313,14 @@ function getEventDataString($event): string
 }
 
 if (isset($_GET["url"])) {
-    convertCalendar(urldecode($_GET["url"]), $_GET["mode"], $_GET["room"]);
+    if(!isset($_GET["types"])){
+        $types = ["*"];
+    }else{
+        $types = explode(",", $_GET["types"]);
+    }
+    $locationInSummary = isset($_GET["room"]) && $_GET["room"] != "false";
+
+    convertCalendar(urldecode($_GET["url"]), $_GET["mode"], $locationInSummary, $types);
 } else {
     header("Location: ./");
 }
