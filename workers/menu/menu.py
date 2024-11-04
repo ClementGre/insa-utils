@@ -55,8 +55,8 @@ def main():
     print("Scheduling updates...")
     register_recurrent_update("11:00", False)
     register_recurrent_update("11:30", True)
-    register_recurrent_update("12:00", False)
-    register_recurrent_update("12:30", False)
+    register_recurrent_update("12:00", True)
+    register_recurrent_update("12:30", True)
 
     register_recurrent_update("17:00", False)
     register_recurrent_update("17:30", True)
