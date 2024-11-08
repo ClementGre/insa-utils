@@ -10,6 +10,41 @@ const REST_INDICES = {
     RI_DINNER: 2,
 }
 
+// Scaling for BdE screens function
+function adjustFontSizeToFit() {
+    const html = document.documentElement;
+    if (!html.classList.contains('bde')) return;
+
+    let fontSize = 10; // Start font size in pixels
+    html.style.fontSize = `${fontSize}px`;
+
+    function increaseFontSize() {
+        if (
+            document.documentElement.scrollHeight <= window.innerHeight &&
+            document.documentElement.scrollWidth <= window.innerWidth
+        ) {
+            // Increment font size and apply it
+            fontSize += 0.5;
+            html.style.fontSize = `${fontSize}px`;
+
+            // Check again on the next frame
+            requestAnimationFrame(increaseFontSize);
+        } else {
+            // Backtrack by a small amount to fit within the viewport
+            fontSize -= 0.5;
+            html.style.fontSize = `${fontSize}px`;
+        }
+    }
+    // Start the resizing loop
+    increaseFontSize();
+}
+// Initial adjustment
+adjustFontSizeToFit();
+// Adjust font size on window resize
+window.addEventListener('resize', adjustFontSizeToFit);
+
+
+
 function get_default_selected_rest(disable_olivier = false){
     const storage_value = localStorage.getItem('selected_rest_index');
 

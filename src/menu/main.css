@@ -2,8 +2,19 @@ html.bde, body.bde {
     width: 100vw;
     height: 100vh;
 }
+
 main {
     padding: 0;
+}
+main.bde > section {
+    padding: 0.625rem; /* 10px */
+}
+html.bde footer {
+    padding: 0.125rem 1.25rem !important; /* 2px 20px */
+}
+
+html.bde footer p {
+    font-size: 0.9375rem;
 }
 main.bde {
     max-width: 100%;
@@ -12,7 +23,7 @@ main.bde {
 #day-select, #rest-select {
     background-color: var(--light-red);
     margin: 0;
-    padding: 5px;
+    padding: 0.3125rem; /* 5px */
     border-radius: 0;
     color: white;
 }
@@ -20,7 +31,7 @@ main.bde {
 
 }
 #rest-select {
-    border-radius: 0 0 15px 15px;
+    border-radius: 0 0 0.9375rem 0.9375rem; /* 15px */
 }
 
 #menu {
@@ -28,103 +39,116 @@ main.bde {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
+    gap: 0.625rem; /* 10px */
 }
+
 #menu > div.menu-content {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
+    gap: 0.625rem; /* 10px */
 }
+
 main.bde #menu {
     flex-direction: row;
 }
+
 main.bde #menu .menu-content {
     flex-grow: 1;
 }
+
 main.bde #menu .menu-content div {
     flex-grow: 1;
     margin: 0;
 }
+
 #menu > h2 {
-    font-size: 18px;
+    font-size: 1.125rem; /* 18px */
     font-weight: 500;
-    line-height: 25px;
+    line-height: 1.5625rem; /* 25px */
 }
+
 .menu-content > div {
     background-color: white;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
+    border-radius: 0.625rem; /* 10px */
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0 0.625rem; /* 10px */
     overflow: hidden;
 }
+
 .menu-content > div > h2 {
     margin: 0;
     padding: 0;
     width: 100%;
-    line-height: 30px;
-
-    border-radius: 10px;
+    line-height: 1.875rem; /* 30px */
+    border-radius: 0.625rem; /* 10px */
     background-color: var(--dark-blue-light);
     color: white;
-    font-size: 16px;
+    font-size: 1rem; /* 16px */
     font-weight: 500;
 }
+
 .menu-content div > div {
-    padding: 10px;
+    padding: 0.625rem; /* 10px */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 0.625rem; /* 10px */
 }
+
 .menu-content div > div p {
     margin: 0;
 }
+
 .menu-content div > div p span.prefix {
-    font-size: 12px;
+    font-size: 0.75rem; /* 12px */
     color: var(--gray);
-    padding-right: 4px;
+    padding-right: 0.25rem; /* 4px */
 }
+
 .menu-content p > span.image {
     position: relative;
     display: inline;
-    min-width: 36px;
-}
-.menu-content p > img {
-    height: 26px; /* Default: 16px */
-    margin: -5px 0;
+    min-width: 2.25rem; /* 36px */
 }
 
+.menu-content p > img {
+    height: 1.625rem; /* 26px */
+    margin: -0.3125rem 0; /* -5px 0 */
+}
 
 .toggle-group {
     display: flex;
     flex-wrap: nowrap;
     align-content: stretch;
     justify-content: center;
-    gap: 1px;
-    min-height: 30px;
+    gap: 0.0625rem; /* 1px */
+    min-height: 1.875rem; /* 30px */
 }
+
 .toggle-group div {
     flex-basis: 100%;
     display: flex;
     max-width: 50%;
     flex-direction: column;
     justify-content: center;
-    border-radius: 10px;
-    padding: 5px 0;
-
+    border-radius: 0.625rem; /* 10px */
+    padding: 0.3125rem 0; /* 5px 0 */
     cursor: pointer;
 }
+
 .toggle-group div[aria-checked="true"] {
     background-color: var(--header-button);
 }
+
 .toggle-group div.disabled {
     color: var(--gray);
 }
 
 .toggle-group div p {
     margin: 0;
-    line-height: 15px;
+    line-height: 0.9375rem; /* 15px */
 }
+
 .toggle-group div p.subtitle {
-    font-size: 12px;
+    font-size: 0.75rem; /* 12px */
 }
