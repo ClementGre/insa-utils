@@ -1,5 +1,12 @@
+html.bde, body.bde {
+    width: 100vw;
+    height: 100vh;
+}
 main {
     padding: 0;
+}
+main.bde {
+    max-width: 100%;
 }
 
 #day-select, #rest-select {
@@ -23,19 +30,35 @@ main {
     align-items: stretch;
     gap: 10px;
 }
-#menu > h2{
+#menu > div.menu-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+}
+main.bde #menu {
+    flex-direction: row;
+}
+main.bde #menu .menu-content {
+    flex-grow: 1;
+}
+main.bde #menu .menu-content div {
+    flex-grow: 1;
+    margin: 0;
+}
+#menu > h2 {
     font-size: 18px;
     font-weight: 500;
     line-height: 25px;
 }
-#menu > div {
+.menu-content > div {
     background-color: white;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
     overflow: hidden;
 }
-#menu > div > h2 {
-    margin: 0 ;
+.menu-content > div > h2 {
+    margin: 0;
     padding: 0;
     width: 100%;
     line-height: 30px;
@@ -46,27 +69,27 @@ main {
     font-size: 16px;
     font-weight: 500;
 }
-#menu div > div {
+.menu-content div > div {
     padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
 }
-#menu div > div p{
+.menu-content div > div p {
     margin: 0;
 }
-#menu div > div p span.prefix{
+.menu-content div > div p span.prefix {
     font-size: 12px;
     color: var(--gray);
     padding-right: 4px;
 }
-#menu p > span.image{
+.menu-content p > span.image {
     position: relative;
     display: inline;
     min-width: 36px;
 }
-#menu p > img{
+.menu-content p > img {
     height: 26px; /* Default: 16px */
     margin: -5px 0;
 }
@@ -98,10 +121,10 @@ main {
     color: var(--gray);
 }
 
-.toggle-group div p{
+.toggle-group div p {
     margin: 0;
     line-height: 15px;
 }
-.toggle-group div p.subtitle{
+.toggle-group div p.subtitle {
     font-size: 12px;
 }
