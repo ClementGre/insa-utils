@@ -92,11 +92,13 @@ main.bde #menu .menu-content div {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.625rem; /* 10px */
+    gap: 0.125rem; /* 2px */
 }
 
 .menu-content div > div p {
     margin: 0;
+    text-align: left;
+    line-height: 1.625rem; /* 26px */
 }
 
 .menu-content div > div p span.prefix {
