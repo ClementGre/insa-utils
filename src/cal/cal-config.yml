@@ -1,10 +1,10 @@
 # Events are formatted as follows:
-# Title: [location name] [class name]( | [location])
+# Title: [type name] [class name]( | [location name])
 
 # Required names:
 # - full
 # default field: if true, the frontend checkbox is checked by default
-# classes can specify a type by adding a type property with the value being the type code.
+# classes can attach to an event_type by adding a "type" property with a valid event_type code as a value.
 event_type:
   - full_name: "Créneaux généraux LV1"
     code: "general_lang1"
