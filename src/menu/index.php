@@ -41,9 +41,15 @@ $bde = isset($_GET['bde']);
     <?php } ?>
 
     <section id="menu"
-             :set="menu = data?.days?.[ui.selected_day_index]?.[time_id]?.[rest_id]">
+             :set="menu = selected_menu">
         <template v-if="!ui.week_menu_available">
             <h2>Le menu de la semaine sera disponible à 11h10.</h2>
+        </template>
+        <template v-else-if="is_menu_outdated">
+            <h2>Le menu n'a pas pu être récupéré.</h2>
+        </template>
+        <template v-else-if="is_menu_empty">
+            <h2>Le menu n'a pas encore été publié par les restaurants INSA.</h2>
         </template>
         <template v-else-if="menu">
             <div class="menu-content">

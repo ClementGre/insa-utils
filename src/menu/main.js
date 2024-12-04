@@ -23,6 +23,8 @@ function adjustFontSizeToFit() {
             document.documentElement.scrollHeight <= window.innerHeight &&
             document.documentElement.scrollWidth <= window.innerWidth
         ) {
+            if(fontSize > 50) return; // Max font size
+
             // Increment font size and apply it
             fontSize += 0.5;
             html.style.fontSize = `${fontSize}px`;
@@ -68,7 +70,7 @@ createApp({
             ui: {
                 selected_day_index: today_date.getDay() === 0 ? 6 : today_date.getDay() - 1,
                 selected_rest_index: get_default_selected_rest(),
-                week_menu_available: !(today_date.getDay() === 1 && (today_date.getHours() <= 10 || (today_date.getHours() === 11 && today_date.getMinutes() < 10)))
+                week_menu_available: !(today_date.getDay() === 1 && (today_date.getHours() <= 10 || (today_date.getHours() === 11 && today_date.getMinutes() < 10))),
             },
             selected_date: {
                 month: today_date.getMonth(),
@@ -97,6 +99,31 @@ createApp({
                 }
             }
             return indices;
+        },
+        selected_menu: function(){
+            return this.data?.days?.[this.ui.selected_day_index]?.[this.time_id]?.[this.rest_id];
+        },
+        is_menu_empty: function(){
+            const menu = this.selected_menu;
+            return !menu || !(menu.plat && menu.plat.length != 0)
+                && !((menu.garniture && menu.garniture.length != 0) || (menu.sauce && menu.sauce.length != 0))
+                && !(menu.entree && menu.entree.length != 0)
+                && !((menu.dessert && menu.dessert.length != 0) || (menu.fromage && menu.fromage.length != 0));
+        },
+        is_menu_outdated: function(){
+            console.log(this.data?.last_update)
+            const last_update = new Date(this.data?.last_update);
+            console.log("Last update date:", last_update)
+
+            const last_update_day = last_update.getDay();
+            const last_update_gap = (today_date.getTime() - last_update.getTime()) / (1000. * 60. * 60. * 24.);
+
+            console.log("Last update gap:", last_update_gap, "Last update day:", last_update_day, "Today day:", today_date.getDay())
+
+            return last_update_gap >= 7 // More than 7 days ago
+                || (today_date.getDay() < last_update_day && today_date.getDay() !== 0) // Last update in a day of the week that is after today (except if today is sunday)
+                || (last_update_day === 0 && today_date.getDay() !== 0) // Last update on sunday and not sunday
+                || (last_update_day === today_date.getDay() && last_update_gap > 1); // Same day, but gap > 1 day
         }
     },
     methods: {
