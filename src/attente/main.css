@@ -1,0 +1,191 @@
+html.bde, body.bde {
+    width: 100vw;
+    height: 100vh;
+}
+
+main {
+    padding: 0;
+}
+main.bde > section {
+    padding: 0.625rem; /* 10px */
+}
+html.bde footer {
+    padding: 0.125rem 1.25rem !important; /* 2px 20px */
+}
+
+html.bde footer p {
+    font-size: 0.9375rem;
+}
+main.bde {
+    max-width: 100%;
+}
+
+#rest-select {
+    background-color: var(--light-red);
+    margin: 0;
+    padding: 0.3125rem; /* 5px */
+    border-radius: 0;
+    color: white;
+    border-radius: 0 0 0.9375rem 0.9375rem; /* 15px */
+}
+
+#restaurants {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.625rem; /* 10px */
+}
+
+#restaurants > div.waiting-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.625rem; /* 10px */
+}
+
+main.bde #restaurants {
+    flex-direction: row;
+}
+
+main.bde #menu .waiting-content {
+    flex-grow: 1;
+}
+
+main.bde #menu .waiting-content div {
+    flex-grow: 1;
+    margin: 0;
+}
+
+#restaurants > h2 {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 500;
+    line-height: 1.5625rem; /* 25px */
+}
+
+.waiting-content > div {
+    background-color: white;
+    border-radius: 0.625rem; /* 10px */
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0 0.625rem; /* 10px */
+    overflow: hidden;
+}
+
+.waiting-content > div > h2 {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    line-height: 1.875rem; /* 30px */
+    border-radius: 0.625rem; /* 10px */
+    background-color: var(--dark-blue-light);
+    color: white;
+    font-size: 1rem; /* 16px */
+    font-weight: 500;
+}
+
+.waiting-content div > div {
+    padding: 0.625rem; /* 10px */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.125rem; /* 2px */
+}
+
+.waiting-content div > div p {
+    margin: 0;
+    text-align: left;
+    line-height: 1.625rem; /* 26px */
+}
+
+.waiting-content div > div p span.prefix {
+    font-size: 0.75rem; /* 12px */
+    color: var(--gray);
+    padding-right: 0.25rem; /* 4px */
+}
+
+.toggle-group {
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: stretch;
+    justify-content: center;
+    gap: 0.0625rem; /* 1px */
+    min-height: 1.875rem; /* 30px */
+}
+
+.toggle-group div {
+    flex-basis: 100%;
+    display: flex;
+    max-width: 50%;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 0.625rem; /* 10px */
+    padding: 0.3125rem 0; /* 5px 0 */
+    cursor: pointer;
+}
+
+.toggle-group div[aria-checked="true"] {
+    background-color: var(--header-button);
+}
+
+.toggle-group div.disabled {
+    color: var(--gray);
+}
+
+.toggle-group div p {
+    margin: 0;
+    line-height: 0.9375rem; /* 15px */
+}
+
+.toggle-group div p.subtitle {
+    font-size: 0.75rem; /* 12px */
+}
+
+.current-wait {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+}
+.wait-prediction {
+    flex: 1;
+    margin: 0 10px;
+}
+.current-wait p {
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem; /* Larger font for the wait time */
+    font-weight: bold;
+    text-align: center; /* Center text */
+    line-height: 2rem; /* Line height matches font size for better visual balance */
+    margin : 5px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+}
+
+.wait-indicator {
+    display: flex;
+    background-color: #ffffff; /* White background for the box */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    border-radius: 10px; /* Rounded corners */
+    display: flex; /* Optional: Use flexbox for content inside the box */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center;
+    background-color: white;
+}
+
+.wait-icon {
+    font-size: 2em;
+    color: #ff5252;
+    margin-right: 10px;
+}
+
+.wait-duration {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.wait-prediction .chart {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

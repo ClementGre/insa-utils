@@ -1,0 +1,38 @@
+{
+  "name": "Temps d'attente des restaurants",
+  "short_name": "INS'Attente",
+  "description": "Tiens toi au courant du temps d'attente du RI et de l'Olivier pour mieux t'organiser durant la pause.",
+  "id": "fr.clementgre.insautils.menu",
+  "icons": [
+    {
+        "src": "icons/icon-32.png",
+        "sizes": "32x32",
+        "type": "image/png"
+    },
+    {
+        "src": "icons/icon-64.png",
+        "sizes": "64x64",
+        "type": "image/png"
+    },
+    {
+      "src": "icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "orientation": "portrait",
+  "start_url": "/attente",
+  "display": "standalone",
+  "theme_color": "#CD0E14",
+  "background_color": "#CD0E14"
+}

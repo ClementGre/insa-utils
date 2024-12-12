@@ -1,0 +1,18 @@
+{
+    "olivier": {
+        "lunch": {
+            "actualWaitingTime": 5,
+            "predictionTime": [2,3,6,11,13,18,26,22,27,24,11,9,6]
+        }
+    },
+    "ri": {
+        "lunch": {
+            "actualWaitingTime": 2,
+            "predictionTime": [2,3,6,11,13,18,26,22,27,24,11,9,6]
+        },
+        "dinner": {
+            "actualWaitingTime": 3,
+            "predictionTime": [2,3,6,11,13,18,26,22,27,24]
+        }
+    }
+}
