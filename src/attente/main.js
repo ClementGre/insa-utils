@@ -212,9 +212,9 @@ createApp({
         },
     },
     created(){
-        // https://script.google.com/macros/s/AKfycbzSSfJYbMKFx35IHz_aI7nBTyX5mbdvoKxHIydY9eg1M1p21xBbUfRgIzKfMvBkAf0/exec
+        // 
         console.log("Fetching waiting data...")
-        fetch('/attente/data/waitingTime.json', {cache: "no-store"})
+        fetch('https://script.google.com/macros/s/AKfycbzSSfJYbMKFx35IHz_aI7nBTyX5mbdvoKxHIydY9eg1M1p21xBbUfRgIzKfMvBkAf0/exec', {cache: "no-store"})
             .then(response => response.json())
             .then(data => {
                 console.log("Waiting data fetched.", data)
