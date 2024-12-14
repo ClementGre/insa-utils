@@ -69,7 +69,7 @@ createApp({
             ui: {
                 selected_day_index: today_date.getDay() === 0 ? 6 : today_date.getDay() - 1,
                 selected_rest_index: get_default_selected_rest(),
-                week_menu_available: true,
+                week_menu_available: this.data !== null,
             },
         }
     },
@@ -102,50 +102,64 @@ createApp({
             const restaurant = this.selected_restaurant;
             return !restaurant 
         },
+        prediction_is_not_null: function(){
+            if (!this.selected_restaurant?.["predictionTime"]){
+                return false;
+            }else if(!this.selected_restaurant?.["predictionTime"].every(e => e !==null)){
+                return false;
+            }
+            return true;
+        }
     },
     methods: {
         renderHistogram() {
-            const canvas = document.getElementById('histogramCanvas');
-            if (!canvas) {
-                console.error("Canvas element not found!");
-                return;
-            }
-            const ctx = canvas.getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: this.time_id === 'lunch' ? ["11:30", "11:40", "11:50", "12:00", "12:10", "12:20", "12:30", "12:40", "12:50", "13:00", "13:10", "13:20", "13:30"] : ["18:00", "18:10", "18:20", "18:30", "18:40", "18:50","19:00", "19:10", "19:20", "19:30"],
-                    datasets: [
-                        {
-                            label: 'Temps d\'attente prédictif',
-                            data: this.selected_restaurant?.["predictionTime"],
-                            backgroundColor: '#D32F2F',
-                            borderRadius: 5,
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: false,
-                        },
+            if (this.prediction_is_not_null){
+                const canvas = document.getElementById('histogramCanvas');
+                if (!canvas) {
+                    console.error("Canvas element not found!");
+                    return;
+                }
+                if (this.chart) {
+                    // Destroy the existing chart instance
+                    this.chart.destroy();
+                }
+                const ctx = canvas.getContext('2d');
+                this.chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: this.time_id === 'lunch' ? ["11:30", "11:40", "11:50", "12:00", "12:10", "12:20", "12:30", "12:40", "12:50", "13:00", "13:10", "13:20", "13:30"] : ["18:00", "18:10", "18:20", "18:30", "18:40", "18:50","19:00", "19:10", "19:20", "19:30"],
+                        datasets: [
+                            {
+                                label: 'Temps d\'attente prédictif',
+                                data: this.selected_restaurant?.["predictionTime"],
+                                backgroundColor: '#D32F2F',
+                                borderRadius: 5,
+                            },
+                        ],
                     },
-                    scales: {
-                        x: {
-                            grid: {
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
                                 display: false,
                             },
                         },
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: '#e0e0e0',
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false,
+                                },
+                            },
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: '#e0e0e0',
+                                },
                             },
                         },
                     },
-                },
-            });
+                });
+            }
         },
         get_day_buttons_names: function(){
             let data = [];
@@ -177,6 +191,9 @@ createApp({
         },
         'ui.selected_rest_index': function(new_selected_rest_index){
             localStorage.setItem('selected_rest_index', new_selected_rest_index);
+            this.$nextTick(() => {
+                this.renderHistogram();
+            });
         },
         disabled_rest_indices: function(new_disabled_indices){
             if(new_disabled_indices.includes(this.ui.selected_rest_index)){
@@ -189,11 +206,15 @@ createApp({
                     this.ui.selected_rest_index = def;
                 }
             }
+            this.$nextTick(() => {
+                this.renderHistogram();
+            });
         },
     },
     created(){
+        // https://script.google.com/macros/s/AKfycbzSSfJYbMKFx35IHz_aI7nBTyX5mbdvoKxHIydY9eg1M1p21xBbUfRgIzKfMvBkAf0/exec
         console.log("Fetching waiting data...")
-        fetch('attente/data/waitingTime.json', {cache: "no-store"})
+        fetch('/attente/data/waitingTime.json', {cache: "no-store"})
             .then(response => response.json())
             .then(data => {
                 console.log("Waiting data fetched.", data)

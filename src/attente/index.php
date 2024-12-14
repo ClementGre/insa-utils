@@ -36,23 +36,25 @@ $bde = isset($_GET['bde']);
     <section id="restaurants"
              :set="restaurant = selected_restaurant">
         <template v-if="!ui.week_menu_available">
-            <h2>Le menu de la semaine sera disponible à 11h10.</h2>
+            <h2>Les données de la file d'attente n'ont pas pu être récupéré.</h2>
         </template>
         <template v-else-if="is_waitingTime_empty">
-            <h2>Le menu n'a pas encore été publié par les restaurants INSA.</h2>
+            <h2>Les données de la file d'attente sont vides.</h2>
         </template>
         <template v-else-if="restaurant">
             <div class="waiting-content">
                 <div class="current-wait">
                     <h2>Temps d'attente actuel (en minutes)</h2> 
-                    <p v-if = "restaurant.actualWaitingTime < 10">0{{ restaurant.actualWaitingTime }}</p>
+                    <span v-if="!restaurant.actualWaitingTime">Les données sur l'attente actuelle n'ont pas pu être récupérés.</span>
+                    <p v-else-if = "restaurant.actualWaitingTime < 10">0{{ restaurant.actualWaitingTime }}</p>
                     <p v-else>{{ restaurant.actualWaitingTime }}</p>
                 </div>
                 <div class="wait-prediction">
                     <h2>Prédiction d'attente</h2>
-                    <div class="chart">
+                    <div v-if="prediction_is_not_null" class="chart">
                         <canvas id="histogramCanvas"></canvas>
                     </div>
+                    <p v-else>Les prédictions sur le temps d'attente n'ont pas pu être récupérés.</p>
                 </div>
                 </div>
         </template>

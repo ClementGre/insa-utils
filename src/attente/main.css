@@ -102,6 +102,48 @@ main.bde #menu .waiting-content div {
     padding-right: 0.25rem; /* 4px */
 }
 
+.current-wait {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+    background-color: rgba(255, 255, 255, 0);
+}
+.current-wait p {
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem; /* Larger font for the wait time */
+    font-weight: bold;
+    text-align: center; /* Center text */
+    line-height: 2rem; /* Line height matches font size for better visual balance */
+    margin : 5px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+}
+
+.wait-indicator {
+    display: flex;
+    background-color: #ffffff; /* White background for the box */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    border-radius: 10px; /* Rounded corners */
+    display: flex; /* Optional: Use flexbox for content inside the box */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center;
+    background-color: white;
+}
+
+.wait-prediction {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.wait-prediction .chart {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .toggle-group {
     display: flex;
     flex-wrap: nowrap;
@@ -137,55 +179,4 @@ main.bde #menu .waiting-content div {
 
 .toggle-group div p.subtitle {
     font-size: 0.75rem; /* 12px */
-}
-
-.current-wait {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 10px;
-}
-.wait-prediction {
-    flex: 1;
-    margin: 0 10px;
-}
-.current-wait p {
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem; /* Larger font for the wait time */
-    font-weight: bold;
-    text-align: center; /* Center text */
-    line-height: 2rem; /* Line height matches font size for better visual balance */
-    margin : 5px;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
-}
-
-.wait-indicator {
-    display: flex;
-    background-color: #ffffff; /* White background for the box */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    border-radius: 10px; /* Rounded corners */
-    display: flex; /* Optional: Use flexbox for content inside the box */
-    justify-content: center; /* Centers content horizontally */
-    align-items: center;
-    background-color: white;
-}
-
-.wait-icon {
-    font-size: 2em;
-    color: #ff5252;
-    margin-right: 10px;
-}
-
-.wait-duration {
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
-.wait-prediction .chart {
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
