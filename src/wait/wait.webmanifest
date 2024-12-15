@@ -31,7 +31,7 @@
     }
   ],
   "orientation": "portrait",
-  "start_url": "/attente",
+  "start_url": "/wait",
   "display": "standalone",
   "theme_color": "#CD0E14",
   "background_color": "#CD0E14"

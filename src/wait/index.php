@@ -14,8 +14,8 @@ $bde = isset($_GET['bde']);
 <!DOCTYPE html>
 <html lang="fr" class="<?= $bde ? 'bde' : '' ?>">
 <head>
-    <?php printHead($name, $title, $desc, '', 'attente/icons/icon-128.png', 'attente/attente.webmanifest') ?>
-    <link href="<?= getRootPath() ?>attente/main.css" rel="stylesheet"/>
+    <?php printHead($name, $title, $desc, '', 'wait/icons/icon-128.png', 'wait/wait.webmanifest') ?>
+    <link href="<?= getRootPath() ?>wait/main.css" rel="stylesheet"/>
 </head>
 <body class="<?= $bde ? 'bde' : '' ?>">
 <div class="csrf-container" data-csrf="<?= htmlspecialchars(gen_csrf_key('js')) ?>"></div>
@@ -69,6 +69,6 @@ $bde = isset($_GET['bde']);
 </footer>
 <script src="<?= getRootPath() ?>template/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="<?= getRootPath() ?>attente/main.js" type="module"></script>
+<script src="<?= getRootPath() ?>wait/main.js" type="module"></script>
 </body>
 </html>
