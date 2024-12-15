@@ -123,17 +123,6 @@ main.bde #menu .waiting-content div {
     box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
 }
 
-.wait-indicator {
-    display: flex;
-    background-color: #ffffff; /* White background for the box */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    border-radius: 10px; /* Rounded corners */
-    display: flex; /* Optional: Use flexbox for content inside the box */
-    justify-content: center; /* Centers content horizontally */
-    align-items: center;
-    background-color: white;
-}
-
 .wait-prediction {
     flex: 1;
     margin: 0 10px;

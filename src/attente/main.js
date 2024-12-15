@@ -69,7 +69,7 @@ createApp({
             ui: {
                 selected_day_index: today_date.getDay() === 0 ? 6 : today_date.getDay() - 1,
                 selected_rest_index: get_default_selected_rest(),
-                week_menu_available: this.data !== null,
+                data_available: this.data !== null,
             },
         }
     },
@@ -101,6 +101,13 @@ createApp({
         is_waitingTime_empty: function(){
             const restaurant = this.selected_restaurant;
             return !restaurant 
+        },
+        is_work_in_progress: function(){
+            const restaurant = this.selected_restaurant;
+            if (restaurant?.["workInProgress"]){
+                return true
+            }
+            return false 
         },
         prediction_is_not_null: function(){
             if (!this.selected_restaurant?.["predictionTime"]){
@@ -186,9 +193,6 @@ createApp({
         },
     },
     watch: {
-        'ui.selected_day_index': function(new_selected_day_index){
-
-        },
         'ui.selected_rest_index': function(new_selected_rest_index){
             localStorage.setItem('selected_rest_index', new_selected_rest_index);
             this.$nextTick(() => {
@@ -212,7 +216,6 @@ createApp({
         },
     },
     created(){
-        // 
         console.log("Fetching waiting data...")
         fetch('https://script.google.com/macros/s/AKfycbzSSfJYbMKFx35IHz_aI7nBTyX5mbdvoKxHIydY9eg1M1p21xBbUfRgIzKfMvBkAf0/exec', {cache: "no-store"})
             .then(response => response.json())
@@ -220,14 +223,9 @@ createApp({
                 console.log("Waiting data fetched.", data)
                 this.data = data
                 this.$nextTick(() => {
-                    this.renderHistogram(); // Call histogram rendering after mount
+                    this.renderHistogram();
                 })
             });
 
     },
-    // mounted(){
-    //     this.$nextTick(() => {
-    //         this.renderHistogram(); // Call histogram rendering after mount
-    //     })
-    // }
 }).mount('#app')
