@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../libs/utils.php';
 
 // Template
 require __DIR__ . '/../template/footer.php';
-require_once __DIR__ . '/../template/matomo.php';
+require_once __DIR__ . '/../template/tracker.php';
 
 // Auth
 require_once __DIR__ . '/../account/auth.php';

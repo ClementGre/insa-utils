@@ -44,7 +44,7 @@ any(getRootPath() . 'link/jsapi/search', __DIR__ . '/jsapi/search.php');
 require __DIR__ . '/../template/header.php';
 require __DIR__ . '/../template/head.php';
 require __DIR__ . '/../template/footer.php';
-require_once __DIR__ . '/../template/matomo.php';
+require_once __DIR__ . '/../template/tracker.php';
 
 // Pages
 
