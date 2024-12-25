@@ -1,1 +1,1 @@
-sudo killall -SIGINT openconnect
+killall -SIGINT openconnect
