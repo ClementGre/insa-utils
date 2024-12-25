@@ -41,13 +41,13 @@ def read_menu_from_file():
 # VPN
 
 def vpn_connect():
-    subprocess.call(['sh', '-c', f"echo \"{get_vpn_password()}\" | sudo ./vpn_connect.sh {os.environ['VPN_USER']}"])
+    subprocess.call(['sh', '-c', f"echo \"{get_vpn_password()}\" | ./vpn_connect.sh {os.environ['VPN_USER']}"])
     # Waiting 5 seconds to make sure the VPN is connected
     time.sleep(5)
 
 
 def vpn_disconnect():
-    subprocess.call(['sh', '-c', 'sudo ./vpn_disconnect.sh'])
+    subprocess.call(['sh', '-c', './vpn_disconnect.sh'])
 
 
 def print_vpn_pwd():
