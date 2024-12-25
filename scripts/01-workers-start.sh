@@ -7,5 +7,5 @@ echo "Reading VPN password for menu worker"
 echo "$VPN_PASSWORD" > password.env
 unset VPN_PASSWORD
 
-echo "Starting menu worker"
-python /var/www/html/workers/menu/menu.py
+echo "Starting menu worker as job"
+python /var/www/html/workers/menu/menu.py &
