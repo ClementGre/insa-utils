@@ -1,5 +1,5 @@
 <?php
-require_once 'matomo.php';
+require_once 'tracker.php';
 function printHead($name, $title, $desc = '', $keywords = '', $iconPath = false, $manifestPath = false): void
 {
     ?>
