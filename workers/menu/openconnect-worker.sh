@@ -7,17 +7,17 @@ start_script() {
     read -n1 char < openconnect-pipe
 
     if [[ $char == "c" ]]; then
-      echo "Received 'c'. Connecting to VPN..." | tee -a openconnect-log
+      echo "[$(date '+%Y-%m-%d %H:%M:%S')] Received 'c'. Connecting to VPN..." | tee -a openconnect-log
       sudo killall -SIGINT openconnect 2>&1 | sudo tee -a openconnect-log
       echo "$passwd" | sudo openconnect sslvpn.cisr.fr --protocol=anyconnect \
         -u "$OPENCONNECT_USER" --authgroup=INSA --passwd-on-stdin \
         --background | sudo tee -a openconnect-log &
 
     elif [[ $char == "d" ]]; then
-      echo "Received 'd'. Disconnecting from the VPN..." | tee -a openconnect-log
+      echo "[$(date '+%Y-%m-%d %H:%M:%S')] Received 'd'. Disconnecting from the VPN..." | tee -a openconnect-log
       sudo killall -SIGINT openconnect 2>&1 | sudo tee -a openconnect-log
     else
-      echo "Unknown character received: $char"
+      echo "[$(date '+%Y-%m-%d %H:%M:%S')] Unknown character received: $char"
     fi
   done
 }
