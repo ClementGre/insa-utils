@@ -39,7 +39,7 @@ def print_vpn_pwd_main():
 def main():
     if do_use_vpn:
         print("Reading password...")
-        path = "/var/www/html/password.env"
+        path = "/var/www/html/workers/menu/password.env"
         with open("password.env", "r") as f:
             set_vpn_password(f.read())
 
