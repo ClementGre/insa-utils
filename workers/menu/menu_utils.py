@@ -42,14 +42,14 @@ def read_menu_from_file():
 
 def vpn_connect():
     #subprocess.call(['sh', '-c', f"echo \"{get_vpn_password()}\" | ./vpn_connect.sh {os.environ['VPN_USER']}"])
-    subprocess.call(['sh', '-c', f"echo c > ./openconnect-pipe"])
+    subprocess.call(['sh', '-c', f"echo c > /openconnect-pipe"])
     # Waiting 5 seconds to make sure the VPN is connected
     time.sleep(5)
 
 
 def vpn_disconnect():
     #subprocess.call(['sh', '-c', './vpn_disconnect.sh'])
-    subprocess.call(['sh', '-c', f"echo d > ./openconnect-pipe"])
+    subprocess.call(['sh', '-c', f"echo d > /openconnect-pipe"])
 
 
 def print_vpn_pwd():
