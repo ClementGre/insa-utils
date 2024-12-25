@@ -37,14 +37,14 @@ def print_vpn_pwd_main():
     print(get_vpn_password())
 
 def main():
-    if do_use_vpn:
-        print("Reading password...")
-        path = "/var/www/html/workers/menu/password.env"
-        with open("password.env", "r") as f:
-            set_vpn_password(f.read())
-
-        print("Password read from password.env")
-        subprocess.call(['sh', '-c', 'rm ' + path])
+    # if do_use_vpn:
+    #     print("Reading password...")
+    #     path = "/var/www/html/workers/menu/password.env"
+    #     with open("password.env", "r") as f:
+    #         set_vpn_password(f.read())
+    #
+    #     print("Password read from password.env")
+    #     subprocess.call(['sh', '-c', 'rm ' + path])
 
     print("Updating menu...")
     update_menu()
