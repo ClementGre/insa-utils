@@ -1,5 +1,5 @@
-from menu_config import *
 from menu_utils import *
+import requests
 
 
 def fetch_menu_data(date, time_id, rest_id):

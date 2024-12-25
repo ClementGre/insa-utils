@@ -1,7 +1,8 @@
-from menu_config import *
-from menu_utils import *
 from menu_scrapping import *
 from menu_notifications import *
+import schedule
+import time
+import subprocess
 
 do_use_vpn = True
 
@@ -38,16 +39,12 @@ def print_vpn_pwd_main():
 def main():
     if do_use_vpn:
         print("Reading password...")
-        path = "/home/clement/insa-utils/workers/menu/password.env"
+        path = "/var/www/html/workers/menu/password.env"
         with open("password.env", "r") as f:
             set_vpn_password(f.read())
 
         print("Password read from password.env")
         subprocess.call(['sh', '-c', 'rm ' + path])
-
-    print("Reading secrets...")
-    with open("secrets.json", "r") as f:
-        set_secrets(json.load(f))
 
     print("Updating menu...")
     update_menu()
@@ -70,10 +67,6 @@ def main():
 
 
 def local_test():
-    print("Reading secrets...")
-    with open("secrets.json", "r") as f:
-        set_secrets(json.load(f))
-
     set_menu(get_whole_week_menu())
     write_menu_to_file(get_menu())
     send_notifications("11:10")

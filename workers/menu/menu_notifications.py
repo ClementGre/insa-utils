@@ -1,4 +1,7 @@
-from menu_config import *
+import re
+import requests
+import pywebpush
+
 from menu_utils import *
 
 def send_notifications(time_string):
@@ -116,7 +119,7 @@ def send_notifications_content(title, text, is_ri, is_lunch, is_weekend, time_st
                         "body": text,
                         "is_olivier": not is_ri
                     }),
-                    vapid_private_key=get_secrets()['webpush']['privateKey'],
+                    vapid_private_key=os.environ['WEBPUSH_PRIVATE_KEY'],
                     vapid_claims={"sub": "mailto:clement.grennerat@free.fr'}"}
                 )
             except Exception as e:

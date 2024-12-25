@@ -1,14 +1,3 @@
-import requests
-import datetime
-import json
-import subprocess
-import schedule
-import time
-import os
-import pywebpush
-import mysql.connector
-import re
-
 vpn_password_intern = None
 secrets_dict = None
 menu_dict = None
@@ -26,10 +15,6 @@ def get_vpn_password():
 def set_secrets(secrets):
     global secrets_dict
     secrets_dict = secrets
-
-
-def get_secrets():
-    return secrets_dict
 
 
 def set_menu(menu):

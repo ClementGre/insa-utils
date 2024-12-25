@@ -1,5 +1,10 @@
 from menu_config import *
-
+import datetime
+import json
+import os
+import subprocess
+import time
+import mysql.connector
 
 # Dates
 
@@ -36,7 +41,7 @@ def read_menu_from_file():
 # VPN
 
 def vpn_connect():
-    subprocess.call(['sh', '-c', f"echo \"{get_vpn_password()}\" | sudo ./vpn_connect.sh {get_secrets()['vpn']['user']}"])
+    subprocess.call(['sh', '-c', f"echo \"{get_vpn_password()}\" | sudo ./vpn_connect.sh {os.environ['VPN_USER']}"])
     # Waiting 5 seconds to make sure the VPN is connected
     time.sleep(5)
 
@@ -53,8 +58,8 @@ def print_vpn_pwd():
 
 def db_connect():
     return mysql.connector.connect(
-        host="pdf4teachers.org",
-        user="insa_utils",
-        password=get_secrets()['db']['password'],
-        database="insa_utils"
+        host=os.environ['DB_HOST'],
+        user="insa-utils",
+        password=os.environ['DB_PASSWORD'],
+        database="insa-utils"
     )

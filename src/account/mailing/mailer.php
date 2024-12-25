@@ -84,7 +84,7 @@ function sendMail($toName, $to, $subject, $htmlBody, $noHtmlBody): false|string
     try {
 
         //Recipients
-        $mail->setFrom('auth@insa-utils.fr', 'INSA Utils');
+        $mail->setFrom(getenv('SMTP_FROM_EMAIL'), getenv('SMTP_FROM_NAME'));
         $mail->addReplyTo('clement.grennerat@insa-lyon.fr', 'Clément Grennerat');
 //        $mail->addCustomHeader("List-Unsubscribe",'<' . $unsubscribe_url . '>');
         $mail->addAddress($to, $toName);
@@ -95,6 +95,13 @@ function sendMail($toName, $to, $subject, $htmlBody, $noHtmlBody): false|string
         $mail->Body = $htmlBody;
         $mail->AltBody = $noHtmlBody;
 
+        // Send by SMTP
+        $mail->isSMTP();
+        $mail->Host = getenv('SMTP_HOST');
+        $mail->SMTPAuth = true;
+        $mail->Username = getenv('SMTP_USERNAME');
+        $mail->Password = getenv('SMTP_PASSWORD');
+        $mail->Port = getenv('SMTP_PORT');
         $mail->Send();
 
         return false;
