@@ -4,7 +4,7 @@ echo ">>> Installing python requirements for menu worker"
 pip install -r /var/www/html/workers/menu/requirements.txt
 
 #echo "Reading VPN password for menu worker"
-#cd /var/www/html/workers/menu/ || exit;
+cd /var/www/html/workers/menu/ || exit;
 #echo "$VPN_PASSWORD" > password.env
 #unset VPN_PASSWORD
 
