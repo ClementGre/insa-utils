@@ -30,7 +30,7 @@ $config = Yaml::parseFile('cal-config.yml');
 $event_type = $config['event_type'];
 $types = $config['types'];
 $selected_event_type = [];
-$selected_types = ["*"];
+$selected_types = empty($_GET) ? ["*"] : [];
 
 ?>
 
