@@ -30,7 +30,7 @@ $config = Yaml::parseFile('cal-config.yml');
 $event_type = $config['event_type'];
 $types = $config['types'];
 $selected_event_type = [];
-$selected_types = [];
+$selected_types = ["*"];
 
 ?>
 
@@ -103,6 +103,11 @@ $selected_types = [];
                     <?php
                 }
                 ?>
+                <div>
+                    <input id="ctype_*" type="checkbox" name="ctype_*"
+                           value="true" <?= in_array("*", $selected_types) ? 'checked' : '' ?>>
+                    <label for="ctype_*">Évènements sans type</label>
+                </div>
             </div>
 
             <h3>Options&#8239;:</h3>

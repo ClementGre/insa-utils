@@ -172,14 +172,16 @@ function is_class_valid($class, $types): bool
 /**
  * @param $type mixed class type of the event to check
  * @param $types array of class types code to accept (TD, TP, soutien, or * to include all types)
- * @return bool true if the type is in types or if * is in types, false otherwise. If type is null, always return true.
+ * @return bool true if the type is in types or if type is null and * is in types, or if types is null or empty false otherwise
  */
 function is_type_valid($type, $types): bool
 {
-    if (!$type || !isset($type["code"])) {
-        return true;
+    if(!$types || count($types) == 0) return true;
+
+    if (!$type) {
+        return in_array("*", $types);
     }
-    return in_array($type["code"], $types) || in_array("*", $types);
+    return in_array($type["code"], $types);
 }
 
 /**
@@ -188,7 +190,7 @@ function is_type_valid($type, $types): bool
  * @param $locationInSummary bool show the location in the summary after the subject
  * @param $countInSummary bool show the class number in the summary right after the type
  * @param $types mixed list of event type selectors to include: language, support, other... "*" to include events that has no type.
- * @param $ctypes mixed list of class type selectors to include: group, td, cm, tp, soutien "*" to include all types
+ * @param $ctypes mixed list of class type selectors to include: group, td, cm, tp, soutien "*" to include  events that has no class type.
  * @param $config
  * @return void
  */
@@ -325,7 +327,7 @@ if (isset($_GET["url"])) {
         $types = explode(",", $_GET["types"]);
     }
     if (!isset($_GET["ctypes"])) {
-        $ctypes = ["*"];
+        $ctypes = [];
     } else {
         $ctypes = explode(",", $_GET["ctypes"]);
     }
