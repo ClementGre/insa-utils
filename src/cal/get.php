@@ -11,7 +11,7 @@ function removeFirstNLines(string $text, int $n): string
     $remainingLines = array_slice($lines, $n);
     return implode(PHP_EOL, $remainingLines);
 }
-function convertCalendar($url, $mode, $cleanDescription, $locationInSummary, $countInSummary, $types): void
+function convertCalendar($url, $mode, $cleanDescription, $locationInSummary, $countInSummary, $types, $ctypes): void
 {
     try {
         $ical = new ICal("ICal.ics", [
@@ -42,7 +42,7 @@ function convertCalendar($url, $mode, $cleanDescription, $locationInSummary, $co
 
         $config = Yaml::parseFile('cal-config.yml');
         foreach ($ical->events() as $i => $event) {
-            editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary, $countInSummary, $types, $config);
+            editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary, $countInSummary, $types, $ctypes, $config);
         }
 
         echo "END:VCALENDAR\r\n";
@@ -169,6 +169,18 @@ function is_class_valid($class, $types): bool
     }
     return in_array($class['type'], $types);
 }
+/**
+ * @param $type string class type of the event to check
+ * @param $types array of class types code to accept (TD, TP, soutien, or * to include all types)
+ * @return bool true if the type is in types, or if type is null or if types is null or empty, false otherwise
+ */
+function is_type_valid($type, $types): bool
+{
+    if (!$type || !isset($types) || !$types || count($types) == 0) {
+        return true;
+    }
+    return in_array($type, $types);
+}
 
 /**
  * @param $event
@@ -176,10 +188,11 @@ function is_class_valid($class, $types): bool
  * @param $locationInSummary bool show the location in the summary after the subject
  * @param $countInSummary bool show the class number in the summary right after the type
  * @param $types mixed list of event type selectors to include: language, support, other... "*" to include events that has no type.
+ * @param $ctypes mixed list of class type selectors to include: group, td, cm, tp, soutien "*" to include all types
  * @param $config
  * @return void
  */
-function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary, $countInSummary, $types, $config): void
+function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary, $countInSummary, $types, $ctypes, $config): void
 {
     $subject = ''; // Full name, between ] and \n(
     if (preg_match('/]\s(.*?)\n\(/', $event->description, $matches)) {
@@ -220,11 +233,13 @@ function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary,
         return;
     }
     $matched_type = match_type($config, $type, $subject, $classDetails);
+    if(!is_type_valid($matched_type['type'], $ctypes)) {
+        return;
+    }
 
     $matched_locations = $event->location ? array_map(function ($loc) use ($subject, $classDetails, $config) {
         return match_location($config, $loc, $subject, $classDetails);
     }, explode(",", $event->location)) : []; // Locations are comma-separated
-
 
     $event_name_name = $mode == 0 ? 'full' : ($mode == 1 ? 'short' : 'code');
 
@@ -309,11 +324,17 @@ if (isset($_GET["url"])) {
     } else {
         $types = explode(",", $_GET["types"]);
     }
+    if (!isset($_GET["ctypes"])) {
+        $ctypes = ["*"];
+    } else {
+        $ctypes = explode(",", $_GET["types"]);
+    }
+
     $cleanDescription = isset($_GET["desc"]) && $_GET["desc"] != "false";
     $locationInSummary = isset($_GET["room"]) && $_GET["room"] != "false";
     $countInSummary = isset($_GET["count"]) && $_GET["count"] != "false";
 
-    convertCalendar(urldecode($_GET["url"]), $_GET["mode"], $cleanDescription, $locationInSummary, $countInSummary, $types);
+    convertCalendar(urldecode($_GET["url"]), $_GET["mode"], $cleanDescription, $locationInSummary, $countInSummary, $types, $ctypes);
 } else {
     header("Location: ./");
 }

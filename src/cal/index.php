@@ -26,7 +26,10 @@ if(isset($_GET['count'])) $count = $_GET['count'];
 $clean_desc = true;
 if(isset($_GET['desc'])) $clean_desc = $_GET['desc'];
 
-$types = Yaml::parseFile('cal-config.yml')['event_type'];
+$config = Yaml::parseFile('cal-config.yml');
+$event_type = $config['event_type'];
+$types = $config['types'];
+$selected_event_type = [];
 $selected_types = [];
 
 ?>
@@ -64,17 +67,38 @@ $selected_types = [];
             <h3>Types d'évènements à afficher&#8239;:</h3>
             <div class="types">
                 <?php
-                foreach ($types as $type) {
+                foreach ($event_type as $type) {
                     if (empty($_GET) && $type['default']) {
-                        $selected_types[] = $type['code'];
+                        $selected_event_type[] = $type['code'];
                     }else if(isset($_GET['type_' . $type['code']]) && $_GET['type_' . $type['code']]){
-                        $selected_types[] = $type['code'];
+                        $selected_event_type[] = $type['code'];
                     }
                     ?>
                     <div>
                         <input id="type_<?= $type['code'] ?>" type="checkbox" name="type_<?= $type['code'] ?>"
-                               value="true" <?= in_array($type['code'], $selected_types) ? 'checked' : '' ?>>
+                               value="true" <?= in_array($type['code'], $selected_event_type) ? 'checked' : '' ?>>
                         <label for="type_<?= $type['code'] ?>"><?= $type['full_name'] ?></label>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+
+            <h3>Types de cours à afficher&#8239;:</h3>
+            <div class="types">
+                <?php
+                foreach ($types as $type) {
+
+                    if (empty($_GET)) {
+                        $selected_types[] = $type['code'];
+                    }else if(isset($_GET['ctype_' . $type['code']]) && $_GET['ctype_' . $type['code']]){
+                        $selected_types[] = $type['code'];
+                    }
+                    ?>
+                    <div>
+                        <input id="ctype_<?= $type['code'] ?>" type="checkbox" name="ctype_<?= $type['code'] ?>"
+                               value="true" <?= in_array($type['code'], $selected_types) ? 'checked' : '' ?>>
+                        <label for="ctype_<?= $type['code'] ?>"><?= $type['explicit_name'] ?></label>
                     </div>
                     <?php
                 }
@@ -107,7 +131,7 @@ $selected_types = [];
             $desc = $clean_desc ? '&desc=true' : '';
             $room = $room ? '&room=true' : '';
             $count = $count ? '&count=true' : '';
-            $url = 'https://insa-utils.fr/cal/get.php?url=' . $url . $mode . $desc . $room . $count . "&types=" . implode(',', $selected_types);
+            $url = 'https://insa-utils.fr/cal/get.php?url=' . $url . $mode . $desc . $room . $count . "&types=" . implode(',', $selected_event_type) . "&ctypes=" . implode(',', $selected_types);
             ?>
             <h3>URL de ton calendrier convertis (nouvel abonnement iCal) :</h3>
             <p class="cal-link">

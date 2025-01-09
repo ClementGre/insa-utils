@@ -38,6 +38,7 @@ event_type:
     default: true
 
 # Required names:
+# - explicit (used in the frontend, must not be empty)
 # - full
 # - short
 # Available variable inside names:
@@ -48,20 +49,35 @@ event_type:
 # - subject_regex (over class full subject)
 # - details_regex (over class details)
 types:
-  - full_name: ""
+  - explicit_name: "Créneau Groupe"
+    full_name: ""
     short_name: ""
+    code: "group"
     subject_regex: "^Créneau Groupe$"
-  - full_name: "Travail Dirigé"
+  - explicit_name: "TD"
+    full_name: "Travail Dirigé"
     short_name: "TD"
+    code: "td"
     type_regex: "^TD$"
-  - full_name: "Cour Magistral"
+  - explicit_name: "CM"
+    full_name: "Cour Magistral"
     short_name: "CM"
+    code: "cm"
     type_regex: "^CM$"
-  - full_name: "Travail Pratique"
+  - explicit_name: "TP"
+    full_name: "Travail Pratique"
     short_name: "TP"
+    code: "tp"
     type_regex: "^TP$"
-  - full_name: "Soutien"
+  - explicit_name: "Évaluation"
+    full_name: "Évaluation"
+    short_name: "EV"
+    code: "ev"
+    type_regex: "^EV$"
+  - explicit_name: "Soutien"
+    full_name: "Soutien"
     short_name: "Soutien"
+    code: "soutien"
     type_regex: "^TA$"
 
 # Required names:
@@ -238,6 +254,11 @@ class_groups:
       - full_name: "Programmation Orientée Objet - C++ - Les Bases"
         short_name: "C++ Bases"
         code_name: "POO1"
+        type: "support"
+        class_regex: "^POO2:TA(?=[-:]|$)"
+      - full_name: "Programmation Orientée Objet - C++ - Avancée"
+        short_name: "C++ Avancée"
+        code_name: "POO2"
         type: "support"
         class_regex: "^POO1:TA(?=[-:]|$)"
       - full_name: "Architecture des circuits numériques"
