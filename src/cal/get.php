@@ -170,16 +170,16 @@ function is_class_valid($class, $types): bool
     return in_array($class['type'], $types);
 }
 /**
- * @param $type string class type of the event to check
+ * @param $type mixed class type of the event to check
  * @param $types array of class types code to accept (TD, TP, soutien, or * to include all types)
  * @return bool true if the type is in types or if * is in types, false otherwise. If type is null, always return true.
  */
 function is_type_valid($type, $types): bool
 {
-    if (!$type) {
+    if (!$type || !isset($type["code"])) {
         return true;
     }
-    return in_array($type, $types) || in_array("*", $types);
+    return in_array($type["code"], $types) || in_array("*", $types);
 }
 
 /**
