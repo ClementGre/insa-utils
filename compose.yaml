@@ -28,6 +28,8 @@ services:
       GIT_EMAIL: 'me@clgr.io'
       GIT_NAME: 'Clément Grennerat'
     network_mode: bridge
+    ports:
+      - "80:80"
 #    networks:
 #      - traefik
 #      - mysql

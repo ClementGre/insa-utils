@@ -172,14 +172,14 @@ function is_class_valid($class, $types): bool
 /**
  * @param $type string class type of the event to check
  * @param $types array of class types code to accept (TD, TP, soutien, or * to include all types)
- * @return bool true if the type is in types, or if type is null or if types is null or empty, false otherwise
+ * @return bool true if the type is in types or if * is in types, false otherwise. If type is null, always return true.
  */
 function is_type_valid($type, $types): bool
 {
-    if (!$type || !isset($types) || !$types || count($types) == 0) {
+    if (!$type) {
         return true;
     }
-    return in_array($type, $types);
+    return in_array($type, $types) || in_array("*", $types);
 }
 
 /**
@@ -233,7 +233,7 @@ function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary,
         return;
     }
     $matched_type = match_type($config, $type, $subject, $classDetails);
-    if(!is_type_valid($matched_type['type'], $ctypes)) {
+    if(!is_type_valid($matched_type, $ctypes)) {
         return;
     }
 
@@ -327,7 +327,7 @@ if (isset($_GET["url"])) {
     if (!isset($_GET["ctypes"])) {
         $ctypes = ["*"];
     } else {
-        $ctypes = explode(",", $_GET["types"]);
+        $ctypes = explode(",", $_GET["ctypes"]);
     }
 
     $cleanDescription = isset($_GET["desc"]) && $_GET["desc"] != "false";
