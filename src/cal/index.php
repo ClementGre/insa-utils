@@ -31,7 +31,8 @@ $event_type = $config['event_type'];
 $types = $config['types'];
 $selected_event_type = [];
 $selected_types = empty($_GET) ? ["*"] : [];
-
+if (isset($_GET['ctype_*']) && $_GET['ctype_*'])
+    $selected_types[] = "*";
 ?>
 
 <!DOCTYPE html>
