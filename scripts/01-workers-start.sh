@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo ">>> Setting correct timezone"
+
+echo "Europe/Paris" > /etc/timezone
+
 echo ">>> Installing python requirements for menu worker"
 pip install -r /var/www/html/workers/menu/requirements.txt
 

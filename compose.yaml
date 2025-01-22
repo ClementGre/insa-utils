@@ -6,6 +6,9 @@ services:
       traefik.enable: true
       traefik.host: insa-utils.fr
     environment:
+      TZ: Europe/Paris
+      VPN_USER: cgrennerat@insa-lyon.fr
+      VPN_PASSWORD: $VPN_PASSWORD
       MEILISEARCH_HOST: meilisearch
       MEILISEARCH_PORT: 7700
       MEILISEARCH_KEY: $MEILISEARCH_KEY
@@ -27,15 +30,12 @@ services:
       GIT_REPO: 'github.com/ClementGre/insa-utils.git'
       GIT_EMAIL: 'me@clgr.io'
       GIT_NAME: 'Clément Grennerat'
-    network_mode: bridge
-    ports:
-      - "80:80"
-#    networks:
-#      - traefik
-#      - mysql
-#      - insa-utils
-    #volumes:
-      #- /home/clement/openconnect/openconnect-pipe:/openconnect-pipe
+    networks:
+      - traefik
+      - mysql
+      - insa-utils
+    volumes:
+      - /home/clement/openconnect/openconnect-pipe:/openconnect-pipe
     restart: always
 
   meilisearch:
@@ -53,8 +53,8 @@ networks:
   insa-utils:
     name: insa-utils
   traefik:
-#    external: true
+    external: true
     name: traefik
   mysql:
-#    external: true
+    external: true
     name: mysql
