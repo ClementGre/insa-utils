@@ -50,14 +50,16 @@ def main():
     update_menu()
 
     print("Scheduling updates...")
-    register_recurrent_update("11:00", False)
-    register_recurrent_update("11:30", True)
-    register_recurrent_update("12:00", True)
+    register_recurrent_update("11:00", True)
+    register_recurrent_update("11:30", False)
+    register_recurrent_update("11:40", True)
+    register_recurrent_update("12:00", False)
     register_recurrent_update("12:30", True)
 
     register_recurrent_update("17:00", False)
-    register_recurrent_update("17:30", True)
-    register_recurrent_update("18:00", False)
+    register_recurrent_update("17:10", True)
+    register_recurrent_update("17:30", False)
+    register_recurrent_update("18:00", True)
     register_recurrent_update("18:30", False)
 
     print("Waiting for updates...")
