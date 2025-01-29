@@ -128,7 +128,15 @@ main.bde #menu .waiting-content div {
     margin: 0 10px;
 }
 
+.wait-prediction p{
+       align-items: center;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+
 .wait-prediction .chart {
+    align-items: center;
     margin-top: 10px;
     margin-bottom: 10px;
 }

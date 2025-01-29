@@ -48,13 +48,15 @@ $bde = isset($_GET['bde']);
             <div class="waiting-content">
                 <div class="current-wait">
                     <h2>Temps d'attente actuel (en minutes)</h2> 
-                    <span v-if="!restaurant.actualWaitingTime">Les données sur l'attente actuelle n'ont pas pu être récupérés.</span>
+                    <span v-if="!is_restaurant_open">Le restaurant n'est pas encore ouvert.</span>
+                    <span v-else-if="restaurant.actualWaitingTime === null || restaurant.actualWaitingTime === undefined">Les données sur l'attente actuelle n'ont pas pu être récupérés.</span>
                     <p v-else-if = "restaurant.actualWaitingTime < 10">0{{ restaurant.actualWaitingTime }}</p>
                     <p v-else>{{ restaurant.actualWaitingTime }}</p>
                 </div>
                 <div class="wait-prediction">
                     <h2>Prédiction d'attente</h2>
                     <div v-if="prediction_is_not_null" class="chart">
+                        <p>{{ restaurant.predictionDate }}</p>
                         <canvas id="histogramCanvas"></canvas>
                     </div>
                     <p v-else>Les prédictions sur le temps d'attente n'ont pas pu être récupérés.</p>

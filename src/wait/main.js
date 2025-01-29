@@ -102,6 +102,20 @@ createApp({
             const restaurant = this.selected_restaurant;
             return !restaurant 
         },
+        is_restaurant_open : function(){
+            const start = new Date(today_date);
+            const end = new Date(today_date);
+
+            if(this.time_id === "lunch"){
+                start.setHours(11, 30, 0, 0);
+                end.setHours(13, 30, 0, 0);
+                return (today_date >= start && today_date <= end);
+            }else {
+                start.setHours(18, 0, 0, 0);
+                end.setHours(19, 30, 0, 0);
+                return (today_date >= start && today_date <= end);
+            }
+        },
         is_work_in_progress: function(){
             const restaurant = this.selected_restaurant;
             if (restaurant?.["workInProgress"]){
@@ -134,7 +148,7 @@ createApp({
                 this.chart = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: this.time_id === 'lunch' ? ["11:30", "11:40", "11:50", "12:00", "12:10", "12:20", "12:30", "12:40", "12:50", "13:00", "13:10", "13:20", "13:30"] : ["18:00", "18:10", "18:20", "18:30", "18:40", "18:50","19:00", "19:10", "19:20", "19:30"],
+                        labels: this.time_id === 'lunch' ? ["11:30", "11:40", "11:50", "12:00", "12:10", "12:20", "12:30", "12:40", "12:50", "13:00", "13:10", "13:20"] : ["18:00", "18:10", "18:20", "18:30", "18:40", "18:50","19:00", "19:10", "19:20", "19:30"],
                         datasets: [
                             {
                                 label: 'Temps d\'attente prédictif',
