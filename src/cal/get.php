@@ -83,7 +83,7 @@ function format_name_from_regex_result($obj, $name_name, $details): string
  * @param $text string to match the regex with
  * @return bool true if the regex has matched or is invalid, false otherwise
  */
-function match_regex_and_update(mixed &$object, string $regex_name, string $text): bool
+function match_regex_and_update(&$object, $regex_name, $text): bool
 {
     if (!isset($text) || $text == '') {
         return false;
