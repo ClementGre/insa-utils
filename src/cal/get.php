@@ -85,7 +85,7 @@ function format_name_from_regex_result($obj, $name_name, $details): string
  */
 function match_regex_and_update(&$object, $regex_name, $text): bool
 {
-    if (!isset($text) || $text == '') {
+    if ($text === null) {
         return false;
     }
     if (!isset($object[$regex_name . '_regex'])) {
