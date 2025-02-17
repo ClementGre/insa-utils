@@ -18,6 +18,17 @@ function adjustFontSizeToFit() {
     let fontSize = 10; // Start font size in pixels
     html.style.fontSize = `${fontSize}px`;
 
+    function decreaseFontSize() {
+        if(document.documentElement.scrollHeight > window.innerHeight || document.documentElement.scrollWidth > window.innerWidth) {
+            // Decrement font size and apply it
+            fontSize -= .5;
+            html.style.fontSize = `${fontSize}px`;
+
+            // Check again on the next frame
+            requestAnimationFrame(decreaseFontSize);
+        }
+    }
+
     function increaseFontSize() {
         if (
             document.documentElement.scrollHeight <= window.innerHeight &&
@@ -26,18 +37,13 @@ function adjustFontSizeToFit() {
             if(fontSize > 50) return; // Max font size
 
             // Increment font size and apply it
-            fontSize += 1;
+            fontSize += 2;
             html.style.fontSize = `${fontSize}px`;
 
             // Check again on the next frame
             requestAnimationFrame(increaseFontSize);
         } else {
-            // Backtrack by a small amount to fit within the viewport
-            fontSize -= 5;
-            requestAnimationFrame(increaseFontSize);
-            fontSize += 3.5;
-            html.style.fontSize = `${fontSize}px`;
-            document.documentElement.style.overflow = 'hidden';
+            requestAnimationFrame(decreaseFontSize);
         }
     }
     // Start the resizing loop
