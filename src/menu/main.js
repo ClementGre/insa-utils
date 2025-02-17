@@ -26,15 +26,16 @@ function adjustFontSizeToFit() {
             if(fontSize > 50) return; // Max font size
 
             // Increment font size and apply it
-            fontSize += 0.5;
+            fontSize += 1;
             html.style.fontSize = `${fontSize}px`;
 
             // Check again on the next frame
             requestAnimationFrame(increaseFontSize);
         } else {
             // Backtrack by a small amount to fit within the viewport
-            fontSize -= 0.5;
+            fontSize -= 1.5;
             html.style.fontSize = `${fontSize}px`;
+            document.documentElement.style.overflow = 'hidden';
         }
     }
     // Start the resizing loop
