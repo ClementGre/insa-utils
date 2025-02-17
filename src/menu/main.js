@@ -33,7 +33,9 @@ function adjustFontSizeToFit() {
             requestAnimationFrame(increaseFontSize);
         } else {
             // Backtrack by a small amount to fit within the viewport
-            fontSize -= 1.5;
+            fontSize -= 5;
+            requestAnimationFrame(increaseFontSize);
+            fontSize += 3.5;
             html.style.fontSize = `${fontSize}px`;
             document.documentElement.style.overflow = 'hidden';
         }
