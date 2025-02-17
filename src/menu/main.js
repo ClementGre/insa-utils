@@ -26,6 +26,8 @@ function adjustFontSizeToFit() {
 
             // Check again on the next frame
             requestAnimationFrame(decreaseFontSize);
+        }else{
+            html.style.overflow = 'hidden';
         }
     }
 
