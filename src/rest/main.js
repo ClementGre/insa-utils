@@ -1,4 +1,4 @@
-import {createApp} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.prod.js'
+import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.esm-browser.prod.js'
 import calendar from "./calendar.js";
 import {debounce, isValidNotPassedRep, isValidPassedRep} from "./helpers.js";
 

@@ -1,4 +1,4 @@
-import {createApp} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js' // vue.esm-browser.prod.js
+import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.esm-browser.prod.js' // vue.esm-browser.prod.js
 import toggle_group from './toggle-group.js'
 import {initializePushNotifications} from './push-notifications.js'
 
