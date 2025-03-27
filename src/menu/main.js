@@ -15,7 +15,7 @@ function adjustFontSizeToFit() {
     const html = document.documentElement;
     if (!html.classList.contains('bde')) return;
 
-    let fontSize = 10; // Start font size in pixels
+    let fontSize = 20; // Start font size in pixels
     html.style.fontSize = `${fontSize}px`;
 
     function decreaseFontSize() {
