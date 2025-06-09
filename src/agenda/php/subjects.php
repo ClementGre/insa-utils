@@ -257,6 +257,64 @@ function get_subjects_templates(): array
             ], [
                 'name' => 'P2I', 'color' => 'green', 'type' => 'others'
             ]
-        ]
+        ],
+        'GEn S1' => [
+            [
+                'name' => 'Maths', 'color' => 'blue', 'type' => 'main'
+            ], [
+                'name' => 'Conduction', 'color' => 'red', 'type' => 'main'
+            ], [
+                'name' => 'Stats', 'color' => 'blue', 'type' => 'others'
+            ], [
+                'name' => 'TTC', 'color' => 'red', 'type' => 'main'
+            ], [
+                'name' => 'Convection', 'color' => 'red', 'type' => 'main'
+            ], [
+                'name' => 'Rayonnement', 'color' => 'red', 'type' => 'main'
+            ], [
+                'name' => 'Enviro', 'color' => 'green', 'type' => 'others'
+            ], [
+                'name' => 'QualitéMilieux', 'color' => 'green', 'type' => 'others'
+            ], [
+                'name' => 'SystClimEn', 'color' => 'green', 'type' => 'others'
+            ], [
+                'name' => 'MécaFlu', 'color' => 'orange', 'type' => 'main'
+            ], [
+                'name' => 'GEnEPI', 'color' => 'purple', 'type' => 'humas'
+            ], [
+                'name' => 'Anglais', 'color' => 'purple', 'type' => 'humas'
+            ], [
+                'name' => 'LV2', 'color' => 'purple', 'type' => 'humas'
+            ], [
+                'name' => 'Autre', 'color' => 'gray', 'type' => 'others'
+            ]
+        ],
+    'GEn S2' => [
+            [
+                'name' => 'Thermo', 'color' => 'red', 'type' => 'main'
+            ], [
+                'name' => 'Commande', 'color' => 'blue', 'type' => 'main'
+            ], [
+                'name' => 'TDS', 'color' => 'green', 'type' => 'others'
+            ], [
+                'name' => 'ModMultiphysique', 'color' => 'blue', 'type' => 'others'
+            ], [
+                'name' => 'Hydraulique', 'color' => 'orange', 'type' => 'main'
+            ], [
+                'name' => 'TransfertMatière', 'color' => 'green', 'type' => 'main'
+            ],  [
+                'name' => 'GEnEPI', 'color' => 'purple', 'type' => 'humas'
+            ],  [
+                'name' => 'MesuresPhysiques', 'color' => 'blue', 'type' => 'others'
+            ], [
+                'name' => 'TraitEffluents', 'color' => 'green', 'type' => 'others'
+            ], [
+                'name' => 'Anglais', 'color' => 'purple', 'type' => 'humas'
+            ], [
+                'name' => 'AlgèbreLinéaire', 'color' => 'red', 'type' => 'main'
+            ], [
+                'name' => 'Autre', 'color' => 'gray', 'type' => 'others'
+            ]
+        ],
     ];
 }
