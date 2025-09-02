@@ -12,8 +12,8 @@ createApp({
             regime: 0, // 0: 7/7 | 1: 5/7 petit dej. | 2: 5/7 simple | 3: Demi-pension | 4: À l'unité
             weeks: [],
             pricing: { // index = regime
-                dej: [2.06, 2.48, 2.68, 2.68, 2.68],
-                rep: [4.12, 4.92, 5.06, 5.06, 5.30]
+                dej: [2.10, 2.60, 2.70, 2.70, 2.70],
+                rep: [4.14, 4.95, 5.10, 5.10, 5.33]
             },
             newSolde: 0
         }
