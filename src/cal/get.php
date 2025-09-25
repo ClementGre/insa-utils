@@ -257,6 +257,9 @@ function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary,
     if ($countInSummary && $event_type_formatted) $event->summary .= $count;
     $event->summary .= $event_type_formatted ? " " : "";
 
+    if(!$subjectTag) $subjectTag = '';
+    if(!$subject) $subject = '';
+    if(!$classDetails) $classDetails = '';
     if ($matched_class) {
         $formatted = format_name_from_regex_result($matched_class, $event_name_name, $classDetails);
         $event->summary .= $formatted != '' ? $formatted : ($subject != '' ? $subject : ($classDetails != '' ? $classDetails : $event->summary));
