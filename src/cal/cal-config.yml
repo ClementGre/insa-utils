@@ -296,6 +296,7 @@ class_groups:
   - name: "IF"
     group_regex: "^IF(?=:.*)"
     classes:
+      # 3IF classes
       - full_name: "Architecture des circuits numériques"
         short_name: "Archi Circuit"
         code_name: "AC"
@@ -426,6 +427,17 @@ class_groups:
         code_name: "AC"
         type: "support"
         class_regex: "^AC:TA(?=[-:]|$)"
+        # 4IF classes
+      - full_name: "Conception Orientée Objet et développement logiciel AGILE"
+        short_name: "AGILE"
+        code_name: "AGILE"
+        class_regex: "^PLD-AGILE(?=[-:]|$)"
+        # Common classes
+      - full_name: "%DETAILS%"
+        short_name: "Archi Circuit"
+        code_name: "AC"
+        type: "other"
+        class_regex: "^PROMO:EDT$"
       - full_name: "%DETAILS%"
         short_name: "%DETAILS%"
         code_name: "%DETAILS%"
