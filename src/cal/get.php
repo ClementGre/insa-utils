@@ -258,7 +258,8 @@ function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary,
     $event->summary .= $event_type_formatted ? " " : "";
 
     if ($matched_class) {
-        $event->summary .= format_name_from_regex_result($matched_class, $event_name_name, $classDetails);
+        $formatted = format_name_from_regex_result($matched_class, $event_name_name, $classDetails);
+        $event->summary .= $formatted != '' ? $formatted : ($subject != '' ? $subject : ($classDetails != '' ? $classDetails : $event->summary));
     } else {
         $event->summary .= $subjectTag != '' ? $subjectTag : ($subject != '' ? $subject : ($classDetails != '' ? $classDetails : $event->summary));
     }
