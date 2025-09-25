@@ -260,7 +260,7 @@ function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary,
     if ($matched_class) {
         $event->summary .= format_name_from_regex_result($matched_class, $event_name_name, $classDetails);
     } else {
-        $event->summary .= $subjectTag ?? $subject ?? $classDetails;
+        $event->summary .= $subjectTag != '' ? $subjectTag : ($subject != '' ? $subject : $classDetails);
     }
 
     if ($event_name_name == 'code') $event_name_name = 'short'; // locations does not have code names
