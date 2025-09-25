@@ -44,7 +44,7 @@ event_type:
 # Available variable inside names:
 # - %MATCHED_TYPE (matched type regex, add _i to get the match group n°i)
 # - %DETAILS% (class details)
-# Available regexes to match locations (work in conjunction):
+# Available regexes to match types (work in conjunction):
 # - type_regex (over location)
 # - subject_regex (over class full subject)
 # - details_regex (over class details)
@@ -53,7 +53,7 @@ types:
     full_name: ""
     short_name: ""
     code: "group"
-    subject_regex: "^Créneau Groupe$"
+    subject_regex: "^(Créneau Groupe)|(PROMO:EDT)$"
   - explicit_name: "TD"
     full_name: "Travail Dirigé"
     short_name: "TD"
@@ -434,8 +434,8 @@ class_groups:
         class_regex: "^PLD-AGILE(?=[-:]|$)"
         # Common classes
       - full_name: "%DETAILS%"
-        short_name: "Archi Circuit"
-        code_name: "AC"
+        short_name: "%DETAILS%"
+        code_name: "%DETAILS%"
         type: "other"
         class_regex: "^PROMO:EDT$"
       - full_name: "%DETAILS%"

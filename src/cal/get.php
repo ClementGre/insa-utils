@@ -260,7 +260,7 @@ function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary,
     if ($matched_class) {
         $event->summary .= format_name_from_regex_result($matched_class, $event_name_name, $classDetails);
     } else {
-        $event->summary .= $subjectTag;
+        $event->summary .= $subjectTag ?? $classDetails;
     }
 
     if ($event_name_name == 'code') $event_name_name = 'short'; // locations does not have code names
@@ -338,8 +338,9 @@ if (isset($_GET["url"])) {
     $cleanDescription = isset($_GET["desc"]) && $_GET["desc"] != "false";
     $locationInSummary = isset($_GET["room"]) && $_GET["room"] != "false";
     $countInSummary = isset($_GET["count"]) && $_GET["count"] != "false";
+    $mode = $_GET["mode"] ?? 2; // 0 = full, 1 = short, 2 = code
 
-    convertCalendar(urldecode($_GET["url"]), $_GET["mode"], $cleanDescription, $locationInSummary, $countInSummary, $types, $ctypes);
+    convertCalendar(urldecode($_GET["url"]), $mode, $cleanDescription, $locationInSummary, $countInSummary, $types, $ctypes);
 } else {
     header("Location: ./");
 }
