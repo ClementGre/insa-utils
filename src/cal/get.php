@@ -253,6 +253,7 @@ function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary,
     } else {
         $event_type_formatted = $type;
     }
+    $originalSummary = $event->summary;
     $event->summary = $event_type_formatted ?: "";
     if ($countInSummary && $event_type_formatted) $event->summary .= $count;
     $event->summary .= $event_type_formatted ? " " : "";
@@ -262,9 +263,9 @@ function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary,
     if(!$classDetails) $classDetails = '';
     if ($matched_class) {
         $formatted = format_name_from_regex_result($matched_class, $event_name_name, $classDetails);
-        $event->summary .= $formatted != '' ? $formatted : ($subject != '' ? $subject : ($classDetails != '' ? $classDetails : $event->summary));
+        $event->summary .= $formatted != '' ? $formatted : ($subject != '' ? $subject : ($classDetails != '' ? $classDetails : $originalSummary));
     } else {
-        $event->summary .= $subjectTag != '' ? $subjectTag : ($subject != '' ? $subject : ($classDetails != '' ? $classDetails : $event->summary));
+        $event->summary .= $subjectTag != '' ? $subjectTag : ($subject != '' ? $subject : ($classDetails != '' ? $classDetails : $originalSummary));
     }
 
     if ($event_name_name == 'code') $event_name_name = 'short'; // locations does not have code names
