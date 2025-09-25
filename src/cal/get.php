@@ -205,7 +205,7 @@ function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary,
     }
 
     $classDetails = ''; // between \n( and )\n
-    if (preg_match('/\n\((.*?)\)\n/', $event->description, $matches)) {
+    if (preg_match('/\n\(((\n|.)*?)\)\n/', $event->description, $matches)) {
         $classDetails = $matches[1];
     }
 
@@ -260,7 +260,7 @@ function editEventAndPrint($event, $mode, $cleanDescription, $locationInSummary,
     if ($matched_class) {
         $event->summary .= format_name_from_regex_result($matched_class, $event_name_name, $classDetails);
     } else {
-        $event->summary .= $subjectTag != '' ? $subjectTag : ($subject != '' ? $subject : $classDetails);
+        $event->summary .= $subjectTag != '' ? $subjectTag : ($subject != '' ? $subject : ($classDetails != '' ? $classDetails : $event->summary));
     }
 
     if ($event_name_name == 'code') $event_name_name = 'short'; // locations does not have code names
