@@ -28,11 +28,11 @@ function getUserId() {
 
 function prettyPrintJSONtoHTML(json) {
     return JSON.stringify(json, function(k, v){
-        let doStringify = false;
-        if(v instanceof Array && v.every(a => !(a instanceof Object || a instanceof Array) || a instanceof Date)){
+        var doStringify = false;
+        if(v instanceof Array && v.every(function(a) { return !(a instanceof Object || a instanceof Array) || a instanceof Date; })){
             doStringify = true;
 
-        }else if(v instanceof Object && Object.values(v).every(a => !(a instanceof Object || a instanceof Array) || a instanceof Date )){
+        }else if(v instanceof Object && Object.values(v).every(function(a) { return !(a instanceof Object || a instanceof Array) || a instanceof Date; })){
             doStringify = true;
         }
         if (doStringify){
@@ -53,19 +53,19 @@ function prettyPrintJSONtoHTML(json) {
 }
 
 function createElementFromHTML(htmlString) {
-    const div = document.createElement('div');
+    var div = document.createElement('div');
     div.innerHTML = htmlString.trim();
     return div.firstChild;
 }
 
 function redirectWithPost(url, data) {
-    const $form = document.createElement('form');
+    var $form = document.createElement('form');
     $form.method = 'post';
     $form.action = url;
     data['csrf_js'] = getCsrfToken();
-    for (const key in data) {
+    for (var key in data) {
         if (data.hasOwnProperty(key)) {
-            const $input = document.createElement('input');
+            var $input = document.createElement('input');
             $input.type = 'hidden';
             $input.name = key;
             $input.value = data[key];
@@ -77,9 +77,9 @@ function redirectWithPost(url, data) {
 }
 
 function formatDate(date) {
-    let dd = date.getDate();
-    let mm = date.getMonth() + 1;
-    const yyyy = date.getFullYear();
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1;
+    var yyyy = date.getFullYear();
     if (dd < 10) {
         dd = '0' + dd;
     }
@@ -90,10 +90,10 @@ function formatDate(date) {
 }
 
 function formatDateFr(date_str) {
-    let date = new Date(Date.parse(date_str.replace(/-/g, '/')));
-    let dd = date.getDate();
-    let mm = date.getMonth() + 1;
-    const yyyy = date.getFullYear();
+    var date = new Date(Date.parse(date_str.replace(/-/g, '/')));
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1;
+    var yyyy = date.getFullYear();
     if (dd < 10) {
         dd = '0' + dd;
     }
@@ -106,7 +106,7 @@ function formatDateFr(date_str) {
 function out(text) {
     if(!text) return text;
 
-    const map = {
+    var map = {
         '&': '&amp;',
         '<': '&lt;',
         '>': '&gt;',

@@ -1,32 +1,38 @@
-import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.esm-browser.prod.js' // vue.esm-browser.prod.js
-import toggle_group from './toggle-group.js'
-import {initializePushNotifications} from './push-notifications.js'
+// Global namespace to avoid polluting global scope
+var MenuApp = MenuApp || {};
 
-const today_date = new Date();
+// Import utilities (using global scope since we can't use ES6 modules)
+// These will be loaded from toggle-group.js and utils.js
 
-const REST_INDICES = {
+var today_date = new Date();
+
+var REST_INDICES = {
     OLIVIER_LUNCH: 0,
     RI_LUNCH: 1,
-    RI_DINNER: 2,
-}
+    RI_DINNER: 2
+};
 
 // Scaling for BdE screens function
 function adjustFontSizeToFit() {
-    const html = document.documentElement;
+    var html = document.documentElement;
     if (!html.classList.contains('bde')) return;
 
-    let fontSize = 30; // Start font size in pixels
-    html.style.fontSize = `${fontSize}px`;
+    var fontSize = 30; // Start font size in pixels
+    html.style.fontSize = fontSize + 'px';
 
     function decreaseFontSize() {
         if(document.documentElement.scrollHeight > window.innerHeight || document.documentElement.scrollWidth > window.innerWidth) {
             // Decrement font size and apply it
-            fontSize -= .5;
-            html.style.fontSize = `${fontSize}px`;
+            fontSize -= 0.5;
+            html.style.fontSize = fontSize + 'px';
 
             // Check again on the next frame
-            requestAnimationFrame(decreaseFontSize);
-        }else{
+            if (window.requestAnimationFrame) {
+                window.requestAnimationFrame(decreaseFontSize);
+            } else {
+                setTimeout(decreaseFontSize, 16);
+            }
+        } else {
             html.style.overflow = 'hidden';
         }
     }
@@ -40,28 +46,36 @@ function adjustFontSizeToFit() {
 
             // Increment font size and apply it
             fontSize += 2;
-            html.style.fontSize = `${fontSize}px`;
+            html.style.fontSize = fontSize + 'px';
 
             // Check again on the next frame
-            requestAnimationFrame(increaseFontSize);
+            if (window.requestAnimationFrame) {
+                window.requestAnimationFrame(increaseFontSize);
+            } else {
+                setTimeout(increaseFontSize, 16);
+            }
         } else {
-            requestAnimationFrame(decreaseFontSize);
+            if (window.requestAnimationFrame) {
+                window.requestAnimationFrame(decreaseFontSize);
+            } else {
+                setTimeout(decreaseFontSize, 16);
+            }
         }
     }
     // Start the resizing loop
     increaseFontSize();
 }
+
 // Initial adjustment
 adjustFontSizeToFit();
 // Adjust font size on window resize
 window.addEventListener('resize', adjustFontSizeToFit);
 
+function get_default_selected_rest(disable_olivier) {
+    if (disable_olivier === undefined) disable_olivier = false;
 
-
-function get_default_selected_rest(disable_olivier = false){
-    const storage_value = localStorage.getItem('selected_rest_index');
-
-    const urlParams = new URLSearchParams(window.location.search);
+    var storage_value = localStorage.getItem('selected_rest_index');
+    var urlParams = new URLSearchParams(window.location.search);
 
     if((storage_value == REST_INDICES.OLIVIER_LUNCH || urlParams.get('rest') === 'olivier') && !disable_olivier){
         if(today_date.getDay() !== 0 && today_date.getDay() !== 6){ // Not weekend
@@ -70,66 +84,84 @@ function get_default_selected_rest(disable_olivier = false){
     }
 
     if(today_date.getHours() < 14 || today_date.getDay() === 6){ // Before 14h or sunday
-        return REST_INDICES.RI_LUNCH
-    }else return REST_INDICES.RI_DINNER
+        return REST_INDICES.RI_LUNCH;
+    } else {
+        return REST_INDICES.RI_DINNER;
+    }
 }
 
-createApp({
-    data(){
+// Vue 3 app configuration
+var appConfig = {
+    data: function() {
         return {
             data: null,
             ui: {
                 selected_day_index: today_date.getDay() === 0 ? 6 : today_date.getDay() - 1,
                 selected_rest_index: get_default_selected_rest(),
-                week_menu_available: !(today_date.getDay() === 1 && (today_date.getHours() <= 10 || (today_date.getHours() === 11 && today_date.getMinutes() < 10))),
+                week_menu_available: !(today_date.getDay() === 1 && (today_date.getHours() <= 10 || (today_date.getHours() === 11 && today_date.getMinutes() < 10)))
             },
             selected_date: {
                 month: today_date.getMonth(),
                 day: today_date.getDay()
             }
-        }
+        };
     },
     components: {
-        "toggle-group": toggle_group
+        'toggle-group': window.ToggleGroupComponent || {}
     },
     computed: {
-        rest_id: function(){
+        rest_id: function() {
             if(this.ui.selected_rest_index === REST_INDICES.OLIVIER_LUNCH) return 'olivier';
-            return 'ri'
+            return 'ri';
         },
-        time_id: function(){
+        time_id: function() {
             if(this.ui.selected_rest_index === REST_INDICES.RI_DINNER) return 'dinner';
-            return 'lunch'
+            return 'lunch';
         },
-        disabled_rest_indices: function(){
-            let indices = [];
+        disabled_rest_indices: function() {
+            var indices = [];
             if(this.ui.selected_day_index >= 5){
-                indices.push(REST_INDICES.OLIVIER_LUNCH)
+                indices.push(REST_INDICES.OLIVIER_LUNCH);
                 if(this.ui.selected_day_index === 5){
-                    indices.push(REST_INDICES.RI_DINNER)
+                    indices.push(REST_INDICES.RI_DINNER);
                 }
             }
             return indices;
         },
-        selected_menu: function(){
-            return this.data?.days?.[this.ui.selected_day_index]?.[this.time_id]?.[this.rest_id];
+        selected_menu: function() {
+            var data = this.data;
+            if (!data || !data.days) return null;
+            var day = data.days[this.ui.selected_day_index];
+            if (!day) return null;
+            var timeData = day[this.time_id];
+            if (!timeData) return null;
+            return timeData[this.rest_id];
         },
-        is_menu_empty: function(){
-            const menu = this.selected_menu;
-            return !menu || !(menu.plat && menu.plat.length != 0)
-                && !((menu.garniture && menu.garniture.length != 0) || (menu.sauce && menu.sauce.length != 0))
-                && !(menu.entree && menu.entree.length != 0)
-                && !((menu.dessert && menu.dessert.length != 0) || (menu.fromage && menu.fromage.length != 0));
+        is_menu_empty: function() {
+            var menu = this.selected_menu;
+            if (!menu) return true;
+
+            var hasPlat = menu.plat && menu.plat.length !== 0;
+            var hasGarniture = menu.garniture && menu.garniture.length !== 0;
+            var hasSauce = menu.sauce && menu.sauce.length !== 0;
+            var hasEntree = menu.entree && menu.entree.length !== 0;
+            var hasDessert = menu.dessert && menu.dessert.length !== 0;
+            var hasFromage = menu.fromage && menu.fromage.length !== 0;
+
+            return !hasPlat && !(hasGarniture || hasSauce) && !hasEntree && !(hasDessert || hasFromage);
         },
-        is_menu_outdated: function(){
-            console.log(this.data?.last_update)
-            const last_update = new Date(this.data?.last_update);
-            console.log("Last update date:", last_update)
+        is_menu_outdated: function() {
+            var data = this.data;
+            if (!data || !data.last_update) return false;
 
-            const last_update_day = last_update.getDay();
-            const last_update_gap = (today_date.getTime() - last_update.getTime()) / (1000. * 60. * 60. * 24.);
+            console.log(data.last_update);
+            var last_update = new Date(data.last_update);
+            console.log('Last update date:', last_update);
 
-            console.log("Last update gap:", last_update_gap, "Last update day:", last_update_day, "Today day:", today_date.getDay())
+            var last_update_day = last_update.getDay();
+            var last_update_gap = (today_date.getTime() - last_update.getTime()) / (1000 * 60 * 60 * 24);
+
+            console.log('Last update gap:', last_update_gap, 'Last update day:', last_update_day, 'Today day:', today_date.getDay());
 
             return last_update_gap >= 7 // More than 7 days ago
                 || (today_date.getDay() < last_update_day && today_date.getDay() !== 0) // Last update in a day of the week that is after today (except if today is sunday)
@@ -138,87 +170,103 @@ createApp({
         }
     },
     methods: {
-        get_day_buttons_names: function(){
-            let data = [];
-            const current_week_index = today_date.getDay() === 0 ? 6 : today_date.getDay() - 1;
+        get_day_buttons_names: function() {
+            var data = [];
+            var current_week_index = today_date.getDay() === 0 ? 6 : today_date.getDay() - 1;
 
-            for(let i = -current_week_index; i < 7 - current_week_index; i++){
-                const date = new Date(today_date.getFullYear(), today_date.getMonth(), today_date.getDate() + i)
+            for(var i = -current_week_index; i < 7 - current_week_index; i++){
+                var date = new Date(today_date.getFullYear(), today_date.getMonth(), today_date.getDate() + i);
 
-                let title = date.toLocaleDateString('fr', {weekday: 'short'});
-                title = title.substring(0, 1).toUpperCase() + title.substring(1, title.length - 1)
-                let subtitle = date.toLocaleDateString('fr', {month: 'short', day: 'numeric'}).toLowerCase();
+                var title = date.toLocaleDateString('fr', {weekday: 'short'});
+                title = title.substring(0, 1).toUpperCase() + title.substring(1, title.length - 1);
+                var subtitle = date.toLocaleDateString('fr', {month: 'short', day: 'numeric'}).toLowerCase();
 
                 data.push(title + ':' + subtitle);
             }
             return data;
         },
-        convert_labels_to_icons: function(title){
-            title = out(title)
-            for(const [key, value] of LABELS.entries()){
-                title = title.replaceAll('&lt;' + key + '&gt;', ` <img src="labels/${key}.png" alt="${value}" title="${value}"> `);
+        convert_labels_to_icons: function(title) {
+            title = window.out(title);
+            var labelsArray = [
+                ['BBC', 'Bleu Blanc Coeur'],
+                ['VF', 'Viande française'],
+                ['FLF', 'Fruits et légumes de France'],
+                ['FM', 'Fait maison'],
+                ['VEG', 'Végétarien'],
+                ['HVE', 'Haute valeur environnementale'],
+                ['BIO', 'Bio']
+            ];
+
+            for(var i = 0; i < labelsArray.length; i++) {
+                var key = labelsArray[i][0];
+                var value = labelsArray[i][1];
+                var pattern = new RegExp('&lt;' + key + '&gt;', 'g');
+                title = title.replace(pattern, ' <img src="labels/' + key + '.png" alt="' + value + '" title="' + value + '"> ');
             }
             return title;
         },
-        get_dish_html: function(dish, prefix = false){
-            let html = '';
+        get_dish_html: function(dish, prefix) {
+            if (prefix === undefined) prefix = false;
+
+            var html = '';
 
             if(prefix){
-                html += `<span class="prefix">${prefix} :</span>`
+                html += '<span class="prefix">' + prefix + ' :</span>';
             }
             return html + this.convert_labels_to_icons(dish);
         },
-        enable_notifications: function(){
-            let form_data = {
+        enable_notifications: function() {
+            var form_data = {
                 ri_lunch: true,
                 ri_dinner: true,
                 ri_weekend: true,
                 lunch_time: '11:10',
                 dinner_time: '17:10',
                 olivier: true
+            };
+            if (window.initializePushNotifications) {
+                window.initializePushNotifications(form_data);
             }
-            initializePushNotifications(form_data);
         }
     },
     watch: {
-        'ui.selected_day_index': function(new_selected_day_index){
-
+        'ui.selected_day_index': function(new_selected_day_index) {
+            // Empty watch
         },
-        'ui.selected_rest_index': function(new_selected_rest_index){
+        'ui.selected_rest_index': function(new_selected_rest_index) {
             localStorage.setItem('selected_rest_index', new_selected_rest_index);
         },
-        disabled_rest_indices: function(new_disabled_indices){
-            if(new_disabled_indices.includes(this.ui.selected_rest_index)){
-                const def = get_default_selected_rest(true)
-                if(new_disabled_indices.includes(def)){
-                    console.log(REST_INDICES.RI_LUNCH)
+        disabled_rest_indices: function(new_disabled_indices) {
+            if(new_disabled_indices.indexOf(this.ui.selected_rest_index) !== -1){
+                var def = get_default_selected_rest(true);
+                if(new_disabled_indices.indexOf(def) !== -1){
+                    console.log(REST_INDICES.RI_LUNCH);
                     this.ui.selected_rest_index = REST_INDICES.RI_LUNCH; // always available
-                }else{
-                    console.log(def)
+                } else {
+                    console.log(def);
                     this.ui.selected_rest_index = def;
                 }
             }
-        },
+        }
     },
-    created(){
-        console.log("Fetching menu...")
-        fetch('data/menu.json', {cache: "no-store"})
-            .then(response => response.json())
-            .then(data => {
-                console.log("Menu fetched.", data)
-                this.data = data
+    created: function() {
+        var self = this;
+        console.log('Fetching menu...');
+        fetch('data/menu.json', {cache: 'no-store'})
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                console.log('Menu fetched.', data);
+                self.data = data;
+            })
+            .catch(function(error) {
+                console.error('Error fetching menu:', error);
             });
-
     }
-}).mount('#app')
+};
 
-
-const LABELS = new Map([
-    ['BBC', 'Bleu Blanc Coeur'],
-    ['VF', 'Viande française'],
-    ['FLF', 'Fruits et légumes de France'],
-    ['FM', 'Fait maison'],
-    ['VEG', 'Végétarien'],
-    ['HVE', 'Haute valeur environnementale'],
-    ['BIO', 'Bio']
-]);
+// Create and mount the Vue app when DOM is ready
+if (typeof createApp !== 'undefined') {
+    createApp(appConfig).mount('#app');
+} else {
+    console.error('Vue 3 createApp is not available');
+}
