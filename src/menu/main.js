@@ -1,8 +1,3 @@
-import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.esm-browser.prod.js'
-
-// Global namespace to avoid polluting global scope
-var MenuApp = MenuApp || {};
-
 var today_date = new Date();
 
 var REST_INDICES = {
