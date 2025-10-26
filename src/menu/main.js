@@ -258,4 +258,4 @@ var appConfig = {
     }
 };
 
-createApp(appConfig).mount('#app');
+Vue.createApp(appConfig).mount('#app');
