@@ -1,8 +1,7 @@
+import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.esm-browser.prod.js'
+
 // Global namespace to avoid polluting global scope
 var MenuApp = MenuApp || {};
-
-// Import utilities (using global scope since we can't use ES6 modules)
-// These will be loaded from toggle-group.js and utils.js
 
 var today_date = new Date();
 
@@ -264,9 +263,4 @@ var appConfig = {
     }
 };
 
-// Create and mount the Vue app when DOM is ready
-if (typeof createApp !== 'undefined') {
-    createApp(appConfig).mount('#app');
-} else {
-    console.error('Vue 3 createApp is not available');
-}
+createApp(appConfig).mount('#app');
