@@ -1,7 +1,7 @@
 // Import utilities - using global scope for old browser compatibility
 // Assumes utils.js is loaded before this file
 
-var toggleGroupComponent = {
+window.ToggleGroupComponent = {
     name: 'calendar',
     props: ["buttons", "label", "selected_index", "disabled_indices"],
     template: '<div class="toggle-group unselectable" role="radiogroup" :aria-labelledby="label">' +
@@ -33,8 +33,3 @@ var toggleGroupComponent = {
         }
     }
 };
-
-// Export for old browsers using global scope
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = toggleGroupComponent;
-}
