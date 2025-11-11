@@ -21,7 +21,7 @@ if (isset($_POST['class_name'])){
             $q->execute([":name" => $_POST['class_name']]);
             $class_id = getDB()->lastInsertId();
             // Leave current class
-            if ($status['in_in_class']){
+            if ($status['is_in_class']){
                 leave_class($id, $status['class_id']);
             }
             // Update user class

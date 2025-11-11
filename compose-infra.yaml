@@ -1,0 +1,73 @@
+services:
+  php-fpm:
+    image: registry.gitlab.com/sia-insa-lyon/BdEINSALyon/insa-utils/insa-utils-website-php:${TAG}
+    user: '2017:2017'
+    environment:
+      HOST: ${HOST}
+      MEILISEARCH_HOST: meilisearch
+      MEILISEARCH_PORT: 7700
+      MEILISEARCH_KEY: $MEILISEARCH_KEY
+      SMTP_FROM_EMAIL: $SMTP_FROM_EMAIL
+      SMTP_FROM_NAME: $SMTP_FROM_NAME
+      SMTP_HOST: $SMTP_HOST
+      SMTP_PORT: $SMTP_PORT
+      SMTP_USERNAME: $SMTP_USERNAME
+      SMTP_PASSWORD: $SMTP_PASSWORD
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_SERVER: ${DATABASE_SERVER}
+      DATABASE_PORT: ${DATABASE_PORT}
+      WEBPUSH_PRIVATE_KEY: $WEBPUSH_PRIVATE_KEY
+      MENU_PUSH_TOKEN: $MENU_PUSH_TOKEN
+    networks:
+      - mariadb-network
+      - insa-utils-network
+    volumes:
+      - "/mnt/block-classic-apps/insa-utils-data:/data"
+    restart: always
+
+  nginx:
+    image: registry.gitlab.com/sia-insa-lyon/BdEINSALyon/insa-utils/insa-utils-website-nginx:${TAG}
+    user: '2017:2017'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.insa-utils.rule=Host(`${HOST}`)"
+    networks:
+      - traefik-network
+      - insa-utils-network
+    depends_on:
+      - php-fpm
+    restart: always
+
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.12
+    user: '2017:2017'
+    environment:
+      MEILI_MASTER_KEY: $MEILISEARCH_KEY
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.insa-utils-meilisearch.rule=Host(`${MEILISEARCH_ADMIN_HOST}`)"
+      - "traefik.http.routers.insa-utils-meilisearch.middlewares=twingateonly"
+      - "traefik.http.services.insa-utils-meilisearch.loadbalancer.server.port=7700"
+    networks:
+      - traefik-network
+      - insa-utils-network
+    volumes:
+      - "/mnt/block-classic-apps/insa-utils-meilisearch:/meili_data"
+
+
+networks:
+  traefik-network:
+    name: traefik-network
+    external: true
+  mariadb-network:
+    name: mariadb-network
+    external: true
+  insa-utils-network:
+    name: insa-utils-network
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.26.11.0/24

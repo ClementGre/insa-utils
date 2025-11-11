@@ -191,6 +191,10 @@ function get_user_status(): array
         $q->execute([":id" => $id]);
         $user = $q->fetch();
 
+        if($user === false){
+            return $data;
+        }
+
         if($auth_token == $user['auth_token']){
             $data['logged_in'] = true;
             $data['name'] = $user['name'];
