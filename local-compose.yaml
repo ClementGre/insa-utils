@@ -1,0 +1,73 @@
+services:
+  php-fpm:
+    build:
+      context: .
+      target: php
+    user: '2017:2017'
+    environment:
+      HOST: localhost
+      MEILISEARCH_HOST: localhost
+      MEILISEARCH_PORT: 7700
+      MEILISEARCH_KEY: testmeilisearchkey
+      SMTP_FROM_EMAIL: example@example.com
+      SMTP_FROM_NAME: 'INSA Utils'
+      SMTP_HOST: example.com
+      SMTP_PORT: 25
+      SMTP_USERNAME: exampleuser
+      SMTP_PASSWORD: examplepassword
+      DATABASE_NAME: insa_utils
+      DATABASE_USER: insa_utils
+      DATABASE_PASSWORD: insa_utils_password
+      DATABASE_SERVER: host.docker.internal
+      DATABASE_PORT: 3306
+      WEBPUSH_PRIVATE_KEY: testprivatekey
+      MENU_PUSH_TOKEN: testtoken
+    volumes:
+      - "./public:/app/public"
+      - "./libs:/app/libs"
+      - "./migrations:/app/migrations"
+      - "./composer.json:/app/composer.json"
+      - "./composer.lock:/app/composer.lock"
+      - "./data/insa-utils-data:/data"
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mariadb
+      - meilisearch
+
+  nginx:
+    build:
+      context: .
+      target: nginx
+    user: '2017:2017'
+    ports:
+      - "80:80"
+    volumes:
+      - "./docker/nginx-site-dev.conf:/etc/nginx/conf.d/default.conf"
+      - "./public:/app/public"
+    depends_on:
+      - php-fpm
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.12
+    environment:
+      MEILI_MASTER_KEY: testmeilisearchkey
+    ports:
+      - "7700:7700"
+    volumes:
+      - "./data/insa-utils-meilisearch:/meili_data"
+
+  mariadb:
+    image: mariadb:11.5
+    environment:
+      TZ: Europe/Paris
+      MARIADB_ROOT_PASSWORD: mariadbrootpassword
+      MARIADB_DATABASE: insa_utils
+      MARIADB_USER: insa_utils
+      MARIADB_PASSWORD: insa_utils_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mariadb-data:/var/lib/mysql
+      - ./data/mariadb-config:/etc/mysql
+

@@ -4,8 +4,356 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3262afa9d1a8b5d70a1172fa80df4203",
+    "content-hash": "7687ea442f6373b27e042eff2c9b9c60",
     "packages": [
+        {
+            "name": "byjg/anydataset",
+            "version": "5.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/byjg/php-anydataset.git",
+                "reference": "88af0027b0734b058178eb1d5e175ecca0890ac6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/byjg/php-anydataset/zipball/88af0027b0734b058178eb1d5e175ecca0890ac6",
+                "reference": "88af0027b0734b058178eb1d5e175ecca0890ac6",
+                "shasum": ""
+            },
+            "require": {
+                "byjg/serializer": "^5.0",
+                "byjg/xmlutil": "^5.0",
+                "ext-dom": "*",
+                "php": ">=8.1 <8.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6",
+                "vimeo/psalm": "^4.24"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ByJG\\AnyDataset\\Core\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Anydataset is an agnostic data source abstraction layer in PHP. Core Module.",
+            "support": {
+                "issues": "https://github.com/byjg/php-anydataset/issues",
+                "source": "https://github.com/byjg/php-anydataset/tree/5.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/byjg",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-07-30T19:30:29+00:00"
+        },
+        {
+            "name": "byjg/anydataset-array",
+            "version": "5.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/byjg/php-anydataset-array.git",
+                "reference": "c876551f1d90b7a281acf19bd7c1d27c8f7afcdd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/byjg/php-anydataset-array/zipball/c876551f1d90b7a281acf19bd7c1d27c8f7afcdd",
+                "reference": "c876551f1d90b7a281acf19bd7c1d27c8f7afcdd",
+                "shasum": ""
+            },
+            "require": {
+                "byjg/anydataset": "^5.0",
+                "php": ">=8.1 <8.4"
+            },
+            "provide": {
+                "byjg/anydataset-implementation": "1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ByJG\\AnyDataset\\Lists\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Anydataset Array abstraction. Anydataset is an agnostic data source abstraction layer in PHP.",
+            "support": {
+                "issues": "https://github.com/byjg/php-anydataset-array/issues",
+                "source": "https://github.com/byjg/php-anydataset-array/tree/5.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/byjg",
+                    "type": "github"
+                }
+            ],
+            "abandoned": "byjg/anydataset",
+            "time": "2024-12-17T18:23:23+00:00"
+        },
+        {
+            "name": "byjg/anydataset-db",
+            "version": "5.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/byjg/php-anydataset-db.git",
+                "reference": "7de3aac11146dcedfd02e01587c8e5bb96c9306c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/byjg/php-anydataset-db/zipball/7de3aac11146dcedfd02e01587c8e5bb96c9306c",
+                "reference": "7de3aac11146dcedfd02e01587c8e5bb96c9306c",
+                "shasum": ""
+            },
+            "require": {
+                "byjg/anydataset-array": "^5.0",
+                "byjg/uri": "^5.0",
+                "ext-json": "*",
+                "ext-pdo": "*",
+                "php": ">=8.1 <8.4",
+                "psr/cache": "^1.0|^2.0|^3.0",
+                "psr/log": "^1.1|^2.0|^3.0"
+            },
+            "provide": {
+                "byjg/anydataset-implementation": "1.0"
+            },
+            "require-dev": {
+                "byjg/cache-engine": "^5.0",
+                "phpunit/phpunit": "^9.6",
+                "vimeo/psalm": "^5.9"
+            },
+            "suggest": {
+                "byjg/cache-engine": "^5.0",
+                "ext-curl": "*",
+                "ext-oci8": "*",
+                "ext-pdo_mysql": "*",
+                "ext-pdo_pgsql": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ByJG\\AnyDataset\\Db\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Anydataset Database Relational abstraction. Anydataset is an agnostic data source abstraction layer in PHP.",
+            "support": {
+                "issues": "https://github.com/byjg/php-anydataset-db/issues",
+                "source": "https://github.com/byjg/php-anydataset-db/tree/5.0.8"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/byjg",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-09-09T13:44:21+00:00"
+        },
+        {
+            "name": "byjg/migration",
+            "version": "5.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/byjg/php-migration.git",
+                "reference": "d06b6fb1eb34d5f03e78e405049c6f45e77aeccc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/byjg/php-migration/zipball/d06b6fb1eb34d5f03e78e405049c6f45e77aeccc",
+                "reference": "d06b6fb1eb34d5f03e78e405049c6f45e77aeccc",
+                "shasum": ""
+            },
+            "require": {
+                "byjg/anydataset-db": "^5.0",
+                "ext-pdo": "*"
+            },
+            "require-dev": {
+                "php": ">=8.1 <8.4",
+                "phpunit/phpunit": "^9.6",
+                "vimeo/psalm": "^5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ByJG\\DbMigration\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Simple library in PHP for database version control. Supports Sqlite, MySql, Sql Server and Postgres.",
+            "support": {
+                "issues": "https://github.com/byjg/php-migration/issues",
+                "source": "https://github.com/byjg/php-migration/tree/5.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/byjg",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-01-07T13:14:19+00:00"
+        },
+        {
+            "name": "byjg/serializer",
+            "version": "5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/byjg/php-serializer.git",
+                "reference": "4d5e54deaa1d59a2227800596f8bbba80568c310"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/byjg/php-serializer/zipball/4d5e54deaa1d59a2227800596f8bbba80568c310",
+                "reference": "4d5e54deaa1d59a2227800596f8bbba80568c310",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-simplexml": "*",
+                "php": ">=8.1 <8.4",
+                "symfony/yaml": "> 4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6",
+                "vimeo/psalm": "^5.9"
+            },
+            "suggest": {
+                "ext-curl": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ByJG\\Serializer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Serialize any object into array and format it JSON or XML",
+            "support": {
+                "issues": "https://github.com/byjg/php-serializer/issues",
+                "source": "https://github.com/byjg/php-serializer/tree/5.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/byjg",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-10-27T15:46:21+00:00"
+        },
+        {
+            "name": "byjg/uri",
+            "version": "5.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/byjg/php-uri.git",
+                "reference": "59cf33132f93359e35afb00ff02cb22b36e97d16"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/byjg/php-uri/zipball/59cf33132f93359e35afb00ff02cb22b36e97d16",
+                "reference": "59cf33132f93359e35afb00ff02cb22b36e97d16",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1 <8.5",
+                "psr/http-message": "^1.0|^1.1|^2.0"
+            },
+            "provide": {
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6",
+                "vimeo/psalm": "^6.0"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "ByJG\\Util\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "An implementation of PSR-7 Uri Interface ",
+            "support": {
+                "issues": "https://github.com/byjg/php-uri/issues",
+                "source": "https://github.com/byjg/php-uri/tree/5.0.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/byjg",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-11-30T15:36:13+00:00"
+        },
+        {
+            "name": "byjg/xmlutil",
+            "version": "5.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/byjg/php-xmlutil.git",
+                "reference": "e7ee827736337e475d36f4bfe8511390cc521dd5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/byjg/php-xmlutil/zipball/e7ee827736337e475d36f4bfe8511390cc521dd5",
+                "reference": "e7ee827736337e475d36f4bfe8511390cc521dd5",
+                "shasum": ""
+            },
+            "require": {
+                "byjg/serializer": "^5.0",
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "ext-simplexml": "*",
+                "php": ">=8.1 <8.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6",
+                "vimeo/psalm": "^5.20"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ByJG\\XmlUtil\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A utility class to make easy work with XML in PHP.",
+            "support": {
+                "issues": "https://github.com/byjg/php-xmlutil/issues",
+                "source": "https://github.com/byjg/php-xmlutil/tree/5.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/byjg",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-07-03T15:33:47+00:00"
+        },
         {
             "name": "clue/stream-filter",
             "version": "v1.7.0",
@@ -994,6 +1342,55 @@
             "time": "2023-11-25T22:23:28+00:00"
         },
         {
+            "name": "psr/cache",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/cache.git",
+                "reference": "aa5030cfa5405eccfdcb1083ce040c2cb8d253bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/cache/zipball/aa5030cfa5405eccfdcb1083ce040c2cb8d253bf",
+                "reference": "aa5030cfa5405eccfdcb1083ce040c2cb8d253bf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Cache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for caching libraries",
+            "keywords": [
+                "cache",
+                "psr",
+                "psr-6"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/cache/tree/3.0.0"
+            },
+            "time": "2021-02-03T23:26:27+00:00"
+        },
+        {
             "name": "psr/http-client",
             "version": "1.0.3",
             "source": {
@@ -1152,6 +1549,56 @@
                 "source": "https://github.com/php-fig/http-message/tree/2.0"
             },
             "time": "2023-04-04T09:54:51+00:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
+                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/3.0.2"
+            },
+            "time": "2024-09-11T13:17:53+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -1574,5 +2021,5 @@
         "ext-mbstring": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

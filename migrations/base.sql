@@ -91,4 +91,3 @@ CREATE TABLE `users`
     PRIMARY KEY (`id`),
     UNIQUE KEY `users_pk` (`name`)
 );
-/

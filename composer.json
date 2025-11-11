@@ -11,7 +11,8 @@
         "meilisearch/meilisearch-php": "^1.2",
         "guzzlehttp/guzzle": "^7.7",
         "http-interop/http-factory-guzzle": "^1.0",
-        "symfony/yaml": "^7.1"
+        "symfony/yaml": "^7.1",
+        "byjg/migration": "^5.0"
     },
     "authors": [
         {
