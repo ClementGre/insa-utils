@@ -25,7 +25,7 @@ self.addEventListener("notificationclick", (event) => {
 
     const is_ri = false//event.data.json().is_ri;
     event.notification.close();
-    event.waitUntil(openUrl("https://insa-utils.fr/menu/" + (is_ri ? "" : "?rest=olivier")));
+    event.waitUntil(openUrl("https://utils.bde-insa-lyon.fr/menu/" + (is_ri ? "" : "?rest=olivier")));
 });
 
 async function openUrl(url) {

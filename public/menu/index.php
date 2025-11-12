@@ -100,7 +100,7 @@ $bde = isset($_GET['bde']);
      <?php } ?>
 </main>
 <footer>
-     <?= $bde ? getFooter('BdE INSA Lyon', "Powered by insa-utils.fr")
+     <?= $bde ? getFooter('Menu des restaurants', "Powered by utils.bde-insa-lyon.fr")
          : getFooter('<a href="https://menu-restaurants.insa-lyon.fr" target="_blank">Page officielle</a>', "Clément GRENNERAT") ?>
 </footer>
 <script src="<?= getRootPath() ?>template/vue.global.prod.js"></script>
