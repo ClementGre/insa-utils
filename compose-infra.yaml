@@ -1,5 +1,5 @@
 services:
-  php-fpm:
+  php:
     image: registry.gitlab.com/sia-insa-lyon/BdEINSALyon/insa-utils/insa-utils-website-php:${TAG}
     user: '2017:2017'
     environment:
@@ -37,7 +37,7 @@ services:
       - traefik-network
       - insa-utils-network
     depends_on:
-      - php-fpm
+      - php
     restart: always
 
 
