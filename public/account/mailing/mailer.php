@@ -17,10 +17,6 @@ function send_auth_mail($name, $email_prefix, $id, $email_token, $email_code, $r
 
     $subject = 'Authentification sur insa-utils';
 
-    if (str_starts_with($_SERVER['HTTP_HOST'], 'localhost')) {
-        return;
-    }
-
     sendMail($name, $email_prefix . '@insa-lyon.fr', $subject, $html, $text);
 }
 function send_disable_email_mail($name, $email_prefix, $id, $email_resubscribe_token): void
@@ -35,9 +31,6 @@ function send_disable_email_mail($name, $email_prefix, $id, $email_resubscribe_t
 
     $subject = 'Désactivation de la réception d\'emails d\'insa-utils';
 
-    if (str_starts_with($_SERVER['HTTP_HOST'], 'localhost')) {
-        return;
-    }
     sendMail($name, $email_prefix . '@insa-lyon.fr', $subject, $html, $text);
 }
 
@@ -77,6 +70,8 @@ Content-Transfer-Encoding: quoted-printable
  */
 function sendMail($toName, $to, $subject, $htmlBody, $noHtmlBody): false|string
 {
+    error_log("Sending email to $to with subject $subject");
+
     $mail = new PHPMailer(true);
     $mail->Encoding = 'base64';
     $mail->CharSet = "UTF-8";
@@ -99,6 +94,7 @@ function sendMail($toName, $to, $subject, $htmlBody, $noHtmlBody): false|string
         $mail->isSMTP();
         $mail->Host = getenv('SMTP_HOST');
         $mail->SMTPAuth = true;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Username = getenv('SMTP_USERNAME');
         $mail->Password = getenv('SMTP_PASSWORD');
         $mail->Port = getenv('SMTP_PORT');
