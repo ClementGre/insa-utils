@@ -51,7 +51,12 @@ if($_SESSION["csrf_js"] === $csrf_js){
         if($data !== false) {
             $q = getDB()->prepare('SELECT name from users WHERE id = ?');
             $q->execute([$data['author_id']]);
-            $data['author_name'] = $data[0];
+            $qdata = $q->fetch();
+            if ($qdata === false) {
+                $data['author_name'] = 'Inconnu';
+            }else {
+                $data['author_name'] = $qdata[0];
+            }
 
             $data['is_liked'] = in_array($id, $liked);
             $data['is_disliked'] = in_array($id, $disliked);
