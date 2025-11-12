@@ -1,0 +1,21 @@
+include:
+  - template: Dependency-Scanning.gitlab-ci.yml
+  - template: Code-Quality.gitlab-ci.yml
+  - template: Secret-Detection.gitlab-ci.yml
+
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  image: docker:20.10.15
+  services:
+    - docker:20.10.15-dind
+  before_script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+  script:
+    - docker image build -t ${CI_REGISTRY_IMAGE}/insa-utils-website-nginx:${CI_COMMIT_REF_SLUG} --target nginx .
+    - docker image build -t ${CI_REGISTRY_IMAGE}/insa-utils-website-php:${CI_COMMIT_REF_SLUG} --target php .
+    - docker image push ${CI_REGISTRY_IMAGE}/insa-utils-website-nginx:${CI_COMMIT_REF_SLUG}
+    - docker image push ${CI_REGISTRY_IMAGE}/insa-utils-website-php:${CI_COMMIT_REF_SLUG}
