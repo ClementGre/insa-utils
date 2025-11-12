@@ -9,7 +9,7 @@ services:
       MEILISEARCH_HOST: host.docker.internal
       MEILISEARCH_PORT: 7700
       MEILISEARCH_KEY: testmeilisearchkey
-      SMTP_FROM_EMAIL: example@example.com
+      SMTP_FROM_EMAIL: utils@bde-insa-lyon.fr
       SMTP_FROM_NAME: 'INSA Utils'
       SMTP_HOST: example.com
       SMTP_PORT: 25
