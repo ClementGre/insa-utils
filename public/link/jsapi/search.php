@@ -9,7 +9,7 @@ $csrf_js = $json['csrf_js'];
 $out = [];
 
 if($_SESSION["csrf_js"] === $csrf_js){
-    require_once __DIR__ . '/../php/meilisearch_connect.php';
+    require_once __DIR__ . '/../../../libs/meilisearch_connect.php';
     global $client;
 
 //    migrate_meilisearch();
