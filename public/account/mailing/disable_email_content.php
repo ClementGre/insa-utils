@@ -2,15 +2,15 @@
 
 function get_disable_email_mail_text_content($url) : string
 {
-    return  "Vous avez demandé de ne plus recevoir d'emails d'insa-utils.fr.
-Vous ne recevrez plus d'emails de insa-utils.fr, ce qui vous empêchera de vous authentifier sur d'autres appareils.
+    return  "Vous avez demandé de ne plus recevoir d'emails d'INSA Utils.
+Vous ne recevrez plus d'emails de INSA Utils, ce qui vous empêchera de vous authentifier sur d'autres appareils.
 
 Veuillez suivre ce lien pour réactiver les emails et ainsi pouvoir vous authentifier sur d'autres appareils :
 " . $url . "
 
 Conservez cet email, autrement, vous perdrez accès à votre compte.
 
-Si vous n'êtes pas à l'origine de cette demande, veuillez suivre le lien donné ci-dessus pour réactiver la réception d'emails d'insa-utils.fr.";
+Si vous n'êtes pas à l'origine de cette demande, veuillez suivre le lien donné ci-dessus pour réactiver la réception d'emails d'INSA Utils.";
 }
 
 function get_disable_email_mail_content($url) : string
@@ -60,13 +60,13 @@ function get_disable_email_mail_content($url) : string
                 <tr>
                     <td align="center"
                         style="text-align: center; font-size: 15px; color: #2B2D42; font-weight: 400; font-family: Verdana, Arial, Helvetica sans-serif">
-                        Vous avez demandé de ne plus recevoir d'emails d'insa-utils.fr.
+                        Vous avez demandé de ne plus recevoir d'emails d'INSA Utils.
                     </td>
                 </tr>
                 <tr>
                     <td align="center"
                         style="text-align: center; font-size: 15px; color: #2B2D42; font-weight: 400; font-family: Verdana, Arial, Helvetica sans-serif">
-                        Vous ne recevrez plus d'emails de insa-utils.fr, ce qui vous empêchera de vous authentifier sur d'autres appareils.
+                        Vous ne recevrez plus d'emails de INSA Utils, ce qui vous empêchera de vous authentifier sur d'autres appareils.
                     </td>
                 </tr>
                 <tr>
@@ -119,7 +119,7 @@ function get_disable_email_mail_content($url) : string
                 <tr>
                     <td align="center"
                         style="text-align: center; font-size: 11px; color: #2B2D42; font-weight: 400; font-family: Verdana, Arial, Helvetica sans-serif">
-                        Si vous n'êtes pas à l'origine de cette demande, veuillez suivre le lien donné ci-dessus pour réactiver la réception d'emails d'insa-utils.fr.
+                        Si vous n'êtes pas à l'origine de cette demande, veuillez suivre le lien donné ci-dessus pour réactiver la réception d'emails d'INSA Utils.
                     </td>
                 </tr>
                 </tbody>

@@ -137,7 +137,7 @@ if (isset($_GET['ctype_*']) && $_GET['ctype_*'])
             $desc = $clean_desc ? '&desc=true' : '';
             $room = $room ? '&room=true' : '';
             $count = $count ? '&count=true' : '';
-            $url = 'https://insa-utils.fr/cal/get.php?url=' . $url . $mode . $desc . $room . $count . "&types=" . implode(',', $selected_event_type) . "&ctypes=" . implode(',', $selected_types);
+            $url = 'https://utils.bde-insa-lyon.fr/cal/get.php?url=' . $url . $mode . $desc . $room . $count . "&types=" . implode(',', $selected_event_type) . "&ctypes=" . implode(',', $selected_types);
             ?>
             <h3>URL de ton calendrier convertis (nouvel abonnement iCal) :</h3>
             <p class="cal-link">

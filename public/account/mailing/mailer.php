@@ -9,13 +9,13 @@ function send_auth_mail($name, $email_prefix, $id, $email_token, $email_code, $r
 
     require_once __DIR__ . '/../mailing/auth_content.php';
 
-    $url = "https://insa-utils.fr/account/login?id=" . $id . '&token=' . $email_token . '&redirect=' . $redirect;
-    $unsubscribe_url = "https://insa-utils.fr/account/unsubscribe?&id=" . $id . '&token=' . $email_token;
+    $url = "https://utils.bde-insa-lyon.fr/account/login?id=" . $id . '&token=' . $email_token . '&redirect=' . $redirect;
+    $unsubscribe_url = "https://utils.bde-insa-lyon.fr/account/unsubscribe?&id=" . $id . '&token=' . $email_token;
 
     $text = get_auth_mail_text_content($url, $email_code, $unsubscribe_url);
     $html = get_auth_mail_content($url, $email_code, $unsubscribe_url);
 
-    $subject = 'Authentification sur insa-utils';
+    $subject = 'Authentification sur INSA Utils';
 
     sendMail($name, $email_prefix . '@insa-lyon.fr', $subject, $html, $text);
 }
@@ -24,7 +24,7 @@ function send_disable_email_mail($name, $email_prefix, $id, $email_resubscribe_t
 
     require_once __DIR__ . '/../mailing/disable_email_content.php';
 
-    $url = "https://insa-utils.fr/account/unsubscribe?id=" . $id . '&resubscribe_token=' . $email_resubscribe_token;
+    $url = "https://utils.bde-insa-lyon.fr/account/unsubscribe?id=" . $id . '&resubscribe_token=' . $email_resubscribe_token;
 
     $text = get_disable_email_mail_text_content($url);
     $html = get_disable_email_mail_content($url);
@@ -32,33 +32,6 @@ function send_disable_email_mail($name, $email_prefix, $id, $email_resubscribe_t
     $subject = 'Désactivation de la réception d\'emails d\'insa-utils';
 
     sendMail($name, $email_prefix . '@insa-lyon.fr', $subject, $html, $text);
-}
-
-// Deprecated
-function send_mail($name, $email, $subject, $text, $html, $unsubscribe_url): void
-{
-
-    $headers = "From: insa-utils <auth@insa-utils.fr>
-List-Unsubscribe:  <" . $unsubscribe_url . ">
-Reply-To: <clement.grennerat@insa-lyon.fr>
-MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary=\"----=_NextPart_DC7E1BB5_1105_4DB3_BAE3_2A6208EB099D\"";
-
-    $message = "------=_NextPart_DC7E1BB5_1105_4DB3_BAE3_2A6208EB099D
-Content-type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-" . $text . "
-
-------=_NextPart_DC7E1BB5_1105_4DB3_BAE3_2A6208EB099D
-Content-type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-" . $html . "
-
-------=_NextPart_DC7E1BB5_1105_4DB3_BAE3_2A6208EB099D--";
-
-    mail($name . ' <' . $email . '>', $subject, $message, $headers);
 }
 
 /**

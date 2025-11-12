@@ -2,7 +2,7 @@
 
 function get_auth_mail_text_content($url, $code, $unsubscribe_url) : string
 {
-    return  "Vous avez demandé à vous authentifier sur insa-utils.fr.
+    return  "Vous avez demandé à vous authentifier sur INSA Utils.
 Veuillez suivre le lien suivant pour vous authentifier.
 
 " . $url . "
@@ -58,7 +58,7 @@ function get_auth_mail_content($url, $code, $unsubscribe_url) : string
                 <tr>
                     <td align="center"
                         style="text-align: center; font-size: 15px; color: #2B2D42; font-weight: 400; font-family: Verdana, Arial, Helvetica sans-serif">
-                        Vous avez demandé à vous authentifier sur insa-utils.fr.
+                        Vous avez demandé à vous authentifier sur INSA Utils.
                     </td>
                 </tr>
                 <tr>
@@ -131,7 +131,7 @@ function get_auth_mail_content($url, $code, $unsubscribe_url) : string
                     <td align="center"
                         style="text-align: center; font-size: 11px; color: #2B2D42; font-weight: 400; font-family: Verdana, Arial, Helvetica sans-serif">
                         <a href="$unsubscribe_url" style="color: #40437c">Ne plus recevoir d'emails
-                            d'insa-utils.fr</a>
+                            d'INSA Utils</a>
                     </td>
                 </tr>
                 </tbody>
