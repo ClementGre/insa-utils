@@ -48,13 +48,17 @@ if($_SESSION["csrf_js"] === $csrf_js){
         $q->execute([$id]);
         $data = $q->fetch(PDO::FETCH_ASSOC);
 
-        $q = getDB()->prepare('SELECT name from users WHERE id = ?');
-        $q->execute([$data['author_id']]);
-        $data['author_name'] = $q->fetch()[0];
+        if($data !== false) {
+            $q = getDB()->prepare('SELECT name from users WHERE id = ?');
+            $q->execute([$data['author_id']]);
+            $data['author_name'] = $q->fetch()[0];
 
-        $data['is_liked'] = in_array($id, $liked);
-        $data['is_disliked'] = in_array($id, $disliked);
-        return $data;
+            $data['is_liked'] = in_array($id, $liked);
+            $data['is_disliked'] = in_array($id, $disliked);
+            return $data;
+        }
+        error_log("Link $id not found in database");
+        return null;
     }, $result->getHits());
 
 
