@@ -85,7 +85,7 @@ function sendMail($toName, $to, $subject, $htmlBody, $noHtmlBody): false|string
 
         //Recipients
         $mail->setFrom(getenv('SMTP_FROM_EMAIL'), getenv('SMTP_FROM_NAME'));
-        $mail->addReplyTo('clement.grennerat@insa-lyon.fr', 'Clément Grennerat');
+        $mail->addReplyTo('sia.contact@asso-insa-lyon.fr', 'SIA INSA Lyon');
 //        $mail->addCustomHeader("List-Unsubscribe",'<' . $unsubscribe_url . '>');
         $mail->addAddress($to, $toName);
 
@@ -106,6 +106,7 @@ function sendMail($toName, $to, $subject, $htmlBody, $noHtmlBody): false|string
 
         return false;
     } catch (Exception $e) {
+        error_log("Error sending email: {$mail->ErrorInfo}");
         return "Message can't be sent. Error: {$mail->ErrorInfo}";
     }
 }

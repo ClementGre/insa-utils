@@ -1,6 +1,6 @@
 services:
   php:
-    image: registry.gitlab.com/sia-insa-lyon/BdEINSALyon/insa-utils/insa-utils-website-php:${TAG}
+    image: registry.gitlab.com/sia-insa-lyon/bdeinsalyon/insa-utils/insa-utils-website/insa-utils-website-php:${TAG}
     user: '2017:2017'
     environment:
       HOST: ${HOST}
@@ -28,7 +28,7 @@ services:
     restart: always
 
   nginx:
-    image: registry.gitlab.com/sia-insa-lyon/BdEINSALyon/insa-utils/insa-utils-website-nginx:${TAG}
+    image: registry.gitlab.com/sia-insa-lyon/bdeinsalyon/insa-utils/insa-utils-website/insa-utils-website-nginx:${TAG}
     user: '2017:2017'
     labels:
       - "traefik.enable=true"
