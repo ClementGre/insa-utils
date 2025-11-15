@@ -24,7 +24,7 @@ services:
       - mariadb-network
       - insa-utils-network
     volumes:
-      - "/mnt/block-classic-apps/insa-utils-data:/data"
+      - "/mnt/block-classic-apps/insa-utils-data/menu-data:/data/menu-data"
     restart: always
 
   nginx:
@@ -36,6 +36,8 @@ services:
     networks:
       - traefik-network
       - insa-utils-network
+    volumes:
+      - "/mnt/block-classic-apps/insa-utils-data/menu-data:/app/public/menu/data"
     depends_on:
       - php
     restart: always
