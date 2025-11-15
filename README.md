@@ -1,3 +1,5 @@
+> INSA Utils a été repris par le BdE INSA Lyon et est désormais hébergé par le [SIA INSA Lyon](https://sia.asso-insa-lyon.fr/) à l’adresse [utils.bde-insa-lyon.fr](https://utils.bde-insa-lyon.fr). Le code source est maintenant disponible à l’adresse [gitlab.com/sia-insa-lyon/BdEINSALyon/insa-utils](https://gitlab.com/sia-insa-lyon/BdEINSALyon/insa-utils)
+
 # INSA Utils
 
 INSA Utils, ou Utilitaires INSA est un site internet (initialement insa-utils.fr, puis [utils.bde-insa-lyon.fr](https://utils.bde-insa-lyon.fr) après
