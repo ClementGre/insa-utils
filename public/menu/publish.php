@@ -4,13 +4,11 @@
 
 if(isset($_GET['token']) && $_GET['token'] === getenv('MENU_PUSH_TOKEN')){
     // Create a new directory/file if it doesn't exist yet
-    if(!is_dir(dirname(__FILE__) . '/data')){
-        mkdir(dirname(__FILE__) . '/data', 0755, true);
+    if(!is_dir('/data/menu-data')){
+        mkdir('/data/menu-data', 0755, true);
     }
     // Read request json content and store it inside data/menu.json
-    file_put_contents(dirname(__FILE__) . '/data/menu.json', file_get_contents('php://input'));
-    // Copy data/menu.json to /data/menu.json to keep it persistent in case of server restart.
-    copy(dirname(__FILE__) . '/data/menu.json', '/data/menu.json');
+    file_put_contents('/data/menu-data/menu.json', file_get_contents('php://input'));
     // Return a 200 OK response
     http_response_code(200);
 } else {
