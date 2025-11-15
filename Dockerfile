@@ -31,8 +31,6 @@ COPY migrations /app/migrations/
 COPY migrations/migrate.sh /app/migrate.sh
 RUN chmod +x migrate.sh
 
-RUN mkdir "/data/menu-data"
-
 # Configure user as 2017:2017 (uid affected to INSA Utils on the infra)
 RUN chown -R 2017:2017 /app
 RUN addgroup -g 2017 customgroup && \
