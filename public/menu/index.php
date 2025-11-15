@@ -49,7 +49,7 @@ $bde = isset($_GET['bde']);
              <h2>Le menu n'a pas pu être récupéré.</h2>
          </template>
          <template v-else-if="is_menu_empty">
-             <h2>Le menu n'a pas encore été publié par les restaurants INSA.</h2>
+             <h2>Le menu n'a pas été publié pour ce repas.</h2>
          </template>
          <template v-else-if="menu">
              <div class="menu-content">
