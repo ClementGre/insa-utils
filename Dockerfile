@@ -43,7 +43,7 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 RUN composer update --no-scripts
 
 # Restore menu data from persistent volume if possible --> Run migrations --> Start PHP-FPM
-CMD ["sh", "-c", "cp /data/menu.json /app/public/menu/data/menu.json ; ./migrate.sh && php-fpm"]
+CMD ["sh", "-c", "./migrate.sh && php-fpm"]
 
 #########
 # NGINX #
