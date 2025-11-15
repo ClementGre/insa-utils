@@ -1,65 +1,65 @@
 header h1 {
-  margin: 10px 0;
+    margin: 10px 0;
 }
-main > section{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  gap: 30px;
-  max-width: 500px;
-  padding: 0;
+main > section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 30px;
+    max-width: 500px;
+    padding: 0;
 }
-main > section > a{
-  text-decoration: none;
-  color: #171717;
-  width: 100%;
+main > section > a {
+    text-decoration: none;
+    color: #171717;
+    width: 100%;
 }
 
-section .link-div{
-  display: flex;
-  gap: 30px;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
-  padding: 15px 18px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
-  border: 1px solid var(--light-gray-hover);
-  transition: border-color .2s ease-in-out;
+section .link-div {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 15px 18px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
+    border: 1px solid var(--light-gray-hover);
+    transition: border-color .2s ease-in-out;
 }
 @media (max-width: 450px) {
-  section .link-div{
-    gap: 10px;
-    padding: 10px 10px;
-  }
+    section .link-div {
+        gap: 10px;
+        padding: 10px 10px;
+    }
 }
-section .link-div:focus, section .link-div:hover{
-  border-color: var(--insa-color);
+section .link-div:focus, section .link-div:hover {
+    border-color: var(--insa-color);
 }
 section .link-div img {
-  min-width: 55px;
-  width: 55px;
-  border-radius: 10px;
-  background-color: white;
+    min-width: 55px;
+    width: 55px;
+    border-radius: 10px;
+    background-color: white;
 }
-section .link-div div.text{
-  padding: 0;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+section .link-div div.text {
+    padding: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
-section .link-div h1, section .link-div h2, section .link-div p{
-  word-break: normal;
-  text-align: center;
+section .link-div h1, section .link-div h2, section .link-div p {
+    word-break: normal;
+    text-align: center;
 }
-section .link-div h1{
-  padding: 0;
-  margin: 0 0 5px 0;
-  color: var(--text-on-white);
+section .link-div h1 {
+    padding: 0;
+    margin: 0 0 5px 0;
+    color: var(--text-on-white);
 }
 section .link-div h2{
   font-size: 15px;
@@ -68,13 +68,131 @@ section .link-div h2{
   margin: 0 0 4px 0;
   color: var(--text-light-on-white);
 }
-section .link-div p{
-  padding: 3px;
-  margin: 0;
-  font-weight: 300;
-  font-size: 13px;
-  background-color: #ea7082;
-  border-radius: 5px;
-  color: white;
-  opacity: 0.5;
+section .link-div p {
+    padding: 3px;
+    margin: 0;
+    font-weight: 300;
+    font-size: 13px;
+    background-color: #ea7082;
+    border-radius: 5px;
+    color: white;
+    opacity: 0.5;
+}
+
+/*****************************************************/
+/****************** SPECIAL SECTION ******************/
+/*****************************************************/
+
+#special-section {
+    max-width: 920px;
+    margin: .5rem auto 1.5rem auto;
+    padding: 0 1rem;
+}
+#special-section .link-div {
+    position: relative;
+    background: linear-gradient(135deg, #ff7a18 0%, #af002d 55%, #319197 100%);
+    color: #fff;
+    border-radius: 22px;
+    border: none;
+    padding: 2.2rem 3rem;
+    box-shadow: 0 12px 28px -6px rgba(0, 0, 0, .45), 0 0 0 2px rgba(255, 255, 255, 0.08) inset;
+    overflow: hidden;
+    transition: transform .45s cubic-bezier(.175, .885, .32, 1.275), box-shadow .35s ease, filter .35s ease;
+    backdrop-filter: blur(4px);
+    isolation: isolate;
+}
+#special-section .link-div::before,
+#special-section .link-div::after {
+    content: "";
+    position: absolute;
+    width: 160%;
+    height: 160%;
+    top: -30%;
+    left: -30%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .35), transparent 60%),
+    radial-gradient(circle at 70% 60%, rgba(255, 255, 255, .18), transparent 65%);
+    opacity: .35;
+    mix-blend-mode: overlay;
+    animation: shimmer 9s linear infinite;
+    pointer-events: none;
+}
+#special-section .link-div::after {
+    animation-delay: -4.5s;
+}
+@keyframes shimmer {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+#special-section .link-div:hover {
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: 0 18px 38px -8px rgba(0, 0, 0, .55), 0 0 0 3px rgba(255, 255, 255, 0.12) inset;
+    filter: brightness(1.07);
+}
+#special-section h2 {
+    font-weight: 600;
+    color: white;
+    margin: 0 0 .75rem;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    line-height: 1.15;
+    text-shadow: 0 3px 12px rgba(0, 0, 0, .35);
+    letter-spacing: .5px;
+}
+#special-section .highlight-msg {
+    margin: 0;
+    color: white;
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    font-weight: 500;
+    font-size: 1.05rem;
+    line-height: 1.4;
+}
+#special-section .corner {
+    position: absolute;
+    font-size: 1.55rem;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .35));
+    animation: float 6s ease-in-out infinite;
+    pointer-events: none;
+    user-select: none;
+}
+#special-section .corner-tl {
+    top: 10px;
+    left: 14px;
+    animation-delay: 0s;
+}
+#special-section .corner-tr {
+    top: 12px;
+    right: 18px;
+    animation-delay: 1.2s;
+}
+#special-section .corner-bl {
+    bottom: 14px;
+    left: 20px;
+    animation-delay: 2.4s;
+}
+#special-section .corner-br {
+    bottom: 16px;
+    right: 16px;
+    animation-delay: 3.6s;
+}
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    #special-section .link-div,
+    #special-section .corner,
+    #special-section .link-div::before,
+    #special-section .link-div::after {
+        animation: none !important;
+        transition: none !important;
+    }
 }

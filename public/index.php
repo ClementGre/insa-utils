@@ -6,7 +6,7 @@ require 'template/footer.php';
 require 'origin_path.php';
 require '../libs/utils.php';
 
-$title = "Utilitaires INSA";
+$title = "INSA Utils";
 $desc = "LE site permettant de te faciliter la vie à l'INSA, via divers services utiles.";
 ?>
 
@@ -22,6 +22,28 @@ $desc = "LE site permettant de te faciliter la vie à l'INSA, via divers service
 <main>
         <?php
         print_session_messages();
+        // If date is < than summer 2026
+        if (date('Y-m-d') < '2026-06-01') {
+            echo '
+            <section id="special-section">
+                <div class="link-div">
+                    <span class="corner corner-tl">🚀</span>
+                    <span class="corner corner-tr">🎉</span>
+                    <span class="corner corner-bl">🌟</span>
+                    <span class="corner corner-br">💫</span>
+                    <div class="text">
+                        <h2><code>insa-utils.fr</code> devient<br><code>utils.bde-insa-lyon.fr</code></h2>
+                        <p class="highlight-msg">
+                            Pour garantir la pérennité du service, INSA Utils a été repris par le BdE INSA Lyon.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <style>
+                
+            </style>
+            ';
+        }
         ?>
 
         <?php
