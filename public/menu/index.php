@@ -92,11 +92,12 @@ $bde = isset($_GET['bde']);
          </template>
      </section>
      <?php if (!$bde) { ?>
-         <section id="Notification" v-cloak>
-             <button @click="enable_notifications()">
-                 S'abonner aux notifications avant chaque repas
-             </button>
-         </section>
+<!--             Not implemented yet on the server side: PHP should send notifications in publish.php -->
+<!--         <section id="Notification" v-cloak>-->
+<!--             <button @click="enable_notifications()">-->
+<!--                 S'abonner aux notifications avant chaque repas-->
+<!--             </button>-->
+<!--         </section>-->
      <?php } ?>
 </main>
 <footer>
