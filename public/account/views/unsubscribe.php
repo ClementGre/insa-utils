@@ -78,7 +78,7 @@ if (!$status['logged_in'] && $invalid_link) {
     <?= getTrackerScript() ?>
 </head>
 <body>
-<?php printHeader("Utilitaires INSA", "Désabonnement des emails", MenuType::Account); ?>
+<?php printHeader("INSA Utils", "Désabonnement des emails", MenuType::Account); ?>
 <main>
 
     <?php

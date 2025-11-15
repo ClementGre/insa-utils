@@ -27,7 +27,7 @@ $errors = array();
     <?= getTrackerScript() ?>
 </head>
 <body>
-<?php printHeader("Utilitaires INSA", "Paramètre du compte", MenuType::Account); ?>
+<?php printHeader("INSA Utils", "Paramètre du compte", MenuType::Account); ?>
 <main>
 
     <?php
